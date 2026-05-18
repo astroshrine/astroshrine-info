@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AstroShrine — Consult Expert Vedic Astrologers & AI Astrology Readings</title>
+<meta name="description" content="Connect with verified Vedic astrologers via chat, call, and livestream. Get instant AI-powered birth chart analysis. Download AstroShrine on Google Play." />
+<meta name="google-site-verification" content="YOUR_CODE_FROM_SEARCH_CONSOLE" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Geologica:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<link rel="apple-touch-icon" href="assets/logo.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===== Navbar ===== -->
+<header class="nav" data-screen-label="Home">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-mark" style="width:36px;height:36px"></span>
+      <span class="logo-text">AstroShrine</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#screens">Screenshots</a></li>
+        <li><a href="#ai">AI Astrology</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+    </nav>
+    <a href="#download" class="btn btn-primary nav-cta">Get the App</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMobile').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#features">Features</a>
+    <a href="#screens">Screenshots</a>
+    <a href="#ai">AI Astrology</a>
+    <a href="support.html">Support</a>
+    <a href="#download" class="btn btn-primary">Get the App</a>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" style="padding-top:64px">
+  <div class="hero-grid">
+    <div>
+      <span class="hero-eyebrow">✦ Launching soon on Google Play</span>
+      <h1>Your celestial guide to <span class="gold">life's questions</span></h1>
+      <p class="sub">Connect with expert Vedic astrologers via chat, call, and livestream — or get instant AI-powered birth chart readings, anytime the stars align.</p>
+      <div class="hero-ctas">
+        <a href="#download" class="play-badge" aria-label="Download on Google Play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+          <span>
+            <span class="pb-small">COMING SOON TO</span>
+            <span class="pb-big">Google Play</span>
+          </span>
+        </a>
+        <a href="#ai" class="btn btn-light">Try AI Astrology</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="num">500+</span><span class="lbl">Verified Astrologers</span></div>
+        <div class="stat"><span class="num">12</span><span class="lbl">Languages Supported</span></div>
+        <div class="stat"><span class="num">4.8★</span><span class="lbl">Avg. User Rating</span></div>
+      </div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="ps-status">
+            <span>9:41</span>
+            <span>●●●● ▮</span>
+          </div>
+          <div class="ps-content">
+            <div class="ps-header">
+              <div class="ps-user">
+                <div class="ps-mini-logo"></div>
+                <div class="ps-uname">Aarav S.</div>
+              </div>
+              <div class="ps-icons">
+                <span>₹</span><span>★</span><span>⚙</span>
+              </div>
+            </div>
+            <div class="ps-search">Search for Astrologers</div>
+
+            <div class="ps-ai">
+              <div class="ps-ai-avatar"></div>
+              <div class="ps-ai-body">
+                <div class="ps-ai-ttl">AI Astrologer</div>
+                <div class="ps-ai-sub">Personalized Vedic insights from your birth chart</div>
+              </div>
+              <div class="ps-ai-arrow">→</div>
+            </div>
+
+            <div class="ps-sec-ttl">Chat With Astrologers <span class="ps-view">View All</span></div>
+
+            <div class="ps-card">
+              <div class="ps-avatar">♏</div>
+              <div class="ps-meta">
+                <div class="nm">Pandit Ramesh K.</div>
+                <div class="sp">Vedic · Hindi, English</div>
+                <div class="stars">★★★★☆</div>
+              </div>
+              <div class="ps-rate">Rs.25<span class="min">Minutes</span></div>
+              <div class="ps-action">💬</div>
+            </div>
+
+            <div class="ps-sec-ttl">Talk To Astrologers <span class="ps-view">View All</span></div>
+
+            <div class="ps-card">
+              <div class="ps-avatar">♋</div>
+              <div class="ps-meta">
+                <div class="nm">Acharya Meera</div>
+                <div class="sp">English, Hindi · 8 yrs</div>
+                <div class="stars">★★★★★</div>
+              </div>
+              <div class="ps-rate green">Rs.40<span class="min">Minutes</span></div>
+              <div class="ps-action green">📞</div>
+            </div>
+
+            <div class="ps-nav">
+              <span class="act">Home</span>
+              <span>Live</span>
+              <span>Call</span>
+              <span>Chat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-tag t1">
+        <span class="dot"></span>
+        128 astrologers live
+      </div>
+      <div class="float-tag t2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.54 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>
+        Reading complete · 4.9★
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Features ===== -->
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Features</span>
+      <h2>Everything you need under one cosmos</h2>
+      <p>From real-time consultations to instant AI insights, AstroShrine puts the wisdom of Vedic astrology in your pocket.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="ico green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h3>Live Consultations</h3>
+        <p>Book audio or video calls with verified Vedic astrologers. Get personalized guidance on love, career, health, and more.</p>
+      </div>
+      <div class="feature">
+        <div class="ico yellow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <h3>Chat Sessions</h3>
+        <p>Prefer texting? Book a chat session with per-question pricing. Ask what matters most within your session.</p>
+      </div>
+      <div class="feature">
+        <div class="ico purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.7L19.6 10l-5.7 1.9L12 17.5l-1.9-5.6L4.4 10l5.7-1.3z"/><path d="M5 3v4M19 17v4M3 5h4M17 19h4"/></svg>
+        </div>
+        <h3>AI Astrology</h3>
+        <p>Get instant AI-powered birth chart analysis. Ask unlimited questions about your Vedic chart, transits, and dasha periods.</p>
+      </div>
+      <div class="feature">
+        <div class="ico pink">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M20.07 3.93a10 10 0 0 1 0 16.14M3.93 20.07a10 10 0 0 1 0-16.14"/></svg>
+        </div>
+        <h3>Live Streams</h3>
+        <p>Watch astrologers go live. Join interactive sessions, ask questions in real-time, and send virtual gifts.</p>
+      </div>
+      <div class="feature">
+        <div class="ico blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Easy Booking</h3>
+        <p>Browse astrologer profiles, check availability, and book sessions at times that work for you. Reminders included.</p>
+      </div>
+      <div class="feature">
+        <div class="ico peach">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+        </div>
+        <h3>Simple Wallet</h3>
+        <p>Recharge with secure Razorpay payments. Use promo codes for discounts. Transparent per-minute and per-session pricing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== App Screenshots ===== -->
+<section id="screens" class="screens-bg">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">See the app</span>
+      <h2>A glimpse into AstroShrine</h2>
+      <p>From your personalized Kundli to AI-powered readings and real astrologer consultations — everything in one beautifully crafted app.</p>
+    </div>
+    <div class="screens-track">
+      <div class="screen-card">
+        <img src="assets/screen-home.png" alt="AstroShrine home screen showing astrologer listings" loading="lazy" />
+        <span class="screen-label">Home</span>
+      </div>
+      <div class="screen-card">
+        <img src="assets/screen-ai-categories.png" alt="AI Astrologer categories - General, Career, Love, Finance" loading="lazy" />
+        <span class="screen-label">AI Categories</span>
+      </div>
+      <div class="screen-card">
+        <img src="assets/screen-kundli.png" alt="Janam Kundli birth chart with Bhav Shakti analysis" loading="lazy" />
+        <span class="screen-label">Birth Chart</span>
+      </div>
+      <div class="screen-card">
+        <img src="assets/screen-ai-chat.png" alt="AI astrology chat showing personalized financial guidance" loading="lazy" />
+        <span class="screen-label">AI Chat</span>
+      </div>
+      <div class="screen-card">
+        <img src="assets/screen-payment.png" alt="Razorpay payment screen with UPI, Cards, and more" loading="lazy" />
+        <span class="screen-label">Payments</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How it works ===== -->
+<section id="how" class="how-bg">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From sign-up to soulful guidance</h2>
+      <p>Five steps, less than a minute to start, and a universe of insight at your fingertips.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Sign up in seconds</h3>
+          <p>Create your account with your phone number or Google Sign-In. It takes less than a minute.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Set up your birth chart</h3>
+          <p>Enter your date, time, and place of birth. We calculate your complete Vedic birth chart using the Swiss Ephemeris.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Choose your astrologer</h3>
+          <p>Browse verified astrologers by specialty, language, rating, and price. View their profiles and reviews.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Book &amp; connect</h3>
+          <p>Select a time slot, choose chat or call, and confirm your booking. You'll get a reminder before your session starts.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Get personalized guidance</h3>
+          <p>Your astrologer analyzes your chart and provides insights tailored to your life questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AI Spotlight ===== -->
+<section id="ai" class="ai">
+  <div class="container">
+    <div class="ai-grid">
+      <div>
+        <span class="badge">✦ Powered by AI</span>
+        <h2>Instant AI birth chart readings</h2>
+        <p class="lead">Can't wait for a booking? Our AI astrologer analyzes your complete Vedic birth chart and answers your questions instantly. Get insights on planetary transits, dasha periods, yogas, and doshas — all personalized to your chart.</p>
+        <ul class="ai-bullets">
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.54 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>Complete Vedic birth chart calculation</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.54 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>Personalized transit and dasha analysis</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.54 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>Yoga and dosha identification</li>
+          <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.54 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>Safe, guided conversations with built-in guardrails</li>
+        </ul>
+        <a href="#download" class="btn btn-primary">Try AI Astrology Free</a>
+      </div>
+      <div class="ai-chat">
+        <div class="msg user">What does my Saturn return mean this year?</div>
+        <div class="msg bot">
+          <div class="nm">✦ AstroShrine AI</div>
+          With Saturn entering your 10th house this dasha period, you're stepping into a chapter of professional refinement. Expect responsibilities to deepen — but they're scaffolding for long-term mastery, not burdens.
+        </div>
+        <div class="msg user">Should I make a career move now?</div>
+        <div class="msg bot">
+          <div class="nm">✦ AstroShrine AI</div>
+          <span class="typing"><span></span><span></span><span></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== For Astrologers ===== -->
+<section id="astrologers">
+  <div class="container">
+    <div class="astro-grid">
+      <div class="astro-text">
+        <span class="eyebrow">Join the platform</span>
+        <h2>Are you an astrologer? Join AstroShrine.</h2>
+        <p class="lead">Reach thousands of clients looking for genuine Vedic astrology guidance. Set your terms, build your audience, and grow your practice.</p>
+        <ul class="astro-bullets">
+          <li>Set your own schedule and availability</li>
+          <li>Choose your rates for chat, call, and livestream</li>
+          <li>Go live and build a loyal audience</li>
+          <li>Track your earnings and order history</li>
+          <li>Get booking notifications and session reminders</li>
+        </ul>
+        <a href="support.html" class="btn btn-secondary">Apply to Join</a>
+      </div>
+      <div class="astro-visual">
+        <img src="assets/zodiac-wheel.png" alt="AstroShrine zodiac wheel with sun logo and zodiac signs" class="zodiac-img" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Final CTA ===== -->
+<section id="download" class="final">
+  <div class="container final-inner">
+    <span class="hero-eyebrow" style="margin-bottom:18px">✦ Launching soon on Google Play</span>
+    <h2>Ready to explore the stars?</h2>
+    <p>AstroShrine is dropping anchor on the Play Store any day now. Tap below to be first in line when we go live.</p>
+    <div class="final-ctas">
+      <a href="#" class="play-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+        <span>
+          <span class="pb-small">COMING SOON TO</span>
+          <span class="pb-big">Google Play</span>
+        </span>
+      </a>
+      <a href="#" class="btn btn-light" style="opacity:.7;pointer-events:none">Coming soon to iOS</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-mark"></span>
+        <div class="brand-name">AstroShrine</div>
+        <p>Your celestial guide to life's questions. Vedic wisdom, made accessible.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.828l-5.34-6.94L3.6 22H.84l7.02-8.02L2 2h6.91l4.83 6.39L18.244 2zm-1.2 18.4h1.51L7.04 3.5H5.42l11.624 16.9z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#screens">Screenshots</a></li>
+          <li><a href="#ai">AI Astrology</a></li>
+          <li><a href="#download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="support.html">Support</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="delete-account.html">Delete Account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get the App</h4>
+        <p style="font-size:14px;color:rgba(255,255,255,.6);margin-bottom:14px">Launching on Android soon. iOS to follow.</p>
+        <a href="#" class="play-badge" style="padding:10px 16px">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+          <span>
+            <span class="pb-small">COMING SOON TO</span>
+            <span class="pb-big">Google Play</span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AstroShrine. All rights reserved.</span>
+      <span class="tagline">Made with care for the cosmic community.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

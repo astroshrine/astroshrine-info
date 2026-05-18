@@ -1,0 +1,16 @@
+{
+  "name": "astroshrine-website",
+  "version": "1.0.0",
+  "description": "AstroShrine marketing and legal website",
+  "private": true,
+  "scripts": {
+    "start": "serve -s . -l ${PORT:-3000} --no-clipboard",
+    "dev": "serve -s . -l 3000 --no-clipboard"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Support &amp; Contact — AstroShrine</title>
+<meta name="description" content="Get help with AstroShrine — FAQs, contact form, and support email." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Geologica:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<link rel="apple-touch-icon" href="assets/logo.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-screen-label="Support">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-mark" style="width:36px;height:36px"></span>
+      <span class="logo-text">AstroShrine</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#ai">AI Astrology</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+    </nav>
+    <a href="index.html#download" class="btn btn-primary nav-cta">Get the App</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMobile').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#ai">AI Astrology</a>
+    <a href="support.html">Support</a>
+    <a href="index.html#download" class="btn btn-primary">Get the App</a>
+  </div>
+</header>
+
+<section class="doc-hero" style="padding:60px 0 50px">
+  <div class="container doc-hero-inner" style="text-align:center;margin:0 auto">
+    <div class="crumbs" style="text-align:center"><a href="index.html">Home</a> · Support</div>
+    <h1 style="margin-left:auto;margin-right:auto">How can we help?</h1>
+    <p style="color:rgba(255,255,255,.7);font-size:17px;margin:8px auto 0;max-width:600px">Find quick answers in our FAQ, or drop us a message — we usually respond within 24–48 hours.</p>
+  </div>
+</section>
+
+<div class="support-grid">
+  <div class="faq">
+    <h2>Frequently asked questions</h2>
+
+    <details class="faq-item" open>
+      <summary>How do I create an account?</summary>
+      <div class="ans">Download AstroShrine from the Google Play Store, open the app, and sign in with your phone number (OTP verification) or Google account.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How does the wallet work?</summary>
+      <div class="ans">AstroShrine uses a points-based wallet (1 point = 1 INR). Recharge your wallet using any UPI, card, or net banking method via Razorpay. Points are deducted when you book sessions or use AI features.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I book a session with an astrologer?</summary>
+      <div class="ans">Browse astrologers on the home screen, view their profile, tap "Book Session," select a date and available time slot, choose chat or call, and confirm. Points will be deducted from your wallet.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Can I cancel a booking?</summary>
+      <div class="ans">Yes. Cancellations more than 2 hours before the session receive a full refund. Cancellations within 2 hours receive a 50% refund. See our <a href="terms-of-service.html#wallet">refund policy</a> for full details.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>What is AI Astrology?</summary>
+      <div class="ans">Our AI Astrology feature uses advanced AI to analyze your Vedic birth chart and answer your astrology questions instantly. You get 3 free questions per day, with additional questions available through AI packs or your wallet balance.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I set up my birth chart?</summary>
+      <div class="ans">Go to AI Astrology and you'll be prompted to enter your date, time, and place of birth. We calculate your complete Vedic chart using the Swiss Ephemeris astronomical engine.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Is my data safe?</summary>
+      <div class="ans">Yes. All data is encrypted in transit (HTTPS), stored on secure cloud infrastructure with row-level security, and payments are processed by PCI-DSS compliant Razorpay. See our <a href="privacy-policy.html">Privacy Policy</a> for full details.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I delete my account?</summary>
+      <div class="ans">Visit our <a href="delete-account.html">Account Deletion page</a> for step-by-step instructions.</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>How do I become an astrologer on AstroShrine?</summary>
+      <div class="ans">Send an email to <a href="mailto:support.astroshrine@gmail.com">support.astroshrine@gmail.com</a> with your credentials, languages, areas of expertise, and a brief intro. Our team will review your application within 5–7 business days.</div>
+    </details>
+
+  </div>
+
+  <aside>
+    <form class="contact-card" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Sent ✓'; this.reset();">
+      <h2>Get in touch</h2>
+      <p class="lede">Send us a message and we'll get back to you within 24–48 hours.</p>
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" type="text" required placeholder="Aarav Sharma" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" required placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label for="subject">Subject</label>
+        <select id="subject">
+          <option>General inquiry</option>
+          <option>Technical issue</option>
+          <option>Payment issue</option>
+          <option>Account problem</option>
+          <option>Feedback</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="msg">Message</label>
+        <textarea id="msg" required placeholder="Tell us a bit about what's going on…"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+
+      <div class="contact-meta">
+        <span><strong>Email:</strong> support.astroshrine@gmail.com</span>
+        <span><strong>Response time:</strong> 24–48 hours</span>
+      </div>
+    </form>
+  </aside>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-mark"></span>
+        <div class="brand-name">AstroShrine</div>
+        <p>Your celestial guide to life's questions. Vedic wisdom, made accessible.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul class="footer-links">
+          <li><a href="index.html#features">Features</a></li>
+          <li><a href="index.html#how">How it works</a></li>
+          <li><a href="index.html#ai">AI Astrology</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="support.html">Support</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="delete-account.html">Delete Account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="footer-links">
+          <li>support.astroshrine@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AstroShrine. All rights reserved.</span>
+      <span class="tagline">Made with care for the cosmic community.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
