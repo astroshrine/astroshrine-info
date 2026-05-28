@@ -4,3 +4,7 @@ node_modules/
 .env
 .env.local
 *.log
+
+# APK builds are too large for GitHub (100MB limit) - host externally
+*.apk
+*.aab
