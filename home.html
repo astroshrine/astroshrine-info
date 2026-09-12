@@ -8,7 +8,7 @@
 <meta name="google-site-verification" content="YOUR_CODE_FROM_SEARCH_CONSOLE" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Geologica:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Martel:wght@400;700&family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/png" href="assets/logo.png" />
 <link rel="apple-touch-icon" href="assets/logo.png" />
 <link rel="stylesheet" href="styles.css" />
@@ -61,13 +61,6 @@
           <span>
             <span class="pb-small">GET IT ON</span>
             <span class="pb-big">Google Play</span>
-          </span>
-        </a>
-        <a href="download.html" class="apk-badge" aria-label="Download the Android APK">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-          <span>
-            <span class="pb-small">DOWNLOAD</span>
-            <span class="pb-big">Android APK</span>
           </span>
         </a>
         <a href="#ai" class="btn btn-light">Try AI Astrology</a>
@@ -339,7 +332,67 @@
         <a href="support.html" class="btn btn-secondary">Apply to Join</a>
       </div>
       <div class="astro-visual">
-        <img src="assets/zodiac-wheel.png" alt="AstroShrine zodiac wheel with sun logo and zodiac signs" class="zodiac-img" />
+        <div class="zodiac" role="img" aria-label="Zodiac wheel: the twelve signs orbiting the sun">
+          <span class="z-ring z-ring-1"></span>
+          <span class="z-ring z-ring-2"></span>
+
+          <svg class="z-sun" viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <radialGradient id="zcore" cx="38%" cy="32%">
+                <stop offset="0" stop-color="#F5C451" />
+                <stop offset=".55" stop-color="#E8891F" />
+                <stop offset="1" stop-color="#C0390B" />
+              </radialGradient>
+            </defs>
+            <g class="z-rays" fill="#E0761A">
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(0.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(15.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(30.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(45.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(60.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(75.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(90.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(105.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(120.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(135.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(150.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(165.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(180.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(195.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(210.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(225.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(240.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(255.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(270.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(285.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(300.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(315.0 50 50)" />
+              <path d="M50 3 L53.4 27 L46.6 27 Z" transform="rotate(330.0 50 50)" />
+              <path d="M50 11 L53.4 27 L46.6 27 Z" transform="rotate(345.0 50 50)" />
+            </g>
+            <circle class="z-core" cx="50" cy="50" r="24" fill="url(#zcore)" />
+            <g class="z-spots" fill="#FBD46A">
+              <circle cx="50" cy="40" r="1.6" /><circle cx="43" cy="47" r="1.4" />
+              <circle cx="57" cy="47" r="1.4" /><circle cx="46" cy="56" r="1.5" />
+              <circle cx="55" cy="56" r="1.3" /><circle cx="50" cy="50" r="1.7" />
+            </g>
+          </svg>
+
+          <div class="z-orbit" aria-hidden="true">
+            <span class="z-sign" style="--i:0"><b title="Aries">♈</b></span>
+            <span class="z-sign" style="--i:1"><b title="Taurus">♉</b></span>
+            <span class="z-sign" style="--i:2"><b title="Gemini">♊</b></span>
+            <span class="z-sign" style="--i:3"><b title="Cancer">♋</b></span>
+            <span class="z-sign" style="--i:4"><b title="Leo">♌</b></span>
+            <span class="z-sign" style="--i:5"><b title="Virgo">♍</b></span>
+            <span class="z-sign" style="--i:6"><b title="Libra">♎</b></span>
+            <span class="z-sign" style="--i:7"><b title="Scorpio">♏</b></span>
+            <span class="z-sign" style="--i:8"><b title="Sagittarius">♐</b></span>
+            <span class="z-sign" style="--i:9"><b title="Capricorn">♑</b></span>
+            <span class="z-sign" style="--i:10"><b title="Aquarius">♒</b></span>
+            <span class="z-sign" style="--i:11"><b title="Pisces">♓</b></span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -360,13 +413,6 @@
         <span>
           <span class="pb-small">GET IT ON</span>
           <span class="pb-big">Google Play</span>
-        </span>
-      </a>
-      <a href="download.html" class="apk-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-        <span>
-          <span class="pb-small">DOWNLOAD</span>
-          <span class="pb-big">Android APK</span>
         </span>
       </a>
       <a href="#" class="btn btn-light" style="opacity:.7;pointer-events:none">Coming soon to iOS</a>
@@ -447,13 +493,6 @@
           <span>
             <span class="pb-small">GET IT ON</span>
             <span class="pb-big">Google Play</span>
-          </span>
-        </a>
-        <a href="download.html" class="apk-badge" style="padding:10px 16px;margin-top:10px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-          <span>
-            <span class="pb-small">DOWNLOAD</span>
-            <span class="pb-big">Android APK</span>
           </span>
         </a>
       </div>

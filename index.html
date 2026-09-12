@@ -2,214 +2,432 @@
 <html lang="en">
 
 <head>
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AstroShrine</title>
+    <title>AstroShrine — Where Faith Meets Divinity</title>
+    <meta name="description" content="Sacred temples, Vedic wisdom and timeless cosmic traditions for modern spiritual seekers. Book pujas, read scriptures, generate your Kundli.">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Martel:wght@400;700&family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-    <!-- Background -->
-    <div class="background">
-    <img src="images/bg.png" alt="Background">
-</div>
+<!-- ============ NAV ============ -->
+<header class="nav-wrap">
+    <nav class="navbar">
+        <a class="logo" href="#top"><i class="ph ph-sun-dim"></i> AstroShrine</a>
 
-    <!-- Navbar -->
-    <header>
+        <ul class="nav-links">
+            <li><a href="#top" class="active">Home</a></li>
+            <li><a href="#portals">Sacred Temples</a></li>
+            <li><a href="#portals">Wisdom &amp; Articles</a></li>
+            <li><a href="home.html">Vedic Astrology</a></li>
+          
+        </ul>
 
-        <nav class="navbar">
+        <div class="nav-cta">
+            <a class="btn btn-gold btn-sm" href="https://shrimahakaldham.com/front_controller">Book Puja</a>
+            <a class="icon-round" href="#pujas" aria-label="Offerings"><i class="ph ph-shopping-bag-open"></i></a>
+        </div>
 
-            <div class="logo">
-                AstroShrine
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><i class="ph ph-list"></i></button>
+    </nav>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero reveal">
+    <span class="eyebrow">&bull; Sacred Gateway &nbsp;&bull;&nbsp; Auspicious Muhurat Active</span>
+
+    <h1>Where Faith Meets Divinity</h1>
+
+    <p class="lede">
+        Experience the Divine Presence of Sacred Shrines, Vedic Wisdom, and Timeless
+        Cosmic Traditions woven for modern spiritual seekers.
+    </p>
+
+    <div class="hero-actions">
+        <a class="btn btn-gold" href="#pujas"><i class="ph ph-flower-lotus"></i> Explore Sacred Pujas</a>
+        <a class="btn btn-ghost" href="https://futureforyou.co/articles"><i class="ph ph-book-open-text"></i> Read Ancient Wisdom</a>
+        <a class="btn btn-app" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get the AstroShrine app on Google Play">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+            <span><small>Get the app on</small>Google Play</span>
+        </a>
+    </div>
+
+    <div class="stats">
+        <div class="stat"><strong>500+</strong><span>Verified Temples</span></div>
+        <div class="stat"><strong>1.2M+</strong><span>Devotees Blessed</span></div>
+        <div class="stat"><strong>100%</strong><span>Vedic Rituals</span></div>
+        <div class="stat"><strong>4.9 <i class="ph-fill ph-star"></i></strong><span>Seeker Rating</span></div>
+    </div>
+</section>
+
+<!-- ============ PANCHANG ============ -->
+<section class="panchang reveal" id="panchang">
+    <div class="panchang-head">
+        <span class="dial"><i class="ph ph-sun"></i></span>
+        <div>
+            <em>&bull; Live Celestial Clock &bull; <span id="clock"></span></em>
+            <h3>Daily Panchang &amp; Shubh Muhurat</h3>
+        </div>
+    </div>
+
+    <div class="panchang-grid">
+        <div><em>Tithi</em><b>Shukla Dashami</b></div>
+        <div><em>Nakshatra</em><b>Rohini (Vrishabha)</b></div>
+        <div><em>Abhijit Muhurat</em><b>11:48 AM &ndash; 12:38 PM</b></div>
+        <div><em>Rahu Kaal</em><b class="warn">04:30 PM &ndash; 06:00 PM</b></div>
+    </div>
+
+    <a class="btn btn-outline btn-sm" href="home.html">View Kundli Chart <i class="ph ph-arrow-right"></i></a>
+</section>
+
+<!-- ============ PORTALS ============ -->
+<section class="section reveal" id="portals">
+    <div class="section-head">
+        <div>
+            <span class="kicker">&bull; Timeless Sanctuaries</span>
+            <h2>Sacred Portals to the Infinite</h2>
+        </div>
+        <p class="section-note">
+            Immerse in three sacred pathways: consecrate sanctified rituals,
+            absorb deep Vedic wisdom, and decode celestial destinies.
+        </p>
+    </div>
+
+    <div class="portals">
+        <a class="portal" href="https://shrimahakaldham.com/front_controller">
+            <div class="portal-img" style="background-image:url('images/imgmandir.jpeg')">
+                <span class="tag"><i class="ph-fill ph-broadcast"></i> Live Darshan</span>
             </div>
+            <div class="portal-body">
+                <h3>Sacred Temples</h3>
+                <p>Experience sacred temples, rituals, sanctified daily aartis, and receive consecrated divine prasad directly to your doorstep.</p>
+                <span class="btn btn-gold btn-block">Book Your Puja <i class="ph ph-arrow-right"></i></span>
+            </div>
+        </a>
 
-            <ul class="nav-links">
+        <a class="portal" href="https://futureforyou.co/articles">
+            <div class="portal-img" style="background-image:url('images/article.png')">
+                <span class="tag"><i class="ph ph-book-open-text"></i> Sanatan Jnana</span>
+            </div>
+            <div class="portal-body">
+                <h3>Vedic Wisdom</h3>
+                <p>Discover timeless spiritual wisdom, scriptural philosophies, authentic stotrams, and inspiring tales of holy sages.</p>
+                <span class="btn btn-ghost btn-block">Read Articles <i class="ph ph-arrow-right"></i></span>
+            </div>
+        </a>
 
-                <li><a href="#temple">Temple</a></li>
+        <a class="portal" href="home.html">
+            <div class="portal-img" style="background-image:url('images/astrol.jpeg')">
+                <span class="tag"><i class="ph ph-sparkle"></i> Vedic Jyotish</span>
+            </div>
+            <div class="portal-body">
+                <h3>Astrology &amp; Kundli</h3>
+                <p>Unlock cosmic destiny with precise natal birth charts, planetary transit remedies, and one-on-one verified astrologer sessions.</p>
+                <span class="btn btn-ghost btn-block">Talk to Astrologer <i class="ph ph-arrow-right"></i></span>
+            </div>
+        </a>
+    </div>
+</section>
 
-                <li><a href="#articles">Articles</a></li>
+<!-- ============ PUJAS ============ -->
+<section class="section reveal" id="pujas">
+    <div class="section-head">
+        <div>
+            <span class="kicker">&bull; Sanctified Rituals</span>
+            <h2>Featured Sacred Pujas of the Week</h2>
+        </div>
+        <a class="link-gold" href="https://shrimahakaldham.com/temple">View All 45 Pujas <i class="ph ph-arrow-right"></i></a>
+    </div>
 
-                <li><a href="#astrology">Astrology</a></li>
+    <div class="pujas">
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/4/37638493.jpeg')">
+                <span class="tag hot">Uddeshya Puja</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Parthiv Rudrabhishek</h3>
+                <p>Abhishek of a hand-made Parthiv Shivling for relief from afflictions, health and the eternal grace of Mahadev.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;10,000</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/4/parthiv-rudrabhishek" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
 
-            </ul>
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/36/a7f4ec1a1ed517727d2a46f124c1f162.jpeg')">
+                <span class="tag ">Uddeshya Puja</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Maha Mrityunjay Puja</h3>
+                <p>Mahamrityunjaya mantra anushthan chanted by Vedic pundits for longevity, healing and protection from untimely harm.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;6,100</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/36/maha-mrityunjay-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
 
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/30/f29fe4c029d5abffd045ccdaf27a2380.jpeg')">
+                <span class="tag ">Uddeshya Puja</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Laxmi Puja</h3>
+                <p>Invocation of Maa Mahalakshmi for abundance, stability of wealth and prosperity in home and business.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;8,600</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/30/laxmi-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/18/6b827dffe1500957a885bdc95d5d898b.jpeg')">
+                <span class="tag ">Kundli Dosh</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Kaal Sarp Dosh Shanti Pujan</h3>
+                <p>Naga shanti vidhi to dissolve the Kaal Sarp affliction blocking progress, marriage and peace of mind.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;7,100</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/18/kaal-sarp-dosh-shanti-pujan" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/15/860bff3fc07b0ea4df5e977ee72a5265.png')">
+                <span class="tag ">Kundli Dosh</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Manglik Dosh Nivaran Puja</h3>
+                <p>Mangal dosha remedy performed for seekers facing delays and discord in marital prospects.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;7,100</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/15/manglik-dosh-nivaran-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/20/1e1b5a07f6c11ab714af905c90b90d4f.png')">
+                <span class="tag hot">Kundli Dosh</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Narayan Nag Bali Puja</h3>
+                <p>Three-day ancestral rite for pitru dosha, unfulfilled desires of departed souls and lineage peace.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;21,000</s> &#8377;15,001</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/20/narayan-nag-bali-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/11/Shani-shanti.jpeg')">
+                <span class="tag ">Graha Shanti</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Shani Shanti Puja</h3>
+                <p>Shani grah shanti with tail abhishek and mantra japa to soften Sade Sati and Dhaiya periods.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;7,100</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/11/shani-shanti-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/13/c3fb1b151bd81fdc0e0231c307309259.jpeg')">
+                <span class="tag ">Graha Shanti</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Rahu Puja</h3>
+                <p>Rahu shanti anushthan for sudden obstacles, confusion and instability caused by the shadow planet.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;13,500</s> &#8377;11,500</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/13/rahu-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+        <article class="puja">
+            <div class="puja-img" style="background-image:url('https://shrimahakaldham.com/uploads/product_files/8/mangal2.jpeg')">
+                <span class="tag ">Graha Shanti</span>
+            </div>
+            <div class="puja-body">
+                <span class="place"><i class="ph ph-map-pin"></i> Shree Mahakaal Dham, Amleshwar (CG)</span>
+                <h3>Mangal Shanti Puja</h3>
+                <p>Mangal grah shanti for control over anger, disputes, accidents and blocked property matters.</p>
+                <div class="puja-meta">
+                    <span>Sankalp in your name &amp; gotra</span>
+                    <b><s>&#8377;7,100</s> &#8377;5,100</b>
+                </div>
+                <a class="btn btn-ghost btn-block" href="https://shrimahakaldham.com/product_details/8/mangal-shanti-puja" target="_blank" rel="noopener">Book Pooja<i class="ph ph-hand-heart"></i></a>
+            </div>
+        </article>
+
+    </div>
+</section>
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section testimonials reveal">
+    <div class="center-head">
+        <span class="kicker">Anubhav &bull; Living Grace</span>
+        <h2>Testimonials &amp; Darshan Stories</h2>
+    </div>
+
+    <div class="quotes">
+        <figure class="quote">
+            <span class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span>
+            <blockquote>&ldquo;Witnessing the live Mahakaleshwar Bhasma Aarti with my family&rsquo;s gotra read out clearly on stream felt as though we were sitting directly in the garbhagriha. Holy prasad arrived fresh within 4 days.&rdquo;</blockquote>
+            <figcaption><span class="av">RP</span><b>Rajesh Patel<i>London, United Kingdom</i></b></figcaption>
+        </figure>
+
+        <figure class="quote">
+            <span class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span>
+            <blockquote>&ldquo;The Kundli transit prediction regarding my Sade Sati period was remarkably accurate. The suggested Shani Tailabhishekam ritual brought tremendous peace and career stability.&rdquo;</blockquote>
+            <figcaption><span class="av">SM</span><b>Sunita Mukherjee<i>Kolkata, India</i></b></figcaption>
+        </figure>
+
+        <figure class="quote">
+            <span class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span>
+            <blockquote>&ldquo;AstroShrine treats Hindu traditions with absolute respect and architectural beauty. The articles on Upanishadic philosophy are gold dust for youngsters looking for depth.&rdquo;</blockquote>
+            <figcaption><span class="av">AK</span><b>Anand Kulkarni<i>San Jose, CA</i></b></figcaption>
+        </figure>
+    </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="newsletter reveal">
+    <div class="news-copy">
+        <span class="dial"><i class="ph ph-bell-ringing"></i></span>
+        <div>
+            <h3>Receive Auspicious Tithi Alerts</h3>
+            <p>Ekadashi fasting reminders, Purnima timings, and planetary transit advisories right into your inbox.</p>
+        </div>
+    </div>
+    <form class="news-form" onsubmit="return false">
+        <input type="email" placeholder="Enter your sacred email" required>
+        <button class="btn btn-gold btn-sm" type="submit">Join 260k+</button>
+    </form>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="f-brand">
+            <a class="logo" href="#top"><i class="ph ph-sun-dim"></i> AstroShrine</a>
+            <p class="tagline">Faith &bull; Wisdom &bull; Guidance</p>
+            <p>Dedicated to preserving and illuminating timeless Vedic sciences, holy temple sanctuaries, and celestial wisdom for modern seekers around the world.</p>
+
+            <div class="social-icons">
+                <div class="dropdown">
+                    <button class="icon-btn"><i class="ph ph-instagram-logo"></i> Instagram</button>
+                    <div class="dropdown-content">
+                        <a href="https://instagram.com/shri_mahakaldham" target="_blank" rel="noopener">Mahakal Dham</a>
+                        <a href="https://instagram.com/astroshrine_" target="_blank" rel="noopener">AstroShrine</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="icon-btn"><i class="ph ph-facebook-logo"></i> Facebook</button>
+                    <div class="dropdown-content">
+                        <a href="https://facebook.com/profile.php" target="_blank" rel="noopener">Mahakal Dham</a>
+                        <a href="https://facebook.com/share/1CysAQLprP" target="_blank" rel="noopener">AstroShrine</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="icon-btn"><i class="ph ph-x-logo"></i> X</button>
+                    <div class="dropdown-content">
+                        <a href="https://twitter.com/shrimahakaldham" target="_blank" rel="noopener">Mahakal Dham</a>
+                        <a href="https://x.com/astroshrine_" target="_blank" rel="noopener">AstroShrine</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="icon-btn"><i class="ph ph-linkedin-logo"></i> LinkedIn</button>
+                    <div class="dropdown-content">
+                        <a href="https://linkedin.com/in/shri-mahakal-dham" target="_blank" rel="noopener">Mahakal Dham</a>
+                        <a href="https://linkedin.com/in/astro-shrine-1b5150402" target="_blank" rel="noopener">AstroShrine</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="icon-btn"><i class="ph ph-youtube-logo"></i> YouTube</button>
+                    <div class="dropdown-content">
+                        <a href="https://youtube.com/@shrimahakaldham" target="_blank" rel="noopener">Mahakal Dham</a>
+                        <a href="https://youtube.com/@astroshrine" target="_blank" rel="noopener">AstroShrine</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="f-col">
+            <h4>Sacred Services</h4>
+            <a href="https://shrimahakaldham.com/front_controller">Personalized Pujas</a>
+            <a href="https://shrimahakaldham.com/front_controller">Live Temple Darshan</a>
+            <a href="home.html">Kundli Consultations</a>
+            <a href="home.html">Navagraha Remedies</a>
+            <a href="#panchang">Shubh Muhurat Finder</a>
+        </div>
+
+        <div class="f-col">
+            <h4>Vedic Wisdom</h4>
+            <a href="#panchang">Daily Panchangam</a>
+            <a href="https://futureforyou.co/articles">Sacred Scriptures</a>
+            <a href="https://futureforyou.co/articles">Mantra &amp; Stotram</a>
+            <a href="https://futureforyou.co/articles">Yantra Mysticism</a>
+            <a href="https://futureforyou.co/articles">Vedic Philosophy</a>
+        </div>
+
+        <div class="f-col f-news">
+            <h4>Celestial Insights</h4>
+            <p>Receive daily astrological guidance, auspicious Muhurat timings, and sacred festival notifications straight to your sanctuary inbox.</p>
+            <form class="news-form" onsubmit="return false">
+                <input type="email" placeholder="Enter your sacred email" required>
+                <button class="btn btn-gold btn-sm" type="submit">Subscribe</button>
+            </form>
+            <small>We honor your privacy and spiritual sanctity. Unsubscribe anytime.</small>
+        </div>
+    </div>
+
+    <div class="footer-base">
+        <span>&copy; 2026 AstroShrine Portal. Timeless Vedic Heritage Preserved.</span>
+        <nav>
+            <a href="terms-of-service.html">Terms of Sanctity</a>
+            <a href="privacy-policy.html">Privacy Architecture</a>
+            <a href="support.html">Support</a>
+            <a href="delete-account.html">Delete Account</a>
         </nav>
-
-    </header>
-
-    <!-- Hero Section -->
-
-    <section class="hero">
-
-        <h1>
-            Where Faith Meets Divinity
-        </h1>
-
-        <p>
-             Experience the Divine Presence of Mahakal Through
-Sacred Temples, Spiritual Wisdom, and Timeless Traditions.
-        </p>
-
-    </section>
-
-    <!-- Cards -->
-
-    <section class="cards">
-
-        <!-- Temple -->
-
-        <a href="https://shrimahakaldham.com/front_controller" class="card temple" id="temple">
-
-            <div class="overlay">
-
-                <h2>🛕 Temple</h2>
-
-                <p>
-                    Experience sacred temples, rituals and divine blessings.
-                </p>
-
-                <button>
-                    Book Your Puja →
-                </button>
-
-            </div>
-
-        </a>
-
-        <!-- Articles -->
-
-        <a href="https://futureforyou.co/articles" class="card article" id="articles">
-
-            <div class="overlay">
-
-                <h2>📖 Articles</h2>
-
-                <p>
-                    Discover timeless spiritual wisdom and inspiring stories.
-                </p>
-
-                <button>
-                    Read Articles →
-                </button>
-
-            </div>
-
-        </a>
-
-        <!-- Astrology -->
-
-        <a href="home.html" class="card astrology" id="astrology">
-
-            <div class="overlay">
-
-                <h2>🔮 Astrology</h2>
-
-                <p>
-                    Horoscope, Kundli and divine astrological guidance.
-                </p>
-
-                <button>
-                    Talk To Your Astrologer →
-                </button>
-
-            </div>
-
-        </a>
-
-    </section>
-
-    <!-- Footer -->
-
-    <footer>
-
-        <h3>AstroShrine</h3>
-
-        <p>
-            Faith • Wisdom • Guidance
-        </p>
-<div class="social-icons">
-
-    <!-- Instagram -->
-    <div class="dropdown">
-        <button class="icon-btn">
-    <i class="ph ph-instagram-logo"></i> Instagram
-</button>
-
-        <div class="dropdown-content">
-            <a href="https://instagram.com/shri_mahakaldham" target="_blank">
-                Mahakal Dham
-            </a>
-            <a href="https://instagram.com/astroshrine_" target="_blank">
-                AstroShrine
-            </a>
-        </div>
     </div>
+</footer>
 
-    <!-- Facebook -->
-    <div class="dropdown">
-        <button class="icon-btn">
-    <i class="ph ph-facebook-logo"></i> Facebook
-</button>
-
-        <div class="dropdown-content">
-            <a href="https://facebook.com/profile.php" target="_blank">Mahakal Dham</a>
-            <a href="https://facebook.com/share/1CysAQLprP" target="_blank">AstroShrine</a>
-        </div>
-    </div>
-
-    <!-- X -->
-    <div class="dropdown">
-       <button class="icon-btn">
-    <i class="ph ph-x-logo"></i> X
-</button>
-
-        <div class="dropdown-content">
-            <a href="https://twitter.com/shrimahakaldham" target="_blank">Mahakal Dham</a>
-            <a href="https://x.com/astroshrine_" target="_blank">AstroShrine</a>
-        </div>
-    </div>
-
-    <!-- LinkedIn -->
-    <div class="dropdown">
-        <button class="icon-btn">
-    <i class="ph ph-linkedin-logo"></i> LinkedIn
-</button>
-
-        <div class="dropdown-content">
-            <a href="https://linkedin.com/in/shri-mahakal-dham" target="_blank">Mahakal Dham</a>
-            <a href="https://linkedin.com/in/astro-shrine-1b5150402" target="_blank">AstroShrine</a>
-        </div>
-    </div>
-
-    <!-- Youtube -->
-    <div class="dropdown">
-        <button class="icon-btn">
-    <i class="ph ph-youtube-logo"></i> Youtube
-</button>
-
-        <div class="dropdown-content">
-            <a href="https://youtube.com/@shrimahakaldham?si=S9_uDVIox_9lqZ62" target="_blank">Mahakal Dham</a>
-            <a href="https://youtube.com/@astroshrine?si=6e7h9aa6X30exQza" target="_blank">AstroShrine</a>
-        </div>
-    </div>
-
-</div>
-    </footer>
-
-    <script src="script.js"></script>
-    
-
+<script src="script.js"></script>
 </body>
-
 </html>
