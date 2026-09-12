@@ -1,66 +1,28 @@
-// ===============================
-// NAVBAR EFFECT
-// ===============================
-
+// navbar solidifies on scroll
 const navbar = document.querySelector(".navbar");
+addEventListener("scroll", () => navbar.classList.toggle("scrolled", scrollY > 40), { passive: true });
 
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 40) {
-
-        navbar.style.background = "rgba(10,10,20,.75)";
-        navbar.style.backdropFilter = "blur(20px)";
-        navbar.style.boxShadow = "0 10px 30px rgba(0,0,0,.35)";
-
-    }
-
-    else {
-
-        navbar.style.background = "rgba(255,255,255,.05)";
-        navbar.style.boxShadow = "none";
-
-    }
-
+// mobile menu
+const links = document.querySelector(".nav-links");
+const toggle = document.querySelector(".nav-toggle");
+toggle.addEventListener("click", () => {
+    const open = links.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open);
 });
+links.addEventListener("click", () => links.classList.remove("open"));
 
-// ===============================
-// CARD ANIMATION
-// ===============================
-
-const cards = document.querySelectorAll(".card");
-
-const observer = new IntersectionObserver((entries)=>{
-
-    entries.forEach(entry=>{
-
-        if(entry.isIntersecting){
-
-            entry.target.style.opacity="1";
-            entry.target.style.transform="translateY(0px)";
-
-        }
-
+// reveal on scroll
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("shown");
+        io.unobserve(e.target);
     });
+}, { threshold: 0.12 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
-},{threshold:0.25});
-
-cards.forEach(card=>{
-
-    card.style.opacity="0";
-    card.style.transform="translateY(70px)";
-    card.style.transition=".8s ease";
-
-    observer.observe(card);
-
-});
-
-// ===============================
-// HERO ANIMATION
-// ===============================
-
-window.addEventListener("load",()=>{
-
-    document.querySelector(".hero h1").style.opacity="1";
-    document.querySelector(".hero p").style.opacity="1";
-
-});
+// live celestial clock
+const clock = document.querySelector("#clock");
+const tick = () => clock.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+tick();
+setInterval(tick, 1000);
