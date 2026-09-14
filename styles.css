@@ -2,33 +2,33 @@
 
 :root {
   /* palette from shrimahakaldham.com */
-  --orange: #D35400;          /* sindoor  */
-  --orange-deep: #B0430A;     /* sindoor-d */
-  --navy: #2A1608;            /* shila    */
-  --navy-deep: #1F1006;       /* shila deep */
-  --gold: #E3B04B;            /* chandan  */
-  --gold-hover: #C9962E;      /* chandan-d */
-  --gold-disabled: #F6EEE1;   /* bhasma   */
-  --gold-light: #F0D9A0;      /* chandan-soft */
-  --gold-grad-start: #E3B04B;
-  --gold-grad-end: #B08526;
+  --orange: #C45C26;          /* sindoor  */
+  --orange-deep: #A44A1C;     /* sindoor-d */
+  --navy: #0C2340;            /* shila    */
+  --navy-deep: #081A30;       /* shila deep */
+  --gold: #F0C43A;            /* chandan  */
+  --gold-hover: #D4A82A;      /* chandan-d */
+  --gold-disabled: #F8F4E9;   /* bhasma   */
+  --gold-light: #F8E08F;      /* chandan-soft */
+  --gold-grad-start: #F0C43A;
+  --gold-grad-end: #D4A82A;
   --green: #2E6B3C;           /* bilva    */
-  --bg: #FBF7F0;              /* bhasma-2 */
-  --bg-alt: #F6EEE1;          /* bhasma   */
+  --bg: #FFFDF8;              /* bhasma-2 */
+  --bg-alt: #F8F4E9;          /* bhasma   */
   --surface: #FFFFFF;         /* paper    */
-  --text: #2B1A0E;            /* ink      */
-  --text-muted: #7A6552;      /* muted    */
-  --border: #E8DCC8;          /* line     */
-  --red: #A3271B;             /* rudraksha */
-  --ai-1: #2A1608;
-  --ai-2: #3B2212;
-  --ai-3: #4A2C18;
+  --text: #0C2340;            /* ink      */
+  --text-muted: #4F5D73;      /* muted    */
+  --border: #EDE7D6;          /* line     */
+  --red: #C45C26;             /* rudraksha */
+  --ai-1: #0C2340;
+  --ai-2: #163258;
+  --ai-3: #1E3E68;
 
   --radius-card: 14px;
   --radius-btn: 10px;
-  --shadow-card: 0 6px 22px rgba(80, 45, 10, 0.10);
-  --shadow-elev: 0 14px 32px rgba(80, 45, 10, 0.16);
-  --shadow-gold: 0 12px 40px -8px rgba(227, 176, 75, 0.45);
+  --shadow-card: 0 6px 22px rgba(12,35,64, 0.10);
+  --shadow-elev: 0 14px 32px rgba(12,35,64, 0.16);
+  --shadow-gold: 0 12px 40px -8px rgba(240,196,58, 0.45);
 
   --max: 1320px;
   --gap: 24px;
@@ -151,7 +151,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(251, 247, 240, 0.85);
+  background: rgba(255,253,248, 0.85);
   backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid var(--border);
 }
@@ -218,16 +218,16 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   width: 80px;
   height: 80px;
   background: url('assets/logo.png') center / contain no-repeat;
-  filter: drop-shadow(0 6px 16px rgba(211, 84, 0, .25));
+  filter: drop-shadow(0 6px 16px rgba(196,92,38, .25));
 }
 
 /* ===== Hero ===== */
 .hero {
   position: relative;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(211, 84, 0, .18), transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(227, 176, 75, .12), transparent 60%),
-    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 60%, #170B04 100%);
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(196,92,38, .18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(240,196,58, .12), transparent 60%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 60%, #061424 100%);
   color: #fff;
   overflow: hidden;
   padding: 100px 0 80px;
@@ -238,11 +238,11 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   background-image:
     radial-gradient(1px 1px at 10% 20%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 25% 70%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 45% 30%, #E3B04B 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 45% 30%, #F0C43A 50%, transparent 51%),
     radial-gradient(1px 1px at 60% 85%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 78% 18%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 88% 55%, #fff 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 35% 90%, #E3B04B 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 35% 90%, #F0C43A 50%, transparent 51%),
     radial-gradient(1px 1px at 92% 88%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 6% 60%, #fff 50%, transparent 51%),
     radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,.7) 50%, transparent 51%),
@@ -271,8 +271,8 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   gap: 10px;
   padding: 7px 14px;
   border-radius: 999px;
-  background: rgba(227, 176, 75, .12);
-  border: 1px solid rgba(227, 176, 75, .25);
+  background: rgba(240,196,58, .12);
+  border: 1px solid rgba(240,196,58, .25);
   color: var(--gold);
   font-size: 12px;
   font-weight: 600;
@@ -288,7 +288,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   letter-spacing: -0.01em;
 }
 .hero h1 .gold {
-  background: linear-gradient(135deg, #F0D9A0, #E3B04B 50%, #D35400);
+  background: linear-gradient(135deg, #F8E08F, #F0C43A 50%, #C45C26);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -361,7 +361,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   width: 100%;
   height: 100%;
   border-radius: 34px;
-  background: #FBF7F0;
+  background: #FFFDF8;
   position: relative;
   overflow: hidden;
 }
@@ -369,7 +369,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   display: flex;
   justify-content: space-between;
   padding: 12px 22px 0;
-  color: #2A1608;
+  color: #0C2340;
   font-size: 11px;
   font-weight: 600;
 }
@@ -388,25 +388,25 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 .ps-header .ps-mini-logo {
   width: 32px; height: 32px;
   border-radius: 50%;
-  background: url('assets/logo.png') center / contain no-repeat #F0D9A0;
+  background: url('assets/logo.png') center / contain no-repeat #F8E08F;
   padding: 2px;
   box-sizing: border-box;
-  border: 1.5px solid #E3B04B;
+  border: 1.5px solid #F0C43A;
 }
-.ps-header .ps-uname { color: #2A1608; font-weight: 700; font-size: 13px; }
+.ps-header .ps-uname { color: #0C2340; font-weight: 700; font-size: 13px; }
 .ps-header .ps-icons { display: flex; gap: 6px; }
 .ps-header .ps-icons span {
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: #E3B04B;
+  background: #F0C43A;
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 11px;
-  color: #2A1608;
+  color: #0C2340;
 }
 .ps-search {
   display: flex; align-items: center; gap: 8px;
   background: #fff;
-  border: 1px solid #E8DCC8;
+  border: 1px solid #EDE7D6;
   border-radius: 999px;
   padding: 9px 14px;
   color: #999;
@@ -416,7 +416,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 
 /* AI Astrologer dark card */
 .ps-ai {
-  background: linear-gradient(135deg, #2A1608 0%, #0F3460 100%);
+  background: linear-gradient(135deg, #0C2340 0%, #1E3E68 100%);
   border-radius: 14px;
   padding: 12px 14px;
   color: #fff;
@@ -427,23 +427,23 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   content: "";
   position: absolute; right: -10px; top: -10px;
   width: 60px; height: 60px;
-  background: radial-gradient(circle, rgba(227, 176, 75,.2), transparent 70%);
+  background: radial-gradient(circle, rgba(240,196,58,.2), transparent 70%);
 }
 .ps-ai-avatar {
   width: 38px; height: 38px;
   border-radius: 50%;
-  background: url('assets/logo.png') center / 130% no-repeat #F0D9A0;
+  background: url('assets/logo.png') center / 130% no-repeat #F8E08F;
   flex-shrink: 0;
-  border: 1.5px solid #E3B04B;
+  border: 1.5px solid #F0C43A;
 }
 .ps-ai .ps-ai-body { flex: 1; min-width: 0; }
-.ps-ai .ps-ai-ttl { color: #E3B04B; font-weight: 700; font-size: 12px; }
+.ps-ai .ps-ai-ttl { color: #F0C43A; font-weight: 700; font-size: 12px; }
 .ps-ai .ps-ai-sub { font-size: 10px; color: rgba(255,255,255,.8); margin-top: 2px; line-height: 1.3; }
 .ps-ai .ps-ai-arrow {
   width: 26px; height: 26px;
-  background: #E3B04B;
+  background: #F0C43A;
   border-radius: 50%;
-  color: #2A1608;
+  color: #0C2340;
   display: inline-flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 14px;
   flex-shrink: 0;
@@ -452,7 +452,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 
 .ps-sec-ttl {
   display: flex; justify-content: space-between; align-items: center;
-  font-size: 11px; font-weight: 700; color: #2A1608;
+  font-size: 11px; font-weight: 700; color: #0C2340;
   margin-top: 4px;
 }
 .ps-sec-ttl .ps-view { color: var(--text-muted); font-weight: 500; font-size: 10px; }
@@ -460,7 +460,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 /* Astrologer list card */
 .ps-card {
   background: #fff;
-  border: 1px solid #E8DCC8;
+  border: 1px solid #EDE7D6;
   border-radius: 12px;
   padding: 10px;
   display: flex;
@@ -470,20 +470,20 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 .ps-avatar {
   width: 42px; height: 42px;
   border-radius: 50%;
-  background: #F0D9A0;
-  border: 2px solid #E3B04B;
+  background: #F8E08F;
+  border: 2px solid #F0C43A;
   flex-shrink: 0;
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 18px;
-  color: #2A1608;
+  color: #0C2340;
 }
-.ps-card .ps-meta { color: #2A1608; font-size: 10px; flex: 1; min-width: 0; }
+.ps-card .ps-meta { color: #0C2340; font-size: 10px; flex: 1; min-width: 0; }
 .ps-card .ps-meta .nm { font-weight: 700; font-size: 11px; }
 .ps-card .ps-meta .sp { color: var(--text-muted); font-size: 9.5px; margin-top: 2px; }
-.ps-card .ps-meta .stars { color: #E3B04B; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
+.ps-card .ps-meta .stars { color: #F0C43A; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
 .ps-card .ps-rate {
-  background: #F6EEE1;
-  color: #2A1608;
+  background: #F8F4E9;
+  color: #0C2340;
   padding: 6px 8px;
   border-radius: 6px;
   font-size: 9.5px;
@@ -498,7 +498,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 .ps-card .ps-rate.green { background: #DDE7D2; }
 .ps-card .ps-action {
   width: 28px; height: 28px;
-  background: #E3B04B;
+  background: #F0C43A;
   border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 12px;
@@ -509,7 +509,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
 /* bottom nav */
 .ps-nav {
   margin-top: auto;
-  background: #2A1608;
+  background: #0C2340;
   border-radius: 999px;
   padding: 8px 14px;
   display: flex; justify-content: space-around;
@@ -518,7 +518,7 @@ h1, h2, h3, h4 { font-family: "Martel", "Tiro Devanagari Hindi", Georgia, serif;
   font-weight: 500;
 }
 .ps-nav span { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; opacity: .65; }
-.ps-nav span.act { opacity: 1; color: #E3B04B; }
+.ps-nav span.act { opacity: 1; color: #F0C43A; }
 .ps-nav span::before { content: "●"; font-size: 11px; }
 
 /* Floating accents around phone */
@@ -588,14 +588,14 @@ section { padding: 96px 0; position: relative; }
 .feature:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-elev);
-  border-color: rgba(211, 84, 0, .25);
+  border-color: rgba(196,92,38, .25);
 }
 .feature::after {
   content: "";
   position: absolute; top: -40px; right: -40px;
   width: 120px; height: 120px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(227, 176, 75,.12), transparent 70%);
+  background: radial-gradient(circle, rgba(240,196,58,.12), transparent 70%);
   opacity: 0; transition: opacity .25s ease;
 }
 .feature:hover::after { opacity: 1; }
@@ -610,12 +610,12 @@ section { padding: 96px 0; position: relative; }
   margin-bottom: 20px;
 }
 .feature .ico svg { width: 28px; height: 28px; stroke-width: 2; }
-.feature .ico.yellow { background: #F0D9A0; color: #B08526; }
-.feature .ico.peach  { background: #F7DCC4; color: #B0430A; }
-.feature .ico.pink   { background: #F2D4CE; color: #A3271B; }
+.feature .ico.yellow { background: #F8E08F; color: #D4A82A; }
+.feature .ico.peach  { background: #F8DCCB; color: #A44A1C; }
+.feature .ico.pink   { background: #FBEDB5; color: #C45C26; }
 .feature .ico.green  { background: #DDE7D2; color: #2E6B3C; }
-.feature .ico.blue   { background: #DCE3DF; color: #3B5F57; }
-.feature .ico.purple { background: #E6DCCB; color: #7A5A2E; }
+.feature .ico.blue   { background: #DDE3EC; color: #0C2340; }
+.feature .ico.purple { background: #DDE3EC; color: #A47F10; }
 .feature h3 { font-size: 20px; margin-bottom: 10px; color: var(--navy); }
 .feature p { color: var(--text-muted); font-size: 15px; margin: 0; }
 
@@ -725,7 +725,7 @@ section { padding: 96px 0; position: relative; }
   color: var(--orange);
   position: relative;
   z-index: 1;
-  box-shadow: 0 4px 14px rgba(211, 84, 0, .2);
+  box-shadow: 0 4px 14px rgba(196,92,38, .2);
 }
 .step-body { padding-top: 8px; }
 .step-body h3 { font-size: 22px; color: var(--navy); margin-bottom: 6px; }
@@ -734,8 +734,8 @@ section { padding: 96px 0; position: relative; }
 /* ===== AI Spotlight ===== */
 .ai {
   background:
-    radial-gradient(ellipse at 20% 20%, rgba(211, 84, 0, .14), transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(227, 176, 75, .1), transparent 60%),
+    radial-gradient(ellipse at 20% 20%, rgba(196,92,38, .14), transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(240,196,58, .1), transparent 60%),
     linear-gradient(135deg, var(--ai-1) 0%, var(--ai-2) 45%, var(--ai-3) 100%);
   color: #fff;
   overflow: hidden;
@@ -762,7 +762,7 @@ section { padding: 96px 0; position: relative; }
 @media (max-width: 900px) { .ai-grid { grid-template-columns: 1fr; } }
 .ai .badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(227, 176, 75, .15);
+  background: rgba(240,196,58, .15);
   color: var(--gold);
   padding: 7px 14px;
   border-radius: 999px;
@@ -770,7 +770,7 @@ section { padding: 96px 0; position: relative; }
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  border: 1px solid rgba(227, 176, 75,.3);
+  border: 1px solid rgba(240,196,58,.3);
 }
 .ai h2 {
   font-family: "Martel", serif;
@@ -858,8 +858,8 @@ section { padding: 96px 0; position: relative; }
 /* the panel breathes a faint glow as each reply lands */
 .ai-chat { animation: chat-glow 15s ease-in-out infinite; }
 @keyframes chat-glow {
-  0%, 12%, 32%, 45%, 70%, 100% { box-shadow: 0 0 0 0 rgba(227, 176, 75, 0); }
-  20%, 55%                     { box-shadow: 0 0 32px -6px rgba(227, 176, 75, .30); }
+  0%, 12%, 32%, 45%, 70%, 100% { box-shadow: 0 0 0 0 rgba(240,196,58, 0); }
+  20%, 55%                     { box-shadow: 0 0 32px -6px rgba(240,196,58, .30); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -916,7 +916,7 @@ section { padding: 96px 0; position: relative; }
   display: grid;
   place-items: center;
   border-radius: 24px;
-  background: linear-gradient(155deg, var(--gold) 0%, var(--gold-light) 55%, #F7E7C4 100%);
+  background: linear-gradient(155deg, var(--gold) 0%, var(--gold-light) 55%, #FBEDB5 100%);
   box-shadow: var(--shadow-gold);
   animation: bob 6s ease-in-out infinite;
 }
@@ -928,7 +928,7 @@ section { padding: 96px 0; position: relative; }
 /* dashed orbit rings */
 .z-ring {
   position: absolute;
-  border: 1px dashed rgba(42, 22, 8, .22);
+  border: 1px dashed rgba(12,35,64, .22);
   border-radius: 50%;
 }
 .z-ring-1 { inset: 12%; }
@@ -939,7 +939,7 @@ section { padding: 96px 0; position: relative; }
   position: absolute;
   width: 42%;
   height: 42%;
-  filter: drop-shadow(0 6px 18px rgba(176, 67, 10, .45));
+  filter: drop-shadow(0 6px 18px rgba(164,74,28, .45));
 }
 .z-rays  { transform-origin: 50% 50%; animation: spin 34s linear infinite; }
 .z-core  { transform-origin: 50% 50%; animation: pulse 3.6s ease-in-out infinite; }
@@ -966,9 +966,9 @@ section { padding: 96px 0; position: relative; }
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: #FBF7F0;
+  background: #FFFDF8;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 12px rgba(80, 45, 10, .18);
+  box-shadow: 0 4px 12px rgba(12,35,64, .18);
   /* park each sign on the circle, 30deg apart */
   transform: rotate(calc(var(--i) * 30deg)) translateY(calc(var(--r) * -1));
 }
@@ -1005,7 +1005,7 @@ section { padding: 96px 0; position: relative; }
 /* ===== Final CTA ===== */
 .final {
   background:
-    radial-gradient(ellipse at center, rgba(227, 176, 75, .12), transparent 60%),
+    radial-gradient(ellipse at center, rgba(240,196,58, .12), transparent 60%),
     linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
   color: #fff;
   text-align: center;
@@ -1183,7 +1183,7 @@ footer h4 {
 .doc-content p { margin: 0 0 16px; color: var(--text); }
 .doc-content ul, .doc-content ol { margin: 0 0 20px; padding-left: 22px; }
 .doc-content li { margin-bottom: 8px; color: var(--text); }
-.doc-content a { color: var(--orange); border-bottom: 1px solid rgba(211, 84, 0,.3); }
+.doc-content a { color: var(--orange); border-bottom: 1px solid rgba(196,92,38,.3); }
 .doc-content a:hover { border-color: var(--orange); }
 .doc-content strong { color: var(--navy); }
 
@@ -1215,7 +1215,7 @@ footer h4 {
 .doc-content tr:last-child td { border-bottom: none; }
 
 .callout {
-  background: linear-gradient(135deg, var(--gold-light), #F6EEE1);
+  background: linear-gradient(135deg, var(--gold-light), #F8F4E9);
   border-left: 3px solid var(--gold);
   padding: 18px 22px;
   border-radius: 10px;
@@ -1226,7 +1226,7 @@ footer h4 {
 .callout strong { color: var(--navy); }
 
 .callout.warn {
-  background: linear-gradient(135deg, #F6E2DE, #FBF1EE);
+  background: linear-gradient(135deg, #F8DCCB, #FFFDF8);
   border-left-color: var(--red);
 }
 
@@ -1251,7 +1251,7 @@ details.faq-item {
   background: var(--surface);
   transition: border-color .2s, box-shadow .2s;
 }
-details.faq-item[open] { border-color: rgba(211, 84, 0,.4); box-shadow: var(--shadow-card); }
+details.faq-item[open] { border-color: rgba(196,92,38,.4); box-shadow: var(--shadow-card); }
 details.faq-item summary {
   list-style: none;
   cursor: pointer;
@@ -1315,7 +1315,7 @@ details.faq-item .ans {
 .field input:focus, .field select:focus, .field textarea:focus {
   outline: none;
   border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(211, 84, 0, .15);
+  box-shadow: 0 0 0 3px rgba(196,92,38, .15);
 }
 .field textarea { resize: vertical; min-height: 110px; font-family: inherit; }
 .contact-card .btn { width: 100%; margin-top: 6px; }
@@ -1344,7 +1344,7 @@ details.faq-item .ans {
   padding: 24px;
   transition: transform .2s, box-shadow .2s, border-color .2s;
 }
-.del-opt:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); border-color: rgba(211, 84, 0,.25); }
+.del-opt:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); border-color: rgba(196,92,38,.25); }
 .del-opt .num {
   display: inline-flex; align-items: center; justify-content: center;
   width: 32px; height: 32px;
