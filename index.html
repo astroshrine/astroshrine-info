@@ -48,40 +48,138 @@
 <section class="hs" id="hero" aria-roledescription="carousel" aria-label="AstroShrine highlights">
     <div class="hs-stage">
 
-        <!-- 1 · Astrology (lead slide) — the AstroShrine app -->
+        <!-- 1 · Astrology (lead slide) — the AstroShrine app showcase -->
         <article class="hs-slide is-active" data-theme="astro" aria-roledescription="slide" aria-label="1 of 3">
-            <div class="hs-bg" style="background-image:url('images/hero-astro.webp')"></div>
-            <div class="hs-inner">
+            <div class="hs-bg hs-bg--astro"></div>
+            <svg class="hs-arcs" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <g fill="none" stroke="#F0C43A">
+                    <circle cx="1080" cy="1180" r="900" stroke-opacity=".16"/>
+                    <circle cx="1080" cy="1180" r="760" stroke-opacity=".10" stroke-dasharray="4 10"/>
+                    <circle cx="1080" cy="1180" r="1040" stroke-opacity=".08"/>
+                    <path d="M620 120 L1440 700 M760 0 L1260 900 M1440 260 L520 900" stroke-opacity=".06"/>
+                </g>
+            </svg>
+            <div class="hs-inner hs-inner--app">
                 <div class="hs-copy">
-                    <span class="hs-chip"><img src="assets/logo.png" alt="" class="hs-chip-logo"> World&rsquo;s Best Astrology App</span>
-                    <span class="hs-orn" aria-hidden="true"><i></i>&#x2756;<i></i></span>
-                    <h1>World&rsquo;s Best Astrology&nbsp;App, <em>Now in Your Phone</em></h1>
-                    <p>Want to know about your career, shaadi, money or health? Download the AstroShrine app and talk to real astrologers today.</p>
-                    <p class="hs-hi" lang="hi">दुनिया का सबसे बेहतरीन ज्योतिष ऐप &mdash; अपने करियर, शादी और भविष्य के बारे में जानने के लिए आज ही AstroShrine डाउनलोड करें।</p>
-                    <ul class="hs-points">
-                        <li><i class="ph-fill ph-seal-check"></i> Career, shaadi, paisa &mdash; sab ka hal</li>
-                        <li><i class="ph-fill ph-sparkle"></i> Real pandits, 24&times;7</li>
-                        <li><i class="ph-fill ph-sun-horizon"></i> Free Kundli inside</li>
+                    <div class="ab-brand">
+                        <span class="ab-logo"><img src="assets/logo.png" alt=""></span>
+                        <div>
+                            <h1 class="ab-word">Astro<span>Shrine</span></h1>
+                            <span class="ab-pill"><span lang="hi">वैदिक ज्योतिष</span> &bull; Android App</span>
+                        </div>
+                    </div>
+                    <p class="ab-tag">World&rsquo;s Best Astrology App</p>
+                    <p class="hs-hi" lang="hi">करियर, शादी, भविष्य &mdash; हर सवाल का जवाब, एक ऐप में।</p>
+                    <ul class="ab-feats">
+                        <li><i class="ph ph-chats-circle"></i> Talk to Astrologers</li>
+                        <li><i class="ph ph-flame"></i> Book Live Pujas</li>
+                        <li><i class="ph ph-sun-horizon"></i> Free Kundli &amp; Milan</li>
+                        <li><i class="ph ph-diamond"></i> Certified Gemstones</li>
                     </ul>
                     <div class="hs-actions">
                         <a class="btn btn-app" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get the AstroShrine app on Google Play">
-
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
-
-                        <span><small>Get the app on</small>Google Play</span>
-
-                    </a>
-                        <a class="btn btn-gold" href="home.html"><i class="ph ph-chat-circle-dots"></i> Talk to an Astrologer</a>
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+                            <span><small>Get it on</small>Google Play</span>
+                        </a>
+                        <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener"><i class="ph ph-chat-circle-dots"></i> Talk to an Astrologer</a>
                     </div>
                 </div>
+
+                <!-- phone fan: every screen is the AstroShrine app -->
                 <div class="hs-visual" aria-hidden="true">
-                    <div class="hs-devices">
-                        <svg class="hs-wheel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hsGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset=".5" stop-color="#F0C43A"/><stop offset="1" stop-color="#E89B3B"/></linearGradient><radialGradient id="hsSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".55" stop-color="#F0C43A"/><stop offset="1" stop-color="#C45C26"/></radialGradient></defs><g fill="none" stroke="url(#hsGold)"><circle cx="200" cy="200" r="196" stroke-width="1.5" opacity="0.9"/><circle cx="200" cy="200" r="168" stroke-width="1" opacity="0.7"/><circle cx="200" cy="200" r="120" stroke-width="1" opacity="0.6"/><circle cx="200" cy="200" r="66" stroke-width="1" opacity="0.5"/><line x1="200.0" y1="80.0" x2="200.0" y2="4.0" stroke-width="1" opacity=".55"/><line x1="260.0" y1="96.1" x2="298.0" y2="30.3" stroke-width="1" opacity=".55"/><line x1="303.9" y1="140.0" x2="369.7" y2="102.0" stroke-width="1" opacity=".55"/><line x1="320.0" y1="200.0" x2="396.0" y2="200.0" stroke-width="1" opacity=".55"/><line x1="303.9" y1="260.0" x2="369.7" y2="298.0" stroke-width="1" opacity=".55"/><line x1="260.0" y1="303.9" x2="298.0" y2="369.7" stroke-width="1" opacity=".55"/><line x1="200.0" y1="320.0" x2="200.0" y2="396.0" stroke-width="1" opacity=".55"/><line x1="140.0" y1="303.9" x2="102.0" y2="369.7" stroke-width="1" opacity=".55"/><line x1="96.1" y1="260.0" x2="30.3" y2="298.0" stroke-width="1" opacity=".55"/><line x1="80.0" y1="200.0" x2="4.0" y2="200.0" stroke-width="1" opacity=".55"/><line x1="96.1" y1="140.0" x2="30.3" y2="102.0" stroke-width="1" opacity=".55"/><line x1="140.0" y1="96.1" x2="102.0" y2="30.3" stroke-width="1" opacity=".55"/><line x1="396.0" y1="200.0" x2="388.0" y2="200.0" stroke-width="1" opacity=".6"/><line x1="395.3" y1="217.1" x2="391.3" y2="216.7" stroke-width="1" opacity=".6"/><line x1="393.0" y1="234.0" x2="389.1" y2="233.3" stroke-width="1" opacity=".6"/><line x1="389.3" y1="250.7" x2="385.5" y2="249.7" stroke-width="1" opacity=".6"/><line x1="384.2" y1="267.0" x2="380.4" y2="265.7" stroke-width="1" opacity=".6"/><line x1="377.6" y1="282.8" x2="374.0" y2="281.1" stroke-width="1" opacity=".6"/><line x1="369.7" y1="298.0" x2="362.8" y2="294.0" stroke-width="1" opacity=".6"/><line x1="360.6" y1="312.4" x2="357.3" y2="310.1" stroke-width="1" opacity=".6"/><line x1="350.1" y1="326.0" x2="347.1" y2="323.4" stroke-width="1" opacity=".6"/><line x1="338.6" y1="338.6" x2="335.8" y2="335.8" stroke-width="1" opacity=".6"/><line x1="326.0" y1="350.1" x2="323.4" y2="347.1" stroke-width="1" opacity=".6"/><line x1="312.4" y1="360.6" x2="310.1" y2="357.3" stroke-width="1" opacity=".6"/><line x1="298.0" y1="369.7" x2="294.0" y2="362.8" stroke-width="1" opacity=".6"/><line x1="282.8" y1="377.6" x2="281.1" y2="374.0" stroke-width="1" opacity=".6"/><line x1="267.0" y1="384.2" x2="265.7" y2="380.4" stroke-width="1" opacity=".6"/><line x1="250.7" y1="389.3" x2="249.7" y2="385.5" stroke-width="1" opacity=".6"/><line x1="234.0" y1="393.0" x2="233.3" y2="389.1" stroke-width="1" opacity=".6"/><line x1="217.1" y1="395.3" x2="216.7" y2="391.3" stroke-width="1" opacity=".6"/><line x1="200.0" y1="396.0" x2="200.0" y2="388.0" stroke-width="1" opacity=".6"/><line x1="182.9" y1="395.3" x2="183.3" y2="391.3" stroke-width="1" opacity=".6"/><line x1="166.0" y1="393.0" x2="166.7" y2="389.1" stroke-width="1" opacity=".6"/><line x1="149.3" y1="389.3" x2="150.3" y2="385.5" stroke-width="1" opacity=".6"/><line x1="133.0" y1="384.2" x2="134.3" y2="380.4" stroke-width="1" opacity=".6"/><line x1="117.2" y1="377.6" x2="118.9" y2="374.0" stroke-width="1" opacity=".6"/><line x1="102.0" y1="369.7" x2="106.0" y2="362.8" stroke-width="1" opacity=".6"/><line x1="87.6" y1="360.6" x2="89.9" y2="357.3" stroke-width="1" opacity=".6"/><line x1="74.0" y1="350.1" x2="76.6" y2="347.1" stroke-width="1" opacity=".6"/><line x1="61.4" y1="338.6" x2="64.2" y2="335.8" stroke-width="1" opacity=".6"/><line x1="49.9" y1="326.0" x2="52.9" y2="323.4" stroke-width="1" opacity=".6"/><line x1="39.4" y1="312.4" x2="42.7" y2="310.1" stroke-width="1" opacity=".6"/><line x1="30.3" y1="298.0" x2="37.2" y2="294.0" stroke-width="1" opacity=".6"/><line x1="22.4" y1="282.8" x2="26.0" y2="281.1" stroke-width="1" opacity=".6"/><line x1="15.8" y1="267.0" x2="19.6" y2="265.7" stroke-width="1" opacity=".6"/><line x1="10.7" y1="250.7" x2="14.5" y2="249.7" stroke-width="1" opacity=".6"/><line x1="7.0" y1="234.0" x2="10.9" y2="233.3" stroke-width="1" opacity=".6"/><line x1="4.7" y1="217.1" x2="8.7" y2="216.7" stroke-width="1" opacity=".6"/><line x1="4.0" y1="200.0" x2="12.0" y2="200.0" stroke-width="1" opacity=".6"/><line x1="4.7" y1="182.9" x2="8.7" y2="183.3" stroke-width="1" opacity=".6"/><line x1="7.0" y1="166.0" x2="10.9" y2="166.7" stroke-width="1" opacity=".6"/><line x1="10.7" y1="149.3" x2="14.5" y2="150.3" stroke-width="1" opacity=".6"/><line x1="15.8" y1="133.0" x2="19.6" y2="134.3" stroke-width="1" opacity=".6"/><line x1="22.4" y1="117.2" x2="26.0" y2="118.9" stroke-width="1" opacity=".6"/><line x1="30.3" y1="102.0" x2="37.2" y2="106.0" stroke-width="1" opacity=".6"/><line x1="39.4" y1="87.6" x2="42.7" y2="89.9" stroke-width="1" opacity=".6"/><line x1="49.9" y1="74.0" x2="52.9" y2="76.6" stroke-width="1" opacity=".6"/><line x1="61.4" y1="61.4" x2="64.2" y2="64.2" stroke-width="1" opacity=".6"/><line x1="74.0" y1="49.9" x2="76.6" y2="52.9" stroke-width="1" opacity=".6"/><line x1="87.6" y1="39.4" x2="89.9" y2="42.7" stroke-width="1" opacity=".6"/><line x1="102.0" y1="30.3" x2="106.0" y2="37.2" stroke-width="1" opacity=".6"/><line x1="117.2" y1="22.4" x2="118.9" y2="26.0" stroke-width="1" opacity=".6"/><line x1="133.0" y1="15.8" x2="134.3" y2="19.6" stroke-width="1" opacity=".6"/><line x1="149.3" y1="10.7" x2="150.3" y2="14.5" stroke-width="1" opacity=".6"/><line x1="166.0" y1="7.0" x2="166.7" y2="10.9" stroke-width="1" opacity=".6"/><line x1="182.9" y1="4.7" x2="183.3" y2="8.7" stroke-width="1" opacity=".6"/><line x1="200.0" y1="4.0" x2="200.0" y2="12.0" stroke-width="1" opacity=".6"/><line x1="217.1" y1="4.7" x2="216.7" y2="8.7" stroke-width="1" opacity=".6"/><line x1="234.0" y1="7.0" x2="233.3" y2="10.9" stroke-width="1" opacity=".6"/><line x1="250.7" y1="10.7" x2="249.7" y2="14.5" stroke-width="1" opacity=".6"/><line x1="267.0" y1="15.8" x2="265.7" y2="19.6" stroke-width="1" opacity=".6"/><line x1="282.8" y1="22.4" x2="281.1" y2="26.0" stroke-width="1" opacity=".6"/><line x1="298.0" y1="30.3" x2="294.0" y2="37.2" stroke-width="1" opacity=".6"/><line x1="312.4" y1="39.4" x2="310.1" y2="42.7" stroke-width="1" opacity=".6"/><line x1="326.0" y1="49.9" x2="323.4" y2="52.9" stroke-width="1" opacity=".6"/><line x1="338.6" y1="61.4" x2="335.8" y2="64.2" stroke-width="1" opacity=".6"/><line x1="350.1" y1="74.0" x2="347.1" y2="76.6" stroke-width="1" opacity=".6"/><line x1="360.6" y1="87.6" x2="357.3" y2="89.9" stroke-width="1" opacity=".6"/><line x1="369.7" y1="102.0" x2="362.8" y2="106.0" stroke-width="1" opacity=".6"/><line x1="377.6" y1="117.2" x2="374.0" y2="118.9" stroke-width="1" opacity=".6"/><line x1="384.2" y1="133.0" x2="380.4" y2="134.3" stroke-width="1" opacity=".6"/><line x1="389.3" y1="149.3" x2="385.5" y2="150.3" stroke-width="1" opacity=".6"/><line x1="393.0" y1="166.0" x2="389.1" y2="166.7" stroke-width="1" opacity=".6"/><line x1="395.3" y1="182.9" x2="391.3" y2="183.3" stroke-width="1" opacity=".6"/><polygon points="200.0,80.0 260.0,303.9 96.1,140.0 320.0,200.0 96.1,260.0 260.0,96.1 200.0,320.0 140.0,96.1 303.9,260.0 80.0,200.0 303.9,140.0 140.0,303.9" stroke-width=".8" opacity=".35"/></g><g font-size="26" fill="url(#hsGold)" text-anchor="middle" dominant-baseline="central" font-family="Segoe UI Symbol,Noto Sans Symbols,sans-serif"><text x="237.3" y="60.9">♈&#xFE0E;</text><text x="301.8" y="98.2">♉&#xFE0E;</text><text x="339.1" y="162.7">♊&#xFE0E;</text><text x="339.1" y="237.3">♋&#xFE0E;</text><text x="301.8" y="301.8">♌&#xFE0E;</text><text x="237.3" y="339.1">♍&#xFE0E;</text><text x="162.7" y="339.1">♎&#xFE0E;</text><text x="98.2" y="301.8">♏&#xFE0E;</text><text x="60.9" y="237.3">♐&#xFE0E;</text><text x="60.9" y="162.7">♑&#xFE0E;</text><text x="98.2" y="98.2">♒&#xFE0E;</text><text x="162.7" y="60.9">♓&#xFE0E;</text></g><circle cx="200" cy="200" r="44" fill="url(#hsSun)"/><g stroke="#F0C43A" stroke-width="2" stroke-linecap="round"><line x1="250.0" y1="200.0" x2="262.0" y2="200.0"/><line x1="246.2" y1="219.1" x2="252.7" y2="221.8"/><line x1="235.4" y1="235.4" x2="243.8" y2="243.8"/><line x1="219.1" y1="246.2" x2="221.8" y2="252.7"/><line x1="200.0" y1="250.0" x2="200.0" y2="262.0"/><line x1="180.9" y1="246.2" x2="178.2" y2="252.7"/><line x1="164.6" y1="235.4" x2="156.2" y2="243.8"/><line x1="153.8" y1="219.1" x2="147.3" y2="221.8"/><line x1="150.0" y1="200.0" x2="138.0" y2="200.0"/><line x1="153.8" y1="180.9" x2="147.3" y2="178.2"/><line x1="164.6" y1="164.6" x2="156.2" y2="156.2"/><line x1="180.9" y1="153.8" x2="178.2" y2="147.3"/><line x1="200.0" y1="150.0" x2="200.0" y2="138.0"/><line x1="219.1" y1="153.8" x2="221.8" y2="147.3"/><line x1="235.4" y1="164.6" x2="243.8" y2="156.2"/><line x1="246.2" y1="180.9" x2="252.7" y2="178.2"/></g></svg>
-                        <div class="hs-phone hs-phone--back"><img src="assets/phone-ai.webp" alt=""></div>
-                        <div class="hs-phone hs-phone--front"><img src="assets/phone-home.webp" alt=""></div>
-                        <span class="hs-float f1"><i class="ph-fill ph-star"></i> 4.9 seeker rating</span>
-                        <span class="hs-float f2"><i class="ph ph-moon-stars"></i> Free Kundli</span>
-                        <span class="hs-float f3"><i class="ph-fill ph-circle"></i> Astrologers online now</span>
+                    <div class="af">
+                        <!-- 07 · Gemstones -->
+                        <figure class="af-ph af-ph--1">
+                            <div class="af-scr as">
+                                <div class="as-bar"><span>9:41</span><span><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-battery-full"></i></span></div>
+                                <div class="as-head"><div><small lang="hi">रत्न &amp; रुद्राक्ष</small><b>Gemstone Store</b></div><i class="ph ph-shopping-bag-open"></i></div>
+                                <div class="as-banner"><small>Lab certified</small><b>Energised at Shri Mahakal Dham</b><span>7-day replacement &bull; insured delivery</span></div>
+                                <div class="as-prod"><span class="as-gem g1"><i class="ph-fill ph-diamond"></i></span><div><b>Natural Pukhraj 5.25 ct</b><small>Ceylon &bull; Jupiter &bull; IGL certified</small><em>&#8377;14,500 <s>&#8377;18,900</s></em></div><span class="as-buy">Buy</span></div>
+                                <div class="as-prod"><span class="as-gem g2"><i class="ph-fill ph-circles-three"></i></span><div><b>7 Mukhi Rudraksha Bracelet</b><small>Nepal &bull; Lakshmi blessings</small><em>&#8377;799 <s>&#8377;2,499</s></em></div><span class="as-buy">Buy</span></div>
+                                <div class="as-prod"><span class="as-gem g3"><i class="ph-fill ph-dots-nine"></i></span><div><b>Karungali Mala 108+1</b><small>8mm &bull; certified ebony</small><em>&#8377;799 <s>&#8377;1,600</s></em></div><span class="as-buy">Buy</span></div>
+                                <div class="as-prod"><span class="as-gem g4"><i class="ph-fill ph-diamond"></i></span><div><b>Rose Quartz Love Bracelet</b><small>Love &bull; Venus</small><em>&#8377;699 <s>&#8377;1,999</s></em></div><span class="as-buy">Buy</span></div>
+                                <nav class="as-nav"><i class="ph-fill ph-house"></i><i class="ph ph-users"></i><i class="ph ph-flame"></i><i class="ph ph-diamond"></i></nav>
+                            </div>
+                            <figcaption>04 &bull; Gemstones &amp; Malas</figcaption>
+                        </figure>
+
+                        <!-- 03 · Puja -->
+                        <figure class="af-ph af-ph--2">
+                            <div class="af-scr as">
+                                <div class="as-bar"><span>9:41</span><span><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-battery-full"></i></span></div>
+                                <div class="as-head"><div><small lang="hi">पवित्र मंदिर पूजा</small><b>Book Live Puja</b></div><span class="as-live"><i></i> Live</span></div>
+                                <div class="as-puja">
+                                    <span class="as-pill">Shri Mahakal Dham &bull; Amleshwar</span>
+                                    <b>Maha Mrityunjay Puja</b>
+                                    <small>For long life, healing &amp; protection</small>
+                                </div>
+                                <div class="as-card">
+                                    <small>Sankalp in your name &amp; gotra</small>
+                                    <div class="as-row"><em>&#8377;5,100 <s>&#8377;6,100</s></em><span class="as-cta">Book Puja</span></div>
+                                </div>
+                                <div class="as-card as-card--sm">
+                                    <span class="as-pic"><i class="ph-fill ph-flower-lotus"></i></span>
+                                    <div><small class="as-kick">Kundli Dosh</small><b>Kaal Sarp Dosh Shanti</b><em>&#8377;5,100</em></div>
+                                </div>
+                                <div class="as-card as-card--sm">
+                                    <span class="as-pic"><i class="ph-fill ph-drop"></i></span>
+                                    <div><small class="as-kick">Uddeshya Puja</small><b>Parthiv Rudrabhishek</b><em>&#8377;5,100</em></div>
+                                </div>
+                                <div class="as-card as-card--sm">
+                                    <span class="as-pic"><i class="ph-fill ph-planet"></i></span>
+                                    <div><small class="as-kick">Graha Shanti</small><b>Shani Shanti Puja</b><em>&#8377;5,100</em></div>
+                                </div>
+                                <nav class="as-nav"><i class="ph ph-house"></i><i class="ph ph-users"></i><i class="ph-fill ph-flame"></i><i class="ph ph-diamond"></i></nav>
+                            </div>
+                            <figcaption>03 &bull; Live Vedic Puja</figcaption>
+                        </figure>
+
+                        <!-- 02 · Daily horoscope -->
+                        <figure class="af-ph af-ph--3">
+                            <div class="af-scr as">
+                                <div class="as-bar"><span>9:41</span><span><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-battery-full"></i></span></div>
+                                <div class="as-head"><div><small lang="hi">दैनिक राशिफल</small><b>Daily Horoscope</b></div><span class="as-date">Today</span></div>
+                                <div class="as-chips"><span class="on">&#9800;&#xFE0E; Mesh</span><span>&#9801;&#xFE0E; Vrishabh</span><span>&#9802;&#xFE0E; Mithun</span></div>
+                                <div class="as-card as-horo">
+                                    <div class="as-row"><b>Mesh <span lang="hi">(मेष)</span></b><em class="as-pct">Good day</em></div>
+                                    <small>Ruling planet: Mars <span lang="hi">(मंगल)</span></small>
+                                    <p>A good day to start new work. Be patient in money matters and give time to family in the evening.</p>
+                                    <div class="as-meter"><span>Career</span><i style="--w:78%"></i></div>
+                                    <div class="as-meter"><span>Love</span><i style="--w:64%"></i></div>
+                                    <div class="as-meter"><span>Health</span><i style="--w:70%"></i></div>
+                                </div>
+                                <div class="as-tiles"><div><small>Lucky colour</small><b>Red</b></div><div><small>Lucky no.</small><b>9</b></div><div><small>Muhurat</small><b>11:48</b></div></div>
+                                <div class="as-ask">Ask an astrologer about today <i class="ph ph-arrow-right"></i></div>
+                                <nav class="as-nav"><i class="ph-fill ph-house"></i><i class="ph ph-users"></i><i class="ph ph-flame"></i><i class="ph ph-diamond"></i></nav>
+                            </div>
+                            <figcaption>02 &bull; Daily Rashifal</figcaption>
+                        </figure>
+
+                        <!-- 01 · Home (hero) -->
+                        <figure class="af-ph af-ph--4">
+                            <span class="af-ribbon"><i class="ph-fill ph-crown-simple"></i> AstroShrine App</span>
+                            <div class="af-scr as">
+                                <div class="as-bar"><span>9:41</span><span><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-battery-full"></i></span></div>
+                                <div class="as-head as-head--home"><img src="assets/logo.png" alt=""><div><small lang="hi">नमस्ते 🙏</small><b>AstroShrine</b></div><i class="ph ph-bell"></i></div>
+                                <div class="as-search"><i class="ph ph-magnifying-glass"></i> Search for astrologers</div>
+                                <div class="as-ai"><b><i class="ph-fill ph-sparkle"></i> AI Astrologer</b><small>Personalised Vedic insights from your birth chart</small><div><span>Career</span><span>Marriage</span><span>Finance</span></div></div>
+                                <div class="as-quick">
+                                    <span><i class="ph ph-sun-horizon"></i>Daily Horoscope</span>
+                                    <span><i class="ph ph-circles-four"></i>Free Kundli</span>
+                                    <span><i class="ph ph-diamond"></i>Gemstones</span>
+                                    <span><i class="ph ph-heart"></i>Kundli Matching</span>
+                                </div>
+                                <div class="as-h"><b>Top Astrologers</b><small>View all</small></div>
+                                <div class="as-astro"><span class="as-av">PT</span><div><b>Pt Priya Sharan Tripathi</b><small>Vedic &bull; Kundali Matching</small><small>50 yrs &bull; Hindi, English, Sanskrit</small></div><div class="as-price"><em>&#8377;150/min</em><span class="as-chat"><i class="ph-fill ph-chat-circle-dots"></i></span></div></div>
+                                <div class="as-astro"><span class="as-av">AG</span><div><b>Agastya</b><small>Vastu &bull; Vedic Astrology</small><small>45 yrs &bull; Hindi, English</small></div><div class="as-price"><em>&#8377;15/min</em><span class="as-chat as-call"><i class="ph-fill ph-phone"></i></span></div></div>
+                                <div class="as-astro"><span class="as-av">VM</span><div><b>Vishwamitra</b><small>Vastu &bull; Palmistry &bull; Kundli</small><small>39 yrs &bull; Hindi, English</small></div><div class="as-price"><em>&#8377;15/min</em><span class="as-chat"><i class="ph-fill ph-chat-circle-dots"></i></span></div></div>
+                                <nav class="as-nav as-nav--app"><span class="on"><i class="ph-fill ph-house"></i>Home</span><span><i class="ph ph-monitor-play"></i>Live</span><span><i class="ph ph-phone"></i>Call</span><span><i class="ph ph-chats"></i>Chat</span></nav>
+                            </div>
+                            <figcaption>01 &bull; Home &amp; Discovery</figcaption>
+                        </figure>
+
+                        <div class="af-badge af-badge--online"><i class="dot"></i><div><small>Available right now</small><b>60+ Vedic Astrologers</b></div></div>
+                        <div class="af-badge af-badge--bonus"><span class="af-coin">&#8377;</span><div><small>Welcome bonus</small><b>200 points free</b></div></div>
                     </div>
                 </div>
             </div>
@@ -186,11 +284,12 @@
         </div>
     </div>
 
-    <div class="stats hs-stats">
-        <div class="stat"><strong>500+</strong><span>Verified Temples</span></div>
-        <div class="stat"><strong>1.2M+</strong><span>Devotees Blessed</span></div>
-        <div class="stat"><strong>100%</strong><span>Vedic Rituals</span></div>
-        <div class="stat"><strong>4.9 <i class="ph-fill ph-star"></i></strong><span>Seeker Rating</span></div>
+    <div class="hs-stats ab-strip">
+        <div><span><i class="ph ph-user-sound"></i></span><b>Live Astrologers</b><small>Call &amp; chat, 24&times;7</small></div>
+        <div><span><i class="ph ph-scroll"></i></span><b>Kundli &amp; Matching</b><small>Free detailed report</small></div>
+        <div><span><i class="ph ph-flame"></i></span><b>Live Temple Pujas</b><small>Sankalp at Mahakal Dham</small></div>
+        <div><span><i class="ph ph-diamond"></i></span><b>Gemstone Store</b><small>Lab certified &amp; energised</small></div>
+        <div><span><i class="ph ph-magic-wand"></i></span><b>AI Jyotish</b><small>Instant Vedic answers</small></div>
     </div>
 </section>
 

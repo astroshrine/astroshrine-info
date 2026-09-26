@@ -137,3 +137,17 @@ setInterval(tick, 1000);
     // only run the timer while the section is on screen
     new IntersectionObserver(([e]) => tour.classList.toggle("is-paused", !e.isIntersecting), { threshold: 0.3 }).observe(tour);
 })();
+
+// 3D fan follows the cursor (subtle parallax tilt)
+(() => {
+    const fan = document.querySelector(".af");
+    if (!fan || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const zone = fan.closest(".hs-slide");
+    zone.addEventListener("mousemove", (e) => {
+        const r = zone.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        fan.style.setProperty("--ry", `${-10 + x * 14}deg`);
+        fan.style.setProperty("--rx", `${8 - y * 10}deg`);
+    });
+    zone.addEventListener("mouseleave", () => { fan.style.removeProperty("--ry"); fan.style.removeProperty("--rx"); });
+})();
