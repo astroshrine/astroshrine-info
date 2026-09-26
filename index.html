@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>AstroShrine — Where Faith Meets Divinity</title>
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="apple-touch-icon" href="assets/logo.png" />
     <meta name="description" content="Sacred temples, Vedic wisdom and timeless cosmic traditions for modern spiritual seekers. Book pujas, read scriptures, generate your Kundli.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Martel:wght@400;700&family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Martel:wght@400;700&family=Tiro+Devanagari+Hindi&family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <link rel="stylesheet" href="style.css">
@@ -25,15 +27,15 @@
 
         <ul class="nav-links">
             <li><a href="#top" class="active">Home</a></li>
-            <li><a href="#portals">Sacred Temples</a></li>
-            <li><a href="#portals">Wisdom &amp; Articles</a></li>
-            <li><a href="home.html">Vedic Astrology</a></li>
-          
+            <li><a href="#services">Services</a></li>
+            <li><a href="#app">The App</a></li>
+            <li><a href="#pujas">Pujas</a></li>
+            <li><a href="https://futureforyou.co/articles" target="_blank" rel="noopener">Articles</a></li>
         </ul>
 
         <div class="nav-cta">
-            <a class="btn btn-gold btn-sm" href="https://shrimahakaldham.com/front_controller">Book Puja</a>
-            <a class="icon-round" href="#pujas" aria-label="Offerings"><i class="ph ph-shopping-bag-open"></i></a>
+            <a class="btn btn-gold btn-sm" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener"><i class="ph ph-device-mobile"></i> Get the App</a>
+            <a class="icon-round" href="https://astrogems.astroshrine.in" target="_blank" rel="noopener" aria-label="Gemstone store"><i class="ph ph-diamond"></i></a>
         </div>
 
         <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><i class="ph ph-list"></i></button>
@@ -42,27 +44,149 @@
 
 <main id="top">
 
-<!-- ============ HERO ============ -->
-<section class="hero reveal">
-    <span class="eyebrow">&bull; Sacred Gateway &nbsp;&bull;&nbsp; Auspicious Muhurat Active</span>
+<!-- ============ HERO SLIDER ============ -->
+<section class="hs" id="hero" aria-roledescription="carousel" aria-label="AstroShrine highlights">
+    <div class="hs-stage">
 
-    <h1>Where Faith Meets Divinity</h1>
+        <!-- 1 · Astrology (lead slide) — the AstroShrine app -->
+        <article class="hs-slide is-active" data-theme="astro" aria-roledescription="slide" aria-label="1 of 3">
+            <div class="hs-bg" style="background-image:url('images/hero-astro.webp')"></div>
+            <div class="hs-inner">
+                <div class="hs-copy">
+                    <span class="hs-chip"><img src="assets/logo.png" alt="" class="hs-chip-logo"> World&rsquo;s Best Astrology App</span>
+                    <span class="hs-orn" aria-hidden="true"><i></i>&#x2756;<i></i></span>
+                    <h1>World&rsquo;s Best Astrology&nbsp;App, <em>Now in Your Phone</em></h1>
+                    <p>Want to know about your career, shaadi, money or health? Download the AstroShrine app and talk to real astrologers today.</p>
+                    <p class="hs-hi" lang="hi">दुनिया का सबसे बेहतरीन ज्योतिष ऐप &mdash; अपने करियर, शादी और भविष्य के बारे में जानने के लिए आज ही AstroShrine डाउनलोड करें।</p>
+                    <ul class="hs-points">
+                        <li><i class="ph-fill ph-seal-check"></i> Career, shaadi, paisa &mdash; sab ka hal</li>
+                        <li><i class="ph-fill ph-sparkle"></i> Real pandits, 24&times;7</li>
+                        <li><i class="ph-fill ph-sun-horizon"></i> Free Kundli inside</li>
+                    </ul>
+                    <div class="hs-actions">
+                        <a class="btn btn-app" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get the AstroShrine app on Google Play">
 
-    <p class="lede">
-        Experience the Divine Presence of Sacred Shrines, Vedic Wisdom, and Timeless
-        Cosmic Traditions woven for modern spiritual seekers.
-    </p>
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
 
-    <div class="hero-actions">
-        <a class="btn btn-gold" href="#pujas"><i class="ph ph-flower-lotus"></i> Explore Sacred Pujas</a>
-        <a class="btn btn-ghost" href="https://futureforyou.co/articles"><i class="ph ph-book-open-text"></i> Read Ancient Wisdom</a>
-        <a class="btn btn-app" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get the AstroShrine app on Google Play">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
-            <span><small>Get the app on</small>Google Play</span>
-        </a>
+                        <span><small>Get the app on</small>Google Play</span>
+
+                    </a>
+                        <a class="btn btn-gold" href="home.html"><i class="ph ph-chat-circle-dots"></i> Talk to an Astrologer</a>
+                    </div>
+                </div>
+                <div class="hs-visual" aria-hidden="true">
+                    <div class="hs-devices">
+                        <svg class="hs-wheel" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hsGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset=".5" stop-color="#F0C43A"/><stop offset="1" stop-color="#E89B3B"/></linearGradient><radialGradient id="hsSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF3C4"/><stop offset=".55" stop-color="#F0C43A"/><stop offset="1" stop-color="#C45C26"/></radialGradient></defs><g fill="none" stroke="url(#hsGold)"><circle cx="200" cy="200" r="196" stroke-width="1.5" opacity="0.9"/><circle cx="200" cy="200" r="168" stroke-width="1" opacity="0.7"/><circle cx="200" cy="200" r="120" stroke-width="1" opacity="0.6"/><circle cx="200" cy="200" r="66" stroke-width="1" opacity="0.5"/><line x1="200.0" y1="80.0" x2="200.0" y2="4.0" stroke-width="1" opacity=".55"/><line x1="260.0" y1="96.1" x2="298.0" y2="30.3" stroke-width="1" opacity=".55"/><line x1="303.9" y1="140.0" x2="369.7" y2="102.0" stroke-width="1" opacity=".55"/><line x1="320.0" y1="200.0" x2="396.0" y2="200.0" stroke-width="1" opacity=".55"/><line x1="303.9" y1="260.0" x2="369.7" y2="298.0" stroke-width="1" opacity=".55"/><line x1="260.0" y1="303.9" x2="298.0" y2="369.7" stroke-width="1" opacity=".55"/><line x1="200.0" y1="320.0" x2="200.0" y2="396.0" stroke-width="1" opacity=".55"/><line x1="140.0" y1="303.9" x2="102.0" y2="369.7" stroke-width="1" opacity=".55"/><line x1="96.1" y1="260.0" x2="30.3" y2="298.0" stroke-width="1" opacity=".55"/><line x1="80.0" y1="200.0" x2="4.0" y2="200.0" stroke-width="1" opacity=".55"/><line x1="96.1" y1="140.0" x2="30.3" y2="102.0" stroke-width="1" opacity=".55"/><line x1="140.0" y1="96.1" x2="102.0" y2="30.3" stroke-width="1" opacity=".55"/><line x1="396.0" y1="200.0" x2="388.0" y2="200.0" stroke-width="1" opacity=".6"/><line x1="395.3" y1="217.1" x2="391.3" y2="216.7" stroke-width="1" opacity=".6"/><line x1="393.0" y1="234.0" x2="389.1" y2="233.3" stroke-width="1" opacity=".6"/><line x1="389.3" y1="250.7" x2="385.5" y2="249.7" stroke-width="1" opacity=".6"/><line x1="384.2" y1="267.0" x2="380.4" y2="265.7" stroke-width="1" opacity=".6"/><line x1="377.6" y1="282.8" x2="374.0" y2="281.1" stroke-width="1" opacity=".6"/><line x1="369.7" y1="298.0" x2="362.8" y2="294.0" stroke-width="1" opacity=".6"/><line x1="360.6" y1="312.4" x2="357.3" y2="310.1" stroke-width="1" opacity=".6"/><line x1="350.1" y1="326.0" x2="347.1" y2="323.4" stroke-width="1" opacity=".6"/><line x1="338.6" y1="338.6" x2="335.8" y2="335.8" stroke-width="1" opacity=".6"/><line x1="326.0" y1="350.1" x2="323.4" y2="347.1" stroke-width="1" opacity=".6"/><line x1="312.4" y1="360.6" x2="310.1" y2="357.3" stroke-width="1" opacity=".6"/><line x1="298.0" y1="369.7" x2="294.0" y2="362.8" stroke-width="1" opacity=".6"/><line x1="282.8" y1="377.6" x2="281.1" y2="374.0" stroke-width="1" opacity=".6"/><line x1="267.0" y1="384.2" x2="265.7" y2="380.4" stroke-width="1" opacity=".6"/><line x1="250.7" y1="389.3" x2="249.7" y2="385.5" stroke-width="1" opacity=".6"/><line x1="234.0" y1="393.0" x2="233.3" y2="389.1" stroke-width="1" opacity=".6"/><line x1="217.1" y1="395.3" x2="216.7" y2="391.3" stroke-width="1" opacity=".6"/><line x1="200.0" y1="396.0" x2="200.0" y2="388.0" stroke-width="1" opacity=".6"/><line x1="182.9" y1="395.3" x2="183.3" y2="391.3" stroke-width="1" opacity=".6"/><line x1="166.0" y1="393.0" x2="166.7" y2="389.1" stroke-width="1" opacity=".6"/><line x1="149.3" y1="389.3" x2="150.3" y2="385.5" stroke-width="1" opacity=".6"/><line x1="133.0" y1="384.2" x2="134.3" y2="380.4" stroke-width="1" opacity=".6"/><line x1="117.2" y1="377.6" x2="118.9" y2="374.0" stroke-width="1" opacity=".6"/><line x1="102.0" y1="369.7" x2="106.0" y2="362.8" stroke-width="1" opacity=".6"/><line x1="87.6" y1="360.6" x2="89.9" y2="357.3" stroke-width="1" opacity=".6"/><line x1="74.0" y1="350.1" x2="76.6" y2="347.1" stroke-width="1" opacity=".6"/><line x1="61.4" y1="338.6" x2="64.2" y2="335.8" stroke-width="1" opacity=".6"/><line x1="49.9" y1="326.0" x2="52.9" y2="323.4" stroke-width="1" opacity=".6"/><line x1="39.4" y1="312.4" x2="42.7" y2="310.1" stroke-width="1" opacity=".6"/><line x1="30.3" y1="298.0" x2="37.2" y2="294.0" stroke-width="1" opacity=".6"/><line x1="22.4" y1="282.8" x2="26.0" y2="281.1" stroke-width="1" opacity=".6"/><line x1="15.8" y1="267.0" x2="19.6" y2="265.7" stroke-width="1" opacity=".6"/><line x1="10.7" y1="250.7" x2="14.5" y2="249.7" stroke-width="1" opacity=".6"/><line x1="7.0" y1="234.0" x2="10.9" y2="233.3" stroke-width="1" opacity=".6"/><line x1="4.7" y1="217.1" x2="8.7" y2="216.7" stroke-width="1" opacity=".6"/><line x1="4.0" y1="200.0" x2="12.0" y2="200.0" stroke-width="1" opacity=".6"/><line x1="4.7" y1="182.9" x2="8.7" y2="183.3" stroke-width="1" opacity=".6"/><line x1="7.0" y1="166.0" x2="10.9" y2="166.7" stroke-width="1" opacity=".6"/><line x1="10.7" y1="149.3" x2="14.5" y2="150.3" stroke-width="1" opacity=".6"/><line x1="15.8" y1="133.0" x2="19.6" y2="134.3" stroke-width="1" opacity=".6"/><line x1="22.4" y1="117.2" x2="26.0" y2="118.9" stroke-width="1" opacity=".6"/><line x1="30.3" y1="102.0" x2="37.2" y2="106.0" stroke-width="1" opacity=".6"/><line x1="39.4" y1="87.6" x2="42.7" y2="89.9" stroke-width="1" opacity=".6"/><line x1="49.9" y1="74.0" x2="52.9" y2="76.6" stroke-width="1" opacity=".6"/><line x1="61.4" y1="61.4" x2="64.2" y2="64.2" stroke-width="1" opacity=".6"/><line x1="74.0" y1="49.9" x2="76.6" y2="52.9" stroke-width="1" opacity=".6"/><line x1="87.6" y1="39.4" x2="89.9" y2="42.7" stroke-width="1" opacity=".6"/><line x1="102.0" y1="30.3" x2="106.0" y2="37.2" stroke-width="1" opacity=".6"/><line x1="117.2" y1="22.4" x2="118.9" y2="26.0" stroke-width="1" opacity=".6"/><line x1="133.0" y1="15.8" x2="134.3" y2="19.6" stroke-width="1" opacity=".6"/><line x1="149.3" y1="10.7" x2="150.3" y2="14.5" stroke-width="1" opacity=".6"/><line x1="166.0" y1="7.0" x2="166.7" y2="10.9" stroke-width="1" opacity=".6"/><line x1="182.9" y1="4.7" x2="183.3" y2="8.7" stroke-width="1" opacity=".6"/><line x1="200.0" y1="4.0" x2="200.0" y2="12.0" stroke-width="1" opacity=".6"/><line x1="217.1" y1="4.7" x2="216.7" y2="8.7" stroke-width="1" opacity=".6"/><line x1="234.0" y1="7.0" x2="233.3" y2="10.9" stroke-width="1" opacity=".6"/><line x1="250.7" y1="10.7" x2="249.7" y2="14.5" stroke-width="1" opacity=".6"/><line x1="267.0" y1="15.8" x2="265.7" y2="19.6" stroke-width="1" opacity=".6"/><line x1="282.8" y1="22.4" x2="281.1" y2="26.0" stroke-width="1" opacity=".6"/><line x1="298.0" y1="30.3" x2="294.0" y2="37.2" stroke-width="1" opacity=".6"/><line x1="312.4" y1="39.4" x2="310.1" y2="42.7" stroke-width="1" opacity=".6"/><line x1="326.0" y1="49.9" x2="323.4" y2="52.9" stroke-width="1" opacity=".6"/><line x1="338.6" y1="61.4" x2="335.8" y2="64.2" stroke-width="1" opacity=".6"/><line x1="350.1" y1="74.0" x2="347.1" y2="76.6" stroke-width="1" opacity=".6"/><line x1="360.6" y1="87.6" x2="357.3" y2="89.9" stroke-width="1" opacity=".6"/><line x1="369.7" y1="102.0" x2="362.8" y2="106.0" stroke-width="1" opacity=".6"/><line x1="377.6" y1="117.2" x2="374.0" y2="118.9" stroke-width="1" opacity=".6"/><line x1="384.2" y1="133.0" x2="380.4" y2="134.3" stroke-width="1" opacity=".6"/><line x1="389.3" y1="149.3" x2="385.5" y2="150.3" stroke-width="1" opacity=".6"/><line x1="393.0" y1="166.0" x2="389.1" y2="166.7" stroke-width="1" opacity=".6"/><line x1="395.3" y1="182.9" x2="391.3" y2="183.3" stroke-width="1" opacity=".6"/><polygon points="200.0,80.0 260.0,303.9 96.1,140.0 320.0,200.0 96.1,260.0 260.0,96.1 200.0,320.0 140.0,96.1 303.9,260.0 80.0,200.0 303.9,140.0 140.0,303.9" stroke-width=".8" opacity=".35"/></g><g font-size="26" fill="url(#hsGold)" text-anchor="middle" dominant-baseline="central" font-family="Segoe UI Symbol,Noto Sans Symbols,sans-serif"><text x="237.3" y="60.9">♈&#xFE0E;</text><text x="301.8" y="98.2">♉&#xFE0E;</text><text x="339.1" y="162.7">♊&#xFE0E;</text><text x="339.1" y="237.3">♋&#xFE0E;</text><text x="301.8" y="301.8">♌&#xFE0E;</text><text x="237.3" y="339.1">♍&#xFE0E;</text><text x="162.7" y="339.1">♎&#xFE0E;</text><text x="98.2" y="301.8">♏&#xFE0E;</text><text x="60.9" y="237.3">♐&#xFE0E;</text><text x="60.9" y="162.7">♑&#xFE0E;</text><text x="98.2" y="98.2">♒&#xFE0E;</text><text x="162.7" y="60.9">♓&#xFE0E;</text></g><circle cx="200" cy="200" r="44" fill="url(#hsSun)"/><g stroke="#F0C43A" stroke-width="2" stroke-linecap="round"><line x1="250.0" y1="200.0" x2="262.0" y2="200.0"/><line x1="246.2" y1="219.1" x2="252.7" y2="221.8"/><line x1="235.4" y1="235.4" x2="243.8" y2="243.8"/><line x1="219.1" y1="246.2" x2="221.8" y2="252.7"/><line x1="200.0" y1="250.0" x2="200.0" y2="262.0"/><line x1="180.9" y1="246.2" x2="178.2" y2="252.7"/><line x1="164.6" y1="235.4" x2="156.2" y2="243.8"/><line x1="153.8" y1="219.1" x2="147.3" y2="221.8"/><line x1="150.0" y1="200.0" x2="138.0" y2="200.0"/><line x1="153.8" y1="180.9" x2="147.3" y2="178.2"/><line x1="164.6" y1="164.6" x2="156.2" y2="156.2"/><line x1="180.9" y1="153.8" x2="178.2" y2="147.3"/><line x1="200.0" y1="150.0" x2="200.0" y2="138.0"/><line x1="219.1" y1="153.8" x2="221.8" y2="147.3"/><line x1="235.4" y1="164.6" x2="243.8" y2="156.2"/><line x1="246.2" y1="180.9" x2="252.7" y2="178.2"/></g></svg>
+                        <div class="hs-phone hs-phone--back"><img src="assets/phone-ai.webp" alt=""></div>
+                        <div class="hs-phone hs-phone--front"><img src="assets/phone-home.webp" alt=""></div>
+                        <span class="hs-float f1"><i class="ph-fill ph-star"></i> 4.9 seeker rating</span>
+                        <span class="hs-float f2"><i class="ph ph-moon-stars"></i> Free Kundli</span>
+                        <span class="hs-float f3"><i class="ph-fill ph-circle"></i> Astrologers online now</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 2 · Temples -->
+        <article class="hs-slide" data-theme="temple" aria-roledescription="slide" aria-label="2 of 3">
+            <div class="hs-bg" style="background-image:url('images/hero-temple.webp')"></div>
+            <div class="hs-inner">
+                <div class="hs-copy">
+                    <span class="hs-chip"><i class="ph-fill ph-broadcast"></i> Sacred Rituals &middot; Shri Mahakal Dham</span>
+                    <span class="hs-orn" aria-hidden="true"><i></i>&#x2756;<i></i></span>
+                    <h1>Divine Blessings, <em>Delivered with Devotion</em></h1>
+                    <p>Book authentic pujas and aartis through AstroShrine &mdash; performed by temple priests in your name, streamed live to your phone, with sanctified prasad sent to your doorstep.</p>
+                    <div class="hs-actions">
+                        <a class="btn btn-gold" href="https://shrimahakaldham.com/front_controller"><i class="ph ph-flower-lotus"></i> Book a Puja</a>
+                        <a class="btn btn-ghost" href="#pujas"><i class="ph ph-hands-praying"></i> Explore Offerings</a>
+                    </div>
+                </div>
+                <div class="hs-visual" aria-hidden="true">
+                    <div class="hs-devices hs-duo">
+                        <figure class="hs-card hs-card--front">
+                            <img src="images/hero-temple.webp" alt="">
+                            <figcaption class="hs-frame-cap"><b>Shri Mahakal Dham</b><small>Amleshwar, Chhattisgarh</small></figcaption>
+                        </figure>
+                        <figure class="hs-card hs-card--back">
+                            <img src="https://shrimahakaldham.com/uploads/product_files/18/6b827dffe1500957a885bdc95d5d898b.jpeg" alt="" loading="lazy">
+                            <span class="hs-live"><i></i> LIVE</span>
+                            <figcaption class="hs-frame-cap"><b>Puja in Your Name</b><small>Sankalp with your name &amp; gotra</small></figcaption>
+                        </figure>
+                        <span class="hs-float f1"><i class="ph-fill ph-flower-lotus"></i> Puja in your name</span>
+                        <span class="hs-float f2"><i class="ph ph-package"></i> Prasad at your door</span>
+                        <span class="hs-float f3"><i class="ph-fill ph-circle"></i> Live from the temple</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 3 · Articles -->
+        <article class="hs-slide" data-theme="wisdom" aria-roledescription="slide" aria-label="3 of 3">
+            <div class="hs-bg" style="background-image:url('images/hero-article.webp')"></div>
+            <div class="hs-inner">
+                <div class="hs-copy">
+                    <span class="hs-chip"><i class="ph ph-book-open-text"></i> Sanatan Jnana &middot; Future For You</span>
+                    <span class="hs-orn" aria-hidden="true"><i></i>&#x2756;<i></i></span>
+                    <h1>Timeless Wisdom, <em>Beautifully Told</em></h1>
+                    <p>Stotrams, scriptures, festival guides and the monthly Future For You magazine &mdash; the knowledge of the rishis, curated by AstroShrine for the modern seeker.</p>
+                    <div class="hs-actions">
+                        <a class="btn btn-gold" href="https://futureforyou.co/articles"><i class="ph ph-book-open"></i> Read Articles</a>
+                        <a class="btn btn-ghost" href="https://futureforyou.co"><i class="ph ph-newspaper"></i> The Magazine</a>
+                    </div>
+                </div>
+                <div class="hs-visual" aria-hidden="true">
+                    <div class="hs-devices hs-duo">
+                        <figure class="hs-card hs-card--front hs-card--mag">
+                            <img src="images/hero-article.webp" alt="">
+                            <figcaption class="hs-frame-cap"><b>Future For You</b><small>Monthly Jyotish &amp; Karmakand Patrika</small></figcaption>
+                        </figure>
+                        <div class="hs-card hs-card--back hs-read">
+                            <div class="hs-read-head"><i class="ph ph-book-open-text"></i> Latest Articles</div>
+                            <a class="hs-read-feat" href="https://futureforyou.co/astrological-solution/if-there-is-an-obstacle-in-marriage-then-do-astrological-remedies" target="_blank" rel="noopener" tabindex="-1">
+                                <img src="https://futureforyou.co/wp-content/uploads/2022/11/14_06_2022-wedding_22803068-768x432.jpg" alt="" loading="lazy">
+                                <b lang="hi">शादी में आ रही रुकावट? तो करें ये ज्योतिष उपाय</b>
+                            </a>
+                            <a class="hs-read-row" href="https://futureforyou.co/astrological-solution/obstacles-in-marriage-then-do-this-remedy" target="_blank" rel="noopener" tabindex="-1">
+                                <img src="https://futureforyou.co/wp-content/uploads/2025/12/vivah-mantra_fb0ebb7a7384614a48b93c27a6b1a48e-e1766643270743-768x391.webp" alt="" loading="lazy">
+                                <span lang="hi">शादी में बाधा? तो करें ये उपाय</span>
+                            </a>
+                            <a class="hs-read-row" href="https://futureforyou.co/other/do-you-have-kaal-sarp-in-your-horoscope-learn-about-the-symptoms-causes-and-the-right-way-to-pacify-them" target="_blank" rel="noopener" tabindex="-1">
+                                <img src="https://futureforyou.co/wp-content/uploads/2025/12/768-512-17771875-thumbnail-4x3-shahdol.jpg" alt="" loading="lazy">
+                                <span lang="hi">क्या आपकी कुंडली में है कालसर्प?</span>
+                            </a>
+                            <a class="hs-read-btn" href="https://futureforyou.co/articles" target="_blank" rel="noopener" tabindex="-1">Read Articles <i class="ph ph-arrow-right"></i></a>
+                        </div>
+                        <span class="hs-float f1"><i class="ph-fill ph-star"></i> New issue every month</span>
+                        <span class="hs-float f2"><i class="ph ph-translate"></i> Hindi articles</span>
+                        <span class="hs-float f3"><i class="ph-fill ph-circle"></i> Free to read</span>
+                    </div>
+                </div>
+            </div>
+        </article>
     </div>
 
-    <div class="stats">
+    <!-- divine atmosphere: god-rays, mandala, Om, rising embers (decor only) -->
+    <div class="hs-divine" aria-hidden="true">
+        <div class="hs-rays"></div>
+        <svg class="hs-mandala" viewBox="0 0 600 600" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="300" cy="300" r="40"/><circle cx="300" cy="300" r="70"/><circle cx="300" cy="300" r="120"/><circle cx="300" cy="300" r="175"/><circle cx="300" cy="300" r="230"/><circle cx="300" cy="300" r="290"/><path d="M338.0,287.6 Q368.8,262.2 410.0,300.0 Q368.8,337.8 338.0,312.4"/><path d="M335.6,318.2 Q375.4,321.9 377.8,377.8 Q321.9,375.4 318.2,335.6"/><path d="M312.4,338.0 Q337.8,368.8 300.0,410.0 Q262.2,368.8 287.6,338.0"/><path d="M281.8,335.6 Q278.1,375.4 222.2,377.8 Q224.6,321.9 264.4,318.2"/><path d="M262.0,312.4 Q231.2,337.8 190.0,300.0 Q231.2,262.2 262.0,287.6"/><path d="M264.4,281.8 Q224.6,278.1 222.2,222.2 Q278.1,224.6 281.8,264.4"/><path d="M287.6,262.0 Q262.2,231.2 300.0,190.0 Q337.8,231.2 312.4,262.0"/><path d="M318.2,264.4 Q321.9,224.6 377.8,222.2 Q375.4,278.1 335.6,281.8"/><path d="M419.9,304.7 Q447.3,291.9 466.7,333.2 Q433.0,363.8 412.6,341.5"/><path d="M409.0,350.2 Q439.2,348.9 441.3,394.4 Q398.4,409.9 388.1,381.5"/><path d="M381.5,388.1 Q409.9,398.4 394.4,441.3 Q348.9,439.2 350.2,409.0"/><path d="M341.5,412.6 Q363.8,433.0 333.2,466.7 Q291.9,447.3 304.7,419.9"/><path d="M295.3,419.9 Q308.1,447.3 266.8,466.7 Q236.2,433.0 258.5,412.6"/><path d="M249.8,409.0 Q251.1,439.2 205.6,441.3 Q190.1,398.4 218.5,388.1"/><path d="M211.9,381.5 Q201.6,409.9 158.7,394.4 Q160.8,348.9 191.0,350.2"/><path d="M187.4,341.5 Q167.0,363.8 133.3,333.2 Q152.7,291.9 180.1,304.7"/><path d="M180.1,295.3 Q152.7,308.1 133.3,266.8 Q167.0,236.2 187.4,258.5"/><path d="M191.0,249.8 Q160.8,251.1 158.7,205.6 Q201.6,190.1 211.9,218.5"/><path d="M218.5,211.9 Q190.1,201.6 205.6,158.7 Q251.1,160.8 249.8,191.0"/><path d="M258.5,187.4 Q236.2,167.0 266.8,133.3 Q308.1,152.7 295.3,180.1"/><path d="M304.7,180.1 Q291.9,152.7 333.2,133.3 Q363.8,167.0 341.5,187.4"/><path d="M350.2,191.0 Q348.9,160.8 394.4,158.7 Q409.9,201.6 381.5,211.9"/><path d="M388.1,218.5 Q398.4,190.1 441.3,205.6 Q439.2,251.1 409.0,249.8"/><path d="M412.6,258.5 Q433.0,236.2 466.7,266.8 Q447.3,308.1 419.9,295.3"/><path d="M474.0,281.7 Q501.3,266.0 528.0,300.0 Q501.3,334.0 474.0,318.3"/><path d="M472.8,327.4 Q503.2,319.2 520.2,359.0 Q485.6,385.0 463.4,362.7"/><path d="M459.9,371.2 Q491.3,371.2 497.5,414.0 Q457.3,430.1 441.6,402.9"/><path d="M436.0,410.1 Q466.4,418.3 461.2,461.2 Q418.3,466.4 410.1,436.0"/><path d="M402.9,441.6 Q430.1,457.3 414.0,497.5 Q371.2,491.3 371.2,459.9"/><path d="M362.7,463.4 Q385.0,485.6 359.0,520.2 Q319.2,503.2 327.4,472.8"/><path d="M318.3,474.0 Q334.0,501.3 300.0,528.0 Q266.0,501.3 281.7,474.0"/><path d="M272.6,472.8 Q280.8,503.2 241.0,520.2 Q215.0,485.6 237.3,463.4"/><path d="M228.8,459.9 Q228.8,491.3 186.0,497.5 Q169.9,457.3 197.1,441.6"/><path d="M189.9,436.0 Q181.7,466.4 138.8,461.2 Q133.6,418.3 164.0,410.1"/><path d="M158.4,402.9 Q142.7,430.1 102.5,414.0 Q108.7,371.2 140.1,371.2"/><path d="M136.6,362.7 Q114.4,385.0 79.8,359.0 Q96.8,319.2 127.2,327.4"/><path d="M126.0,318.3 Q98.7,334.0 72.0,300.0 Q98.7,266.0 126.0,281.7"/><path d="M127.2,272.6 Q96.8,280.8 79.8,241.0 Q114.4,215.0 136.6,237.3"/><path d="M140.1,228.8 Q108.7,228.8 102.5,186.0 Q142.7,169.9 158.4,197.1"/><path d="M164.0,189.9 Q133.6,181.7 138.8,138.8 Q181.7,133.6 189.9,164.0"/><path d="M197.1,158.4 Q169.9,142.7 186.0,102.5 Q228.8,108.7 228.8,140.1"/><path d="M237.3,136.6 Q215.0,114.4 241.0,79.8 Q280.8,96.8 272.6,127.2"/><path d="M281.7,126.0 Q266.0,98.7 300.0,72.0 Q334.0,98.7 318.3,126.0"/><path d="M327.4,127.2 Q319.2,96.8 359.0,79.8 Q385.0,114.4 362.7,136.6"/><path d="M371.2,140.1 Q371.2,108.7 414.0,102.5 Q430.1,142.7 402.9,158.4"/><path d="M410.1,164.0 Q418.3,133.6 461.2,138.8 Q466.4,181.7 436.0,189.9"/><path d="M441.6,197.1 Q457.3,169.9 497.5,186.0 Q491.3,228.8 459.9,228.8"/><path d="M463.4,237.3 Q485.6,215.0 520.2,241.0 Q503.2,280.8 472.8,272.6"/><path d="M530.0,304.0 Q560.7,293.6 584.9,324.9 Q555.7,351.5 527.2,336.0"/><path d="M525.8,343.9 Q557.9,339.0 576.3,374.0 Q542.8,395.2 517.5,374.9"/><path d="M514.7,382.4 Q547.2,383.2 559.2,420.9 Q522.6,435.9 501.2,411.5"/><path d="M497.1,418.5 Q529.0,424.8 534.3,464.0 Q495.6,472.5 478.7,444.7"/><path d="M473.6,450.9 Q503.8,462.7 502.2,502.2 Q462.7,503.8 450.9,473.6"/><path d="M444.7,478.7 Q472.5,495.6 464.0,534.3 Q424.8,529.0 418.5,497.1"/><path d="M411.5,501.2 Q435.9,522.6 420.9,559.2 Q383.2,547.2 382.4,514.7"/><path d="M374.9,517.5 Q395.2,542.8 374.0,576.3 Q339.0,557.9 343.9,525.8"/><path d="M336.0,527.2 Q351.5,555.7 324.9,584.9 Q293.6,560.7 304.0,530.0"/><path d="M296.0,530.0 Q306.4,560.7 275.1,584.9 Q248.5,555.7 264.0,527.2"/><path d="M256.1,525.8 Q261.0,557.9 226.0,576.3 Q204.8,542.8 225.1,517.5"/><path d="M217.6,514.7 Q216.8,547.2 179.1,559.2 Q164.1,522.6 188.5,501.2"/><path d="M181.5,497.1 Q175.2,529.0 136.0,534.3 Q127.5,495.6 155.3,478.7"/><path d="M149.1,473.6 Q137.3,503.8 97.8,502.2 Q96.2,462.7 126.4,450.9"/><path d="M121.3,444.7 Q104.4,472.5 65.7,464.0 Q71.0,424.8 102.9,418.5"/><path d="M98.8,411.5 Q77.4,435.9 40.8,420.9 Q52.8,383.2 85.3,382.4"/><path d="M82.5,374.9 Q57.2,395.2 23.7,374.0 Q42.1,339.0 74.2,343.9"/><path d="M72.8,336.0 Q44.3,351.5 15.1,324.9 Q39.3,293.6 70.0,304.0"/><path d="M70.0,296.0 Q39.3,306.4 15.1,275.1 Q44.3,248.5 72.8,264.0"/><path d="M74.2,256.1 Q42.1,261.0 23.7,226.0 Q57.2,204.8 82.5,225.1"/><path d="M85.3,217.6 Q52.8,216.8 40.8,179.1 Q77.4,164.1 98.8,188.5"/><path d="M102.9,181.5 Q71.0,175.2 65.7,136.0 Q104.4,127.5 121.3,155.3"/><path d="M126.4,149.1 Q96.2,137.3 97.8,97.8 Q137.3,96.2 149.1,126.4"/><path d="M155.3,121.3 Q127.5,104.4 136.0,65.7 Q175.2,71.0 181.5,102.9"/><path d="M188.5,98.8 Q164.1,77.4 179.1,40.8 Q216.8,52.8 217.6,85.3"/><path d="M225.1,82.5 Q204.8,57.2 226.0,23.7 Q261.0,42.1 256.1,74.2"/><path d="M264.0,72.8 Q248.5,44.3 275.1,15.1 Q306.4,39.3 296.0,70.0"/><path d="M304.0,70.0 Q293.6,39.3 324.9,15.1 Q351.5,44.3 336.0,72.8"/><path d="M343.9,74.2 Q339.0,42.1 374.0,23.7 Q395.2,57.2 374.9,82.5"/><path d="M382.4,85.3 Q383.2,52.8 420.9,40.8 Q435.9,77.4 411.5,98.8"/><path d="M418.5,102.9 Q424.8,71.0 464.0,65.7 Q472.5,104.4 444.7,121.3"/><path d="M450.9,126.4 Q462.7,96.2 502.2,97.8 Q503.8,137.3 473.6,149.1"/><path d="M478.7,155.3 Q495.6,127.5 534.3,136.0 Q529.0,175.2 497.1,181.5"/><path d="M501.2,188.5 Q522.6,164.1 559.2,179.1 Q547.2,216.8 514.7,217.6"/><path d="M517.5,225.1 Q542.8,204.8 576.3,226.0 Q557.9,261.0 525.8,256.1"/><path d="M527.2,264.0 Q555.7,248.5 584.9,275.1 Q560.7,306.4 530.0,296.0"/></g><g fill="currentColor"><circle cx="598.0" cy="300.0" r="1.6"/><circle cx="595.5" cy="338.9" r="1.6"/><circle cx="587.8" cy="377.1" r="1.6"/><circle cx="575.3" cy="414.0" r="1.6"/><circle cx="558.1" cy="449.0" r="1.6"/><circle cx="536.4" cy="481.4" r="1.6"/><circle cx="510.7" cy="510.7" r="1.6"/><circle cx="481.4" cy="536.4" r="1.6"/><circle cx="449.0" cy="558.1" r="1.6"/><circle cx="414.0" cy="575.3" r="1.6"/><circle cx="377.1" cy="587.8" r="1.6"/><circle cx="338.9" cy="595.5" r="1.6"/><circle cx="300.0" cy="598.0" r="1.6"/><circle cx="261.1" cy="595.5" r="1.6"/><circle cx="222.9" cy="587.8" r="1.6"/><circle cx="186.0" cy="575.3" r="1.6"/><circle cx="151.0" cy="558.1" r="1.6"/><circle cx="118.6" cy="536.4" r="1.6"/><circle cx="89.3" cy="510.7" r="1.6"/><circle cx="63.6" cy="481.4" r="1.6"/><circle cx="41.9" cy="449.0" r="1.6"/><circle cx="24.7" cy="414.0" r="1.6"/><circle cx="12.2" cy="377.1" r="1.6"/><circle cx="4.5" cy="338.9" r="1.6"/><circle cx="2.0" cy="300.0" r="1.6"/><circle cx="4.5" cy="261.1" r="1.6"/><circle cx="12.2" cy="222.9" r="1.6"/><circle cx="24.7" cy="186.0" r="1.6"/><circle cx="41.9" cy="151.0" r="1.6"/><circle cx="63.6" cy="118.6" r="1.6"/><circle cx="89.3" cy="89.3" r="1.6"/><circle cx="118.6" cy="63.6" r="1.6"/><circle cx="151.0" cy="41.9" r="1.6"/><circle cx="186.0" cy="24.7" r="1.6"/><circle cx="222.9" cy="12.2" r="1.6"/><circle cx="261.1" cy="4.5" r="1.6"/><circle cx="300.0" cy="2.0" r="1.6"/><circle cx="338.9" cy="4.5" r="1.6"/><circle cx="377.1" cy="12.2" r="1.6"/><circle cx="414.0" cy="24.7" r="1.6"/><circle cx="449.0" cy="41.9" r="1.6"/><circle cx="481.4" cy="63.6" r="1.6"/><circle cx="510.7" cy="89.3" r="1.6"/><circle cx="536.4" cy="118.6" r="1.6"/><circle cx="558.1" cy="151.0" r="1.6"/><circle cx="575.3" cy="186.0" r="1.6"/><circle cx="587.8" cy="222.9" r="1.6"/><circle cx="595.5" cy="261.1" r="1.6"/><circle cx="415.0" cy="300.0" r="2"/><circle cx="406.2" cy="344.0" r="2"/><circle cx="381.3" cy="381.3" r="2"/><circle cx="344.0" cy="406.2" r="2"/><circle cx="300.0" cy="415.0" r="2"/><circle cx="256.0" cy="406.2" r="2"/><circle cx="218.7" cy="381.3" r="2"/><circle cx="193.8" cy="344.0" r="2"/><circle cx="185.0" cy="300.0" r="2"/><circle cx="193.8" cy="256.0" r="2"/><circle cx="218.7" cy="218.7" r="2"/><circle cx="256.0" cy="193.8" r="2"/><circle cx="300.0" cy="185.0" r="2"/><circle cx="344.0" cy="193.8" r="2"/><circle cx="381.3" cy="218.7" r="2"/><circle cx="406.2" cy="256.0" r="2"/></g></svg>
+        <span class="hs-om">&#x0950;</span>
+        <div class="hs-embers"></div>
+    </div>
+
+    <!-- controls -->
+    <div class="hs-controls">
+        <div class="hs-tabs" role="tablist">
+            <button class="hs-tab is-active" role="tab" aria-selected="true" data-i="0"><span class="hs-bar"><i></i></span><b>Astrology</b></button>
+            <button class="hs-tab" role="tab" aria-selected="false" data-i="1"><span class="hs-bar"><i></i></span><b>Temples</b></button>
+            <button class="hs-tab" role="tab" aria-selected="false" data-i="2"><span class="hs-bar"><i></i></span><b>Wisdom</b></button>
+        </div>
+        <div class="hs-arrows">
+            <button class="hs-arrow" data-dir="-1" aria-label="Previous slide"><i class="ph ph-caret-left"></i></button>
+            <button class="hs-arrow" data-dir="1" aria-label="Next slide"><i class="ph ph-caret-right"></i></button>
+        </div>
+    </div>
+
+    <div class="stats hs-stats">
         <div class="stat"><strong>500+</strong><span>Verified Temples</span></div>
         <div class="stat"><strong>1.2M+</strong><span>Devotees Blessed</span></div>
         <div class="stat"><strong>100%</strong><span>Vedic Rituals</span></div>
@@ -90,52 +214,111 @@
     <a class="btn btn-outline btn-sm" href="home.html">View Kundli Chart <i class="ph ph-arrow-right"></i></a>
 </section>
 
-<!-- ============ PORTALS ============ -->
-<section class="section reveal" id="portals">
-    <div class="section-head">
-        <div>
-            <span class="kicker">&bull; Timeless Sanctuaries</span>
-            <h2>Sacred Portals to the Infinite</h2>
-        </div>
-        <p class="section-note">
-            Immerse in three sacred pathways: consecrate sanctified rituals,
-            absorb deep Vedic wisdom, and decode celestial destinies.
-        </p>
+<!-- ============ SERVICES ============ -->
+<section class="section svc reveal" id="services">
+    <div class="center-head">
+        <span class="kicker">&bull; Everything in one app</span>
+        <h2>One App. Every Sacred Need.</h2>
+        <p class="svc-sub">From your first question to prasad at your door &mdash; it all lives inside AstroShrine.</p>
     </div>
 
-    <div class="portals">
-        <a class="portal" href="https://shrimahakaldham.com/front_controller">
-            <div class="portal-img" style="background-image:url('images/imgmandir.jpeg')">
-                <span class="tag"><i class="ph-fill ph-broadcast"></i> Live Darshan</span>
-            </div>
-            <div class="portal-body">
-                <h3>Sacred Temples</h3>
-                <p>Experience sacred temples, rituals, sanctified daily aartis, and receive consecrated divine prasad directly to your doorstep.</p>
-                <span class="btn btn-gold btn-block">Book Your Puja <i class="ph ph-arrow-right"></i></span>
-            </div>
+    <div class="svc-grid">
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-chat-circle-dots"></i></span>
+            <b>Chat with Astrologer</b><small>Type your question, get answers in minutes</small>
+            <em class="svc-tag hot">Most used</em>
         </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-phone-call"></i></span>
+            <b>Call an Astrologer</b><small>Speak one-on-one, pay only per minute</small>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-broadcast"></i></span>
+            <b>Live Astrologers</b><small>Join live sessions and ask on air</small>
+            <em class="svc-tag live"><i></i> Live</em>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-sparkle"></i></span>
+            <b>AI Astrologer</b><small>Instant Vedic insight from your chart, 24&times;7</small>
+            <em class="svc-tag">New</em>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-sun-horizon"></i></span>
+            <b>Free Kundli</b><small>Your Janam Kundli, read bhav by bhav</small>
+            <em class="svc-tag free">Free</em>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-heart"></i></span>
+            <b>Kundli Matching</b><small>Guna milan for marriage, in seconds</small>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-sun"></i></span>
+            <b>Daily Horoscope</b><small>What today holds for your rashi</small>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-calendar-star"></i></span>
+            <b>Shubh Muhurat</b><small>Auspicious timings for every new beginning</small>
+        </a>
+        <a class="svc-card" href="https://shrimahakaldham.com/front_controller" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-flower-lotus"></i></span>
+            <b>Book a Puja</b><small>Temple priests, your sankalp, prasad home</small>
+        </a>
+        <a class="svc-card" href="https://astrogems.astroshrine.in" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-diamond"></i></span>
+            <b>Gemstones &amp; Rudraksha</b><small>Genuine stones and malas, delivered</small>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-house-line"></i></span>
+            <b>Vastu Chakra</b><small>Map your home plan to the 16 Vastu zones</small>
+        </a>
+        <a class="svc-card" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">
+            <span class="svc-ico"><i class="ph ph-magnifying-glass"></i></span>
+            <b>Khoya Paya</b><small>Lost something? Ask the stars where</small>
+        </a>
+    </div>
+</section>
 
-        <a class="portal" href="https://futureforyou.co/articles">
-            <div class="portal-img" style="background-image:url('images/article.png')">
-                <span class="tag"><i class="ph ph-book-open-text"></i> Sanatan Jnana</span>
-            </div>
-            <div class="portal-body">
-                <h3>Vedic Wisdom</h3>
-                <p>Discover timeless spiritual wisdom, scriptural philosophies, authentic stotrams, and inspiring tales of holy sages.</p>
-                <span class="btn btn-ghost btn-block">Read Articles <i class="ph ph-arrow-right"></i></span>
-            </div>
-        </a>
+<!-- ============ APP TOUR ============ -->
+<section class="tour reveal" id="app" aria-label="Inside the AstroShrine app">
+    <div class="tour-inner">
+        <div class="tour-copy">
+            <span class="kicker">&bull; Inside the app</span>
+            <h2>See It for Yourself</h2>
+            <p class="tour-sub">No big promises &mdash; just the screens you&rsquo;ll actually use.</p>
 
-        <a class="portal" href="home.html">
-            <div class="portal-img" style="background-image:url('images/astrol.jpeg')">
-                <span class="tag"><i class="ph ph-sparkle"></i> Vedic Jyotish</span>
+            <div class="tour-tabs" role="tablist">
+                <button class="tour-tab is-active" role="tab" aria-selected="true" data-i="0">
+                    <span class="tour-n">01</span>
+                    <span><b>Everything, one tap away</b><small>Astrologers online, AI guidance and your daily reading &mdash; all on the home screen.</small></span>
+                    <span class="tour-bar"><i></i></span>
+                </button>
+                <button class="tour-tab" role="tab" aria-selected="false" data-i="1">
+                    <span class="tour-n">02</span>
+                    <span><b>Pick what&rsquo;s on your mind</b><small>Career, love, finance, health &mdash; choose a topic and ask the AI Astrologer.</small></span>
+                    <span class="tour-bar"><i></i></span>
+                </button>
+                <button class="tour-tab" role="tab" aria-selected="false" data-i="2">
+                    <span class="tour-n">03</span>
+                    <span><b>Answers from your own chart</b><small>Not generic sun-sign lines &mdash; readings based on your dasha and planets.</small></span>
+                    <span class="tour-bar"><i></i></span>
+                </button>
+                <button class="tour-tab" role="tab" aria-selected="false" data-i="3">
+                    <span class="tour-n">04</span>
+                    <span><b>Your Kundli, explained</b><small>Every bhav scored, with the grahas helping and challenging you.</small></span>
+                    <span class="tour-bar"><i></i></span>
+                </button>
             </div>
-            <div class="portal-body">
-                <h3>Astrology &amp; Kundli</h3>
-                <p>Unlock cosmic destiny with precise natal birth charts, planetary transit remedies, and one-on-one verified astrologer sessions.</p>
-                <span class="btn btn-ghost btn-block">Talk to Astrologer <i class="ph ph-arrow-right"></i></span>
+        </div>
+
+        <div class="tour-stage" aria-hidden="true">
+            <div class="tour-halo"></div>
+            <div class="tour-phone">
+                <img class="is-active" src="assets/app-home.webp" alt="" loading="lazy">
+                <img src="assets/app-ai.webp" alt="" loading="lazy">
+                <img src="assets/app-chat.webp" alt="" loading="lazy">
+                <img src="assets/app-kundli.webp" alt="" loading="lazy">
             </div>
-        </a>
+        </div>
     </div>
 </section>
 
@@ -324,19 +507,35 @@
     </div>
 </section>
 
-<!-- ============ NEWSLETTER ============ -->
-<section class="newsletter reveal">
-    <div class="news-copy">
-        <span class="dial"><i class="ph ph-bell-ringing"></i></span>
-        <div>
-            <h3>Receive Auspicious Tithi Alerts</h3>
-            <p>Ekadashi fasting reminders, Purnima timings, and planetary transit advisories right into your inbox.</p>
+<!-- ============ HOW IT WORKS + DOWNLOAD ============ -->
+<section class="section steps reveal" id="how">
+    <div class="center-head">
+        <span class="kicker">&bull; Start in a minute</span>
+        <h2>Three Steps to Clarity</h2>
+    </div>
+    <ol class="steps-row">
+        <li><span class="step-ico"><i class="ph ph-download-simple"></i></span><b>Install AstroShrine</b><small>Free on Google Play.</small></li>
+        <li><span class="step-ico"><i class="ph ph-calendar-plus"></i></span><b>Add your birth details</b><small>Date, time and place &mdash; your Kundli is ready instantly.</small></li>
+        <li><span class="step-ico"><i class="ph ph-hands-praying"></i></span><b>Ask, book, explore</b><small>Chat with an astrologer, ask the AI or book a puja.</small></li>
+    </ol>
+</section>
+
+<section class="dl reveal" id="download">
+    <div class="dl-copy">
+        <span class="kicker">&bull; AstroShrine for Android</span>
+        <h2>Your astrologer is already online.</h2>
+        <p>Open the app and ask your first question today.</p>
+        <div class="dl-actions">
+            <a class="btn btn-app" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get the AstroShrine app on Google Play">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.679 1.55a1 1 0 0 1 0 1.882l-2.679 1.55-2.404-2.491 2.404-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
+                <span><small>Get it on</small>Google Play</span>
+            </a>
+            <a class="btn btn-ghost dl-ghost" href="#services"><i class="ph ph-squares-four"></i> See all services</a>
         </div>
     </div>
-    <form class="news-form" onsubmit="return false">
-        <input type="email" placeholder="Enter your sacred email" required>
-        <button class="btn btn-gold btn-sm" type="submit">Join 260k+</button>
-    </form>
+    <div class="dl-visual" aria-hidden="true">
+        <div class="dl-phone"><img src="assets/app-home.webp" alt="" loading="lazy"></div>
+    </div>
 </section>
 
 </main>
@@ -389,12 +588,12 @@
         </div>
 
         <div class="f-col">
-            <h4>Sacred Services</h4>
-            <a href="https://shrimahakaldham.com/front_controller">Personalized Pujas</a>
-            <a href="https://shrimahakaldham.com/front_controller">Live Temple Darshan</a>
-            <a href="home.html">Kundli Consultations</a>
-            <a href="home.html">Navagraha Remedies</a>
-            <a href="#panchang">Shubh Muhurat Finder</a>
+            <h4>In the App</h4>
+            <a href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">Chat &amp; Call Astrologers</a>
+            <a href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">AI Astrologer</a>
+            <a href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener">Free Kundli &amp; Matching</a>
+            <a href="https://shrimahakaldham.com/front_controller" target="_blank" rel="noopener">Book a Puja</a>
+            <a href="https://astrogems.astroshrine.in" target="_blank" rel="noopener">Gemstones &amp; Rudraksha</a>
         </div>
 
         <div class="f-col">
