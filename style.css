@@ -1904,3 +1904,28 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
   .hs-slide[data-theme="wisdom"] .hs-mcard--2 img{aspect-ratio:auto;height:auto;object-fit:contain}
   .hs p.ej-h1-en{font-size:21px;margin:-4px 0 12px}
 }
+
+/* mobile articles slide: "inside every issue" tiles + single magazine banner */
+.ffy-inside,.ffy-meta{display:none}
+@media (max-width:960px){
+  .ffy-inside{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin:22px 0 0;padding:0}
+  .ffy-inside li{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;
+    padding:11px 12px;border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+    border:1px solid rgba(242,202,80,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+  .ffy-inside span{grid-row:1/3;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;font-size:18px;color:#f2ca50;
+    background:rgba(242,202,80,.1);border:1px solid rgba(242,202,80,.4)}
+  .ffy-inside b{font-size:13px;line-height:1.2;color:#fff}
+  .ffy-inside small{font-size:11px;line-height:1.3;color:rgba(255,255,255,.62)}
+  .ffy-inside{margin-top:auto}
+  .hs-slide[data-theme="wisdom"] .hs-mcard--ffy{margin-top:16px;margin-bottom:0}
+  .hs .hs-copy p.ffy-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin:14px 0 auto;font-size:12.5px;color:rgba(255,255,255,.72)}
+  .ffy-meta span{display:inline-flex;align-items:center;gap:6px}
+  .ffy-meta i{color:#f2ca50;font-size:15px}
+  .hs-slide[data-theme="wisdom"] .hs-mcard--ffy img{aspect-ratio:auto;height:auto;object-fit:contain}
+}
+/* astrology phone fan: brighter screens, warm key light behind, soft gold rim */
+.af::before{inset:0 -4% -4%;background:radial-gradient(closest-side,rgba(255,220,140,.42),rgba(240,196,58,.16) 55%,rgba(240,196,58,0))}
+.af-ph .af-scr,.af-ph--1 .af-scr,.af-ph--2 .af-scr{filter:brightness(1.07) saturate(1.06)}
+.af-ph .af-scr{box-shadow:0 0 0 1.5px rgba(255,214,110,.8),0 0 28px rgba(255,200,90,.35),-10px 10px 0 -2px #070A11,0 50px 80px rgba(0,0,0,.5)}
+.af-ph .af-scr::after{background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.06) 24%,rgba(255,255,255,0) 45%,rgba(255,255,255,0) 72%,rgba(255,236,190,.14) 100%)}
+.af-ph--4 .af-scr{box-shadow:0 0 0 1.5px rgba(255,214,110,.9),0 0 44px rgba(255,205,100,.5),-10px 10px 0 -2px #070A11,0 50px 80px rgba(0,0,0,.5)}
