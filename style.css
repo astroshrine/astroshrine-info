@@ -1585,3 +1585,257 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
 /* previous 4-phone fan inside the new layout */
 .hs-inner--ej .hs-visual{perspective:1600px;perspective-origin:40% 40%}
 .hs-inner--ej .af{width:100%;margin:40px 0 0;aspect-ratio:1/.7}
+
+
+/* =====================================================================
+   Temples slide — "Sacred Vedic Luxury" (Stitch): dark + gold, 3D orbit
+   ===================================================================== */
+.hs-slide[data-theme="temple"]::after{
+    background:
+        linear-gradient(90deg,rgba(16,14,12,.94) 0%,rgba(21,19,17,.78) 42%,rgba(21,19,17,.35) 70%,rgba(16,14,12,.6) 100%),
+        linear-gradient(0deg,rgba(16,14,12,.96) 0%,rgba(16,14,12,0) 42%),
+        radial-gradient(40% 50% at 72% 45%,rgba(242,202,80,.14),transparent 70%);
+}
+.hs-slide[data-theme="temple"] .hs-chip{background:rgba(30,27,25,.85);border-color:rgba(242,202,80,.35);
+    color:#ffe088;box-shadow:0 0 20px rgba(212,175,55,.22)}
+.hs-slide[data-theme="temple"] h1 em{color:#f2ca50;text-shadow:0 0 30px rgba(242,202,80,.45)}
+.hs-slide[data-theme="temple"] .btn-gold{border-radius:999px;color:#3c2f00;
+    background:linear-gradient(90deg,#e9c349,#f2ca50 50%,#ffb95f);box-shadow:0 4px 25px rgba(242,202,80,.45)}
+.hs-slide[data-theme="temple"] .btn-ghost{border-radius:999px;background:rgba(44,41,39,.8);
+    border-color:rgba(242,202,80,.35);backdrop-filter:blur(12px)}
+.hs-proof{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px;
+    font-size:13.5px;font-weight:600;color:rgba(232,225,221,.9)}
+.hs-proof li{display:flex;align-items:center;gap:8px}
+.hs-proof li::before{content:"";width:8px;height:8px;border-radius:50%;background:#f2ca50;box-shadow:0 0 10px #f2ca50}
+
+.hs-orbit-stage{position:relative;width:100%;height:540px;display:grid;place-items:center;perspective:1100px;perspective-origin:50% 46%}
+.hs-orbit-stage::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;
+    background:rgba(212,175,55,.28);filter:blur(90px);pointer-events:none}
+.hs-orbit{position:relative;width:270px;height:390px;transform-style:preserve-3d;animation:hsOrbit 28s linear infinite}
+.hs-orbit-stage:hover .hs-orbit{animation-play-state:paused}
+@keyframes hsOrbit{from{transform:rotateY(0)}to{transform:rotateY(-360deg)}}
+.hs-orb-card{
+    position:absolute;inset:0;margin:0;padding:9px;border-radius:18px;
+    background:rgba(16,14,12,.88);border:2px solid rgba(242,202,80,.6);
+    transform:rotateY(calc(var(--i) * 72deg)) translateZ(255px);
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.8),0 0 28px rgba(242,202,80,.3);
+    animation:hsDivine 4s ease-in-out infinite;
+}
+@keyframes hsDivine{0%,100%{box-shadow:0 20px 50px rgba(0,0,0,.8),0 0 24px rgba(242,202,80,.28)}50%{box-shadow:0 20px 50px rgba(0,0,0,.8),0 0 44px rgba(242,202,80,.55)}}
+.hs-orb-card img{display:block;width:100%;height:100%;object-fit:cover;border-radius:12px}
+.hs-orb-pill{position:absolute;top:20px;left:20px;display:inline-flex;align-items:center;gap:6px;
+    padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;color:#e8e1dd;
+    background:rgba(16,14,12,.88);border:1px solid rgba(242,202,80,.35);backdrop-filter:blur(8px)}
+.hs-orb-pill i{color:#ffb95f}
+.hs-orb-live{position:absolute;top:20px;right:20px;display:inline-flex;align-items:center;gap:6px;
+    padding:5px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.08em;
+    color:#ffdad6;background:#93000a;border:1px solid rgba(255,180,171,.4)}
+.hs-orb-live i{width:7px;height:7px;border-radius:50%;background:#ffb4ab;animation:hsPing 1.4s ease-out infinite}
+@keyframes hsPing{0%{box-shadow:0 0 0 0 rgba(255,180,171,.8)}100%{box-shadow:0 0 0 8px rgba(255,180,171,0)}}
+.hs-orb-card figcaption{position:absolute;left:20px;right:20px;bottom:20px;display:flex;gap:9px;align-items:flex-start;
+    padding:11px 13px;border-radius:12px;background:rgba(16,14,12,.94);border:1px solid rgba(242,202,80,.25);backdrop-filter:blur(12px)}
+.hs-orb-card figcaption i{color:#f2ca50;font-size:18px;margin-top:2px}
+.hs-orb-card figcaption b{display:block;font-family:var(--font-h);font-size:16px;color:#e8e1dd;line-height:1.2}
+.hs-orb-card figcaption small{display:block;font-size:12px;color:#f2ca50;margin-top:2px}
+.hs-orbit-hint{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:6px;
+    padding:5px 12px;border-radius:999px;font-size:11px;color:#d0c5af;background:rgba(16,14,12,.8);border:1px solid rgba(242,202,80,.3)}
+.hs-orbit-hint i{color:#f2ca50;animation:hsSpin 4s linear infinite}
+@media (prefers-reduced-motion:reduce){
+    .hs-orbit{animation:none;transform:rotateY(-18deg)}
+    .hs-orb-card,.hs-orb-live i,.hs-orbit-hint i{animation:none}
+}
+
+/* hero: no mandala (chakra) or Om watermark behind the slides */
+.hs-mandala,.hs-om,.hs-rays{display:none!important}
+
+/* Temples orbit v2: thicker gilded frames, visible depth, tilted ring */
+.hs-orbit-stage{perspective:950px;perspective-origin:50% 38%}
+.hs-orbit{width:250px;height:370px;animation:hsOrbit2 30s linear infinite}
+@keyframes hsOrbit2{from{transform:rotateX(-7deg) rotateY(0)}to{transform:rotateX(-7deg) rotateY(-360deg)}}
+.hs-orb-card{
+    transform-style:preserve-3d;
+    transform:rotateY(calc(var(--i) * 72deg)) translateZ(230px);
+    backface-visibility:visible;-webkit-backface-visibility:visible;
+    padding:11px;border-radius:22px;border:0;
+    background:
+        linear-gradient(#14110e,#14110e) padding-box,
+        linear-gradient(145deg,#fff1b8 0%,#e9c349 22%,#8a6a1c 48%,#f2ca50 72%,#6b4f12 100%) border-box;
+    border:2.5px solid transparent;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,224,136,.25),
+        0 30px 60px rgba(0,0,0,.85),
+        0 0 36px rgba(242,202,80,.32);
+}
+/* card thickness: a darker gold slab sitting just behind the face */
+.hs-orb-card::before{
+    content:"";position:absolute;inset:-2px;border-radius:22px;
+    background:linear-gradient(145deg,#7a5c14,#2e2106);
+    transform:translateZ(-6px);box-shadow:0 0 0 1px rgba(0,0,0,.4);
+}
+.hs-orb-card::after{ /* glass sheen on the face */
+    content:"";position:absolute;inset:11px;border-radius:14px;pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 70%,rgba(255,255,255,.08) 100%);
+    box-shadow:inset 0 0 0 1px rgba(242,202,80,.35),inset 0 -60px 60px -30px rgba(0,0,0,.6);
+}
+.hs-orb-card img{border-radius:14px}
+.hs-orb-pill{top:22px;left:22px;z-index:1}
+.hs-orb-live{top:22px;right:22px;z-index:1}
+.hs-orb-card figcaption{left:22px;right:22px;bottom:22px;z-index:1;border-radius:14px;
+    background:linear-gradient(180deg,rgba(28,24,20,.94),rgba(12,10,8,.96));
+    border:1px solid rgba(242,202,80,.4);box-shadow:0 10px 24px rgba(0,0,0,.5)}
+.hs-orbit-stage::after{ /* golden floor glow under the ring */
+    content:"";position:absolute;left:50%;bottom:34px;width:360px;height:60px;transform:translateX(-50%);
+    border-radius:50%;background:radial-gradient(ellipse,rgba(242,202,80,.35),rgba(242,202,80,0) 70%);filter:blur(8px);pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){.hs-orbit{animation:none;transform:rotateX(-7deg) rotateY(-18deg)}}
+
+.hs-orbit-hint{bottom:-18px;z-index:2}
+.hs-orbit-stage::after{bottom:10px}
+
+/* =====================================================================
+   Dark "Sacred Vedic Luxury" chrome — header, hero controls, service strip
+   ===================================================================== */
+.navbar{background:rgba(16,14,12,.82);border:1px solid rgba(242,202,80,.22);
+    box-shadow:0 10px 40px rgba(0,0,0,.45);backdrop-filter:blur(18px) saturate(1.2)}
+.navbar.scrolled{box-shadow:0 14px 44px rgba(0,0,0,.6)}
+.navbar .logo{color:#f2ca50;align-items:center}
+.navbar .logo i{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;font-size:18px;color:#f2ca50;
+    background:radial-gradient(circle at 35% 30%,#3a3128,#1b1714);box-shadow:0 0 0 1px rgba(242,202,80,.35),0 0 16px rgba(242,202,80,.25)}
+.navbar .logo span{display:flex;flex-direction:column;line-height:1.05}
+.navbar .logo small{font-family:var(--font-b,inherit);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#d0c5af;margin-top:3px}
+.nav-links{gap:4px;padding:4px;border-radius:999px;background:rgba(44,41,39,.6);border:1px solid rgba(242,202,80,.12)}
+.nav-links a{display:block;padding:7px 16px;border-radius:999px;color:#e8e1dd;font-weight:600}
+.nav-links a:hover{color:#f2ca50}
+.nav-links a.active{color:#f2ca50;background:rgba(242,202,80,.12);box-shadow:inset 0 0 0 1px rgba(242,202,80,.25)}
+.nav-cta .btn-gold{border-radius:999px;color:#3c2f00;background:linear-gradient(90deg,#e9c349,#f2ca50 55%,#ffb95f);
+    box-shadow:0 4px 18px rgba(242,202,80,.35)}
+.nav-cta .btn-gold:hover{filter:brightness(1.06);background:linear-gradient(90deg,#e9c349,#f2ca50 55%,#ffb95f)}
+.nav-cta .icon-round{background:#f2ca50;color:#3c2f00;border-color:transparent;box-shadow:0 0 14px rgba(242,202,80,.35)}
+.nav-cta .icon-round:hover{background:#ffe088}
+.nav-toggle{color:#f2ca50}
+@media (max-width:960px){
+    .nav-links{background:rgba(16,14,12,.97);border:1px solid rgba(242,202,80,.25);border-radius:20px;padding:10px}
+    .navbar .logo small{display:none}
+}
+
+/* hero base + controls */
+.hs{background:#151311}
+.hs-tab{color:rgba(232,225,221,.55)}
+.hs-tab.is-active,.hs-tab:hover{color:#f2ca50}
+.hs-bar{background:rgba(242,202,80,.18)}
+.hs-bar i{background:linear-gradient(90deg,#e9c349,#ffb95f)}
+.hs-arrow{background:rgba(30,27,25,.8);border:1px solid rgba(242,202,80,.35);color:#f2ca50}
+.hs-arrow:hover{background:#f2ca50;color:#3c2f00}
+
+/* service strip: separate glass tiles on a dark tray */
+.hs-stats.ab-strip{gap:10px;padding:12px;border-radius:26px;overflow:visible;
+    background:rgba(16,14,12,.78);border:1px solid rgba(242,202,80,.22);backdrop-filter:blur(16px);
+    box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.hs-stats.ab-strip>div{border:1px solid rgba(242,202,80,.14);
+    border-radius:16px;background:rgba(44,41,39,.55);padding:12px 14px;transition:border-color .2s,background .2s,transform .2s}
+.hs-stats.ab-strip>div:last-child{border-right:1px solid rgba(242,202,80,.14)}
+.hs-stats.ab-strip>div:hover{border-color:rgba(242,202,80,.6);background:rgba(242,202,80,.1);transform:translateY(-2px)}
+.hs-stats.ab-strip span{background:rgba(242,202,80,.14);color:#f2ca50;border:1px solid rgba(242,202,80,.4);border-radius:50%}
+.hs-stats.ab-strip>div:hover span{background:#f2ca50;color:#3c2f00}
+.hs-stats.ab-strip b{color:#e8e1dd}
+.hs-stats.ab-strip>div:hover b{color:#f2ca50}
+.hs-stats.ab-strip small{color:rgba(208,197,175,.8)}
+
+@media (min-width:961px){.hs-controls{bottom:150px}}
+
+/* Temples v3: straight (untilted) ring, double-sided cards (same photo on the back), Mahakaal Dham copy */
+.hs-orbit{animation:hsOrbit3 30s linear infinite}
+@keyframes hsOrbit3{from{transform:rotateY(0)}to{transform:rotateY(-360deg)}}
+.hs-orbit-stage{perspective:1000px;perspective-origin:50% 50%}
+.hs-orb-card{padding:0;border:0;background:none;box-shadow:none;animation:none}
+.hs-orb-card::before,.hs-orb-card::after{content:none}
+.hs-orb-face,.hs-orb-back{
+    position:absolute;inset:0;padding:11px;border-radius:22px;
+    background:
+        linear-gradient(#14110e,#14110e) padding-box,
+        linear-gradient(145deg,#fff1b8 0%,#e9c349 22%,#8a6a1c 48%,#f2ca50 72%,#6b4f12 100%) border-box;
+    border:2.5px solid transparent;
+    box-shadow:inset 0 0 0 1px rgba(255,224,136,.25),0 30px 60px rgba(0,0,0,.8),0 0 34px rgba(242,202,80,.3);
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.hs-orb-face{transform:translateZ(3px)}
+.hs-orb-back{transform:rotateY(180deg) translateZ(3px)}
+.hs-orb-back img{filter:brightness(.8)}
+.hs-orb-face::after{
+    content:"";position:absolute;inset:11px;border-radius:14px;pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 32%);
+    box-shadow:inset 0 0 0 1px rgba(242,202,80,.35),inset 0 -70px 60px -30px rgba(0,0,0,.6);
+}
+@media (prefers-reduced-motion:reduce){.hs-orbit{animation:none;transform:rotateY(-18deg)}}
+
+.hs-slide[data-theme="temple"] h1{font-size:clamp(40px,4.4vw,64px);line-height:1.05}
+.hs-sub-lead{font-family:var(--font-h);font-size:clamp(19px,1.6vw,23px)!important;color:#e8e1dd!important;line-height:1.4!important}
+.hs-feats{list-style:none;margin:4px 0 2px;padding:0;display:flex;flex-wrap:wrap;gap:14px 18px}
+.hs-feats li{display:flex;flex-direction:column;align-items:center;gap:7px;width:86px;text-align:center;
+    font-size:12px;font-weight:600;line-height:1.25;color:#e8e1dd}
+.hs-feats span{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;font-size:21px;color:#f2ca50;
+    border:1.5px solid rgba(242,202,80,.7);background:rgba(16,14,12,.55);box-shadow:0 0 16px rgba(242,202,80,.2)}
+.hs-quote{font-family:var(--font-h);font-style:italic;font-size:17px!important;color:#f2ca50!important;margin-top:4px!important}
+
+/* Temples features: slim gold-edged glass pills instead of the icon circles */
+.hs-feats{gap:8px 8px;max-width:560px}
+.hs-feats li{flex-direction:row;width:auto;gap:7px;padding:7px 14px 7px 10px;border-radius:999px;
+    font-size:13px;font-weight:600;text-align:left;white-space:nowrap;color:#e8e1dd;
+    background:linear-gradient(180deg,rgba(44,41,39,.72),rgba(21,19,17,.72));
+    border:1px solid rgba(242,202,80,.28);box-shadow:inset 0 1px 0 rgba(255,224,136,.08);backdrop-filter:blur(8px)}
+.hs-feats span{width:auto;height:auto;border:0;background:none;box-shadow:none;border-radius:0;font-size:16px;color:#f2ca50}
+
+/* temple orbit: 3 puja cards (temple photos removed) */
+.hs-orb-card{transform:rotateY(calc(var(--i) * 120deg)) translateZ(190px)}
+
+/* Wisdom slide: Future For You magazine scene */
+.hs-ffy-shot{position:relative;margin:0;width:min(620px,100%);aspect-ratio:1030/703;border-radius:22px;overflow:hidden;
+    border:2px solid rgba(242,202,80,.55);box-shadow:0 0 0 6px rgba(255,255,255,.04),0 40px 80px rgba(0,0,0,.6),0 0 40px rgba(242,202,80,.2)}
+.hs-ffy-shot img{display:block;width:100%;height:100%;object-fit:cover}
+.hs-ffy-shot figcaption{position:absolute;left:16px;bottom:16px;padding:10px 16px;border-radius:14px;
+    background:rgba(16,14,12,.82);border:1px solid rgba(242,202,80,.35);backdrop-filter:blur(8px)}
+.hs-ffy-shot figcaption b{display:block;font-family:var(--font-h);font-size:17px;color:#fff}
+.hs-ffy-shot figcaption small{font-size:12.5px;color:#f2ca50}
+
+/* Wisdom slide (desktop): the full Future For You banner artwork */
+.hs-ffy-banner,.hs-ffy-link{display:none}
+@media (min-width:961px){
+    .hs-slide[data-theme="wisdom"] .hs-ffy-banner{
+        display:block;position:absolute;inset:0;z-index:1;
+        background:#140d08 url('images/ffy-banner.webp?v=3') no-repeat center 88px/100% auto;
+    }
+    .hs-slide[data-theme="wisdom"] .hs-ffy-banner::after{ /* blend the right edge into the frame */
+        content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(16,14,12,.85) 0%,rgba(16,14,12,0) 22%);
+    }
+    .hs-slide[data-theme="wisdom"] .hs-ffy-link{display:block;position:absolute;inset:88px 0 170px 0;z-index:2}
+    .hs-slide[data-theme="wisdom"] .hs-inner,.hs-slide[data-theme="wisdom"]::after{display:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* tour: new app screens carry their own status-bar strip */
+.tour-phone img{padding-top:0}
+
+/* FFY banner: fit between the header and the slide tabs so nothing overlaps it */
+@media (min-width:961px){
+    .hs-slide[data-theme="wisdom"] .hs-ffy-banner{
+        inset:92px 0 196px 0;
+        background:url('images/ffy-banner.webp?v=3') no-repeat center top/contain;
+    }
+    .hs-slide[data-theme="wisdom"] .hs-ffy-banner::after{display:none}
+    .hs-slide[data-theme="wisdom"] .hs-ffy-link{inset:92px 0 196px 0}
+}
+
+/* Temples slide (desktop): full Mahakaal Dham banner artwork, clickable buttons */
+.hs-tbanner{display:none}
+@media (min-width:961px){
+    .hs-slide[data-theme="temple"] .hs-bg{background-image:url('images/temple-banner-bg.webp')!important}
+    .hs-slide[data-theme="temple"] .hs-inner,.hs-slide[data-theme="temple"]::after{display:none}
+    .hs-slide[data-theme="temple"] .hs-tbanner{display:grid;place-items:start center;position:absolute;inset:92px 0 196px 0;z-index:1;container-type:size}
+    .hs-tbanner-img{position:relative;width:min(100cqw,calc(100cqh * 1829 / 611));aspect-ratio:1829/611;
+        background:url('images/temple-banner.webp') no-repeat center/100% 100%}
+    .hs-tb-btn{position:absolute;display:block;border-radius:999px}
+    .hs-tb-btn:hover{box-shadow:0 0 0 2px rgba(242,202,80,.6),0 0 24px rgba(242,202,80,.35)}
+    .hs-tb-book{left:13.8%;top:75.2%;width:11.5%;height:8.6%}
+    .hs-tb-call{left:26.2%;top:75.2%;width:11.2%;height:8.6%}
+}
