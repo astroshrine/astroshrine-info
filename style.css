@@ -1839,3 +1839,30 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
     .hs-tb-book{left:13.8%;top:75.2%;width:11.5%;height:8.6%}
     .hs-tb-call{left:26.2%;top:75.2%;width:11.2%;height:8.6%}
 }
+
+/* =====================  MOBILE HERO (all three slides)  ===================== */
+.hs-mcard{display:none}
+@media (max-width:960px){
+    .hs-inner{padding-top:9.5rem}
+    .hs-mcard{display:block;margin:6px 0 0;border-radius:18px;overflow:hidden;
+        border:1.5px solid rgba(242,202,80,.5);box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 24px rgba(242,202,80,.15)}
+    .hs-mcard img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+    .hs-slide[data-theme="temple"] .hs-mcard img{object-position:60% 50%}
+    /* compact services tray: 3 per row, icon + title */
+    .hs-stats.ab-strip,.hs-stats.ab-strip--6{grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;border-radius:20px}
+    .hs-stats.ab-strip>div{grid-template-columns:1fr;grid-template-rows:auto auto;justify-items:center;text-align:center;
+        row-gap:6px;padding:10px 6px;border-radius:14px}
+    .hs-stats.ab-strip span{grid-row:auto;width:34px;height:34px;font-size:17px}
+    .hs-stats.ab-strip b{font-size:12px;line-height:1.2}
+    .hs-stats.ab-strip small{display:none}
+}
+@media (max-width:620px){
+    .hs-inner{padding:8.6rem 16px 15.5rem}
+    .hs-slide[data-theme="temple"] h1{font-size:clamp(34px,10vw,44px)}
+    .hs-feats li{font-size:12px;padding:6px 11px 6px 9px}
+    .hs-controls{bottom:196px}
+    .hs-stats{bottom:14px}
+}
+
+@media (max-width:960px){.hs-stats.ab-strip>div{display:grid!important}}
+@media (max-width:620px){.hs-inner{padding-bottom:18rem}.hs-controls{bottom:236px}}
