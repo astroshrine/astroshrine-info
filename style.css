@@ -1867,10 +1867,30 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
 @media (max-width:960px){.hs-stats.ab-strip>div{display:grid!important}}
 @media (max-width:620px){.hs-inner{padding-bottom:18rem}.hs-controls{bottom:236px}}
 
-/* mobile: astrology slide fills the shared hero height (illustration centred in the free space, no empty gap above the tabs) */
+/* mobile: astrology slide — illustration, then the 4-phone app fan fills the space above the tabs */
 @media (max-width:960px){
   .hs-slide[data-theme="astro"]{display:flex;flex-direction:column}
-  .hs-slide[data-theme="astro"] .hs-inner--ej{flex:1 1 auto;display:flex;flex-direction:column}
-  .hs-slide[data-theme="astro"] .ej-copy{flex:1 1 auto;display:flex;flex-direction:column}
-  .hs-slide[data-theme="astro"] .ej-art{margin:auto;width:min(380px,100%);padding-top:18px}
+  .hs-slide[data-theme="astro"] .hs-inner--ej{flex:1 1 auto;display:flex;flex-direction:column;gap:0}
+  .hs-slide[data-theme="astro"] .ej-art{margin:18px auto 0;width:min(360px,100%)}
+  .hs-slide[data-theme="astro"] .hs-visual{display:block;align-self:stretch;width:100%;margin:auto 0;padding:14px 0 6px;opacity:1;transform:none;animation:none}
+  .hs-slide[data-theme="astro"] .af{width:108%;margin-left:-4%;aspect-ratio:1/.8}
+  .hs-slide[data-theme="astro"] .af-ph figcaption{display:none}
+  .hs-slide[data-theme="astro"] .af-ph .af-scr{border-width:4px}
+  .hs-slide[data-theme="astro"] .af-badge{gap:7px;padding:6px 10px;border-radius:11px}
+  .hs-slide[data-theme="astro"] .af-badge small{font-size:8px;letter-spacing:.08em}
+  .hs-slide[data-theme="astro"] .af-badge b{font-size:11px}
+  .hs-slide[data-theme="astro"] .af-badge .dot{width:8px;height:8px;box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+  .hs-slide[data-theme="astro"] .af-coin{width:22px;height:22px;font-size:11px}
+  .hs-slide[data-theme="astro"] .af-ribbon{font-size:9px;padding:4px 9px;right:-2%;white-space:nowrap}
+}
+
+/* mobile: temple + wisdom slides stretch to the shared height, image card centred in the free space */
+@media (max-width:960px){
+  .hs-slide[data-theme="temple"],.hs-slide[data-theme="wisdom"]{display:flex;flex-direction:column}
+  .hs-slide[data-theme="temple"] .hs-inner,.hs-slide[data-theme="wisdom"] .hs-inner{flex:1 1 auto;display:flex;flex-direction:column}
+  .hs-slide[data-theme="temple"] .hs-copy,.hs-slide[data-theme="wisdom"] .hs-copy{flex:1 1 auto;display:flex;flex-direction:column;align-self:stretch}
+  .hs-slide[data-theme="temple"] .hs-mcard,.hs-slide[data-theme="wisdom"] .hs-mcard{margin-top:auto;margin-bottom:auto}
+  .hs-slide[data-theme="temple"] .hs-mcard{margin-bottom:0}
+  .hs-slide[data-theme="temple"] .hs-quote{margin-bottom:auto}
+  .hs-slide[data-theme="temple"] .hs-mcard img,.hs-slide[data-theme="wisdom"] .hs-mcard img{aspect-ratio:5/4}
 }
