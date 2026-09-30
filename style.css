@@ -1866,3 +1866,11 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
 
 @media (max-width:960px){.hs-stats.ab-strip>div{display:grid!important}}
 @media (max-width:620px){.hs-inner{padding-bottom:18rem}.hs-controls{bottom:236px}}
+
+/* mobile: astrology slide fills the shared hero height (illustration centred in the free space, no empty gap above the tabs) */
+@media (max-width:960px){
+  .hs-slide[data-theme="astro"]{display:flex;flex-direction:column}
+  .hs-slide[data-theme="astro"] .hs-inner--ej{flex:1 1 auto;display:flex;flex-direction:column}
+  .hs-slide[data-theme="astro"] .ej-copy{flex:1 1 auto;display:flex;flex-direction:column}
+  .hs-slide[data-theme="astro"] .ej-art{margin:auto;width:min(380px,100%);padding-top:18px}
+}
