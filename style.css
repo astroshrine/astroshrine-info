@@ -1923,9 +1923,191 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
   .ffy-meta i{color:#f2ca50;font-size:15px}
   .hs-slide[data-theme="wisdom"] .hs-mcard--ffy img{aspect-ratio:auto;height:auto;object-fit:contain}
 }
-/* astrology phone fan: brighter screens, warm key light behind, soft gold rim */
-.af::before{inset:0 -4% -4%;background:radial-gradient(closest-side,rgba(255,220,140,.42),rgba(240,196,58,.16) 55%,rgba(240,196,58,0))}
-.af-ph .af-scr,.af-ph--1 .af-scr,.af-ph--2 .af-scr{filter:brightness(1.07) saturate(1.06)}
-.af-ph .af-scr{box-shadow:0 0 0 1.5px rgba(255,214,110,.8),0 0 28px rgba(255,200,90,.35),-10px 10px 0 -2px #070A11,0 50px 80px rgba(0,0,0,.5)}
-.af-ph .af-scr::after{background:linear-gradient(115deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.06) 24%,rgba(255,255,255,0) 45%,rgba(255,255,255,0) 72%,rgba(255,236,190,.14) 100%)}
-.af-ph--4 .af-scr{box-shadow:0 0 0 1.5px rgba(255,214,110,.9),0 0 44px rgba(255,205,100,.5),-10px 10px 0 -2px #070A11,0 50px 80px rgba(0,0,0,.5)}
+
+@media (min-width:961px){.hs h1.ej-h1{margin-bottom:6px}.hs p.ej-h1-en{margin:0 0 10px}.ej-art{margin-top:12px;width:min(280px,100%)}}
+
+/* ================= 4 · Gemstones slide ================= */
+.hs-bg--gems{background:
+  radial-gradient(55% 60% at 74% 44%,rgba(120,70,200,.35),transparent 70%),
+  radial-gradient(40% 45% at 20% 80%,rgba(20,140,110,.18),transparent 70%),
+  radial-gradient(120% 90% at 70% 10%,#2a1650 0%,#140b2c 50%,#07051a 100%)}
+.hs-slide[data-theme="gems"]::after{background:linear-gradient(0deg,rgba(7,5,26,.9) 0%,rgba(7,5,26,0) 38%)}
+.hs-slide[data-theme="gems"] h1 em{background:linear-gradient(92deg,#FFE7A3 0%,#f2ca50 40%,#c79bff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hs-slide[data-theme="gems"] .hs-chip{background:rgba(40,24,70,.7);border-color:rgba(242,202,80,.4);color:#ffe088}
+.hs-slide[data-theme="gems"] .btn-gold{border-radius:999px;color:#3c2f00;background:linear-gradient(90deg,#e9c349,#f2ca50 50%,#ffb95f);box-shadow:0 6px 26px rgba(242,202,80,.4)}
+.hs-slide[data-theme="gems"] .btn-ghost{border-radius:999px;background:rgba(40,24,70,.55);border-color:rgba(242,202,80,.4)}
+.hs-slide[data-theme="gems"] .hs-feats li{background:linear-gradient(180deg,rgba(52,34,86,.7),rgba(24,14,44,.7))}
+.gm-feats{margin-top:18px!important}
+
+.gm-stage{position:relative;width:min(560px,100%);aspect-ratio:1/.82}
+.gm-stage::before{content:"";position:absolute;inset:6% 10%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,214,130,.22),rgba(160,110,255,.10) 60%,transparent);animation:hsAura 6s ease-in-out infinite}
+.gm-stage::after{content:"";position:absolute;left:18%;right:18%;bottom:2%;height:10%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
+.gm{position:absolute;margin:0;display:flex;flex-direction:column;align-items:center;animation:gmFloat 6s ease-in-out infinite}
+.gm .gm-svg{position:relative;width:100%;height:auto;filter:drop-shadow(0 14px 18px rgba(0,0,0,.5))}
+.gm-halo{position:absolute;left:50%;top:0;width:150%;aspect-ratio:1;transform:translate(-50%,-17%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,var(--gl),transparent 70%);opacity:.55}
+.gm figcaption{position:relative;margin-top:10px;text-align:center;white-space:nowrap}
+.gm figcaption b{display:block;font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:#fff;line-height:1.1}
+.gm figcaption small{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;color:rgba(255,231,163,.8)}
+.gm--c{left:34%;top:14%;width:32%;z-index:3;animation-delay:-1s}
+.gm--c figcaption b{font-size:24px}
+.gm--1{left:5%;top:4%;width:19%;animation-delay:-2s}
+.gm--2{left:76%;top:2%;width:19%;animation-delay:-3.5s}
+.gm--3{left:9%;top:52%;width:18%;animation-delay:-4.2s}
+.gm--4{left:73%;top:52%;width:18%;animation-delay:-.4s}
+.gm-pukhraj{--gl:rgba(255,200,60,.55)}
+.gm-neelam{--gl:rgba(70,110,255,.55)}
+.gm-panna{--gl:rgba(40,210,140,.5)}
+.gm-manik{--gl:rgba(240,40,80,.5)}
+.gm-moti{--gl:rgba(255,230,240,.45)}
+@keyframes gmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.gm-cert{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:10px;white-space:nowrap;
+  padding:10px 16px;border-radius:14px;background:rgba(18,12,34,.88);border:1px solid rgba(242,202,80,.45);
+  box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 24px rgba(242,202,80,.15);backdrop-filter:blur(8px)}
+.gm-cert i{font-size:26px;color:#f2ca50}
+.gm-cert small{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#c79bff}
+.gm-cert b{display:block;font-size:14px;color:#fff}
+@media (prefers-reduced-motion:reduce){.gm,.gm-stage::before{animation:none}}
+
+/* 4 tabs */
+.hs-tabs{max-width:760px}
+
+@media (max-width:960px){
+  .hs-slide[data-theme="gems"]{display:flex;flex-direction:column}
+  .hs-slide[data-theme="gems"] .hs-inner{flex:1 1 auto;display:flex;flex-direction:column;gap:0}
+  .hs-slide[data-theme="gems"] .hs-copy{align-self:stretch}
+  .hs-slide[data-theme="gems"] .hs-visual{display:block;align-self:stretch;width:100%;margin:auto 0;padding:26px 0 0;opacity:1;transform:none;animation:none}
+  .gm-stage{width:100%;margin:0 auto}
+  .gm figcaption{margin-top:6px}
+  .gm figcaption b{font-size:15px}
+  .gm--c figcaption b{font-size:18px}
+  .gm figcaption small{font-size:9px;letter-spacing:.03em}
+  .gm-cert{padding:7px 12px;gap:8px;border-radius:12px;bottom:0}
+  .gm-cert i{font-size:20px}
+  .gm-cert small{font-size:8px}
+  .gm-cert b{font-size:12px}
+  .hs-tab b{font-size:10px;letter-spacing:.12em}
+  .hs-tabs{gap:10px}
+}
+
+/* Hindi / English switch */
+.lang-toggle{position:relative;display:inline-flex;align-items:center;padding:3px;border-radius:999px;cursor:pointer;
+  background:rgba(30,27,25,.85);border:1px solid rgba(242,202,80,.4);font:inherit}
+.lang-toggle span{position:relative;z-index:1;display:grid;place-items:center;min-width:34px;height:28px;padding:0 8px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.04em;color:#d0c5af;transition:color .25s,background .25s}
+.lang-toggle .lt-hi{font-family:'Tiro Devanagari Hindi','Mukta',sans-serif;font-size:14px;letter-spacing:0}
+.lang-toggle[aria-pressed="false"] .lt-en,.lang-toggle[aria-pressed="true"] .lt-hi{color:#3c2f00;background:linear-gradient(90deg,#e9c349,#f2ca50 55%,#ffb95f)}
+.lang-toggle:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
+@media (max-width:960px){.lang-toggle span{min-width:30px;height:26px;padding:0 6px}}
+/* in Hindi the headline is already Hindi: drop the English echo line */
+html.is-hi .hs p.ej-h1-en{display:none}
+html.is-hi body{font-family:'Mukta',var(--font-b,sans-serif)}
+
+html.is-hi body *:not(.ph):not([class^="ph-"]):not([class*=" ph-"]){letter-spacing:0!important}
+html.is-hi h1,html.is-hi h2,html.is-hi h3{font-family:'Tiro Devanagari Hindi','Martel',serif;font-style:normal;line-height:1.3}
+html.is-hi .hs h1 em{font-style:normal;padding:.12em 0 .05em;line-height:1.3}
+html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devanagari Hindi','Martel',serif}
+
+@media (max-width:480px){.navbar{gap:8px}.nav-cta{gap:6px}.lang-toggle{padding:2px}.lang-toggle span{min-width:26px;height:24px;padding:0 5px;font-size:11px}.lang-toggle .lt-hi{font-size:13px}.navbar .logo i{width:32px;height:32px;font-size:16px}}
+
+
+/* ===== Gemstones slide v2: temple-pedestal scene (from the reference design) ===== */
+.hs-bg--gems{background:
+  radial-gradient(60% 70% at 72% 45%,rgba(90,45,60,.55),transparent 70%),
+  radial-gradient(50% 60% at 0% 50%,rgba(60,40,20,.25),transparent 70%),
+  linear-gradient(180deg,#0d0c1c 0%,#140d18 55%,#0a0913 100%)!important}
+.hs-slide[data-theme="gems"]::after{background:linear-gradient(0deg,rgba(10,9,19,.92) 0%,rgba(10,9,19,0) 30%)}
+.gm-scene{display:none}
+.hs-slide[data-theme="gems"] h1{font-size:clamp(40px,4.3vw,64px);line-height:1.06}
+.hs-slide[data-theme="gems"] h1 em{font-style:italic;background:linear-gradient(92deg,#FFE7A3 0%,#f2ca50 45%,#E89B3B 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hs-slide[data-theme="gems"] .hs-chip{background:rgba(20,16,20,.7);border-color:rgba(242,202,80,.5);color:#ffe7a3;letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+.hs-slide[data-theme="gems"] .hs-orn{color:#f2ca50;font-size:22px}
+.hs-slide[data-theme="gems"] .hs-feats li{background:rgba(14,12,20,.55);border-color:rgba(242,202,80,.5)}
+.hs-slide[data-theme="gems"] .btn-gold i.ph-arrow-right{margin-left:4px}
+.hs-slide[data-theme="gems"] .btn-ghost{background:rgba(14,12,20,.6);border-color:rgba(242,202,80,.5)}
+.gm-mcard{display:none}
+@media (min-width:961px){
+  .gm-scene{display:block;position:absolute;z-index:1;right:0;top:92px;bottom:196px;width:60%;margin:0;pointer-events:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 26%),linear-gradient(0deg,transparent 0%,#000 12%);
+    -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 26%),linear-gradient(0deg,transparent 0%,#000 12%);mask-composite:intersect}
+  .gm-scene img{width:100%;height:100%;object-fit:cover;object-position:40% 50%;display:block}
+  .hs-inner--gems{position:relative;z-index:2;grid-template-columns:1fr 1fr}
+  .hs-inner--gems .hs-copy{max-width:640px}
+  .hs-slide[data-theme="gems"] .hs-visual{display:none}
+}
+@media (max-width:960px){
+  .gm-mcard{display:block;margin:22px 0 auto!important;border-radius:20px}
+  .gm-mcard img{aspect-ratio:913/600!important;object-fit:cover}
+  .hs-slide[data-theme="gems"] .hs-visual{display:none!important}
+  .hs-slide[data-theme="gems"] .hs-copy{flex:1 1 auto;display:flex;flex-direction:column}
+  .hs-slide[data-theme="gems"] h1{font-size:clamp(34px,10vw,44px)}
+}
+@media (max-width:960px){.gm-mcard{margin:auto 0!important}.gm-mcard img{aspect-ratio:4/5!important;object-position:43% 50%}}
+
+/* gemstones slide: shop-by-category shelf */
+.gm-cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;grid-column:1/-1;position:relative;z-index:2;margin-top:6px}
+.gm-cat{position:relative;display:grid;grid-template-columns:52px 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;
+  padding:12px 14px;border-radius:16px;text-decoration:none;color:#fff;
+  background:linear-gradient(160deg,rgba(44,30,40,.82),rgba(16,12,22,.88));border:1px solid rgba(242,202,80,.32);
+  box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,231,163,.08);transition:transform .25s,border-color .25s,box-shadow .25s}
+.gm-cat:hover{transform:translateY(-3px);border-color:rgba(242,202,80,.75);box-shadow:0 16px 36px rgba(0,0,0,.45),0 0 24px rgba(242,202,80,.18)}
+.gm-cat-art{grid-row:1/3;width:52px;height:52px;display:grid;place-items:center;border-radius:12px;
+  background:radial-gradient(circle at 50% 40%,rgba(242,202,80,.16),rgba(0,0,0,0) 70%)}
+.gm-cat-art svg{width:46px;height:46px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+.gm-cat b{font-size:14.5px;line-height:1.2}
+.gm-cat small{font-size:11px;color:rgba(255,231,163,.72);line-height:1.3}
+.gm-cat>i{position:absolute;right:10px;top:10px;font-size:13px;color:#f2ca50;opacity:.7}
+@media (min-width:961px){
+  .hs-inner--gems{row-gap:26px;padding-bottom:13.5rem}
+  .hs-slide[data-theme="gems"] .hs-actions{margin-top:20px}
+  .gm-scene{bottom:auto;height:calc(100% - 92px - 330px)}
+}
+@media (max-width:1200px) and (min-width:961px){
+  .gm-cats{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:960px){
+  .gm-cats{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:18px -16px 0;padding:4px 16px 10px;scrollbar-width:none}
+  .gm-cats::-webkit-scrollbar{display:none}
+  .gm-cat{flex:0 0 150px;scroll-snap-align:start;grid-template-columns:1fr;grid-template-rows:auto;justify-items:center;text-align:center;row-gap:2px;padding:12px 10px}
+  .gm-cat-art{grid-row:auto;width:60px;height:60px}
+  .gm-cat-art svg{width:54px;height:54px}
+  .gm-cat b{font-size:14px;margin-top:4px}
+}
+@media (min-width:961px){.hs-slide[data-theme="gems"] .gm-feats{display:none}.hs-inner--gems{padding-bottom:12rem}.gm-scene{height:calc(100% - 92px - 300px)}}
+@media (max-width:960px){.hs-slide[data-theme="gems"] .hs-inner{min-width:0;width:100%}.gm-cats{align-self:stretch;min-width:0;width:auto;max-width:none}}
+@media (max-width:960px){.gm-cats{scroll-padding-inline:16px}.gm-mcard img{aspect-ratio:1/1!important}}
+.gm-cat-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+.gm-cat-art{width:58px;height:58px}
+.gm-cat{grid-template-columns:58px 1fr}
+@media (max-width:960px){.gm-cat{grid-template-columns:1fr}.gm-cat-art{width:72px;height:72px}}
+@media (min-width:961px){.gm-scene{-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 16%),linear-gradient(0deg,transparent 0%,#000 7%);mask-image:linear-gradient(90deg,transparent 0%,#000 16%),linear-gradient(0deg,transparent 0%,#000 7%);height:calc(100% - 92px - 318px)}}
+@media (max-width:960px){.gm-mcard img{aspect-ratio:913/600!important;object-position:50% 50%}}
+/* category thumbnails are real photo crops now */
+.gm-cat-art{border-radius:12px;overflow:hidden;background:none;box-shadow:0 0 0 1px rgba(242,202,80,.35),0 6px 14px rgba(0,0,0,.4)}
+.gm-cat-art img{object-fit:cover;filter:none}
+@media (min-width:961px){.gm-scene img{object-position:50% 50%}}
+@media (max-width:960px){.gm-mcard img{aspect-ratio:1096/600!important}}
+@media (max-width:960px){.gm-mcard img{aspect-ratio:4/3!important;object-position:52% 60%}}
+
+/* Hindi on desktop: temple + articles switch from the baked-English banners to live (translated) copy + the banner's photo side */
+.hs-hiscene{display:none}
+@media (min-width:961px){
+  html.is-hi .hs-slide[data-theme="temple"] .hs-tbanner,
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-ffy-banner,
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-ffy-link{display:none!important}
+  html.is-hi .hs-slide[data-theme="temple"] .hs-inner,
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-inner{display:grid!important;grid-template-columns:1fr 1fr;position:relative;z-index:2}
+  html.is-hi .hs-slide[data-theme="temple"] .hs-visual,
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-visual{display:none}
+  html.is-hi .hs-hiscene{display:block;position:absolute;z-index:1;right:0;top:92px;bottom:196px;width:58%;margin:0;pointer-events:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 22%);mask-image:linear-gradient(90deg,transparent 0%,#000 22%)}
+  html.is-hi .hs-hiscene img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block}
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-hiscene img{object-position:40% 50%}
+  html.is-hi .hs-slide[data-theme="temple"] .hs-copy,html.is-hi .hs-slide[data-theme="wisdom"] .hs-copy{max-width:600px}
+  html.is-hi .hs-slide[data-theme="temple"] .hs-mcard,html.is-hi .hs-slide[data-theme="wisdom"] .hs-mcard{display:none}
+  html.is-hi .hs-slide[data-theme="temple"] .hs-bg{background-image:url('images/hero-temple-night.webp')!important;filter:blur(18px) brightness(.35);transform:scale(1.1)}
+  html.is-hi .hs-slide[data-theme="wisdom"] .hs-bg{filter:brightness(.55)}
+}
+@media (min-width:961px){html.is-hi .hs-slide[data-theme="wisdom"] .hs-copy,html.is-hi .hs-slide[data-theme="temple"] .hs-copy{max-width:520px}html.is-hi .hs-slide[data-theme="wisdom"] .hs-copy p,html.is-hi .hs-slide[data-theme="temple"] .hs-copy p{max-width:500px}}
