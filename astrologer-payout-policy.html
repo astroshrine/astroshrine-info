@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Astrologer Settlement &amp; Payout Policy — AstroShrine</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@700;800&family=Source+Sans+3:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#10213f; --navy-2:#1d3561; --gold:#e8b531; --gold-soft:#fbf1d3;
+  --ink:#1b2333; --muted:#5b6578; --line:#d6dbe5; --paper:#fff; --desk:#eef1f6;
+  --ok:#1f7a4d; --ok-bg:#e7f5ee; --err:#b3261e; --err-bg:#fdecea;
+  --display:"Rokkitt", Georgia, serif;
+  --sans:"Source Sans 3", "Noto Sans Devanagari", "Segoe UI", Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--desk);color:var(--ink)}
+body{font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px 40px}
+
+header.brand{background:var(--navy);color:#fff}
+header.brand .in{max-width:780px;margin:0 auto;padding:16px;display:flex;align-items:center;gap:14px}
+header.brand img{width:52px;height:52px;border-radius:12px;background:#fff;object-fit:contain}
+header.brand .n{font-family:var(--display);font-weight:800;font-size:24px;line-height:1.05;letter-spacing:.3px}
+header.brand .t{font-family:var(--display);font-weight:700;color:var(--gold);font-size:12px;letter-spacing:2px;margin-top:3px}
+
+.title{background:var(--paper);border-radius:0 0 16px 16px;padding:22px 20px 18px;box-shadow:0 6px 24px rgba(16,33,63,.08);margin-bottom:16px}
+.copy{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--navy);background:var(--gold-soft);border:1px solid var(--gold);border-radius:999px;padding:2px 10px;margin-bottom:10px}
+h1{font-size:24px;line-height:1.25;color:var(--navy);margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--muted);font-size:14px;font-style:italic;margin:0}
+.lead{margin:14px 0 0}
+
+.card{background:var(--paper);border-radius:14px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 10px rgba(16,33,63,.05)}
+h2{font-size:18px;color:var(--navy);margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid var(--gold)}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:14px;margin-right:8px;vertical-align:2px}
+p{margin:0 0 10px}
+ul{margin:0 0 6px;padding-left:20px}
+li{margin-bottom:6px}
+.callout{background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:8px;padding:12px 14px;margin:12px 0 0}
+.callout.navy{background:#eef2fa;border-left-color:var(--navy)}
+.note{font-size:13.5px;color:var(--muted);font-style:italic;margin-top:10px}
+
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px -4px 0;padding:0 4px}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f3f5f9;color:var(--navy);font-weight:700}
+td.pct{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.money{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.flow div{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafbfd}
+.flow b{display:block;color:var(--navy);font-size:15.5px;margin-bottom:4px}
+.flow span{font-size:14px;color:var(--muted)}
+.formula{font-variant-numeric:tabular-nums;background:#f6f8fc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.formula b{color:var(--navy)}
+
+.calcs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.calc{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fafbfd;font-variant-numeric:tabular-nums}
+.calc-h{font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.3}
+.calc-h small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.calc .r{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:4px 0;border-top:1px dashed var(--line)}
+.calc .r span{color:var(--muted)}
+.calc .r.net{border-top:2px solid var(--gold);margin-top:4px;padding-top:7px;font-size:16px}
+.calc .r.net span{color:var(--navy);font-weight:700}
+.calc .r.net b{color:var(--ok)}
+/* consent form */
+.consent{border:2px solid var(--gold)}
+label.f{display:block;font-weight:700;font-size:14.5px;color:var(--navy);margin:12px 0 5px}
+label.f small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=tel],input[type=email]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid #b9c1d0;border-radius:10px;padding:11px 12px}
+input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(232,181,49,.45)}
+input[aria-invalid=true]{border-color:var(--err)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.check{display:flex;gap:12px;align-items:flex-start;background:#fafbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:16px;cursor:pointer}
+.check input{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:var(--navy)}
+.check span{font-size:15px}
+.err{color:var(--err);font-size:13.5px;margin-top:4px;min-height:0}
+.btn{display:block;width:100%;margin-top:18px;font:inherit;font-size:17px;font-weight:700;color:#241a02;background:var(--gold);border:0;border-radius:12px;padding:14px;cursor:pointer}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.status{margin-top:12px;border-radius:10px;padding:12px 14px;font-size:15px}
+.status.bad{background:var(--err-bg);color:var(--err)}
+.done{text-align:center;padding:10px 0 4px}
+.done .tick{width:60px;height:60px;border-radius:50%;background:var(--ok-bg);color:var(--ok);font-size:32px;line-height:60px;margin:0 auto 10px;font-weight:700}
+.done h3{margin:0 0 6px;color:var(--ok);font-size:20px}
+.done .ref{display:inline-block;font-variant-numeric:tabular-nums;font-weight:700;background:#f3f5f9;border-radius:8px;padding:6px 12px;margin:6px 0}
+
+footer.foot{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;margin-top:18px}
+footer.foot b{color:var(--navy)}
+
+@media (max-width:560px){
+  h1{font-size:21px}
+  .card{padding:16px}
+  .flow{grid-template-columns:1fr}
+  .calcs{grid-template-columns:1fr}
+  header.brand .in{gap:10px;padding:12px 16px}
+  header.brand img{width:42px;height:42px}
+  header.brand .n{font-size:19px}
+  header.brand .t{font-size:10px;letter-spacing:1.4px}
+  .lang button{padding:6px 10px;font-size:13px}
+  .grid2{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff}.consent{display:none}.card,.title{box-shadow:none}
+}
+html[lang=hi] .en, html[lang=en] .hi{display:none !important}
+.lang{display:flex;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px;flex:none}
+.lang button{font:inherit;font-size:13.5px;font-weight:700;color:#dfe6f3;background:transparent;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--gold);color:#241a02}
+.lang button:focus-visible{outline:2px solid #fff;outline-offset:1px}
+</style>
+</head>
+<body>
+
+<header class="brand">
+  <div class="in">
+    <img src="/assets/logo.png" alt="AstroShrine">
+    <div style="flex:1;min-width:0">
+      <div class="n">ASTROSHRINE</div>
+      <div class="t">PRIVATE LIMITED</div>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="hi" aria-pressed="true">हिंदी</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="title">
+    <span class="copy"><span class="hi">ज्योतिषी प्रति</span><span class="en">ASTROLOGER COPY</span></span>
+    <h1 class="hi">ज्योतिषी निपटान एवं भुगतान नीति</h1>
+    <h1 class="en">Astrologer Settlement &amp; Payout Policy</h1>
+    <p class="sub hi">एस्ट्रोश्राइन ज्योतिषी वॉलेट एवं भुगतान नीति · व्यावसायिक नीति का प्रारूप - अंतिम कर व्यवस्था लागू कानून / चार्टर्ड अकाउंटेंट की सलाह के अनुसार</p>
+    <p class="sub en">AstroShrine Astrologer Wallet &amp; Payment Policy · Draft Business Policy - Final tax treatment as per applicable law / CA advice</p>
+    <p class="lead hi">यह दस्तावेज़ एस्ट्रोश्राइन मंच पर ज्योतिषी की कमाई, कंपनी का हिस्सा, स्रोत पर कर कटौती (टीडीएस), धनवापसी / रद्दीकरण और भुगतान को समझाने के लिए है। कृपया इसे पूरा पढ़ें और नीचे दिए गए फ़ॉर्म से अपनी सहमति दें।</p>
+    <p class="lead en">This document explains an astrologer's earnings, the company share, TDS, refunds/cancellations and payouts on the AstroShrine platform. Please read it fully and give your consent using the form below.</p>
+    <div class="callout hi"><b>मुख्य नियम:</b> जिस श्रेणी की सेवा है, उसी श्रेणी का कंपनी कमीशन लागू होगा। कमीशन की गणना के लिए लेन-देन की पात्र राशि को <b>X</b> माना जाएगा। टीडीएस, जीएसटी और अन्य वैधानिक समायोजन अलग-अलग लेखा पंक्तियों में दिखाए जाएंगे।<br><br><b>टीडीएस और जीएसटी की कटौती ज्योतिषी के हिस्से (ज्योतिष परामर्श में 60%, पूजा में 85%, रत्न में 90%) से होगी।</b> कंपनी का कमीशन (40% / 15% / 10%) इन कटौतियों से कम नहीं होगा।</div>
+    <div class="callout en"><b>Key rule:</b> The company commission of the service's own category applies. The eligible transaction base is taken as <b>X</b> for the commission calculation. TDS, GST and statutory adjustments are shown as separate accounting lines.<br><br><b>TDS and GST are deducted from the astrologer's share (60% for Astrology, 85% for Puja, 90% for Stone).</b> The company commission (40% / 15% / 10%) is not reduced by these deductions.</div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">1</span><span class="hi">श्रेणी के अनुसार कंपनी कमीशन</span><span class="en">Category-wise Company Commission</span></h2>
+    <div class="tbl"><table class="hi">
+      <thead><tr><th>सेवा की श्रेणी</th><th>कंपनी का हिस्सा</th><th>ज्योतिषी का सकल हिस्सा</th><th>उद्देश्य</th></tr></thead>
+      <tbody>
+        <tr><td>ज्योतिष / परामर्श / लाइव सत्र</td><td class="pct">40%</td><td class="pct">60%</td><td>विपणन, मंच, तकनीक, भुगतान संचालन एवं रखरखाव</td></tr>
+        <tr><td>पूजा / पूजा बुकिंग</td><td class="pct">15%</td><td class="pct">85%</td><td>मंच, विपणन, बुकिंग एवं संचालन सहायता</td></tr>
+        <tr><td>रत्न / आध्यात्मिक उत्पाद</td><td class="pct">10%</td><td class="pct">90%</td><td>मंच, विपणन एवं बिक्री सहायता</td></tr>
+      </tbody>
+    </table><table class="en">
+      <thead><tr><th>Service Category</th><th>Company Cut</th><th>Astrologer Gross Share</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Astrology / Consultation / Live Session</td><td class="pct">40%</td><td class="pct">60%</td><td>Marketing, platform, technology, payment operations &amp; maintenance</td></tr>
+        <tr><td>Puja / Puja Booking</td><td class="pct">15%</td><td class="pct">85%</td><td>Platform, marketing, booking &amp; operational support</td></tr>
+        <tr><td>Stone / Spiritual Product</td><td class="pct">10%</td><td class="pct">90%</td><td>Platform, marketing &amp; commerce support</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span><span class="hi">कमाई की गणना - सरल उदाहरण</span><span class="en">Earning Calculation - Simple Examples</span></h2>
+    <p class="hi">पहले कंपनी का कमीशन अलग होगा, फिर ज्योतिषी के हिस्से में से टीडीएस और जीएसटी कटेगा, और बची हुई राशि शुद्ध भुगतान होगी।</p>
+    <p class="en">First the company commission is taken out, then TDS and GST are deducted from the astrologer's share, and the balance is the Net Payout.</p>
+    <div class="calcs">
+      <div class="calc">
+        <div class="calc-h"><span class="hi">ज्योतिष / परामर्श</span><span class="en">Astrology / Consultation</span><small class="hi">₹1,000 की सेवा</small><small class="en">₹1,000 service</small></div>
+        <div class="r"><span><span class="hi">कंपनी कमीशन (40%)</span><span class="en">Company commission (40%)</span></span><b>− ₹400</b></div>
+        <div class="r"><span><span class="hi">ज्योतिषी का हिस्सा (60%)</span><span class="en">Astrologer share (60%)</span></span><b>₹600</b></div>
+        <div class="r"><span><span class="hi">टीडीएस 10% (हिस्से पर)</span><span class="en">TDS 10% (on share)</span></span><b>− ₹60</b></div>
+        <div class="r"><span><span class="hi">जीएसटी टीसीएस 0.5%</span><span class="en">GST TCS 0.5%</span></span><b>− ₹5</b></div>
+        <div class="r net"><span><span class="hi">शुद्ध भुगतान</span><span class="en">Net Payout</span></span><b>₹535</b></div>
+      </div>
+      <div class="calc">
+        <div class="calc-h"><span class="hi">पूजा</span><span class="en">Puja</span><small class="hi">₹1,000 की सेवा</small><small class="en">₹1,000 service</small></div>
+        <div class="r"><span><span class="hi">कंपनी कमीशन (15%)</span><span class="en">Company commission (15%)</span></span><b>− ₹150</b></div>
+        <div class="r"><span><span class="hi">ज्योतिषी का हिस्सा (85%)</span><span class="en">Astrologer share (85%)</span></span><b>₹850</b></div>
+        <div class="r"><span><span class="hi">टीडीएस 10% (हिस्से पर)</span><span class="en">TDS 10% (on share)</span></span><b>− ₹85</b></div>
+        <div class="r"><span><span class="hi">जीएसटी टीसीएस 0.5%</span><span class="en">GST TCS 0.5%</span></span><b>− ₹5</b></div>
+        <div class="r net"><span><span class="hi">शुद्ध भुगतान</span><span class="en">Net Payout</span></span><b>₹760</b></div>
+      </div>
+      <div class="calc">
+        <div class="calc-h"><span class="hi">रत्न / उत्पाद</span><span class="en">Stone / Product</span><small class="hi">₹1,000 की सेवा</small><small class="en">₹1,000 service</small></div>
+        <div class="r"><span><span class="hi">कंपनी कमीशन (10%)</span><span class="en">Company commission (10%)</span></span><b>− ₹100</b></div>
+        <div class="r"><span><span class="hi">ज्योतिषी का हिस्सा (90%)</span><span class="en">Astrologer share (90%)</span></span><b>₹900</b></div>
+        <div class="r"><span><span class="hi">टीडीएस 10% (हिस्से पर)</span><span class="en">TDS 10% (on share)</span></span><b>− ₹90</b></div>
+        <div class="r"><span><span class="hi">जीएसटी टीसीएस 0.5%</span><span class="en">GST TCS 0.5%</span></span><b>− ₹5</b></div>
+        <div class="r net"><span><span class="hi">शुद्ध भुगतान</span><span class="en">Net Payout</span></span><b>₹805</b></div>
+      </div>
+    </div>
+    <p class="note hi">टीडीएस: ज्योतिषी के हिस्से पर 10%, जब एक वित्तीय वर्ष में ज्योतिषी को कुल भुगतान ₹50,000 से अधिक हो जाए। जीएसटी टीसीएस: लेन-देन की राशि पर 0.5%, केवल जीएसटी में पंजीकृत ज्योतिषियों पर (पंजीकरण न होने पर नहीं कटेगा)। अंतिम दर और आधार लागू कानून के अनुसार होंगे।</p>
+    <p class="note en">TDS: 10% of the astrologer's share, once total payments to the astrologer in a financial year exceed ₹50,000. GST TCS: 0.5% of the transaction value, only for GST-registered astrologers (not deducted if unregistered). Final rates and base apply as per applicable law.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span><span class="hi">वॉलेट कैसे काम करेगा?</span><span class="en">How the wallet works</span></h2>
+    <div class="flow">
+      <div><b><span class="hi">लंबित</span><span class="en">Pending</span></b><span class="hi">सेवा पूरी होने पर निपटान की प्रक्रिया में</span><span class="en">In settlement processing after the service is completed</span></div>
+      <div><b><span class="hi">उपलब्ध</span><span class="en">Available</span></b><span class="hi">स्वीकृत राशि जो भुगतान के लिए पात्र है</span><span class="en">Approved balance that is eligible for payout</span></div>
+      <div><b><span class="hi">भुगतान हुआ</span><span class="en">Paid</span></b><span class="hi">बैंक / यूपीआई में भुगतान सफलतापूर्वक हो गया</span><span class="en">Bank/UPI payout successfully processed</span></div>
+    </div>
+    <p class="hi" style="margin-top:12px">हर लेन-देन की वॉलेट विवरण में अलग प्रविष्टि होगी। इससे ज्योतिषी अपनी कुल बिक्री, कंपनी का हिस्सा, टीडीएस, धनवापसी और वास्तव में प्राप्त राशि देख सकेंगे।</p>
+    <p class="en" style="margin-top:12px">Every transaction gets a separate entry in the wallet statement, so the astrologer can see total sales, company cut, TDS, refunds and the amount actually received.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">4</span><span class="hi">स्रोत पर कर कटौती (टीडीएस)</span><span class="en">TDS</span></h2>
+    <ul class="hi">
+      <li>टीडीएस ज्योतिषी के हिस्से पर <b>10%</b> की दर से काटा जाएगा, जब एक वित्तीय वर्ष में कुल भुगतान ₹50,000 से अधिक हो जाए। यह कंपनी के कमीशन से नहीं, ज्योतिषी के हिस्से से कटेगा।</li>
+      <li>उदाहरण: ₹1,000 की ज्योतिष सेवा → ज्योतिषी का हिस्सा ₹600 → टीडीएस ₹60।</li>
+      <li>टीडीएस लागू होने पर भुगतान से पहले टीडीएस की कटौती दिखाई जाएगी।</li>
+      <li>ज्योतिषी के डैशबोर्ड में सकल हिस्सा, टीडीएस और शुद्ध देय राशि अलग-अलग दिखाई देंगे।</li>
+      <li>टीडीएस की दर मंच में वैधानिक व्यवस्था के रूप में रखी जाएगी; लागू दर पैन, स्थिति, सेवा के वर्गीकरण आदि के अनुसार तय होगी।</li>
+    </ul>
+    <ul class="en">
+      <li>TDS is deducted at <b>10%</b> of the astrologer's share once total payments in a financial year exceed ₹50,000. It comes out of the astrologer's share, not the company commission.</li>
+      <li>Example: ₹1,000 Astrology service → astrologer share ₹600 → TDS ₹60.</li>
+      <li>Where TDS applies, the deduction is shown before the payout.</li>
+      <li>The astrologer dashboard shows Gross Share, TDS and Net Payable separately.</li>
+      <li>The TDS rate is kept as a statutory configuration on the platform; the applicable rate depends on PAN, status, service classification etc.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">5</span><span class="hi">वस्तु एवं सेवा कर (जीएसटी)</span><span class="en">GST</span></h2>
+    <ul class="hi">
+      <li>जीएसटी में पंजीकृत ज्योतिषियों के लिए ई-कॉमर्स जीएसटी टीसीएस <b>0.5%</b> (लेन-देन की राशि पर) ज्योतिषी के हिस्से से काटा जाएगा, कंपनी के कमीशन से नहीं। जीएसटी पंजीकरण न होने पर यह कटौती नहीं होगी।</li>
+      <li>जीएसटी को लेन-देन / चालान की व्यवस्था के अनुसार अलग कर पंक्ति में दिखाया जाएगा।</li>
+      <li>कमीशन की गणना जीएसटी सहित या जीएसटी रहित राशि पर होगी, यह वित्त व्यवस्था में स्पष्ट रूप से तय किया जाएगा।</li>
+      <li>ज्योतिषी के चालान और कंपनी के निपटान विवरण में कर के घटक अलग-अलग दिखाए जाएंगे।</li>
+    </ul>
+    <ul class="en">
+      <li>For GST-registered astrologers, e-commerce GST TCS of <b>0.5%</b> (on the transaction value) is deducted from the astrologer's share, not the company commission. It is not deducted if the astrologer is not GST-registered.</li>
+      <li>GST is shown as a separate tax line as per the transaction/invoice configuration.</li>
+      <li>Whether the commission is calculated on a GST-inclusive or GST-exclusive base is set clearly in the finance configuration.</li>
+      <li>Tax components are shown separately in the astrologer's invoice and the company settlement statement.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">6</span><span class="hi">धनवापसी एवं रद्दीकरण</span><span class="en">Refund &amp; Cancellation</span></h2>
+    <div class="tbl"><table class="hi">
+      <thead><tr><th>स्थिति</th><th>वॉलेट पर असर</th><th>निपटान पर असर</th></tr></thead>
+      <tbody>
+        <tr><td>सेवा से पहले ग्राहक द्वारा रद्द</td><td>लंबित राशि वापस ले ली जाएगी</td><td>ज्योतिषी की कोई अंतिम कमाई नहीं</td></tr>
+        <tr><td>सेवा शुरू होने के बाद रद्द</td><td>नीति के अनुसार आंशिक / पूरा समायोजन</td><td>कंपनी और ज्योतिषी का हिस्सा दोबारा गिना जाएगा</td></tr>
+        <tr><td>भुगतान के बाद धनवापसी</td><td>धनवापसी की राशि आगे के वॉलेट बैलेंस से समायोजित होगी</td><td>बकाया / वसूली राशि बन सकती है</td></tr>
+        <tr><td>रत्न की वापसी / धनवापसी</td><td>उत्पाद वापसी के नियम लागू होंगे</td><td>कमीशन का समायोजन बिक्री नीति के अनुसार</td></tr>
+      </tbody>
+    </table><table class="en">
+      <thead><tr><th>Situation</th><th>Wallet Impact</th><th>Settlement Impact</th></tr></thead>
+      <tbody>
+        <tr><td>Customer cancellation before service</td><td>Pending credit reversed</td><td>No final astrologer earning</td></tr>
+        <tr><td>Service cancelled after start</td><td>Partial / full adjustment as policy</td><td>Company cut &amp; astrologer share re-calculated</td></tr>
+        <tr><td>Refund after payout</td><td>Refund amount adjusted from future wallet balance</td><td>Negative/Recovery balance may be created</td></tr>
+        <tr><td>Stone return/refund</td><td>Product return rules apply</td><td>Commission adjustment subject to commerce policy</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout navy hi"><b>महत्वपूर्ण:</b> जिन मामलों में कर पहले ही घोषित / जमा किया जा चुका है, वहां कर की वापसी या समायोजन को स्वचालित वॉलेट धनवापसी के साथ सीधे उलटा नहीं किया जाएगा; वित्त / कर प्रक्रिया के अनुसार अलग समायोजन प्रविष्टि बनाई जाएगी।</div>
+    <div class="callout navy en"><b>Important:</b> Where tax has already been reported/deposited, the tax reversal/adjustment will not be blindly reversed along with an automatic wallet refund; a separate adjustment entry will be made as per the finance/tax workflow.</div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">7</span><span class="hi">भुगतान चक्र</span><span class="en">Payout Cycle</span></h2>
+    <p class="hi">पात्र राशि तय भुगतान चक्र में बैंक / यूपीआई पर भेजी जाएगी। न्यूनतम भुगतान सीमा, केवाईसी, पैन / बैंक सत्यापन, असफल भुगतान और भुगतान रोकने / जारी करने के नियम मंच की नीति के अनुसार बदले जा सकेंगे।</p>
+    <p class="en">The eligible balance is sent to bank/UPI in the defined payout cycle. Minimum payout threshold, KYC, PAN/bank verification, failed payouts and hold/release rules remain configurable as per platform policy.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">8</span><span class="hi">ज्योतिषी विवरण में क्या दिखेगा?</span><span class="en">What the astrologer statement shows</span></h2>
+    <div class="tbl"><table class="hi" style="min-width:0">
+      <thead><tr><th>विवरण</th><th>उदाहरण</th></tr></thead>
+      <tbody>
+        <tr><td>लेन-देन संख्या</td><td>AST-2026-000123</td></tr>
+        <tr><td>ग्राहक ऑर्डर</td><td>ORD-10045</td></tr>
+        <tr><td>श्रेणी</td><td>ज्योतिष / पूजा / रत्न</td></tr>
+        <tr><td>कुल लेन-देन राशि</td><td class="money">₹1,000</td></tr>
+        <tr><td>कंपनी कमीशन</td><td class="money">₹400 / ₹150 / ₹100</td></tr>
+        <tr><td>ज्योतिषी का सकल हिस्सा</td><td class="money">₹600 / ₹850 / ₹900</td></tr>
+        <tr><td>टीडीएस</td><td>ज्योतिषी के हिस्से का 10% (₹60 / ₹85 / ₹90)</td></tr>
+        <tr><td>जीएसटी टीसीएस</td><td>लेन-देन का 0.5% (₹5), केवल जीएसटी पंजीकृत</td></tr>
+        <tr><td>धनवापसी / रद्दीकरण</td><td>जैसा लागू हो</td></tr>
+        <tr><td>शुद्ध देय राशि</td><td>₹535 / ₹760 / ₹805 (सभी समायोजन के बाद)</td></tr>
+        <tr><td>भुगतान की स्थिति</td><td>लंबित / प्रक्रिया में / भुगतान हुआ / असफल / रोका गया</td></tr>
+      </tbody>
+    </table><table class="en" style="min-width:0">
+      <thead><tr><th>Field</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Transaction ID</td><td>AST-2026-000123</td></tr>
+        <tr><td>Customer Order</td><td>ORD-10045</td></tr>
+        <tr><td>Category</td><td>Astrology / Puja / Stone</td></tr>
+        <tr><td>Gross Transaction</td><td class="money">₹1,000</td></tr>
+        <tr><td>Company Commission</td><td class="money">₹400 / ₹150 / ₹100</td></tr>
+        <tr><td>Astrologer Gross Share</td><td class="money">₹600 / ₹850 / ₹900</td></tr>
+        <tr><td>TDS</td><td>10% of astrologer share (₹60 / ₹85 / ₹90)</td></tr>
+        <tr><td>GST TCS</td><td>0.5% of transaction (₹5), GST registered only</td></tr>
+        <tr><td>Refund / Cancellation</td><td>As applicable</td></tr>
+        <tr><td>Net Payable</td><td>₹535 / ₹760 / ₹805 (after all adjustments)</td></tr>
+        <tr><td>Payout Status</td><td>Pending / Processing / Paid / Failed / Held</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">9</span><span class="hi">सरल समझ</span><span class="en">In short</span></h2>
+    <div class="hi">
+      <div class="formula"><b>ज्योतिष:</b> X × 60% = ज्योतिषी का हिस्सा → घटाएं 10% टीडीएस → घटाएं 0.5% जीएसटी टीसीएस → शुद्ध भुगतान<br><small>उदाहरण: ₹1,000 → ₹600 − ₹60 − ₹5 = ₹535</small></div>
+      <div class="formula"><b>पूजा:</b> X × 85% = ज्योतिषी का हिस्सा → घटाएं 10% टीडीएस → घटाएं 0.5% जीएसटी टीसीएस → शुद्ध भुगतान<br><small>उदाहरण: ₹1,000 → ₹850 − ₹85 − ₹5 = ₹760</small></div>
+      <div class="formula"><b>रत्न:</b> X × 90% = ज्योतिषी का हिस्सा → घटाएं 10% टीडीएस → घटाएं 0.5% जीएसटी टीसीएस → शुद्ध भुगतान<br><small>उदाहरण: ₹1,000 → ₹900 − ₹90 − ₹5 = ₹805</small></div>
+      <p class="note">एस्ट्रोश्राइन प्राइवेट लिमिटेड | यह दस्तावेज़ एक व्यावसायिक / संचालन नीति का प्रारूप है। वैधानिक कर व्यवस्था लागू भारतीय कर कानून और कंपनी की वित्त / कर नीति के अनुसार होगी।</p>
+    </div>
+    <div class="en">
+      <div class="formula"><b>Astrology:</b> X × 60% = Astrologer Share → minus 10% TDS → minus 0.5% GST TCS → Net Payout<br><small>Example: ₹1,000 → ₹600 − ₹60 − ₹5 = ₹535</small></div>
+      <div class="formula"><b>Puja:</b> X × 85% = Astrologer Share → minus 10% TDS → minus 0.5% GST TCS → Net Payout<br><small>Example: ₹1,000 → ₹850 − ₹85 − ₹5 = ₹760</small></div>
+      <div class="formula"><b>Stone:</b> X × 90% = Astrologer Share → minus 10% TDS → minus 0.5% GST TCS → Net Payout<br><small>Example: ₹1,000 → ₹900 − ₹90 − ₹5 = ₹805</small></div>
+      <p class="note">AstroShrine Private Limited | This document is a business/operational policy draft. Statutory tax treatment will be governed by applicable Indian tax law and the company's finance/tax policy.</p>
+    </div>
+  </section>
+
+  <section class="card consent" id="consent">
+    <h2><span class="hi">ज्योतिषी की सहमति</span><span class="en">Astrologer Consent</span></h2>
+    <div id="formBox">
+      <p class="hi">ऊपर दी गई नीति पढ़ने के बाद अपना विवरण भरें और सहमति देकर जमा करें। आपकी सहमति एस्ट्रोश्राइन के अभिलेखों में सुरक्षित रहेगी।</p>
+      <p class="en">After reading the policy above, fill in your details, give your consent and press Submit. Your consent will be kept safely in AstroShrine's records.</p>
+      <form id="form" novalidate>
+        <label class="f" for="name"><span class="hi">पूरा नाम</span><span class="en">Full name</span></label>
+        <input type="text" id="name" autocomplete="name" maxlength="120" required>
+        <div class="err" id="e-name"></div>
+
+        <div class="grid2">
+          <div>
+            <label class="f" for="mobile"><span class="hi">मोबाइल नंबर</span><span class="en">Mobile number</span> <small class="hi">(एस्ट्रोश्राइन पर पंजीकृत)</small><small class="en">(registered on AstroShrine)</small></label>
+            <input type="tel" id="mobile" inputmode="numeric" autocomplete="tel" maxlength="14" required>
+            <div class="err" id="e-mobile"></div>
+          </div>
+          <div>
+            <label class="f" for="email"><span class="hi">ईमेल</span><span class="en">Email</span> <small class="hi">(वैकल्पिक)</small><small class="en">(optional)</small></label>
+            <input type="email" id="email" autocomplete="email" maxlength="160">
+            <div class="err" id="e-email"></div>
+          </div>
+        </div>
+
+        <label class="f" for="appname"><span class="hi">ऐप में आपका नाम</span><span class="en">Your name in the app</span> <small class="hi">(वैकल्पिक, जैसे "आचार्य रमेश जी")</small><small class="en">(optional, e.g. "Acharya Ramesh Ji")</small></label>
+        <input type="text" id="appname" maxlength="120">
+
+        <label class="check" for="agree">
+          <input type="checkbox" id="agree">
+          <span class="hi">मैंने <b>एस्ट्रोश्राइन ज्योतिषी निपटान एवं भुगतान नीति</b> पूरी पढ़ और समझ ली है, और मैं इसकी सभी शर्तों (श्रेणी के अनुसार कमीशन, ज्योतिषी के हिस्से से 10% टीडीएस और जीएसटी टीसीएस की कटौती, धनवापसी एवं रद्दीकरण, तथा भुगतान चक्र) से सहमत हूँ।</span>
+          <span class="en">I have read and understood the <b>AstroShrine Astrologer Settlement &amp; Payout Policy</b> in full, and I agree to all its terms (category-wise commission, deduction of 10% TDS and GST TCS from the astrologer's share, refund &amp; cancellation and the payout cycle).</span>
+        </label>
+        <div class="err" id="e-agree"></div>
+
+        <button class="btn" id="submit" type="submit"><span class="hi">सहमत हूँ, जमा करें</span><span class="en">Agree &amp; Submit</span></button>
+        <div class="status bad" id="status" hidden></div>
+      </form>
+    </div>
+
+    <div class="done" id="doneBox" hidden>
+      <div class="tick">✓</div>
+      <h3 class="hi">धन्यवाद! आपकी सहमति दर्ज हो गई है।</h3>
+      <h3 class="en">Thank you! Your consent has been recorded.</h3>
+      <div class="ref" id="doneRef"></div>
+      <p class="note" id="doneAt" style="font-style:normal"></p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="hi"><b>एस्ट्रोश्राइन प्राइवेट लिमिटेड</b><br>
+    WD-28, अकांक्षा स्कूल के सामने, तेलीबांधा, अवंति विहार, रायपुर, छत्तीसगढ़ – 492001<br>
+    फ़ोन: +91 98933 63928 · ईमेल: astrolive9@gmail.com</div>
+    <div class="en"><b>AstroShrine Private Limited</b><br>
+    WD-28, Opp. Akansha School, Telibandha, Avanti Vihar, Raipur, Chhattisgarh – 492001<br>
+    Phone: +91 98933 63928 · Email: astrolive9@gmail.com</div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  const SB_URL = "https://enyjwovvnsctgsxfigyo.supabase.co";
+  const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVueWp3b3Z2bnNjdGdzeGZpZ3lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2MTk3MDEsImV4cCI6MjA4MDE5NTcwMX0.1Es3rlmOL2mVr2VUJk8BmXea8ves8UDswFB68coxPRY";
+  const POLICY_VERSION = "payout-policy-v3";
+  const KEY = "as_payout_consent_v1";
+  const LANG_KEY = "as_payout_lang";
+  const $ = (id) => document.getElementById(id);
+
+  const MSG = {
+    hi: {
+      name: "कृपया अपना पूरा नाम लिखें।",
+      mobile: "कृपया सही 10 अंकों का मोबाइल नंबर लिखें।",
+      email: "ईमेल सही नहीं है।",
+      agree: "जमा करने के लिए सहमति वाले बॉक्स पर निशान लगाएं।",
+      sending: "जमा हो रहा है…",
+      fail: "जमा नहीं हो पाया। इंटरनेट जांचकर फिर से प्रयास करें। समस्या बनी रहे तो +91 98933 63928 पर संपर्क करें।",
+      ref: "संदर्भ संख्या: ",
+      at: "जमा करने का समय: ",
+      ph: "10 अंकों का मोबाइल नंबर"
+    },
+    en: {
+      name: "Please enter your full name.",
+      mobile: "Please enter a valid 10-digit mobile number.",
+      email: "This email is not valid.",
+      agree: "Tick the consent box to submit.",
+      sending: "Submitting…",
+      fail: "Could not submit. Check your internet and try again. If it keeps failing, call +91 98933 63928.",
+      ref: "Reference: ",
+      at: "Submitted on ",
+      ph: "10-digit mobile"
+    }
+  };
+  let lang = "hi";
+  try { if (localStorage.getItem(LANG_KEY) === "en") lang = "en"; } catch (_) {}
+  const errs = {};
+  let done = null;
+
+  const setLang = (l) => {
+    lang = l;
+    document.documentElement.lang = l;
+    document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));
+    $("mobile").placeholder = MSG[l].ph;
+    Object.keys(errs).forEach(k => { $("e-" + k).textContent = errs[k] ? MSG[l][k] : ""; });
+    if (done) paintDone();
+    try { localStorage.setItem(LANG_KEY, l); } catch (_) {}
+  };
+  document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+  const paintDone = () => {
+    $("doneRef").textContent = MSG[lang].ref + done.ref;
+    $("doneAt").textContent = MSG[lang].at + new Date(done.at).toLocaleString(lang === "hi" ? "hi-IN" : "en-IN", { dateStyle: "medium", timeStyle: "short" });
+  };
+  const showDone = (ref, at) => {
+    done = { ref, at };
+    $("formBox").hidden = true;
+    $("doneBox").hidden = false;
+    paintDone();
+  };
+  try {
+    const prev = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (prev && prev.ref) showDone(prev.ref, prev.at);
+  } catch (_) {}
+  setLang(lang);
+
+  const setErr = (id, bad) => {
+    errs[id] = !!bad;
+    $("e-" + id).textContent = bad ? MSG[lang][id] : "";
+    const el = $(id);
+    if (el && el.type !== "checkbox") el.setAttribute("aria-invalid", bad ? "true" : "false");
+  };
+  const norm = (s) => s.trim().replace(/\s+/g, " ");
+  const uuid = () => (crypto.randomUUID ? crypto.randomUUID() :
+    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === "x" ? r : (r & 3 | 8)).toString(16); }));
+
+  $("form").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    $("status").hidden = true;
+    const name = norm($("name").value);
+    const digits = $("mobile").value.replace(/\D/g, "");
+    const mobile = digits.length === 12 && digits.startsWith("91") ? digits.slice(2) : digits;
+    const email = $("email").value.trim();
+    setErr("name", name.length < 2);
+    setErr("mobile", !/^[6-9]\d{9}$/.test(mobile));
+    setErr("email", email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    setErr("agree", !$("agree").checked);
+    if (Object.values(errs).some(Boolean)) {
+      (document.querySelector('[aria-invalid="true"]') || $("agree")).focus();
+      return;
+    }
+
+    const btn = $("submit");
+    const label = btn.innerHTML;
+    btn.disabled = true; btn.textContent = MSG[lang].sending;
+    const id = uuid();
+    try {
+      const row = {
+        id, policy_version: POLICY_VERSION, full_name: name, mobile, email: email || null,
+        app_name: norm($("appname").value) || null, agreed: true,
+        user_agent: navigator.userAgent.slice(0, 300)
+      };
+      const r = await fetch(SB_URL + "/rest/v1/astrologer_policy_consents", {
+        method: "POST",
+        headers: { apikey: SB_KEY, Authorization: "Bearer " + SB_KEY, "Content-Type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify(row)
+      });
+      if (!r.ok) throw new Error("(" + r.status + ")");
+      const ref = "PC-" + new Date().getFullYear() + "-" + id.slice(0, 8).toUpperCase();
+      const at = new Date().toISOString();
+      try { localStorage.setItem(KEY, JSON.stringify({ ref, at })); } catch (_) {}
+      showDone(ref, at);
+      window.scrollTo({ top: $("consent").offsetTop - 10, behavior: "smooth" });
+    } catch (e) {
+      $("status").hidden = false;
+      $("status").textContent = MSG[lang].fail + " " + (e.message || "");
+      btn.disabled = false; btn.innerHTML = label;
+    }
+  });
+})();
+</script>
+</body>
+</html>
