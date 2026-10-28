@@ -9,5 +9,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/download",
+      "destination": "/home#download",
+      "type": 301
+    },
+    {
+      "source": "/download.html",
+      "destination": "/home#download",
+      "type": 301
+    }
   ]
 }
