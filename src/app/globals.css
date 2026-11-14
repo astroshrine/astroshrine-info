@@ -1,26 +1,347 @@
 @import "tailwindcss";
 
+/*
+ * AstroShrine visual system (.claude/skills/landing-page-design, Part B).
+ *
+ * Colors come in two layers:
+ *   1. Core colors (:root, --core-*): the brand's raw values. Never used in components directly.
+ *   2. Semantic tokens (@theme, --color-*): what components use (bg-surface-card, text-ink-soft, ...).
+ *      Every semantic token is an alias of a core color.
+ * The legacy navy-*, gold-* and cream utilities (and Tailwind's default palette) stay available
+ * while pages move over to the semantic tokens; new work uses the semantic tokens only.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Navy: brand primary */
+  --core-navy-50: #eef2fa;
+  --core-navy-100: #d9e2f3;
+  --core-navy-200: #b8c4dd;
+  --core-navy-500: #2a4a86;
+  --core-navy-600: #46557a;
+  --core-navy-650: #5f6a86;
+  --core-navy-700: #14275a;
+  --core-navy-800: #0f1e46;
+  --core-navy-900: #0a1530;
+
+  /* Gold: brand accent */
+  --core-gold-50: #fffbeb;
+  --core-gold-100: #fef3c7;
+  --core-gold-200: #fde68a;
+  --core-gold-300: #fcd34d;
+  --core-gold-400: #fbbf24;
+  --core-gold-700: #8a6510;
+
+  /* Neutrals and status */
+  --core-cream: #fdfbf5;
+  --core-white: #ffffff;
+  --core-green-50: #f0fdf4;
+  --core-green-500: #22c55e;
+  --core-green-700: #15803d;
+  --core-amber-50: #fffbeb;
+  --core-amber-500: #f59e0b;
+  --core-amber-800: #92400e;
+  --core-red-50: #fef2f2;
+  --core-red-700: #b91c1c;
+  --core-stone-100: #f5f5f4;
+  --core-stone-400: #a8a29e;
+  --core-stone-500: #78716c;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* B7: every transition decelerates on the base curve; hover color shifts take 300ms. */
+  --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 300ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* An opened FAQ answer settles in from just above (transform and opacity only, B7). */
+  --animate-reveal-down: reveal-down 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes reveal-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  /* Surfaces */
+  --color-surface-page: var(--core-cream);
+  --color-surface-card: var(--core-white);
+  --color-surface-sunken: var(--core-gold-50);
+  --color-surface-inverse: var(--core-navy-900);
+  --color-surface-inverse-raised: var(--core-navy-800);
+
+  /* Text (contrast on page and card surfaces: ink 17:1, ink-soft 7:1, ink-muted 5:1) */
+  --color-ink: var(--core-navy-900);
+  --color-ink-soft: var(--core-navy-600);
+  --color-ink-muted: var(--core-navy-650);
+  --color-ink-inverse: var(--core-cream);
+  --color-ink-inverse-soft: var(--core-navy-200);
+
+  /* Lines */
+  --color-line: var(--core-gold-100);
+  --color-line-strong: var(--core-gold-200);
+  --color-line-inverse: var(--core-navy-700);
+
+  /* Brand accent */
+  --color-brand: var(--core-gold-400);
+  --color-brand-hover: var(--core-gold-300);
+  --color-brand-soft: var(--core-gold-200);
+  --color-brand-ink: var(--core-navy-900);
+  --color-brand-strong: var(--core-gold-700);
+  --color-brand-on-inverse: var(--core-gold-300);
+
+  /* Status */
+  --color-success: var(--core-green-700);
+  --color-success-soft: var(--core-green-50);
+  --color-warning: var(--core-amber-800);
+  --color-warning-soft: var(--core-amber-50);
+  --color-danger: var(--core-red-700);
+  --color-danger-soft: var(--core-red-50);
+  --color-neutral: var(--core-stone-500);
+  --color-neutral-soft: var(--core-stone-100);
+
+  /* Availability dots (always next to a text label) */
+  --color-online: var(--core-green-500);
+  --color-busy: var(--core-amber-500);
+  --color-offline: var(--core-stone-400);
+
+  /* Focus rings: navy on light surfaces, gold on navy */
+  --color-focus: var(--core-navy-500);
+  --color-focus-inverse: var(--core-gold-300);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-surface-page);
+    color: var(--color-ink);
+  }
+
+  /* B9: a visible focus ring on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-focus));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-soft);
+    color: var(--color-ink);
+  }
+
+  /*
+   * People who ask for reduced motion get the end state at once from CSS animations and transitions.
+   * Framer Motion handles its own animations through <MotionConfig reducedMotion="user"> in AppShell.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/*
+ * Sideways-scrolling chip and tab rows (Kundli tools, astrologer filters): still scroll by swipe, trackpad
+ * and keyboard focus, without a visible scrollbar. Not for data tables, where the bar shows there is more.
+ */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Inside navy surfaces the focus ring turns gold so it stays visible. */
+@utility on-inverse {
+  --focus-ring: var(--color-focus-inverse);
+}
+
+/*
+ * B5: the hero heading's text gradient (light theme), the only gradient on the site.
+ * Put it on an inline <span> inside the heading, not on the heading itself. A gradient clipped to
+ * text only paints inside the element's box, and Devanagari vowel marks (ु ू ृ below, ि ी ें above)
+ * reach outside a heading's line box, so they were cut off. On an inline element, vertical padding
+ * widens the painted area without changing the layout, and `clone` repeats it on every line.
+ */
+@utility hero-gradient-text {
+  background-image: linear-gradient(90deg, #000000, #666666);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  padding-block: 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/*
+ * B1 text styles. Every piece of text uses one of these; sizes come from Tailwind's type scale.
+ * Headings and titles balance their lines, running text avoids orphans. Only text-wrap-style is set
+ * (not the text-wrap shorthand), so `truncate` / `whitespace-nowrap` keep working on styled text.
+ */
+@utility heading-1 {
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+@utility heading-2 {
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+@utility heading-3 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+@utility heading-4 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+@utility heading-5 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+@utility heading-6 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: balance;
+}
+
+@utility title-1 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: balance;
+}
+@utility title-2 {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: balance;
+}
+@utility title-3 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: balance;
+}
+@utility title-4 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: balance;
+}
+@utility title-5 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: balance;
+}
+
+@utility body-1 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: pretty;
+}
+@utility body-2 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: pretty;
+}
+@utility body-3 {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-normal);
+  text-wrap-style: pretty;
+}
+@utility body-4 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: pretty;
+}
+@utility body-5 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: pretty;
+}
+@utility body-6 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-normal);
+  text-wrap-style: pretty;
+}
+
+@utility button-lg {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: var(--font-weight-semibold);
+}
+@utility button-md {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  font-weight: var(--font-weight-semibold);
+}
+@utility button-sm {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-semibold);
+}
+@utility button-xsm {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: var(--font-weight-semibold);
+}
+
+@utility caption-1 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: pretty;
+}
+@utility caption-2 {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  font-weight: var(--font-weight-normal);
+  text-wrap-style: pretty;
+}
+@utility caption-3 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: var(--font-weight-semibold);
+  text-wrap-style: pretty;
+}
+@utility caption-4 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: var(--font-weight-medium);
+  text-wrap-style: pretty;
+}
+@utility caption-5 {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: var(--font-weight-normal);
+  text-wrap-style: pretty;
 }
