@@ -152,6 +152,19 @@
 }
 
 /*
+ * Screen-filling views (the chat) end at the bottom of the screen, as in the app: the site footer is not shown
+ * under them, so the page itself never scrolls. "always" fills the screen at every width; "wide" from lg up.
+ */
+#page:has([data-fills-screen="always"]) > footer {
+  display: none;
+}
+@media (width >= 64rem) {
+  #page:has([data-fills-screen="wide"]) > footer {
+    display: none;
+  }
+}
+
+/*
  * Sideways-scrolling chip and tab rows (Kundli tools, astrologer filters): still scroll by swipe, trackpad
  * and keyboard focus, without a visible scrollbar. Not for data tables, where the bar shows there is more.
  */

@@ -14,9 +14,13 @@ export default function ChatShell({ children }: { children: React.ReactNode }) {
   const roomOpen = !!segment;
 
   return (
+    // Fills the screen under the header exactly (5rem = main's pt-20): always on wide screens, on phones while a
+    // conversation is open. Messages scroll inside the room, the composer stays at the bottom, and the site
+    // footer is not shown below (data-fills-screen, see globals.css), so the page itself never scrolls.
     <div
-      className={`mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 px-4 pb-8 pt-4 md:px-8 lg:h-[calc(100dvh-9rem)] lg:grid-cols-3 lg:pt-8 ${
-        roomOpen ? "h-[calc(100dvh-7rem)]" : ""
+      data-fills-screen={roomOpen ? "always" : "wide"}
+      className={`mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 px-4 pt-4 md:px-8 lg:h-[calc(100dvh-5rem)] lg:grid-cols-3 lg:pb-8 lg:pt-8 ${
+        roomOpen ? "h-[calc(100dvh-5rem)] pb-4" : "pb-8"
       }`}
     >
       <div className={`${roomOpen ? "hidden lg:flex" : "flex"} min-h-0 flex-col`}>

@@ -156,7 +156,8 @@ export default function ChatList({ activeId }: { activeId: string | null }) {
           </Link>
         </div>
       ) : (
-        <ul className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2">
+        // relative: keeps the sr-only unread labels inside this scroll box, so a long list cannot stretch the page.
+        <ul className="relative flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2">
           {rows.map((r) => {
             const active = r.astrologerId === activeId;
             const state = packLabel(r.pack);

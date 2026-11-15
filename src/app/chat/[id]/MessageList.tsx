@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { PiArrowClockwise, PiCheck, PiChecks, PiClock, PiWarningCircle } from "react-icons/pi";
 import type { ChatMessage } from "@/lib/services/chat";
 
@@ -25,18 +25,25 @@ function Ticks({ m }: { m: ChatMessage }) {
   return <PiCheck className="h-4 w-4" aria-label="भेजा गया" />;
 }
 
-function Body({ m, mine }: { m: ChatMessage; mine: boolean }) {
+function Body({ m, mine, onMediaLoad }: { m: ChatMessage; mine: boolean; onMediaLoad: () => void }) {
   const type = String(m.type).toLowerCase();
   if (type === "image")
     return (
       <a href={m.message} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-xl">
         {/* eslint-disable-next-line @next/next/no-img-element -- chat photos live on the backend's media host */}
-        <img src={m.message} alt={mine ? "आपकी भेजी तस्वीर" : "ज्योतिषी की भेजी तस्वीर"} loading="lazy" className="max-h-72 w-full max-w-64 object-cover" />
+        <img
+          src={m.message}
+          alt={mine ? "आपकी भेजी तस्वीर" : "ज्योतिषी की भेजी तस्वीर"}
+          loading="lazy"
+          onLoad={onMediaLoad}
+          className="max-h-72 w-full max-w-64 object-cover"
+        />
       </a>
     );
   if (type === "audio" || type === "recording")
     return <audio controls preload="none" src={m.message} className="w-64 max-w-full" aria-label="Voice note" />;
-  if (type === "video") return <video controls preload="metadata" src={m.message} className="max-h-72 w-full max-w-64 rounded-xl" />;
+  if (type === "video")
+    return <video controls preload="metadata" src={m.message} onLoadedMetadata={onMediaLoad} className="max-h-72 w-full max-w-64 rounded-xl" />;
   if (type !== "text") return <p className="body-6 italic text-ink-muted">यह संदेश यहां नहीं दिख सकता।</p>;
   return <p className="body-6 whitespace-pre-wrap break-words">{m.message}</p>;
 }
@@ -71,6 +78,33 @@ export default function MessageList({
   const scroller = useRef<HTMLDivElement>(null);
   const anchor = useRef<{ height: number; top: number } | null>(null);
   const lastKey = useRef<string | null>(null);
+  // Whether the reader is at the newest message (updated as they scroll).
+  const atNewest = useRef(true);
+
+  const onScroll = () => {
+    const el = scroller.current;
+    if (el) atNewest.current = el.scrollHeight - el.scrollTop - el.clientHeight < 160;
+  };
+
+  // A photo or video grows its bubble once it has loaded. If the reader was at the newest message, keep it in
+  // view, so opening a chat that ends with a photo still lands on the last message.
+  const onMediaLoad = () => {
+    const el = scroller.current;
+    if (el && atNewest.current) el.scrollTop = el.scrollHeight;
+  };
+
+  // The list itself gets shorter or taller when a bar opens or closes beside it (the kundli notice, the
+  // low-time warning, the composer growing to several lines). Its scroll position stays put, which would slide
+  // the newest message out of view; keep it in view if the reader was there.
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => {
+      if (atNewest.current) el.scrollTop = el.scrollHeight;
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const el = scroller.current;
@@ -103,7 +137,15 @@ export default function MessageList({
   const days = messages.map((m) => dayLabel(m.sentTs, now));
 
   return (
-    <div ref={scroller} className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 py-4 md:px-6" aria-live="polite" aria-relevant="additions">
+    // relative: the screen-reader labels (sr-only, absolutely positioned) are then placed and clipped inside this
+    // scroll box. Without it they escape it, and a long conversation stretches the whole page below the chat.
+    <div
+      ref={scroller}
+      onScroll={onScroll}
+      className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 py-4 md:px-6"
+      aria-live="polite"
+      aria-relevant="additions"
+    >
       {hasOlder && (
         <button
           type="button"
@@ -138,7 +180,7 @@ export default function MessageList({
                 {m.repliedTo?.message && (
                   <p className="caption-5 line-clamp-2 rounded-xl bg-surface-page/70 px-2 py-1 text-ink-soft">{m.repliedTo.message}</p>
                 )}
-                <Body m={m} mine={mine} />
+                <Body m={m} mine={mine} onMediaLoad={onMediaLoad} />
                 <span className={`caption-5 flex items-center gap-1 self-end ${mine ? "text-ink-soft" : "text-ink-muted"}`}>
                   {timeFormat.format(new Date(m.sentTs))}
                   {mine && <Ticks m={m} />}
