@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase";
 import { ACCOUNT_BLOCKED_CODES, ApiError } from "@/lib/api";
@@ -33,10 +33,23 @@ async function fetchAccount(id: string, signal?: AbortSignal): Promise<Account> 
   return { id, user, balance };
 }
 
+/** What every page part rendered on the server: the session lives in the browser, so it is not known there. */
+const SERVER_STATUS: AuthState["status"] = SUPABASE_CONFIGURED ? "loading" : "signedOut";
+
+const noSubscription = () => () => {};
+
+/**
+ * The visitor's sign-in state. While a component is hydrating it reports what the server rendered ("loading"),
+ * then the real state right after. Without this, a part of the page that hydrates late (a streamed <Suspense>
+ * boundary, such as the header or the wallet page) could hydrate after the stored session was read, render the
+ * signed-in markup over the server's "loading" markup and fail hydration. useSyncExternalStore uses its server
+ * snapshot only while hydrating, so client-side navigation shows the real state immediately.
+ */
 export function useAuth(): AuthState {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
-  return ctx;
+  const hydrated = useSyncExternalStore(noSubscription, () => true, () => false);
+  return hydrated ? ctx : { ...ctx, status: SERVER_STATUS, session: null, user: null, balance: null, blockedMessage: null };
 }
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
