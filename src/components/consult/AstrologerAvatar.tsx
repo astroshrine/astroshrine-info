@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Availability } from "@/lib/endpoints";
+import { contentLang } from "@/lib/services/astrologerModel";
 
 const SUPABASE_PUBLIC = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? `${process.env.NEXT_PUBLIC_SUPABASE_URL.replace(/\/+$/, "")}/storage/v1/object/public/`
@@ -40,7 +41,7 @@ export default function AstrologerAvatar({
           className="h-full w-full rounded-full bg-surface-sunken object-cover"
         />
       ) : (
-        <span aria-hidden className="title-2 grid h-full w-full place-items-center rounded-full bg-surface-sunken text-brand-strong">
+        <span aria-hidden lang={contentLang(name)} className="title-2 grid h-full w-full place-items-center rounded-full bg-surface-sunken text-brand-strong">
           {name.charAt(0).toUpperCase()}
         </span>
       )}

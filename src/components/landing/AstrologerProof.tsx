@@ -1,14 +1,41 @@
 "use client";
 
-import Link from "next/link";
 import { PiArrowClockwise, PiArrowRight, PiStarFill } from "react-icons/pi";
 import AstrologerCard, { AstrologerCardSkeleton } from "@/components/AstrologerCard";
+import Link from "@/i18n/Link";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
 import { statsOf, useAstrologerDirectory } from "@/lib/useAstrologerDirectory";
 import type { Astrologer } from "@/lib/endpoints";
 import CountUp from "./CountUp";
 
 /** Ratings with at least this many reviews count as "top rated" (a 5.0 from one review is not proof). */
 const MIN_REVIEWS = 10;
+
+const text = defineMessages({
+  hi: {
+    listFailed: "Astrologers की सूची लोड नहीं हुई। Internet connection जांचें और फिर कोशिश करें।",
+    tryAgain: "फिर कोशिश करें",
+    astrologers: "Astrologers",
+    onlineNow: "अभी online",
+    averageRating: "औसत rating",
+    averageFrom: (reviews: string) => `औसत rating, ${reviews} reviews से`,
+    notYet: "अभी नहीं",
+    loading: "Astrologers लोड हो रहे हैं",
+    seeAll: "सभी astrologers देखें",
+  },
+  en: {
+    listFailed: "Could not load the list of astrologers. Check your internet connection and try again.",
+    tryAgain: "Try again",
+    astrologers: "Astrologers",
+    onlineNow: "Online now",
+    averageRating: "Average rating",
+    averageFrom: (reviews) => `Average rating from ${reviews} reviews`,
+    notYet: "Not yet",
+    loading: "Loading astrologers",
+    seeAll: "See all astrologers",
+  },
+});
 
 function topRated(list: Astrologer[]) {
   const rated = list.filter((a) => a.rating !== null && a.reviews >= MIN_REVIEWS);
@@ -19,18 +46,19 @@ function topRated(list: Astrologer[]) {
 /** Real proof only: counts, ratings and profiles straight from the public astrologer list. */
 export default function AstrologerProof() {
   const { list, failed, retry } = useAstrologerDirectory();
+  const t = useT(text);
 
   if (failed) {
     return (
       <div role="alert" className="flex flex-col items-start gap-4 rounded-2xl border border-line bg-surface-card p-6">
-        <p className="body-6 text-ink">Astrologers की सूची लोड नहीं हुई। Internet connection जांचें और फिर कोशिश करें।</p>
+        <p className="body-6 text-ink">{t.listFailed}</p>
         <button
           type="button"
           onClick={retry}
           className="button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
         >
           <PiArrowClockwise className="h-4 w-4" aria-hidden />
-          फिर कोशिश करें
+          {t.tryAgain}
         </button>
       </div>
     );
@@ -42,18 +70,18 @@ export default function AstrologerProof() {
   return (
     <div className="flex flex-col gap-6">
       <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Stat label="Astrologers" value={stats ? stats.total : null} />
-        <Stat label="अभी online" value={stats ? stats.online : null} />
+        <Stat label={t.astrologers} value={stats ? stats.total : null} />
+        <Stat label={t.onlineNow} value={stats ? stats.online : null} />
         <Stat
-          label={stats ? `औसत rating, ${stats.reviews.toLocaleString("en-IN")} reviews से` : "औसत rating"}
-          value={stats ? (stats.averageRating ?? "अभी नहीं") : null}
+          label={stats ? t.averageFrom(stats.reviews.toLocaleString("en-IN")) : t.averageRating}
+          value={stats ? (stats.averageRating ?? t.notYet) : null}
           decimals={1}
           star={stats?.averageRating != null}
         />
       </dl>
 
       {top === null ? (
-        <ul className="grid grid-cols-1 gap-4 md:grid-cols-3" aria-busy="true" aria-label="Astrologers लोड हो रहे हैं">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-3" aria-busy="true" aria-label={t.loading}>
           {Array.from({ length: 3 }, (_, i) => (
             <li key={i}>
               <AstrologerCardSkeleton />
@@ -76,14 +104,14 @@ export default function AstrologerProof() {
         href="/astrologers"
         className="button-sm inline-flex w-fit items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
       >
-        सभी astrologers देखें
+        {t.seeAll}
         <PiArrowRight className="h-4 w-4" aria-hidden />
       </Link>
     </div>
   );
 }
 
-/** A live figure. Numbers count up the first time they scroll into view; text (e.g. "अभी नहीं") shows as is. */
+/** A live figure. Numbers count up the first time they scroll into view; text (e.g. "not yet") shows as is. */
 function Stat({
   label,
   value,

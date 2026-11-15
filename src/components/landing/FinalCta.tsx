@@ -3,10 +3,17 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { PiCheckBold, PiShieldCheck } from "react-icons/pi";
 import { CHART } from "@/components/ChartOutline";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
 import { EASE_OUT, fadeUp, popIn, stagger } from "@/lib/motion";
 import MotionCta from "./MotionCta";
 
 const { VB, P, DIAMOND_POINTS } = CHART;
+
+const text = defineMessages({
+  hi: { kicker: "मुफ़्त · हिंदी में", noRisk: "कोई जोखिम नहीं" },
+  en: { kicker: "Free · in English and Hindi", noRisk: "No risk" },
+});
 
 /** The faint chart motif turns 12° into place as the section arrives (transform and opacity only). */
 const motif: Variants = {
@@ -38,6 +45,7 @@ type Props = {
  */
 export default function FinalCta({ title, body, cta, promises }: Props) {
   const reduce = useReducedMotion();
+  const t = useT(text);
 
   return (
     <motion.section
@@ -79,7 +87,7 @@ export default function FinalCta({ title, body, cta, promises }: Props) {
       <div className="relative grid grid-cols-1 gap-8 p-8 md:p-12 lg:grid-cols-5 lg:items-center lg:gap-12">
         <div className="lg:col-span-3">
           <motion.p variants={fadeUp} className="caption-3 text-brand-on-inverse">
-            मुफ़्त · हिंदी में
+            {t.kicker}
           </motion.p>
           <motion.h2 variants={fadeUp} id="final-title" className="heading-5 md:heading-3 mt-3 max-w-[680px]">
             {title}
@@ -95,7 +103,7 @@ export default function FinalCta({ title, body, cta, promises }: Props) {
         <motion.div variants={fadeUp} className="rounded-2xl border border-line-inverse bg-surface-inverse-raised p-6 lg:col-span-2">
           <p className="title-3 flex items-center gap-2 text-ink-inverse">
             <PiShieldCheck className="h-5 w-5 text-brand-on-inverse" aria-hidden />
-            कोई जोखिम नहीं
+            {t.noRisk}
           </p>
           <motion.ul variants={stagger} className="mt-4 flex flex-col gap-4">
             {promises.map((item) => (

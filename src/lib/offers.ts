@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+import { defineMessages } from "@/i18n/messages";
 import { api } from "./api";
 
 /** An active wallet promo code, as the app's Offers screen shows it (admin-created, real data only). */
@@ -17,9 +19,15 @@ export async function listActivePromos(signal?: AbortSignal): Promise<ActiveProm
   return Array.isArray(data?.promos) ? data.promos : [];
 }
 
-/** Where a promo applies, in the app's words. */
-export function promoUse(p: ActivePromo) {
+const text = defineMessages({
+  hi: { aiPack: "AI pack", subscription: "Subscription", recharge: "Wallet recharge", and: " और " },
+  en: { aiPack: "AI pack", subscription: "Subscription", recharge: "Wallet recharge", and: " and " },
+});
+
+/** Where a promo applies, in the app's words and the page's language. */
+export function promoUse(p: ActivePromo, locale: Locale) {
+  const t = text[locale];
   return p.applicableTo
-    .map((a) => (a === "AI_PACK" ? "AI pack" : a === "SUBSCRIPTION" ? "Subscription" : "Wallet recharge"))
-    .join(" और ");
+    .map((a) => (a === "AI_PACK" ? t.aiPack : a === "SUBSCRIPTION" ? t.subscription : t.recharge))
+    .join(t.and);
 }

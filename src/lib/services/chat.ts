@@ -164,6 +164,9 @@ export function formatClock(sec: number): string {
 
 export type StartChatResult = { pack: PackState; waiting: boolean; reused: boolean; freeChat: boolean };
 
+/** startChat's error code when the server answered without a booking. The page shows its own text for it. */
+export const NO_BOOKING = "NoBooking";
+
 type StartAnswer = Record<string, unknown> & {
   booking?: { id?: string };
   waiting?: boolean;
@@ -180,7 +183,7 @@ type StartAnswer = Record<string, unknown> & {
 export async function startChat(astrologerId: string): Promise<StartChatResult> {
   const r = await api<StartAnswer>("/v1/booking/chat/start", { method: "POST", body: { astrologerId } });
   const bookingId = r?.booking?.id;
-  if (!bookingId) throw new ApiError(500, "चैट शुरू नहीं हो सकी");
+  if (!bookingId) throw new ApiError(500, "The server started no booking", NO_BOOKING);
   return {
     pack: {
       bookingId,

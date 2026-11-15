@@ -8,6 +8,9 @@ import { getChatAstrologers, warmProfiles } from "@/lib/services/astrologers.ser
  *
  * `connection()` keeps the handler per request (it is cheap: the data comes from the cache), so a backend
  * outage at build time can never be baked into a prerendered error response.
+ *
+ * A route handler cannot tell the page's language, so a failure answers with a neutral code and message; the
+ * pages show their own text in the visitor's language.
  */
 export async function GET() {
   await connection();
@@ -20,6 +23,6 @@ export async function GET() {
     });
   } catch (error) {
     console.error("[api/astrologers]", error);
-    return Response.json({ error: "Astrologers की सूची अभी नहीं मिल पाई। थोड़ी देर बाद फिर कोशिश करें।" }, { status: 502 });
+    return Response.json({ error: "The astrologer list is not available right now.", code: "ASTROLOGERS_UNAVAILABLE" }, { status: 502 });
   }
 }

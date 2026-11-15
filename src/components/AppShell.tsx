@@ -5,6 +5,13 @@ import { MotionConfig } from "framer-motion";
 import SiteHeader, { SiteHeaderFallback } from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import WalletPrefetch from "@/components/WalletPrefetch";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
+
+const text = defineMessages({
+  hi: { skip: "सीधे सामग्री पर जाएं" },
+  en: { skip: "Skip to content" },
+});
 
 /**
  * The page frame: skip link, floating header, main, footer.
@@ -14,6 +21,7 @@ import WalletPrefetch from "@/components/WalletPrefetch";
  * (e.g. /astrologers/[id]). The fallback bar keeps the rest of the layout prerendered.
  */
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const t = useT(text);
   return (
     // reducedMotion="user": people who prefer reduced motion get plain opacity changes, no movement.
     <MotionConfig reducedMotion="user">
@@ -21,7 +29,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         href="#main"
         className="on-inverse button-sm sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-surface-inverse focus:px-3 focus:py-2 focus:text-ink-inverse"
       >
-        सीधे सामग्री पर जाएं
+        {t.skip}
       </a>
 
       <Suspense fallback={<SiteHeaderFallback />}>

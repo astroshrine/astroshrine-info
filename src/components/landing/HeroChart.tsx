@@ -2,9 +2,26 @@
 
 import { motion, useMotionValue, useReducedMotion, useSpring, type Variants } from "framer-motion";
 import { CHART } from "@/components/ChartOutline";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
 import { EASE_OUT, fadeUp, popIn } from "@/lib/motion";
 
 const { VB, P, HOUSE_CENTER, LAGNA_POINTS, DIAMOND_POINTS } = CHART;
+
+const text = defineMessages({
+  hi: {
+    houses: "भाव",
+    planets: "ग्रह",
+    vargas: "वर्ग चार्ट",
+    caption: "नमूना चार्ट: आपकी कुंडली इसी रूप में बनेगी।",
+  },
+  en: {
+    houses: "Houses",
+    planets: "Planets",
+    vargas: "Divisional charts",
+    caption: "Sample chart: your Kundli will look like this.",
+  },
+});
 
 /** SVG parts scale around their own centre, not the SVG origin. */
 const OWN_CENTER = { transformBox: "fill-box", transformOrigin: "center" } as const;
@@ -51,6 +68,7 @@ const TILT = 6; // degrees at the card's edge
  */
 export default function HeroChart({ className = "" }: { className?: string }) {
   const reduce = useReducedMotion();
+  const t = useT(text);
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
   const rotateX = useSpring(rx, { stiffness: 150, damping: 20, mass: 0.6 });
@@ -125,18 +143,18 @@ export default function HeroChart({ className = "" }: { className?: string }) {
 
       <motion.ul variants={chips} className="mt-6 grid grid-cols-3 gap-2 text-center">
         {[
-          ["12", "भाव"],
-          ["9", "ग्रह"],
-          ["16", "वर्ग चार्ट"],
+          ["12", t.houses],
+          ["9", t.planets],
+          ["16", t.vargas],
         ].map(([value, label]) => (
-          <motion.li key={label} variants={fadeUp} className="rounded-xl bg-surface-sunken p-3">
+          <motion.li key={value} variants={fadeUp} className="rounded-xl bg-surface-sunken p-3">
             <span className="title-3 block text-ink">{value}</span>
             <span className="caption-5 block text-ink-soft">{label}</span>
           </motion.li>
         ))}
       </motion.ul>
       <motion.figcaption variants={fadeUp} className="caption-5 mt-4 text-center text-ink-muted">
-        नमूना चार्ट: आपकी कुंडली इसी रूप में बनेगी।
+        {t.caption}
       </motion.figcaption>
     </motion.figure>
   );

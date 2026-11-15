@@ -2,6 +2,13 @@
 
 import { useEffect, useId, useRef } from "react";
 import { PiX } from "react-icons/pi";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
+
+const text = defineMessages({
+  hi: { close: "बंद करें" },
+  en: { close: "Close" },
+});
 
 /**
  * A modal dialog on the native <dialog> element: focus moves in and is trapped, Escape and a click on the
@@ -15,11 +22,12 @@ export default function Dialog({
 }: {
   open: boolean;
   onClose: () => void;
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
+  const t = useT(text);
 
   useEffect(() => {
     const d = ref.current;
@@ -47,7 +55,7 @@ export default function Dialog({
             <button
               type="button"
               onClick={onClose}
-              aria-label="बंद करें"
+              aria-label={t.close}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98"
             >
               <PiX className="h-5 w-5" aria-hidden />

@@ -1,9 +1,15 @@
+import { INTL_LOCALE, LOCALES, type Locale } from "@/i18n/config";
+import { defineMessages } from "@/i18n/messages";
 import { DEFAULT_CHAT_RATE, priceOf, type Availability, type PriceView } from "@/lib/endpoints";
 
 // The astrologer data the website shows, mapped from the backend's records with the mobile app's rules
 // (TopAstrologers / Astrologers / AstroProfile). Pure: used on the server (prerendered directory and
 // profile) and in the browser. Only listed fields are copied, so nothing else from the backend's public
 // payload (phone numbers, waitlists with customers' names, earnings) ever reaches the page.
+//
+// The mapped records hold no UI text, only values (the name fallbacks "Astrologer" and "AstroShrine user" read
+// the same in both languages), so the server's cached copies serve every language. Labels come from
+// ASTROLOGER_TEXT, and dates from the formatters below, at render time in the page's language.
 
 /** The backend's five-value availability. `live` (broadcasting) is shown as busy: livestream is not on the website. */
 export type AstrologerStatus = "online" | "busy" | "live" | "scheduled" | "offline";
@@ -175,27 +181,8 @@ export function withStatus<T extends AstrologerCard>(a: T, info: StatusInfo | un
 export const FILTERS = ["all", "online", "Vedic", "Tarot", "Numerology", "Vastu", "Kundli", "Hindi", "English"] as const;
 export type Filter = (typeof FILTERS)[number];
 
-export const FILTER_LABELS: Record<Filter, string> = {
-  all: "सभी",
-  online: "ऑनलाइन",
-  Vedic: "वैदिक",
-  Tarot: "टैरो",
-  Numerology: "अंक ज्योतिष",
-  Vastu: "वास्तु",
-  Kundli: "कुंडली",
-  Hindi: "हिंदी",
-  English: "English",
-};
-
 export const SORTS = ["popularity", "rating", "experience", "price"] as const;
 export type Sort = (typeof SORTS)[number];
-
-export const SORT_LABELS: Record<Sort, string> = {
-  popularity: "सबसे लोकप्रिय",
-  rating: "सबसे अच्छी रेटिंग",
-  experience: "सबसे ज़्यादा अनुभव",
-  price: "कम कीमत पहले",
-};
 
 export const isFilter = (v: unknown): v is Filter => typeof v === "string" && (FILTERS as readonly string[]).includes(v);
 export const isSort = (v: unknown): v is Sort => typeof v === "string" && (SORTS as readonly string[]).includes(v);
@@ -272,30 +259,100 @@ export function mergeReviews(a: Review[], b: Review[]): Review[] {
 
 export const REVIEW_PAGE_SIZE = 10;
 
-const dateFormat = new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric" });
-export const formatDate = (ms: number) => dateFormat.format(new Date(ms));
+/** One Intl date format per language: month names in the page's language, Latin digits in both. */
+function dateFormats(options: Intl.DateTimeFormatOptions): Record<Locale, Intl.DateTimeFormat> {
+  return Object.fromEntries(LOCALES.map((l) => [l, new Intl.DateTimeFormat(INTL_LOCALE[l], options)])) as Record<Locale, Intl.DateTimeFormat>;
+}
+
+const DATE_FORMAT = dateFormats({ day: "numeric", month: "short", year: "numeric" });
+/** "15 Nov 2026" / "15 नव॰ 2026". */
+export const formatDate = (ms: number, locale: Locale) => DATE_FORMAT[locale].format(new Date(ms));
 
 // ─── Labels ──────────────────────────────────────────────────────────────────────────────────────
 
-export const AVAILABILITY_LABEL: Record<Availability, string> = {
-  online: "ऑनलाइन",
-  busy: "व्यस्त",
-  offline: "ऑफ़लाइन",
-};
+/** Directory filters and sort orders, availability, and next-availability times, in every language. Read with useT. */
+export const ASTROLOGER_TEXT = defineMessages({
+  hi: {
+    filters: {
+      all: "सभी",
+      online: "ऑनलाइन",
+      Vedic: "वैदिक",
+      Tarot: "टैरो",
+      Numerology: "अंक ज्योतिष",
+      Vastu: "वास्तु",
+      Kundli: "कुंडली",
+      Hindi: "हिंदी",
+      English: "English",
+    } satisfies Record<Filter, string>,
+    sorts: {
+      popularity: "सबसे लोकप्रिय",
+      rating: "सबसे अच्छी रेटिंग",
+      experience: "सबसे ज़्यादा अनुभव",
+      price: "कम कीमत पहले",
+    } satisfies Record<Sort, string>,
+    availability: { online: "ऑनलाइन", busy: "व्यस्त", offline: "ऑफ़लाइन" } satisfies Record<Availability, string>,
+    // The next availability window, shown after "उपलब्ध" / "Available": today, tomorrow, or later (time only).
+    nextToday: (time: string) => `आज ${time}`,
+    nextTomorrow: (time: string) => `कल ${time}`,
+    nextLater: (time: string) => time,
+  },
+  en: {
+    filters: {
+      all: "All",
+      online: "Online",
+      Vedic: "Vedic",
+      Tarot: "Tarot",
+      Numerology: "Numerology",
+      Vastu: "Vastu",
+      Kundli: "Kundli",
+      Hindi: "Hindi",
+      English: "English",
+    },
+    sorts: {
+      popularity: "Most popular",
+      rating: "Highest rated",
+      experience: "Most experienced",
+      price: "Lowest price first",
+    },
+    availability: { online: "Online", busy: "Busy", offline: "Offline" },
+    nextToday: (time) => `today at ${time}`,
+    nextTomorrow: (time) => `tomorrow at ${time}`,
+    nextLater: (time) => `at ${time}`,
+  },
+});
 
+/** Times are the same in both languages ("6:00 pm"). */
 const timeFormat = new Intl.DateTimeFormat("en-IN", { hour: "numeric", minute: "2-digit" });
 
-/** "आज 6:00 pm" / "कल 9:30 am" for the next availability window, in the visitor's own time zone. */
-export function formatNextAvailable(ms: number | null | undefined, now = Date.now()): string | null {
+/**
+ * "आज 6:00 pm" / "today at 6:00 pm" (or tomorrow, or only the time) for the next availability window, in the
+ * visitor's own time zone. Reads after "उपलब्ध" / "Available".
+ */
+export function formatNextAvailable(ms: number | null | undefined, locale: Locale, now = Date.now()): string | null {
   if (typeof ms !== "number" || !Number.isFinite(ms) || ms <= now) return null;
   const at = new Date(ms);
   const today = new Date(now);
   const tomorrow = new Date(now + 24 * 60 * 60 * 1000);
   const sameDay = (x: Date, y: Date) => x.toDateString() === y.toDateString();
   const time = timeFormat.format(at);
-  if (sameDay(at, today)) return `आज ${time}`;
-  if (sameDay(at, tomorrow)) return `कल ${time}`;
-  return time;
+  const t = ASTROLOGER_TEXT[locale];
+  if (sameDay(at, today)) return t.nextToday(time);
+  if (sameDay(at, tomorrow)) return t.nextTomorrow(time);
+  return t.nextLater(time);
+}
+
+const DEVANAGARI_LETTERS = /[ऀ-ॿ]/g;
+const LATIN_LETTERS = /[A-Za-z]/g;
+
+/**
+ * "hi" for backend content written mostly in Devanagari: an astrologer's name, a bio, a review, a chat message.
+ * Such content stays as it was written; the element showing it gets lang="hi", so screen readers read it in a
+ * Hindi voice on English pages. Latin-script content and mixed text that is mostly Latin get no attribute.
+ */
+export function contentLang(text: string | null | undefined): "hi" | undefined {
+  const hindi = text?.match(DEVANAGARI_LETTERS)?.length ?? 0;
+  if (!hindi) return undefined;
+  return hindi >= (text?.match(LATIN_LETTERS)?.length ?? 0) ? "hi" : undefined;
 }
 
 /** 1,250 → "1.3k", like the app's counters. */

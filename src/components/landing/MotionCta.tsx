@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { PiPlanet } from "react-icons/pi";
+import Link from "@/i18n/Link";
 import { buttonHover, buttonPress } from "@/lib/motion";
 
 const MotionLink = motion.create(Link);

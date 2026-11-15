@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 import { useAuth } from "@/components/AuthProvider";
+import { LOCALES } from "@/i18n/config";
 import { prefetchWallet } from "@/lib/services/walletCache";
+
+/** Links to the wallet and its pages, in every language ("/hi/wallet", "/en/wallet/orders/…") or without one. */
+const WALLET_LINKS = ["/wallet", ...LOCALES.map((locale) => `/${locale}/wallet`)].map((path) => `a[href^="${path}"]`).join(", ");
 
 /**
  * Starts loading the wallet page's data the moment a signed-in visitor shows intent to open it: pointing at,
@@ -17,7 +21,7 @@ export default function WalletPrefetch() {
     if (!userId) return;
     const onIntent = (event: Event) => {
       const target = event.target as Element | null;
-      if (target?.closest?.('a[href^="/wallet"]')) prefetchWallet(userId);
+      if (target?.closest?.(WALLET_LINKS)) prefetchWallet(userId);
     };
     document.addEventListener("pointerover", onIntent, { passive: true });
     document.addEventListener("focusin", onIntent);

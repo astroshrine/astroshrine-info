@@ -15,6 +15,10 @@ import {
 // Server-side reads for the public astrologer pages, so the directory and each profile arrive as real HTML
 // (search engines, link previews, no empty first paint). Cached for a few minutes; the browser re-reads the
 // live availability right after the page loads. Only mapped fields leave this file.
+//
+// The cached results hold values only, never UI text, so one cache entry serves both languages (they do not
+// read the page's language). Keep it that way: labels and dates are applied at render time (ASTROLOGER_TEXT,
+// formatDate and formatNextAvailable in astrologerModel.ts).
 
 const ID = /^[\w-]{1,64}$/;
 
