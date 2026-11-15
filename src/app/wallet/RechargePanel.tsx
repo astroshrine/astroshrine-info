@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Script from "next/script";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { ApiError } from "@/lib/api";
 import { fadeUp } from "@/lib/motion";
 import { RAZORPAY_CHECKOUT_SRC, brandColor, isCheckoutLoaded, openCheckout } from "@/lib/services/razorpay";
+import { receiptFromOrder, saveRechargeReceipt } from "@/lib/services/rechargeReceipt";
 import {
   cancelRechargeOrder,
   confirmRecharge,
@@ -27,17 +28,35 @@ import {
 } from "@/lib/services/wallet";
 import type { ConfigState } from "./WalletView";
 
-/** Where a payment stands while it is on this page. Once Razorpay reports a payment, the order page takes over. */
+/**
+ * Where a payment stands while it is on this page. Once Razorpay reports a payment, or a failed attempt, the
+ * order's own page (/wallet/orders/<id>) takes over and shows the result.
+ */
 type Flow =
   | { step: "idle" }
   | { step: "starting" }
   | { step: "paying" }
   | { step: "confirming" }
-  /** Checkout closed without a payment. `failure`: the reason of a failed attempt, if there was one. */
-  | { step: "closed"; failure: string | null }
+  /** Checkout closed without a successful or failed attempt: the user cancelled. */
+  | { step: "closed" }
   | { step: "error"; message: string };
 
 const BUSY_STEPS = new Set<Flow["step"]>(["starting", "paying", "confirming"]);
+
+/**
+ * How long the confirm call may take before the order page takes over (it usually answers in about a second).
+ * The money is already with Razorpay by then, so a slow answer only delays the receipt: the order page polls
+ * the backend, and Razorpay's webhook credits the points even when confirm never answers.
+ */
+const CONFIRM_TIMEOUT_MS = 20_000;
+
+/** AbortSignal.timeout, with a fallback for browsers without it (Chrome before 103, Safari before 16). */
+function timeoutSignal(ms: number) {
+  if (typeof AbortSignal.timeout === "function") return AbortSignal.timeout(ms);
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), ms);
+  return controller.signal;
+}
 
 const BUSY_TEXT: Record<string, string> = {
   starting: "भुगतान शुरू हो रहा है",
@@ -79,6 +98,25 @@ export default function RechargePanel({
       alive.current = false;
     };
   }, []);
+
+  // Next.js keeps this page alive, hidden, while the order's page shows (React Activity), and shows it again as it
+  // was when the user comes back. Once a payment has handed over to the order's page, the panel resets as it hides:
+  // not before, so the button stays disabled until the order's page is on screen.
+  const handedOver = useRef<{ clearPromo: boolean } | null>(null);
+  useLayoutEffect(
+    () => () => {
+      const reset = handedOver.current;
+      if (!reset) return;
+      handedOver.current = null;
+      setFlow({ step: "idle" });
+      // A promo used by a paid recharge is spent; after a failed one it stays for the retry.
+      if (reset.clearPromo) {
+        setPromo(null);
+        setPromoCode("");
+      }
+    },
+    [],
+  );
 
   const busy = BUSY_STEPS.has(flow.step);
 
@@ -175,6 +213,11 @@ export default function RechargePanel({
       return;
     }
     sendPaymentEmail("order_created", { orderId: order.orderId, amount: order.amount });
+    // The receipt page reads the amounts from here: the backend's status route returns the status only.
+    const userId = session?.user.id ?? "";
+    const receipt = receiptFromOrder(userId, order, promoValid ? promoCode.trim() : null);
+    saveRechargeReceipt(receipt);
+    const receiptUrl = `/wallet/orders/${encodeURIComponent(order.orderId)}`;
     set({ step: "paying" });
 
     const contact = user?.profile?.phoneNumber || (session?.user.phone ? `+${session.user.phone}` : undefined);
@@ -206,7 +249,15 @@ export default function RechargePanel({
       // As the app does on a declined or cancelled checkout: cancel the order and send the failure email.
       void cancelRechargeOrder(order.orderId);
       sendPaymentEmail("payment_failed", { orderId: order.orderId, amount: order.amount });
-      set({ step: "closed", failure: outcome.failure });
+      if (outcome.failed) {
+        // A failed attempt gets the order's page, in its failed state (the app opens its "payment failed" screen).
+        saveRechargeReceipt({ ...receipt, checkout: { kind: "failed", reason: outcome.reason } });
+        handedOver.current = { clearPromo: false };
+        router.push(receiptUrl);
+        return;
+      }
+      // Closed without a failed attempt: the note stays here, next to the button to try again.
+      set({ step: "closed" });
       return;
     }
 
@@ -215,21 +266,31 @@ export default function RechargePanel({
     const { payment } = outcome;
     let confirmed = false;
     try {
-      const result = await confirmRecharge({
-        razorpayOrderId: payment.razorpay_order_id,
-        razorpayPaymentId: payment.razorpay_payment_id,
-        razorpaySignature: payment.razorpay_signature,
-      });
+      const result = await confirmRecharge(
+        {
+          razorpayOrderId: payment.razorpay_order_id,
+          razorpayPaymentId: payment.razorpay_payment_id,
+          razorpaySignature: payment.razorpay_signature,
+        },
+        timeoutSignal(CONFIRM_TIMEOUT_MS),
+      );
       confirmed = !!result?.success;
     } catch {
-      // Not final: the order page follows the order until the backend (or its webhook) marks it.
+      // Not final: the order page follows the order until the backend (or its webhook) marks it PAID.
     }
+    saveRechargeReceipt({
+      ...receipt,
+      paymentId: payment.razorpay_payment_id,
+      paidAt: Date.now(),
+      checkout: { kind: "paid", confirmed },
+    });
     if (confirmed) sendPaymentEmail("payment_success", { orderId: order.orderId, amount: order.amount });
 
     const query = new URLSearchParams({ payment: payment.razorpay_payment_id });
     if (!confirmed) query.set("notify", "1");
     // The receipt has its own URL: refresh-safe, bookmarkable, and the back button returns here.
-    router.push(`/wallet/orders/${encodeURIComponent(order.orderId)}?${query}`);
+    handedOver.current = { clearPromo: true };
+    router.push(`${receiptUrl}?${query}`);
   }
 
   return (
@@ -459,15 +520,7 @@ function FlowMessage({ flow, checkoutFailed }: { flow: Flow; checkoutFailed: boo
   }
 
   if (flow.step === "closed") {
-    return flow.failure ? (
-      <div role="alert" className="mt-3 rounded-2xl bg-danger-soft p-4">
-        <p className="title-4 text-danger">भुगतान असफल रहा</p>
-        <p className="caption-2 mt-1 text-ink">{flow.failure}</p>
-        <p className="caption-2 mt-1 text-ink-soft">
-          अगर आपके खाते से राशि कटी है, तो वह आपके मूल खाते में वापस आ जाएगी। ऊपर का बटन दबाकर फिर कोशिश करें।
-        </p>
-      </div>
-    ) : (
+    return (
       <div role="status" className="mt-3 rounded-2xl bg-neutral-soft p-4">
         <p className="title-4 text-ink">भुगतान पूरा नहीं हुआ</p>
         <p className="caption-2 mt-1 text-ink-soft">आपने भुगतान विंडो बंद कर दी। तैयार हों तो ऊपर का बटन फिर दबाएँ।</p>

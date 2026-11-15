@@ -42,13 +42,16 @@ export const isCheckoutLoaded = () => typeof window !== "undefined" && typeof wi
 
 export type CheckoutOutcome =
   | { kind: "paid"; payment: RazorpayPayment }
-  /** The window was closed without a successful payment; `failure` is the last failed attempt's reason, if any. */
-  | { kind: "closed"; failure: string | null };
+  /**
+   * The window was closed without a successful payment. `failed`: an attempt failed before that (a closed window
+   * with no attempt is a cancellation); `reason`: Razorpay's description of the last failure, when it gave one.
+   */
+  | { kind: "closed"; failed: boolean; reason: string | null };
 
 /**
  * Opens Checkout and settles once: "paid" from Razorpay's success handler, or "closed" when the user
- * closes the window. A failed attempt keeps the window open so the user can retry inside it; its
- * reason is remembered and returned if they then close the window.
+ * closes the window. A failed attempt keeps the window open so the user can retry inside it; that it
+ * failed, and why, is remembered and returned if they then close the window.
  */
 export function openCheckout(options: Omit<RazorpayOptions, "handler" | "modal">): Promise<CheckoutOutcome> {
   return new Promise((resolve, reject) => {
@@ -59,7 +62,8 @@ export function openCheckout(options: Omit<RazorpayOptions, "handler" | "modal">
     }
 
     let settled = false;
-    let lastFailure: string | null = null;
+    let failed = false;
+    let reason: string | null = null;
     const settle = (outcome: CheckoutOutcome) => {
       if (settled) return;
       settled = true;
@@ -73,11 +77,12 @@ export function openCheckout(options: Omit<RazorpayOptions, "handler" | "modal">
         escape: true,
         // Razorpay asks "are you sure?" before closing a window the user has started paying in.
         confirm_close: true,
-        ondismiss: () => settle({ kind: "closed", failure: lastFailure }),
+        ondismiss: () => settle({ kind: "closed", failed, reason }),
       },
     });
     checkout.on("payment.failed", (response) => {
-      lastFailure = response?.error?.description || response?.error?.reason || null;
+      failed = true;
+      reason = response?.error?.description || response?.error?.reason || null;
     });
     checkout.open();
   });

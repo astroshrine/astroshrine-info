@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import type { IconType } from "react-icons";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,122 +13,227 @@ import {
   PiHourglassMedium,
   PiInfo,
   PiWarningCircle,
+  PiWifiSlash,
   PiXCircle,
 } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import { ApiError } from "@/lib/api";
 import { fadeUp, stagger } from "@/lib/motion";
 import {
+  readRechargeReceipt,
+  receiptFromTransaction,
+  saveRechargeReceipt,
+  type RechargeReceipt,
+} from "@/lib/services/rechargeReceipt";
+import {
   formatCoins,
   formatDateTime,
   formatRupees,
-  getRechargeOrder,
+  getRechargeStatus,
   sendPaymentEmail,
-  type RechargeMeta,
-  type RechargeOrderState,
+  type RechargeStatus,
+  type TransactionsPage,
 } from "@/lib/services/wallet";
+import { cachedTransactions, loadFirstTransactions } from "@/lib/services/walletCache";
 import { currentLocation, setQueryParam } from "../../url";
 
-// The app checks the order every 2 s, 31 times (about a minute), then says the payment is on its way.
+// Like the app: check every 2 s for about a minute, then say the payment is on its way.
 const POLL_INTERVAL_MS = 2000;
 const POLL_CHECKS = 31;
 
+/**
+ * paid: the points are credited. verifying: Razorpay has the money and the credit is being confirmed.
+ * received: still not credited after a minute (Razorpay's webhook credits it). failed: the payment failed.
+ * unpaid: no payment on this order.
+ */
+type Outcome = "paid" | "verifying" | "received" | "failed" | "unpaid";
+
 type Phase =
   | { kind: "loading" }
-  | { kind: "ready"; order: RechargeOrderState; watching: boolean }
+  | { kind: "ready"; outcome: Outcome }
   | { kind: "notFound" }
+  /** Nothing is known about the order and the backend could not be asked. */
   | { kind: "error" };
+
+/** What this tab saw at checkout, besides the backend's status. */
+type Known = {
+  /** Razorpay reported a payment (its success handler ran). */
+  paid: boolean;
+  /** The backend's confirm answered that the points are credited. */
+  confirmed: boolean;
+  /** Razorpay reported a failed attempt and the window was closed. */
+  failed: boolean;
+};
+
+/**
+ * The outcome from the backend's status (null when it could not be asked) and what this tab knows. The backend's
+ * PAID always wins, even over a failure Checkout reported (a late UPI approval is still captured and credited).
+ * Its PENDING is not taken as "not paid" while this tab saw a payment: the credit can take a moment.
+ */
+function decide(status: RechargeStatus["status"] | null, known: Known): Outcome | null {
+  if (status === "PAID" || known.confirmed) return "paid";
+  if (status === "FAILED" || known.failed) return "failed";
+  if (known.paid) return "verifying";
+  if (status === "PENDING") return "unpaid";
+  return null;
+}
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const subscribeOnline = (onChange: () => void) => {
+  window.addEventListener("online", onChange);
+  window.addEventListener("offline", onChange);
+  return () => {
+    window.removeEventListener("online", onChange);
+    window.removeEventListener("offline", onChange);
+  };
+};
+
+/** The browser's own idea of being online: false only when it has no network at all. */
+const useOnline = () =>
+  useSyncExternalStore(
+    subscribeOnline,
+    () => navigator.onLine,
+    () => true,
+  );
+
 /**
- * When the wallet page could not confirm the payment itself (?notify=1), the outcome email the app
- * sends is sent here, once, as soon as the order settles. The flag then leaves the URL so a refresh
- * does not send it again.
+ * When the wallet page could not confirm the payment itself (?notify=1), the outcome email the app sends is
+ * sent here, once, as soon as the order settles. The flag then leaves the URL so a refresh does not send it again.
  */
-function sendOutcomeEmailOnce(orderId: string, status: string, amount: number) {
+function sendOutcomeEmailOnce(orderId: string, outcome: Outcome, amount: number) {
   if (new URLSearchParams(window.location.search).get("notify") !== "1") return;
-  if (status === "PAID") sendPaymentEmail("payment_success", { orderId, amount });
-  else if (status === "FAILED" || status === "CANCELLED") sendPaymentEmail("payment_failed", { orderId, amount });
+  if (outcome === "paid") sendPaymentEmail("payment_success", { orderId, amount });
+  else if (outcome === "failed") sendPaymentEmail("payment_failed", { orderId, amount });
+  else return;
   setQueryParam("notify", null, "replace");
 }
 
 /**
- * /wallet/orders/<razorpay order id>: the result of a recharge, with its own URL. Opened right after
- * checkout (?payment=<id>), it follows the order until the backend or its Razorpay webhook marks it,
- * so a refresh or a slow confirmation never loses the result. Also reachable from a recharge in the
- * transaction list.
+ * /wallet/orders/<razorpay order id>: the result of a recharge, with its own URL. Opened right after checkout
+ * (?payment=<id>), it shows at once what checkout and the backend's confirm said, and follows the order on the
+ * backend until it is credited, so a refresh or a slow confirmation never loses the result. Also opened for a
+ * failed payment, and from a recharge in the transaction list.
  */
 export default function OrderStatus({ orderId }: { orderId: string }) {
   const router = useRouter();
-  const { status } = useAuth();
+  const { status, session } = useAuth();
 
   useEffect(() => {
     if (status === "signedOut") router.replace(`/login?next=${encodeURIComponent(currentLocation())}`);
   }, [status, router]);
 
-  if (status !== "signedIn") return <OrderSkeleton />;
-  return <SignedInOrder orderId={orderId} />;
+  const userId = session?.user.id;
+  if (status !== "signedIn" || !userId) return <OrderSkeleton />;
+  return <SignedInOrder key={`${userId}:${orderId}`} orderId={orderId} userId={userId} />;
 }
 
-function SignedInOrder({ orderId }: { orderId: string }) {
+function SignedInOrder({ orderId, userId }: { orderId: string; userId: string }) {
   const searchParams = useSearchParams();
   // Razorpay's payment id, present when the user paid on this site a moment ago.
   const paymentParam = searchParams.get("payment");
   const { refresh } = useAuth();
-  const [phase, setPhase] = useState<Phase>({ kind: "loading" });
+  const online = useOnline();
+  // Rendered only once signed in, so on the client: this tab's own record of the order, if it made it.
+  const [receipt, setReceipt] = useState<RechargeReceipt | null>(() => readRechargeReceipt(orderId, userId));
+  // For the outcome email, which only a payment made in this tab can owe (see ?notify).
+  const [emailAmount] = useState(() => receipt?.total ?? 0);
+
+  const checkout = receipt?.checkout;
+  const knownPaid = !!paymentParam || checkout?.kind === "paid";
+  const knownConfirmed = checkout?.kind === "paid" && checkout.confirmed;
+  const knownFailed = checkout?.kind === "failed";
+
+  // A payment this tab saw shows at once: success after confirm, "confirming" otherwise, or the failure.
+  const [phase, setPhase] = useState<Phase>(() => {
+    const outcome = decide(null, { paid: knownPaid, confirmed: knownConfirmed, failed: knownFailed });
+    return outcome ? { kind: "ready", outcome } : { kind: "loading" };
+  });
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    const { signal } = controller;
+    const known: Known = { paid: knownPaid, confirmed: knownConfirmed, failed: knownFailed };
 
     async function follow() {
       for (let check = 0; check < POLL_CHECKS; check++) {
-        let order: RechargeOrderState;
+        let status: RechargeStatus["status"] | null = null;
         try {
-          order = await getRechargeOrder(orderId, controller.signal);
+          status = (await getRechargeStatus(orderId, signal)).status;
         } catch (error) {
-          if (controller.signal.aborted) return;
-          // The backend answers 403 for an order that is not this account's, or does not exist.
-          if (error instanceof ApiError && (error.status === 403 || error.status === 404)) {
+          if (signal.aborted) return;
+          // 403: another account's order; 404: no such order. Not believed for an order this tab just paid.
+          if (error instanceof ApiError && (error.status === 403 || error.status === 404) && !known.paid && !known.failed) {
             setPhase({ kind: "notFound" });
             return;
           }
-          if (check === 0) {
-            setPhase({ kind: "error" });
-            return;
-          }
-          await sleep(POLL_INTERVAL_MS);
-          continue;
         }
-        if (controller.signal.aborted) return;
+        if (signal.aborted) return;
 
-        const status = String(order.status || "").toUpperCase();
-        const waiting = status === "CREATED" && !!paymentParam;
-        setPhase({ kind: "ready", order, watching: waiting });
-
-        if (status !== "CREATED") {
-          if (status === "PAID") void refresh();
-          sendOutcomeEmailOnce(orderId, status, Number(order.amount) || 0);
+        const outcome = decide(status, known);
+        if (!outcome) {
+          setPhase({ kind: "error" });
           return;
         }
-        if (!waiting) return;
+        setPhase({ kind: "ready", outcome });
+        if (outcome !== "verifying") {
+          if (outcome === "paid") void refresh();
+          sendOutcomeEmailOnce(orderId, outcome, emailAmount);
+          return;
+        }
         await sleep(POLL_INTERVAL_MS);
+        if (signal.aborted) return;
       }
-      // Still not marked after a minute: Razorpay has the money, the webhook will credit it.
-      if (!controller.signal.aborted) {
-        setPhase((p) => (p.kind === "ready" ? { ...p, watching: false } : p));
-      }
+      // Still not credited after a minute: Razorpay has the money and its webhook credits it.
+      setPhase({ kind: "ready", outcome: "received" });
     }
 
     void follow();
     return () => controller.abort();
-  }, [orderId, paymentParam, attempt, refresh]);
+  }, [orderId, knownPaid, knownConfirmed, knownFailed, attempt, refresh, emailAmount]);
+
+  // A paid order opened without this tab's record (from the transaction list, a bookmark): the amounts come from
+  // its credit in the transaction list.
+  const needsDetails = phase.kind === "ready" && phase.outcome === "paid" && receipt?.total == null;
+  useEffect(() => {
+    if (!needsDetails) return;
+    let cancelled = false;
+    const find = (page: TransactionsPage | null) =>
+      page?.transactions.find((tx) => tx.reference_type === "RECHARGE" && tx.reference_id === orderId) ?? null;
+    // The list this tab already holds, else the newest page (also when the held one predates this credit).
+    const cached = find(cachedTransactions(userId));
+    (cached ? Promise.resolve(cached) : loadFirstTransactions(userId).then(find)).then(
+      (tx) => {
+        const found = tx ? receiptFromTransaction(userId, tx) : null;
+        if (cancelled || !found) return;
+        saveRechargeReceipt(found);
+        setReceipt((previous) => (previous?.total != null ? previous : { ...found, checkout: previous?.checkout }));
+      },
+      () => undefined,
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [needsDetails, orderId, userId]);
+
+  // Waiting on the network (the status could not be loaded, or the credit is not seen yet): check again as soon as
+  // the browser is back online.
+  const waiting = phase.kind === "error" || (phase.kind === "ready" && phase.outcome === "received");
+  useEffect(() => {
+    if (!waiting) return;
+    const onOnline = () => setAttempt((n) => n + 1);
+    window.addEventListener("online", onOnline);
+    return () => window.removeEventListener("online", onOnline);
+  }, [waiting]);
 
   const checkAgain = () => {
-    setPhase({ kind: "loading" });
+    const outcome = decide(null, { paid: knownPaid, confirmed: knownConfirmed, failed: knownFailed });
+    setPhase(outcome ? { kind: "ready", outcome } : { kind: "loading" });
     setAttempt((n) => n + 1);
   };
+
+  const paid = phase.kind === "ready" && phase.outcome === "paid";
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 pb-20 pt-6 md:px-8 md:pt-10">
@@ -140,17 +245,24 @@ function SignedInOrder({ orderId }: { orderId: string }) {
         वॉलेट पर वापस जाएँ
       </Link>
 
-      <h1 className="heading-4 mt-4 text-ink md:heading-3">रिचार्ज रसीद</h1>
+      <h1 className="heading-4 mt-4 text-ink md:heading-3">{paid ? "रिचार्ज रसीद" : "रिचार्ज की स्थिति"}</h1>
 
       {phase.kind === "loading" && <OrderSkeletonBody />}
 
-      {phase.kind === "error" && (
-        <Notice tone="danger" icon={PiWarningCircle} title="स्थिति लोड नहीं हो सकी" body="इंटरनेट जाँचें और फिर से कोशिश करें।">
-          <button type="button" onClick={checkAgain} className={SECONDARY_BUTTON}>
-            फिर से कोशिश करें
-          </button>
-        </Notice>
-      )}
+      {phase.kind === "error" &&
+        (online ? (
+          <Notice tone="danger" icon={PiWarningCircle} title="स्थिति लोड नहीं हो सकी" body="सर्वर से जवाब नहीं मिला। थोड़ी देर बाद फिर से कोशिश करें।">
+            <button type="button" onClick={checkAgain} className={SECONDARY_BUTTON}>
+              फिर से कोशिश करें
+            </button>
+          </Notice>
+        ) : (
+          <Notice tone="neutral" icon={PiWifiSlash} title="आप ऑफ़लाइन हैं" body="इंटरनेट जुड़ते ही इस रिचार्ज की स्थिति अपने-आप दिखेगी।">
+            <button type="button" onClick={checkAgain} className={SECONDARY_BUTTON}>
+              फिर से कोशिश करें
+            </button>
+          </Notice>
+        ))}
 
       {phase.kind === "notFound" && (
         <Notice
@@ -166,7 +278,14 @@ function SignedInOrder({ orderId }: { orderId: string }) {
       )}
 
       {phase.kind === "ready" && (
-        <Receipt order={phase.order} orderId={orderId} watching={phase.watching} paymentParam={paymentParam} onCheckAgain={checkAgain} />
+        <Receipt
+          outcome={phase.outcome}
+          receipt={receipt}
+          orderId={orderId}
+          paymentParam={paymentParam}
+          online={online}
+          onCheckAgain={checkAgain}
+        />
       )}
     </div>
   );
@@ -178,35 +297,46 @@ const SECONDARY_BUTTON =
   "button-sm inline-flex items-center justify-center rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98";
 
 function Receipt({
-  order,
+  outcome,
+  receipt,
   orderId,
-  watching,
   paymentParam,
+  online,
   onCheckAgain,
 }: {
-  order: RechargeOrderState;
+  outcome: Outcome;
+  receipt: RechargeReceipt | null;
   orderId: string;
-  watching: boolean;
   paymentParam: string | null;
+  online: boolean;
   onCheckAgain: () => void;
 }) {
-  const status = String(order.status || "").toUpperCase();
-  const details = Array.isArray(order.paymentDetails) ? order.paymentDetails : [];
-  const meta: RechargeMeta = details.find((d) => d?.type === "WALLET_RECHARGE") ?? details[0] ?? {};
-  const paymentId = details.find((d) => d?.paymentId)?.paymentId ?? paymentParam;
-  const paidAt = details.find((d) => d?.paymentId && d.timestamp)?.timestamp ?? order.createTs;
-  const total = Number(meta.totalPayable ?? order.amount) || 0;
-  const coins = Number(meta.pointsToCredit) || 0;
-  const bonus = Number(meta.bonusPoints) || 0;
+  const total = receipt?.total ?? null;
+  const coins = receipt?.coins ?? null;
+  const bonus = receipt?.bonus ?? 0;
+  const paymentId = receipt?.paymentId ?? paymentParam;
+  const paidAt = outcome === "failed" || outcome === "unpaid" ? null : (receipt?.paidAt ?? null);
+  const moneyTaken = outcome === "paid" || outcome === "verifying" || outcome === "received";
+  const failureReason = receipt?.checkout?.kind === "failed" ? receipt.checkout.reason : null;
+  // "Try again" opens the wallet on the same pack.
+  const retryHref = receipt?.originalAmount ? `/wallet?amount=${receipt.originalAmount}#recharge` : "/wallet#recharge";
+  const hasAmounts = receipt != null && (receipt.originalAmount != null || total != null);
 
   return (
     <motion.div variants={stagger} initial="hidden" animate="show" className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 md:items-start md:gap-8">
       <motion.section variants={fadeUp} aria-live="polite" className="rounded-3xl border border-line bg-surface-card p-6 md:p-8">
-        <StatusHero status={status} watching={watching} paid={!!paymentParam} total={total} coins={coins} />
+        <StatusHero outcome={outcome} total={total} coins={coins} failureReason={failureReason} />
         {paidAt ? <p className="caption-5 mt-2 text-center text-ink-muted">{formatDateTime(paidAt)}</p> : null}
 
+        {!online && (outcome === "verifying" || outcome === "received") && (
+          <p className="caption-2 mt-4 flex items-start justify-center gap-2 text-center text-ink-soft">
+            <PiWifiSlash className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            आप ऑफ़लाइन हैं। इंटरनेट जुड़ते ही स्थिति अपने-आप जाँची जाएगी।
+          </p>
+        )}
+
         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
-          {status === "PAID" && (
+          {outcome === "paid" && (
             <>
               <Link href="/wallet" className={PRIMARY_BUTTON}>
                 वॉलेट देखें
@@ -216,13 +346,28 @@ function Receipt({
               </Link>
             </>
           )}
-          {status === "CREATED" && paymentParam && !watching && (
-            <button type="button" onClick={onCheckAgain} className={PRIMARY_BUTTON}>
-              स्थिति फिर देखें
-            </button>
+          {outcome === "received" && (
+            <>
+              <button type="button" onClick={onCheckAgain} className={PRIMARY_BUTTON}>
+                स्थिति फिर देखें
+              </button>
+              <Link href="/wallet" className={SECONDARY_BUTTON}>
+                वॉलेट देखें
+              </Link>
+            </>
           )}
-          {(status === "FAILED" || status === "CANCELLED" || (status === "CREATED" && !paymentParam)) && (
-            <Link href="/wallet#recharge" className={PRIMARY_BUTTON}>
+          {outcome === "failed" && (
+            <>
+              <Link href={retryHref} className={PRIMARY_BUTTON}>
+                फिर से कोशिश करें
+              </Link>
+              <Link href="/wallet" className={SECONDARY_BUTTON}>
+                वॉलेट देखें
+              </Link>
+            </>
+          )}
+          {outcome === "unpaid" && (
+            <Link href={retryHref} className={PRIMARY_BUTTON}>
               फिर से रिचार्ज करें
             </Link>
           )}
@@ -233,34 +378,40 @@ function Receipt({
         <h2 id="breakdown-title" className="heading-6 text-ink">
           विवरण
         </h2>
-        <dl className="mt-4 flex flex-col gap-2">
-          {meta.originalAmount != null && <Row label="रिचार्ज राशि" value={formatRupees(Number(meta.originalAmount))} />}
-          {Number(meta.discountAmount) > 0 && (
-            <Row
-              label={meta.promoCode ? `प्रोमो: ${meta.promoCode}` : "प्रोमो छूट"}
-              value={`−${formatRupees(Number(meta.discountAmount))}`}
-              tone="success"
-            />
-          )}
-          {meta.gstAmount != null && (
-            <Row
-              label={meta.gstPct != null ? `जीएसटी (${Number(meta.gstPct).toLocaleString("en-IN")}%)` : "जीएसटी"}
-              value={formatRupees(Number(meta.gstAmount))}
-            />
-          )}
-        </dl>
-        <hr className="my-4 border-line" />
-        <dl className="flex flex-col gap-2">
-          <Row label="कुल भुगतान" value={formatRupees(total)} strong />
-          {coins > 0 && (
-            <Row
-              label={status === "PAID" ? "जोड़े गए कॉइन्स" : "जुड़ने वाले कॉइन्स"}
-              value={`${formatCoins(coins)} कॉइन्स${bonus > 0 ? ` (${formatCoins(bonus)} बोनस सहित)` : ""}`}
-            />
-          )}
-        </dl>
+        {hasAmounts && (
+          <>
+            <dl className="mt-4 flex flex-col gap-2">
+              {receipt.originalAmount != null && <Row label="रिचार्ज राशि" value={formatRupees(receipt.originalAmount)} />}
+              {receipt.discount != null && receipt.discount > 0 ? (
+                <Row
+                  label={receipt.promoCode ? `प्रोमो: ${receipt.promoCode}` : "प्रोमो छूट"}
+                  value={`−${formatRupees(receipt.discount)}`}
+                  tone="success"
+                />
+              ) : receipt.promoCode && receipt.discount == null ? (
+                <Row label="प्रोमो कोड" value={receipt.promoCode} />
+              ) : null}
+              {receipt.gstAmount != null && (
+                <Row
+                  label={receipt.gstPct != null ? `जीएसटी (${receipt.gstPct.toLocaleString("en-IN")}%)` : "जीएसटी"}
+                  value={formatRupees(receipt.gstAmount)}
+                />
+              )}
+            </dl>
+            <hr className="my-4 border-line" />
+            <dl className="flex flex-col gap-2">
+              {total != null && <Row label={moneyTaken ? "कुल भुगतान" : "देय राशि"} value={formatRupees(total)} strong />}
+              {moneyTaken && coins != null && coins > 0 && (
+                <Row
+                  label={outcome === "paid" ? "जोड़े गए कॉइन्स" : "जुड़ने वाले कॉइन्स"}
+                  value={`${formatCoins(coins)} कॉइन्स${bonus > 0 ? ` (${formatCoins(bonus)} बोनस सहित)` : ""}`}
+                />
+              )}
+            </dl>
+          </>
+        )}
 
-        <h3 className="title-4 mt-6 text-ink">भुगतान की जानकारी</h3>
+        <h3 className={`title-4 text-ink ${hasAmounts ? "mt-6" : "mt-4"}`}>भुगतान की जानकारी</h3>
         <dl className="mt-2 flex flex-col">
           <CopyRow label="ऑर्डर आईडी" value={orderId} />
           {paymentId && <CopyRow label="पेमेंट आईडी" value={paymentId} />}
@@ -271,74 +422,71 @@ function Receipt({
 }
 
 function StatusHero({
-  status,
-  watching,
-  paid,
+  outcome,
   total,
   coins,
+  failureReason,
 }: {
-  status: string;
-  watching: boolean;
-  paid: boolean;
-  total: number;
-  coins: number;
+  outcome: Outcome;
+  total: number | null;
+  coins: number | null;
+  failureReason: string | null;
 }) {
-  if (status === "PAID") {
-    return (
-      <Hero
-        icon={PiCheckCircle}
-        tone="success"
-        title="भुगतान सफल"
-        amount={formatRupees(total)}
-        body={coins > 0 ? `${formatCoins(coins)} कॉइन्स आपके वॉलेट में जुड़ गए।` : "रिचार्ज आपके वॉलेट में जुड़ गया।"}
-      />
-    );
+  const amount = total != null ? formatRupees(total) : null;
+  switch (outcome) {
+    case "paid":
+      return (
+        <Hero
+          icon={PiCheckCircle}
+          tone="success"
+          title="भुगतान सफल"
+          amount={amount}
+          body={coins ? `${formatCoins(coins)} कॉइन्स आपके वॉलेट में जुड़ गए।` : "रिचार्ज आपके वॉलेट में जुड़ गया।"}
+        />
+      );
+    case "verifying":
+      return (
+        <Hero
+          icon={PiHourglassMedium}
+          tone="neutral"
+          title="भुगतान की पुष्टि हो रही है"
+          amount={amount}
+          body="Razorpay से भुगतान मिल गया है। कॉइन्स जोड़े जा रहे हैं, इसमें कुछ पल लग सकते हैं।"
+          pulse
+        />
+      );
+    case "received":
+      return (
+        <Hero
+          icon={PiHourglassMedium}
+          tone="neutral"
+          title="भुगतान प्राप्त हुआ"
+          amount={amount}
+          body="आपका भुगतान हो गया है। कॉइन्स कुछ ही मिनटों में आपके वॉलेट में दिख जाएँगे। दोबारा भुगतान न करें।"
+        />
+      );
+    case "failed":
+      return (
+        <Hero
+          icon={PiXCircle}
+          tone="danger"
+          title="भुगतान असफल"
+          amount={amount}
+          body="यह भुगतान पूरा नहीं हो सका, कोई कॉइन्स नहीं जुड़े। अगर आपके खाते से राशि कटी है, तो वह आपके मूल खाते में वापस आ जाएगी।"
+          note={failureReason ? `कारण: ${failureReason}` : null}
+        />
+      );
+    case "unpaid":
+      return (
+        <Hero
+          icon={PiInfo}
+          tone="neutral"
+          title="भुगतान पूरा नहीं हुआ"
+          amount={amount}
+          body="इस ऑर्डर का भुगतान नहीं हुआ है। रिचार्ज के लिए नया भुगतान शुरू करें।"
+        />
+      );
   }
-  if (status === "CREATED" && paid) {
-    return watching ? (
-      <Hero
-        icon={PiHourglassMedium}
-        tone="neutral"
-        title="भुगतान की पुष्टि हो रही है"
-        amount={formatRupees(total)}
-        body="Razorpay से भुगतान मिल गया है। कॉइन्स जोड़े जा रहे हैं, इसमें कुछ पल लग सकते हैं।"
-        pulse
-      />
-    ) : (
-      <Hero
-        icon={PiHourglassMedium}
-        tone="neutral"
-        title="भुगतान प्राप्त हुआ"
-        amount={formatRupees(total)}
-        body="आपका भुगतान हो गया है। कॉइन्स कुछ ही मिनटों में आपके वॉलेट में दिख जाएँगे। दोबारा भुगतान न करें।"
-      />
-    );
-  }
-  if (status === "FAILED") {
-    return (
-      <Hero
-        icon={PiXCircle}
-        tone="danger"
-        title="भुगतान असफल"
-        amount={formatRupees(total)}
-        body="यह भुगतान पूरा नहीं हो सका। अगर आपके खाते से राशि कटी है, तो वह आपके मूल खाते में वापस आ जाएगी।"
-      />
-    );
-  }
-  if (status === "CANCELLED") {
-    return (
-      <Hero icon={PiInfo} tone="neutral" title="भुगतान रद्द हुआ" amount={formatRupees(total)} body="इस ऑर्डर का भुगतान नहीं हुआ, कोई कॉइन्स नहीं जुड़े।" />
-    );
-  }
-  return (
-    <Hero
-      icon={PiInfo}
-      tone="neutral"
-      title="भुगतान पूरा नहीं हुआ"
-      amount={formatRupees(total)}
-      body="इस ऑर्डर का भुगतान अभी नहीं हुआ है। रिचार्ज के लिए नया भुगतान शुरू करें।"
-    />
-  );
 }
 
 const TONE = {
@@ -353,13 +501,15 @@ function Hero({
   title,
   amount,
   body,
+  note = null,
   pulse = false,
 }: {
   icon: IconType;
   tone: keyof typeof TONE;
   title: string;
-  amount: string;
+  amount: string | null;
   body: string;
+  note?: string | null;
   pulse?: boolean;
 }) {
   return (
@@ -370,8 +520,9 @@ function Hero({
       <h2 className={`heading-5 mt-2 ${tone === "neutral" ? "text-ink" : tone === "success" ? "text-success" : "text-danger"}`}>
         {title}
       </h2>
-      <p className="heading-3 text-ink">{amount}</p>
+      {amount && <p className="heading-3 text-ink">{amount}</p>}
       <p className="body-6 max-w-sm text-ink-soft">{body}</p>
+      {note && <p className="caption-2 max-w-sm rounded-xl bg-surface-sunken px-3 py-2 text-ink">{note}</p>}
     </div>
   );
 }

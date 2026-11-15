@@ -28,6 +28,7 @@ export type WalletTransaction = {
   type: string;
   amount: number;
   balance_after: number;
+  /** For RECHARGE the backend writes "Wallet recharge ₹118": the amount paid, GST included. */
   description?: string | null;
   /** RECHARGE, ADMIN_OFFER, BOOKING, BOOKING_REFUND, … */
   reference_type?: string | null;
@@ -35,6 +36,10 @@ export type WalletTransaction = {
   reference_id?: string | null;
   created_at?: string | null;
   status?: string | null;
+  /** Bonus points inside `amount`. */
+  bonus_amount?: number | null;
+  /** For RECHARGE: { razorpayPaymentId, originalAmount, bonusPoints, promoCode }. */
+  metadata?: Record<string, unknown> | null;
 };
 
 export type TransactionsPage = { transactions: WalletTransaction[]; total: number; limit: number; offset: number };
@@ -62,30 +67,21 @@ export type RechargeOrder = {
   razorpayKey: string;
 };
 
-export type RechargeConfirmation = { success: boolean; pointsCredited?: number; newBalance?: number };
+/**
+ * POST /v1/wallet/recharge/confirm. `success` means the points are in the wallet: credited by this call, or
+ * already by Razorpay's webhook (`alreadyCredited`).
+ */
+export type RechargeConfirmation = { success: boolean; pointsCredited?: number; newBalance?: number; alreadyCredited?: boolean };
 
-/** Metadata the backend stores on a wallet recharge order (razorpay_orders.payment_details[0]). */
-export type RechargeMeta = {
-  type?: string;
-  originalAmount?: number;
-  gstAmount?: number;
-  gstPct?: number;
-  totalPayable?: number;
-  pointsToCredit?: number;
-  promoCode?: string | null;
-  discountAmount?: number;
-  bonusPoints?: number;
-};
-
-/** GET /v1/order/:orderId (own orders only). */
-export type RechargeOrderState = {
-  razorPayOrderId?: string;
-  /** CREATED, PAID, FAILED or CANCELLED. */
-  status?: string;
-  /** Rupees, GST included. */
-  amount?: number;
-  createTs?: number;
-  paymentDetails?: Array<RechargeMeta & { paymentId?: string; status?: string; timestamp?: number }> | null;
+/** GET /v1/wallet/recharge/:orderId/status (own orders only: 403 for another account's, 404 for an unknown id). */
+export type RechargeStatus = {
+  /**
+   * PAID once the points are credited. FAILED for a failed, cancelled or expired order (the backend does not
+   * mark those today, so in practice such an order stays PENDING). PENDING for everything not final.
+   */
+  status: "PAID" | "PENDING" | "FAILED";
+  /** The wallet balance after the credit (PAID only). */
+  newBalance?: number;
 };
 
 // ─── Calls ──────────────────────────────────────────────────────────────────
@@ -116,18 +112,26 @@ export function initiateRecharge(amount: number, promoCode?: string) {
 }
 
 /** POST /v1/wallet/recharge/confirm: verifies Razorpay's signature on the backend and credits the points. */
-export function confirmRecharge(payment: { razorpayOrderId: string; razorpayPaymentId: string; razorpaySignature: string }) {
-  return api<RechargeConfirmation>("/v1/wallet/recharge/confirm", { method: "POST", body: payment });
+export function confirmRecharge(
+  payment: { razorpayOrderId: string; razorpayPaymentId: string; razorpaySignature: string },
+  signal?: AbortSignal,
+) {
+  return api<RechargeConfirmation>("/v1/wallet/recharge/confirm", { method: "POST", body: payment, signal });
 }
 
-/** GET /v1/order/:orderId: the order's status (the webhook may mark it PAID after confirm). */
-export function getRechargeOrder(orderId: string, signal?: AbortSignal) {
-  return api<RechargeOrderState>(`/v1/order/${encodeURIComponent(orderId)}`, { signal });
+/**
+ * GET /v1/wallet/recharge/:orderId/status: whether a recharge is credited, from the wallet's own order table
+ * (razorpay_orders), the same call the app polls. Not GET /v1/order/:id: that route reads the backend's older
+ * order store, which has no wallet recharges, so it answers 400 / 403 for every one of them.
+ */
+export function getRechargeStatus(orderId: string, signal?: AbortSignal) {
+  return api<RechargeStatus>(`/v1/wallet/recharge/${encodeURIComponent(orderId)}/status`, { signal });
 }
 
 /**
  * PATCH /v1/order/:orderId → CANCELLED when the user closes checkout without paying, as the app does.
- * Best effort: the backend refuses it for a captured payment, and a failure here changes nothing for the user.
+ * Best effort and, for now, without effect: like GET /v1/order/:id, the route reads the older order store and
+ * answers 400 for wallet recharges. Kept so the website does what the app does once the backend handles it.
  */
 export function cancelRechargeOrder(orderId: string) {
   return api<unknown>(`/v1/order/${encodeURIComponent(orderId)}`, {

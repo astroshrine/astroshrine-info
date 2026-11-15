@@ -28,6 +28,7 @@ import {
   type TxFilter,
   type WalletTransaction,
 } from "@/lib/services/wallet";
+import { rememberRechargeCredit } from "@/lib/services/rechargeReceipt";
 import { cachedTransactions, loadFirstTransactions } from "@/lib/services/walletCache";
 import { useAuth } from "@/components/AuthProvider";
 import { setQueryParam } from "./url";
@@ -299,6 +300,7 @@ export default function Transactions({
       <TxDialog
         openTxId={openTxId}
         tx={openTxId ? (list.items.find((t) => t.id === openTxId) ?? null) : null}
+        userId={userId}
         loading={list.status === "loading"}
         onClose={closeTx}
       />
@@ -355,11 +357,13 @@ function TxRow({ tx, onOpen }: { tx: WalletTransaction; onOpen: () => void }) {
 function TxDialog({
   openTxId,
   tx,
+  userId,
   loading,
   onClose,
 }: {
   openTxId: string | null;
   tx: WalletTransaction | null;
+  userId: string | null;
   loading: boolean;
   onClose: () => void;
 }) {
@@ -470,6 +474,8 @@ function TxDialog({
               {tx.reference_type === "RECHARGE" && tx.reference_id && (
                 <Link
                   href={`/wallet/orders/${encodeURIComponent(tx.reference_id)}`}
+                  // The backend's status route has no amounts: the receipt takes them from this credit.
+                  onClick={() => userId && rememberRechargeCredit(userId, tx)}
                   className="button-sm flex-1 rounded-full bg-brand px-3 py-2 text-center text-brand-ink transition hover:bg-brand-hover active:scale-98"
                 >
                   रसीद देखें
