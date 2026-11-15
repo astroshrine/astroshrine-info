@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { PiSignIn, PiUserCircle } from "react-icons/pi";
+import { PiSignIn, PiUserCircle, PiWallet } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import BrandMark from "@/components/BrandMark";
 import { APP_HOME_PATH, LANDING_PATH, isActivePath, navLinks } from "@/lib/site";
@@ -101,7 +101,11 @@ function HeaderBar({
             <AccountControl pathname={pathname} />
           </div>
 
-          <MenuToggle open={menuOpen} onToggle={() => onMenuChange(!menuOpen)} />
+          {/* Phones and tablets: the wallet balance stays visible beside the menu button. */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <MobileWalletPill pathname={pathname} onNavigate={() => onMenuChange(false)} />
+            <MenuToggle open={menuOpen} onToggle={() => onMenuChange(!menuOpen)} />
+          </div>
         </nav>
       </header>
 
@@ -141,6 +145,31 @@ function AccountControl({ pathname }: { pathname: string }) {
       <span className="caption-3 grid h-8 w-8 place-items-center rounded-full bg-surface-inverse text-ink-inverse">
         {name.charAt(0).toUpperCase()}
       </span>
+    </Link>
+  );
+}
+
+/** Below lg: the signed-in visitor's wallet balance as a small pill that opens the wallet. Nothing when signed out. */
+function MobileWalletPill({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
+  const { status, balance } = useAuth();
+
+  if (status === "signedOut") return null;
+  // Same size as the pill, so nothing shifts when the balance arrives.
+  if (status === "loading" || !balance) {
+    return <span aria-hidden className="block h-8 w-20 animate-pulse rounded-full bg-surface-sunken" />;
+  }
+
+  const amount = rupees(balance.points_balance);
+  return (
+    <Link
+      href="/wallet"
+      onClick={onNavigate}
+      aria-current={pathname.startsWith("/wallet") ? "page" : undefined}
+      aria-label={`Wallet, बैलेंस ${amount}`}
+      className="caption-3 flex h-8 items-center gap-1 rounded-full bg-surface-sunken pl-2 pr-3 text-ink transition hover:bg-line motion-safe:active:scale-98"
+    >
+      <PiWallet className="h-4 w-4 text-brand-strong" aria-hidden />
+      {amount}
     </Link>
   );
 }

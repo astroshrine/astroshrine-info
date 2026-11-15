@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import AstroGemsSection from "@/components/AstroGemsSection";
+import BlogSection, { BlogSectionSkeleton } from "@/components/BlogSection";
+import PujaBookingSection from "@/components/PujaBookingSection";
 import {
   PiCalculator,
   PiCaretDown,
@@ -253,6 +257,13 @@ export default function LandingPage() {
             <AstrologerProof />
           </div>
         </section>
+
+        {/* From the sister sites: puja booking (Shri Mahakal Dham), the AstroGems store and the newest Future For You articles. */}
+        <PujaBookingSection />
+        <AstroGemsSection />
+        <Suspense fallback={<BlogSectionSkeleton />}>
+          <BlogSection />
+        </Suspense>
 
         {/* 6. FAQ */}
         <section aria-labelledby="faq-title" className="grid grid-cols-1 gap-8 pb-24 lg:grid-cols-3">

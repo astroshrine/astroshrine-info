@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { PiArrowClockwise, PiArrowRight, PiChatCircleDots, PiGift, PiSignIn } from "react-icons/pi";
+import { PiArrowClockwise, PiArrowRight, PiArrowUpRight, PiChatCircleDots, PiGift, PiSignIn } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import AstrologerCard, { AstrologerCardSkeleton } from "@/components/AstrologerCard";
-import type { WalletBalance } from "@/lib/endpoints";
 import { getConsultConfig } from "@/lib/services/chat";
 import { fadeUp, stagger } from "@/lib/motion";
 import { SERVICES } from "@/lib/site";
@@ -15,23 +14,29 @@ import { useAstrologerDirectory } from "@/lib/useAstrologerDirectory";
 /** How many astrologers the home page shows (online first). */
 const HOME_ASTROLOGERS = 6;
 
-const rupees = (n: number) => `₹ ${Math.floor(n).toLocaleString("en-IN")}`;
 const reveal = { initial: "hidden", whileInView: "show", viewport: { once: true, amount: 0.2 } } as const;
 
 const secondaryButton =
   "button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
 
-/** The signed-in app home: wallet, live offers, services and astrologers, all from the shared backend. */
+/**
+ * The signed-in app home: greeting, the new user's free chat, services and astrologers, all from the shared
+ * backend. The wallet balance is not repeated here: it is always in the header (both on phones and desktop).
+ */
 export default function HomeView() {
-  const { status, user, balance } = useAuth();
+  const { status, user } = useAuth();
   const signedIn = status === "signedIn";
+  const signedOut = status === "signedOut";
   const name = user?.name?.trim();
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 md:px-8">
-      {/* Top-aligned; md:pt-6 matches the wallet card's padding so "नमस्ते" sits level with "आपका wallet". */}
-      <section aria-labelledby="home-title" className="grid grid-cols-1 gap-8 pb-16 pt-8 md:grid-cols-5 md:items-start md:pt-12">
-        <motion.div variants={stagger} initial="hidden" animate="show" className="md:col-span-3 md:pt-6">
+      {/* Signed out, a login card sits beside the greeting (top-aligned; md:pt-6 matches its padding). */}
+      <section
+        aria-labelledby="home-title"
+        className={`grid grid-cols-1 gap-8 pb-16 pt-8 md:pt-12 ${signedOut ? "md:grid-cols-5 md:items-start" : ""}`}
+      >
+        <motion.div variants={stagger} initial="hidden" animate="show" className={signedOut ? "md:col-span-3 md:pt-6" : ""}>
           <motion.p variants={fadeUp} className="caption-3 text-brand-strong">
             {signedIn && name ? `नमस्ते, ${name}` : "नमस्ते"}
           </motion.p>
@@ -42,9 +47,11 @@ export default function HomeView() {
             अपनी कुंडली देखें, astrologers से बात करें या wallet संभालें। सब कुछ उसी account से जो AstroShrine ऐप में है।
           </motion.p>
         </motion.div>
-        <motion.div variants={fadeUp} initial="hidden" animate="show" className="md:col-span-2">
-          <WalletCard status={status} balance={balance} />
-        </motion.div>
+        {signedOut && (
+          <motion.div variants={fadeUp} initial="hidden" animate="show" className="md:col-span-2">
+            <LoginCard />
+          </motion.div>
+        )}
       </section>
 
       {signedIn && <WelcomeGiftSection />}
@@ -54,42 +61,19 @@ export default function HomeView() {
   );
 }
 
-function WalletCard({ status, balance }: { status: string; balance: WalletBalance | null }) {
-  if (status === "signedOut") {
-    return (
-      <div className="flex flex-col items-start gap-4 rounded-3xl border border-line bg-surface-card p-6">
-        <div>
-          <p className="title-3 text-ink">ऐप वाले नंबर से लॉगिन करें</p>
-          <p className="caption-2 mt-1 text-ink-soft">Wallet balance, chat और सेव की हुई जन्म जानकारी यहां दिखेगी।</p>
-        </div>
-        <Link
-          href="/login?next=/home"
-          className="button-md inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
-        >
-          <PiSignIn className="h-5 w-5" aria-hidden />
-          लॉगिन करें
-        </Link>
-      </div>
-    );
-  }
-
+function LoginCard() {
   return (
-    <div className="on-inverse rounded-3xl bg-surface-inverse p-6 text-ink-inverse">
-      <p className="caption-4 text-ink-inverse-soft">आपका wallet</p>
-      <p className="heading-4 mt-2" aria-live="polite">
-        {balance ? (
-          rupees(balance.points_balance)
-        ) : (
-          <span aria-hidden className="inline-block h-9 w-32 animate-pulse rounded-lg bg-surface-inverse-raised align-middle" />
-        )}
-      </p>
-      <p className="caption-5 mt-2 text-ink-inverse-soft">ऐप और वेबसाइट पर एक ही wallet।</p>
+    <div className="flex flex-col items-start gap-4 rounded-3xl border border-line bg-surface-card p-6">
+      <div>
+        <p className="title-3 text-ink">ऐप वाले नंबर से लॉगिन करें</p>
+        <p className="caption-2 mt-1 text-ink-soft">Wallet balance, chat और सेव की हुई जन्म जानकारी यहां दिखेगी।</p>
+      </div>
       <Link
-        href="/wallet"
-        className="button-sm mt-6 inline-flex items-center gap-2 rounded-full bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:bg-line-inverse motion-safe:active:scale-98"
+        href="/login?next=/home"
+        className="button-md inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
       >
-        Wallet देखें
-        <PiArrowRight className="h-4 w-4" aria-hidden />
+        <PiSignIn className="h-5 w-5" aria-hidden />
+        लॉगिन करें
       </Link>
     </div>
   );
@@ -169,13 +153,11 @@ function ServicesSection() {
         सेवाएं
       </motion.h2>
 
-      <motion.ul {...reveal} variants={stagger} className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {SERVICES.map(({ title, subtitle, icon: Icon, href }) => (
-          <motion.li key={href} variants={fadeUp}>
-            <Link
-              href={href}
-              className="flex h-full items-center gap-4 rounded-2xl border border-line-strong bg-surface-card p-4 transition motion-safe:hover:-translate-y-0.5 hover:bg-surface-sunken motion-safe:active:scale-98 sm:flex-col sm:items-start"
-            >
+      <motion.ul {...reveal} variants={stagger} className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {SERVICES.map(({ title, subtitle, icon: Icon, href, external }) => {
+          const tile = "flex h-full items-center gap-4 rounded-2xl border border-line-strong bg-surface-card p-4 transition motion-safe:hover:-translate-y-0.5 hover:bg-surface-sunken motion-safe:active:scale-98 sm:flex-col sm:items-start";
+          const body = (
+            <>
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-brand-ink">
                 <Icon className="h-5 w-5" aria-hidden />
               </span>
@@ -185,11 +167,26 @@ function ServicesSection() {
               </span>
               <span className="caption-3 inline-flex items-center gap-1 text-brand-strong sm:mt-auto">
                 खोलें
-                <PiArrowRight className="h-4 w-4" aria-hidden />
+                {external ? <PiArrowUpRight className="h-4 w-4" aria-hidden /> : <PiArrowRight className="h-4 w-4" aria-hidden />}
               </span>
-            </Link>
-          </motion.li>
-        ))}
+            </>
+          );
+          return (
+            <motion.li key={href} variants={fadeUp}>
+              {/* Sister sites (puja booking, blog) open in a new tab; the arrow points out to say so. */}
+              {external ? (
+                <a href={href} target="_blank" rel="noopener noreferrer" className={tile}>
+                  {body}
+                  <span className="sr-only">(नए टैब में खुलेगा)</span>
+                </a>
+              ) : (
+                <Link href={href} className={tile}>
+                  {body}
+                </Link>
+              )}
+            </motion.li>
+          );
+        })}
       </motion.ul>
     </section>
   );

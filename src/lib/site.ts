@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { PiChatCircleDots, PiHouse, PiPlanet, PiUsersThree, PiWallet } from "react-icons/pi";
+import { PiBookOpenText, PiChatCircleDots, PiDiamond, PiFlowerLotus, PiHouse, PiPlanet, PiUsersThree, PiWallet } from "react-icons/pi";
 
 // Site-wide links and the service catalogue. Livestream and audio / video calls are not part of the website.
 
@@ -20,13 +20,24 @@ export function navLinks(signedIn: boolean): NavLink[] {
   return signedIn ? [HOME, KUNDLI, ASTROLOGERS, CHAT, WALLET] : [{ ...HOME, href: LANDING_PATH }, KUNDLI, ASTROLOGERS];
 }
 
-export type Service = { title: string; subtitle: string; icon: IconType; href: string };
+/** AstroShrine's temple site: puja booking happens there (Shri Mahakal Dham). */
+export const PUJA_BOOKING_URL = "https://shrimahakaldham.com/";
+/** AstroShrine's monthly magazine, Future For You (WordPress): the website's blog. */
+export const BLOG_URL = "https://futureforyou.co/";
+/** AstroShrine's store, AstroGems: certified gemstones, Rudraksha, malas and vastu items. */
+export const ASTROGEMS_URL = "https://astrogems.astroshrine.in/";
 
-/** What the website itself offers. App-only services (AI astrology, puja, store) are not listed here. */
+/** `external`: another AstroShrine site, opened in a new tab and marked with an outward arrow. */
+export type Service = { title: string; subtitle: string; icon: IconType; href: string; external?: boolean };
+
+/** What the website offers, plus the sister sites for puja booking and articles. AI astrology and the store stay app-only. */
 export const SERVICES: Service[] = [
   { title: "कुंडली", subtitle: "लग्न, नवांश, ग्रह स्थिति और दशा", icon: PiPlanet, href: "/kundli" },
   { title: "Astrologer से chat", subtitle: "Rating और शुल्क देखकर चुनें", icon: PiChatCircleDots, href: "/astrologers" },
   { title: "Wallet", subtitle: "Balance और लेनदेन", icon: PiWallet, href: "/wallet" },
+  { title: "पूजा बुकिंग", subtitle: "श्री महाकाल धाम में पूजा और अनुष्ठान", icon: PiFlowerLotus, href: PUJA_BOOKING_URL, external: true },
+  { title: "ब्लॉग", subtitle: "Future For You पत्रिका के लेख", icon: PiBookOpenText, href: BLOG_URL, external: true },
+  { title: "AstroGems", subtitle: "प्रमाणित रत्न, रुद्राक्ष और माला", icon: PiDiamond, href: ASTROGEMS_URL, external: true },
 ];
 
 /** Verified on astroshrine.in (linked from its home page). */
