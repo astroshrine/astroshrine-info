@@ -119,9 +119,9 @@ function writeQuery(q: DirectoryQuery) {
 export function DirectorySkeleton() {
   const t = useT(text);
   return (
-    <div aria-busy="true" aria-label={t.loading} className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
+    <div aria-busy="true" aria-label={t.loading} className="mt-8 grid grid-cols-1 gap-6 lg:gap-8">
       <div className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:col-span-3">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }, (_, i) => (
           <li key={i} className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
         ))}
@@ -214,10 +214,10 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
   const filtersActive = query.filter !== "all" || !!query.q.trim() || query.favourites;
 
   return (
-    <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
-      <aside aria-label={t.filters} className="lg:col-span-1">
-        <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-card p-4 shadow-sm lg:sticky lg:top-24 lg:p-6">
-          <div className="flex flex-col gap-2">
+    <div className="mt-8 flex flex-col gap-6 lg:gap-8">
+      <aside aria-label={t.filters}>
+        <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-card p-4 shadow-sm lg:flex-row lg:flex-wrap lg:items-end lg:p-6">
+          <div className="flex flex-col gap-2 lg:min-w-[320px] lg:flex-1">
             <label htmlFor={searchId} className="title-4 text-ink">
               {t.search}
             </label>
@@ -234,7 +234,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
             </div>
           </div>
 
-          <fieldset className="flex min-w-0 flex-col gap-2">
+          <fieldset className="flex min-w-0 flex-col gap-2 lg:order-last lg:basis-full">
             <legend className="title-4 mb-2 text-ink">{t.expertiseAndLanguage}</legend>
             <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:flex-wrap lg:overflow-visible">
               {FILTERS.map((f) => {
@@ -256,7 +256,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
             </div>
           </fieldset>
 
-          <div className="flex flex-wrap items-end gap-3">
+          <div className="flex flex-wrap items-end gap-3 lg:min-w-[320px]">
             <div className="flex min-w-0 flex-1 flex-col gap-2">
               <label htmlFor={sortId} className="title-4 text-ink">
                 {t.sort}
@@ -291,7 +291,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
         </div>
       </aside>
 
-      <section aria-labelledby="results-title" className="flex min-w-0 flex-col gap-4 lg:col-span-3">
+      <section aria-labelledby="results-title" className="flex min-w-0 flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 id="results-title" className="heading-6 text-ink" aria-live="polite">
             {astrologers ? t.count(visible.length) : t.heading}
@@ -321,7 +321,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
               </button>
             </div>
           ) : (
-            <ul aria-busy="true" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <ul aria-busy="true" className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }, (_, i) => (
                 <li key={i} className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
               ))}
@@ -338,7 +338,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
             )}
           </div>
         ) : (
-          <motion.ul variants={stagger} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <motion.ul variants={stagger} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((a) => (
               <motion.li key={a.id} variants={fadeUp} className="flex">
                 <AstrologerCardView
@@ -380,7 +380,7 @@ function AstrologerCardView({
       <div className="flex items-start gap-4">
         <AstrologerAvatar name={a.name} photo={a.photo} size={64} availability={a.availability} />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <h3 className="heading-6 flex items-center gap-1 text-ink">
+          <h3 className="heading-6 !text-lg flex items-center gap-1 text-ink">
             <Link
               href={`/astrologers/${a.id}`}
               lang={contentLang(a.name)}
