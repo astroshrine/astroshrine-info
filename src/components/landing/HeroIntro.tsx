@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, heroStagger } from "@/lib/motion";
-import HeroProof from "./HeroProof";
+import { PiArrowRight, PiCheckCircle } from "react-icons/pi";
+import Link from "@/i18n/Link";
+import { buttonHover, buttonPress, fadeUp, heroStagger } from "@/lib/motion";
+import { HeroBadge, HeroStats } from "./HeroLive";
 import MotionCta from "./MotionCta";
 
 type Props = {
@@ -11,16 +13,24 @@ type Props = {
   lines: string[];
   body: string;
   cta: { href: string; label: string };
+  secondary: { href: string; label: string };
+  /** Short, true promises shown under the buttons. */
+  trust: string[];
   className?: string;
 };
 
+const MotionLink = motion.create(Link);
+
 /**
- * Hero copy choreography on page load (not on scroll: it is already in view). Eyebrow, then each heading
- * line, then the subheading, then the action row rise 32px and fade in, 120ms apart, on the base curve.
+ * Hero copy choreography on page load (not on scroll: it is already in view). Live badge, eyebrow, each heading
+ * line, the subheading, the buttons, the promises and the stat box rise 32px and fade in, 120ms apart, on the base curve.
  */
-export default function HeroIntro({ eyebrow, lines, body, cta, className = "" }: Props) {
+export default function HeroIntro({ eyebrow, lines, body, cta, secondary, trust, className = "" }: Props) {
   return (
     <motion.div variants={heroStagger} initial="hidden" animate="show" className={className}>
+      <motion.div variants={fadeUp}>
+        <HeroBadge />
+      </motion.div>
       <motion.p variants={fadeUp} className="font-display flex items-center gap-3 text-lg text-brand-strong before:h-px before:w-9 before:bg-brand after:h-px after:w-9 after:bg-brand">
         {eyebrow}
       </motion.p>
@@ -34,9 +44,28 @@ export default function HeroIntro({ eyebrow, lines, body, cta, className = "" }:
       <motion.p variants={fadeUp} className="mt-6 max-w-[560px] text-lg leading-relaxed text-ink-soft">
         {body}
       </motion.p>
-      <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+      <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3">
         <MotionCta href={cta.href}>{cta.label}</MotionCta>
-        <HeroProof />
+        <MotionLink
+          href={secondary.href}
+          whileHover={buttonHover}
+          whileTap={buttonPress}
+          className="button-md group inline-flex h-[52px] items-center gap-2 rounded-2xl border border-ink px-6 text-ink transition-colors hover:bg-surface-sunken"
+        >
+          {secondary.label}
+          <PiArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-1" aria-hidden />
+        </MotionLink>
+      </motion.div>
+      <motion.ul variants={fadeUp} className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-ink-soft">
+        {trust.map((item) => (
+          <li key={item} className="flex items-center gap-2">
+            <PiCheckCircle className="h-5 w-5 shrink-0 text-brand" aria-hidden />
+            {item}
+          </li>
+        ))}
+      </motion.ul>
+      <motion.div variants={fadeUp}>
+        <HeroStats />
       </motion.div>
     </motion.div>
   );

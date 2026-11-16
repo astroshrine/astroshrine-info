@@ -6,8 +6,15 @@ import BlogSection, { BlogSectionSkeleton } from "@/components/BlogSection";
 import PujaBookingSection from "@/components/PujaBookingSection";
 import {
   PiCalculator,
+  PiCalendarDots,
+  PiArrowRight,
   PiCaretDown,
+  PiChatCircleDots,
+  PiCirclesThreePlus,
   PiClock,
+  PiCompass,
+  PiHeart,
+  PiScroll,
   PiHourglassMedium,
   PiMapPin,
   PiPlanet,
@@ -16,15 +23,18 @@ import {
   PiUserCircle,
 } from "react-icons/pi";
 import { Reveal, RevealItem } from "@/components/Reveal";
-import AstrologerProof from "@/components/landing/AstrologerProof";
+import AstrologerShowcase from "@/components/landing/AstrologerShowcase";
 import FinalCta from "@/components/landing/FinalCta";
 import HeroChart from "@/components/landing/HeroChart";
 import HeroIntro from "@/components/landing/HeroIntro";
+import QuickActions from "@/components/landing/QuickActions";
+import ServicesBento from "@/components/landing/ServicesBento";
 import StepsTimeline from "@/components/landing/StepsTimeline";
 import TaglineReveal from "@/components/landing/TaglineReveal";
 import { LOCALES, OG_LOCALE } from "@/i18n/config";
 import { localizeHref } from "@/i18n/paths";
 import { getLocale, languageAlternates } from "@/i18n/server";
+import Link from "@/i18n/Link";
 import { PRIVACY_URL } from "@/lib/site";
 import { LANDING_TEXT, type BenefitKey, type SolutionKey } from "./landing.text";
 
@@ -99,10 +109,64 @@ export default async function LandingPage() {
             eyebrow={t.hero.eyebrow}
             lines={t.hero.lines}
             body={t.hero.body}
-            cta={{ href: "/kundli", label: t.cta }}
+            cta={{ href: "/astrologers", label: t.heroChat }}
+            secondary={{ href: "/kundli", label: t.cta }}
+            trust={t.promises}
           />
           <HeroChart className="lg:col-span-2" />
         </section>
+
+        {/* 1b. Quick actions */}
+        <QuickActions
+          label={t.quick.label}
+          items={[
+            { href: "/astrologers", icon: PiChatCircleDots, ...t.quick.chat },
+            { href: "/kundli", icon: PiPlanet, ...t.quick.kundli },
+            { href: "/kundli/milan", icon: PiHeart, ...t.quick.milan },
+            { href: "/kundli/panchang", icon: PiCalendarDots, ...t.quick.panchang },
+          ]}
+        />
+      </div>
+
+      {/* 1c. Astrologers: live list, with tabs by topic (full-bleed paper band) */}
+      <section aria-labelledby="astro-title" className="border-y border-line bg-surface-card py-20">
+        <div className="mx-auto w-full max-w-6xl px-4 md:px-8">
+          <Reveal className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="font-display text-lg text-brand-strong">{t.astro.kicker}</p>
+              <h2 id="astro-title" className="heading-5 md:heading-4 mt-1 text-ink">
+                {t.astro.title}
+              </h2>
+              <p className="body-5 mt-3 max-w-[560px] text-ink-soft">{t.astro.body}</p>
+            </div>
+            <Link
+              href="/astrologers"
+              className="button-sm hidden items-center gap-2 rounded-xl border border-ink px-4 py-3 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98 md:inline-flex"
+            >
+              {t.astro.seeAll}
+              <PiArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
+          <div className="mt-8">
+            <AstrologerShowcase />
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto w-full max-w-6xl px-4 pt-24 md:px-8">
+        {/* 1d. Services */}
+        <ServicesBento
+          titleId="services-title"
+          kicker={t.services.kicker}
+          title={t.services.title}
+          main={{ ...t.services.main, points: SOLUTIONS.map(({ key }) => t.solutions[key].title), cta: { href: "/kundli", label: t.services.main.cta } }}
+          tiles={[
+            { href: "/kundli/chart", icon: PiPlanet, ...t.services.chart },
+            { href: "/kundli/gochar", icon: PiCirclesThreePlus, ...t.services.gochar },
+            { href: "/kundli/kp", icon: PiCompass, ...t.services.kp },
+            { href: "/kundli/sheet", icon: PiScroll, ...t.services.sheet },
+          ]}
+        />
 
         {/* 2. Problem to solution */}
         <section aria-labelledby="problem-title" className="grid grid-cols-1 gap-12 pb-24 lg:grid-cols-2">
@@ -172,19 +236,6 @@ export default async function LandingPage() {
             </h2>
           </Reveal>
           <StepsTimeline items={t.steps} />
-        </section>
-
-        {/* 5. Proof: live data only */}
-        <section aria-labelledby="proof-title" className="pb-24">
-          <Reveal>
-            <h2 id="proof-title" className="heading-5 md:heading-4 text-ink">
-              {t.proofTitle}
-            </h2>
-            <p className="body-6 mt-2 max-w-[680px] text-ink-soft">{t.proofBody}</p>
-          </Reveal>
-          <div className="mt-8">
-            <AstrologerProof />
-          </div>
         </section>
 
         {/* From the sister sites: puja booking (Shri Mahakal Dham), the AstroGems store and the newest Future For You articles. */}
