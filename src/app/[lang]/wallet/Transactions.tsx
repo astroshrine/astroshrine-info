@@ -317,7 +317,7 @@ export default function Transactions({
               type="button"
               aria-pressed={active}
               onClick={() => onFilterChange(f)}
-              className={`button-xsm rounded-full px-3 py-2 transition active:scale-98 ${
+              className={`button-xsm rounded-xl px-3 py-2 transition active:scale-98 ${
                 active ? "on-inverse bg-surface-inverse text-ink-inverse" : "bg-surface-sunken text-ink-soft hover:bg-line hover:text-ink"
               }`}
             >
@@ -339,7 +339,7 @@ export default function Transactions({
           <button
             type="button"
             onClick={retry}
-            className="button-sm mt-3 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
+            className="button-sm mt-3 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
           >
             {t.tryAgain}
           </button>
@@ -355,7 +355,7 @@ export default function Transactions({
           <p className="caption-2 max-w-xs text-ink-soft">{t.emptyBody}</p>
           <a
             href="#recharge"
-            className="button-sm rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98"
+            className="button-sm rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98"
           >
             {t.addMoney}
           </a>
@@ -388,7 +388,7 @@ export default function Transactions({
                 type="button"
                 onClick={loadMore}
                 disabled={list.loadingMore}
-                className="button-sm w-full rounded-full border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
+                className="button-sm w-full rounded-xl border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
               >
                 {list.loadingMore ? t.loading : list.moreFailed ? t.retryMore : t.showMore}
               </button>
@@ -584,7 +584,7 @@ function TxDialog({
                   href={`/wallet/orders/${encodeURIComponent(tx.reference_id)}`}
                   // The backend's status route has no amounts: the receipt takes them from this credit.
                   onClick={() => userId && rememberRechargeCredit(userId, tx)}
-                  className="button-sm flex-1 rounded-full bg-brand px-3 py-2 text-center text-brand-ink transition hover:bg-brand-hover active:scale-98"
+                  className="button-sm flex-1 rounded-xl bg-brand px-3 py-2 text-center text-brand-ink transition hover:bg-brand-hover active:scale-98"
                 >
                   {t.viewReceipt}
                 </Link>
@@ -592,7 +592,7 @@ function TxDialog({
               <button
                 type="button"
                 onClick={onClose}
-                className="button-sm flex-1 rounded-full border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
+                className="button-sm flex-1 rounded-xl border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
               >
                 {t.close}
               </button>
@@ -611,7 +611,7 @@ function TxDialog({
             <button
               type="button"
               onClick={onClose}
-              className="button-sm mt-4 rounded-full border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
+              className="button-sm mt-4 rounded-xl border border-line-strong px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
             >
               {t.close}
             </button>

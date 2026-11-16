@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Poppins } from "next/font/google";
+import { Epilogue, Inter, Noto_Sans_Devanagari } from "next/font/google";
 import AppShell from "@/components/AppShell";
 import AuthProvider from "@/components/AuthProvider";
 import { LOCALES, OG_LOCALE, isLocale } from "@/i18n/config";
@@ -9,13 +9,10 @@ import { defineMessages } from "@/i18n/messages";
 import { getLocale } from "@/i18n/server";
 import "../globals.css";
 
-// One typeface for the whole site (B1). Poppins is on the approved list and, unlike Geist, also covers
-// Devanagari, so Hindi and English text share one face instead of Hindi falling back to a system font.
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin", "devanagari"],
-  weight: ["400", "500", "600"],
-});
+// Design system fonts: Inter for text, Epilogue for headings, Noto Sans Devanagari so Hindi keeps the same weight and feel.
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const epilogue = Epilogue({ variable: "--font-epilogue", subsets: ["latin"], weight: ["500", "600", "700"] });
+const deva = Noto_Sans_Devanagari({ variable: "--font-deva", subsets: ["devanagari"], weight: ["400", "500", "600", "700"] });
 
 const text = defineMessages({
   hi: {
@@ -63,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#fdfbf5",
+  themeColor: "#fbf6ec",
   width: "device-width",
   initialScale: 1,
 };
@@ -75,7 +72,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${poppins.variable} h-full antialiased`}>
+    <html lang={lang} className={`${inter.variable} ${epilogue.variable} ${deva.variable} h-full antialiased`}>
       <body className="min-h-full bg-surface-page font-sans text-ink">
         <LocaleProvider locale={lang}>
           <AuthProvider>

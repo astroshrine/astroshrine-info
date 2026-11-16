@@ -8,7 +8,7 @@ import { getLatestBlogPosts } from "@/lib/services/blog.server";
 import { BLOG_URL } from "@/lib/site";
 
 const secondaryButton =
-  "button-sm inline-flex w-fit items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
+  "button-sm inline-flex w-fit items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
 
 const text = defineMessages({
   hi: {

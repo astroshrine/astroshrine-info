@@ -160,10 +160,10 @@ export default function ChatList({ activeId }: { activeId: string | null }) {
   }, []);
 
   return (
-    <nav aria-label={t.nav} className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl border border-line bg-surface-card">
+    <nav aria-label={t.nav} className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-line bg-surface-card">
       <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-3">
         <h1 className="heading-6 text-ink">{t.heading}</h1>
-        <Link href="/astrologers" className="button-sm inline-flex items-center gap-1 rounded-full px-3 py-2 text-brand-strong transition hover:bg-surface-sunken active:scale-98">
+        <Link href="/astrologers" className="button-sm inline-flex items-center gap-1 rounded-xl px-3 py-2 text-brand-strong transition hover:bg-surface-sunken active:scale-98">
           <PiPlus className="h-4 w-4" aria-hidden />
           {t.newChat}
         </Link>
@@ -221,7 +221,7 @@ export default function ChatList({ activeId }: { activeId: string | null }) {
                 <Link
                   href={`/chat/${encodeURIComponent(r.astrologerId)}`}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-2xl p-2 transition active:scale-98 ${active ? "bg-surface-sunken" : "hover:bg-surface-sunken"}`}
+                  className={`flex items-center gap-3 rounded-xl p-2 transition active:scale-98 ${active ? "bg-surface-sunken" : "hover:bg-surface-sunken"}`}
                 >
                   <AstrologerAvatar name={name} photo={r.photo} size={48} />
                   <span className="flex min-w-0 flex-1 flex-col">

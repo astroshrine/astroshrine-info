@@ -147,7 +147,7 @@ function BalanceCard({ className, config }: { className: string; config: ConfigS
       initial="hidden"
       animate="show"
       aria-labelledby="balance-title"
-      className={`on-inverse rounded-3xl bg-surface-inverse p-6 text-ink-inverse md:p-8 ${className}`}
+      className={`on-inverse rounded-3xl bg-surface-inverse p-6 text-ink-inverse shadow-lg ring-1 ring-brand/20 md:p-8 ${className}`}
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
@@ -164,7 +164,7 @@ function BalanceCard({ className, config }: { className: string; config: ConfigS
           )}
         </div>
         {ready && (
-          <p className="caption-4 inline-flex items-center gap-1 rounded-full bg-surface-inverse-raised px-3 py-1">
+          <p className="caption-4 inline-flex items-center gap-1 rounded-xl bg-surface-inverse-raised px-3 py-1">
             <PiSparkle className="h-4 w-4 text-brand-on-inverse" aria-hidden />
             {t.rate(formatRupees(1 / pointsPerRupee))}
           </p>
@@ -192,7 +192,7 @@ function BalanceCard({ className, config }: { className: string; config: ConfigS
         {/* On phones the recharge panel sits below; on desktop it is already beside this card. */}
         <a
           href="#recharge"
-          className="button-sm inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98 lg:hidden"
+          className="button-sm inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98 lg:hidden"
         >
           <PiWallet className="h-4 w-4" aria-hidden />
           {t.addMoney}

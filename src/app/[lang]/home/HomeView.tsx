@@ -88,7 +88,7 @@ const text = defineMessages({
 const reveal = { initial: "hidden", whileInView: "show", viewport: { once: true, amount: 0.2 } } as const;
 
 const secondaryButton =
-  "button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
+  "button-sm inline-flex items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
 
 /**
  * The signed-in app home: greeting, the new user's free chat, services and astrologers, all from the shared
@@ -143,7 +143,7 @@ function LoginCard() {
       </div>
       <Link
         href="/login?next=/home"
-        className="button-md inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+        className="button-md inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
       >
         <PiSignIn className="h-5 w-5" aria-hidden />
         {t.login}
@@ -197,7 +197,7 @@ function WelcomeGiftSection() {
         </div>
         <Link
           href="/astrologers?filter=online"
-          className="button-md inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-surface-inverse px-3 py-2 text-ink-inverse transition hover:bg-surface-inverse-raised motion-safe:active:scale-98"
+          className="button-md inline-flex w-fit shrink-0 items-center gap-2 rounded-xl bg-surface-inverse px-3 py-2 text-ink-inverse transition hover:bg-surface-inverse-raised motion-safe:active:scale-98"
         >
           <PiChatCircleDots className="h-5 w-5" aria-hidden />
           {t.gift.cta}
@@ -218,25 +218,25 @@ function ServicesSection() {
         {t.services}
       </motion.h2>
 
-      <motion.ul {...reveal} variants={stagger} className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.ul {...reveal} variants={stagger} className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
         {SERVICES.map(({ key, icon: Icon, mark: Mark, href, external }) => {
           const { title, subtitle } = site.services[key];
-          const tile = "flex h-full items-center gap-4 rounded-2xl border border-line-strong bg-surface-card p-4 transition motion-safe:hover:-translate-y-0.5 hover:bg-surface-sunken motion-safe:active:scale-98 sm:flex-col sm:items-start";
+          const tile = "group flex h-full flex-col items-center gap-2 rounded-t-[7.5rem] rounded-b-2xl border border-line bg-surface-card px-4 pb-5 pt-7 text-center transition motion-safe:hover:-translate-y-1 hover:shadow-lg motion-safe:active:scale-98";
           const body = (
             <>
               {/* A service with its own logo (AstroGems) shows it in place of the gold icon tile, at the same size. */}
               {Mark ? (
-                <Mark size={40} />
+                <Mark size={56} />
               ) : (
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-brand-ink">
-                  <Icon className="h-5 w-5" aria-hidden />
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-surface-inverse text-brand ring-[6px] ring-surface-sunken transition group-hover:-translate-y-0.5 group-hover:-rotate-6">
+                  <Icon className="h-6 w-6" aria-hidden />
                 </span>
               )}
-              <span className="min-w-0 flex-1">
-                <span className="title-3 block text-ink">{title}</span>
+              <span className="mt-2 min-w-0 flex-1">
+                <span className="title-3 block font-display text-ink">{title}</span>
                 <span className="caption-5 mt-1 block text-ink-soft">{subtitle}</span>
               </span>
-              <span className="caption-3 inline-flex items-center gap-1 text-brand-strong sm:mt-auto">
+              <span className="caption-3 inline-flex items-center gap-1 text-brand-strong">
                 {t.open}
                 {external ? <PiArrowUpRight className="h-4 w-4" aria-hidden /> : <PiArrowRight className="h-4 w-4" aria-hidden />}
               </span>

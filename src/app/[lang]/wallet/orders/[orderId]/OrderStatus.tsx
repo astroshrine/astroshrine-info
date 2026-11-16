@@ -368,7 +368,7 @@ function SignedInOrder({ orderId, userId }: { orderId: string; userId: string })
     <div className="mx-auto w-full max-w-5xl px-4 pb-20 pt-6 md:px-8 md:pt-10">
       <Link
         href="/wallet"
-        className="button-sm inline-flex items-center gap-2 rounded-full px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98"
+        className="button-sm inline-flex items-center gap-2 rounded-xl px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98"
       >
         <PiArrowLeft className="h-4 w-4" aria-hidden />
         {t.back}
@@ -416,9 +416,9 @@ function SignedInOrder({ orderId, userId }: { orderId: string; userId: string })
 }
 
 const PRIMARY_BUTTON =
-  "button-sm inline-flex items-center justify-center rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98";
+  "button-sm inline-flex items-center justify-center rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98";
 const SECONDARY_BUTTON =
-  "button-sm inline-flex items-center justify-center rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98";
+  "button-sm inline-flex items-center justify-center rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98";
 
 function Receipt({
   outcome,

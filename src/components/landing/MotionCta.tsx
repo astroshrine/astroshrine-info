@@ -18,7 +18,7 @@ export default function MotionCta({ href, children, className = "" }: { href: st
       href={href}
       whileHover={buttonHover}
       whileTap={buttonPress}
-      className={`button-md group inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition-colors hover:bg-brand-hover ${className}`}
+      className={`button-md group inline-flex h-[52px] items-center gap-2 rounded-2xl bg-surface-inverse px-6 text-ink-inverse transition-colors hover:bg-surface-inverse-raised ${className}`}
     >
       <PiPlanet className="h-5 w-5 transition-transform duration-500 group-hover:rotate-45" aria-hidden />
       {children}

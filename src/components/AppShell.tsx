@@ -39,7 +39,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       {/* SiteHeader makes this inert while the full-height mobile menu is open. */}
       <div id="page" className="flex min-h-dvh flex-col">
-        <main id="main" tabIndex={-1} className="flex-1 pt-20 outline-none">
+        <main id="main" tabIndex={-1} className="flex-1 pt-[72px] outline-none">
           {children}
         </main>
         <SiteFooter />

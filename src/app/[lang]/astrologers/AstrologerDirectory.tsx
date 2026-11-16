@@ -120,10 +120,10 @@ export function DirectorySkeleton() {
   const t = useT(text);
   return (
     <div aria-busy="true" aria-label={t.loading} className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
-      <div className="h-48 animate-pulse rounded-3xl bg-surface-sunken" />
+      <div className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:col-span-3">
         {Array.from({ length: 6 }, (_, i) => (
-          <li key={i} className="h-48 animate-pulse rounded-3xl bg-surface-sunken" />
+          <li key={i} className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
         ))}
       </ul>
     </div>
@@ -216,12 +216,12 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
   return (
     <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-4 lg:gap-8">
       <aside aria-label={t.filters} className="lg:col-span-1">
-        <div className="flex flex-col gap-4 rounded-3xl border border-line bg-surface-card p-4 lg:sticky lg:top-24 lg:p-6">
+        <div className="flex flex-col gap-4 rounded-2xl border border-line bg-surface-card p-4 shadow-sm lg:sticky lg:top-24 lg:p-6">
           <div className="flex flex-col gap-2">
             <label htmlFor={searchId} className="title-4 text-ink">
               {t.search}
             </label>
-            <div className="flex items-center gap-2 rounded-xl border border-line-strong bg-surface-page px-3 focus-within:border-ink-muted">
+            <div className="flex items-center gap-2 rounded-xl border border-line-strong bg-surface-page px-3 focus-within:border-brand focus-within:ring-3 focus-within:ring-brand/25">
               <PiMagnifyingGlass className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden />
               <input
                 id={searchId}
@@ -245,8 +245,8 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
                     type="button"
                     aria-pressed={on}
                     onClick={() => update({ filter: f })}
-                    className={`button-sm shrink-0 rounded-full border px-3 py-1 transition active:scale-98 ${
-                      on ? "border-ink bg-surface-inverse text-ink-inverse" : "border-line-strong bg-surface-card text-ink-soft hover:bg-surface-sunken hover:text-ink"
+                    className={`button-sm shrink-0 rounded-xl border px-3 py-1 transition active:scale-98 ${
+                      on ? "border-ink bg-surface-inverse text-ink-inverse" : "border-line-strong bg-surface-card text-ink-soft hover:border-brand hover:bg-surface-sunken hover:text-ink"
                     }`}
                   >
                     {labels.filters[f]}
@@ -265,7 +265,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
                 id={sortId}
                 value={query.sort}
                 onChange={(e) => update({ sort: e.target.value as Sort })}
-                className="body-6 rounded-xl border border-line-strong bg-surface-page px-3 py-2 text-ink"
+                className="body-6 rounded-xl border border-line-strong bg-surface-card px-3 py-3 text-ink focus:border-brand focus:ring-3 focus:ring-brand/25 focus:outline-none"
               >
                 {SORTS.map((s) => (
                   <option key={s} value={s}>
@@ -279,7 +279,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
                 type="button"
                 aria-pressed={query.favourites}
                 onClick={() => update({ favourites: !query.favourites })}
-                className={`button-sm inline-flex items-center gap-2 rounded-full border px-3 py-2 transition active:scale-98 ${
+                className={`button-sm inline-flex items-center gap-2 rounded-xl border px-3 py-2 transition active:scale-98 ${
                   query.favourites ? "border-ink bg-surface-inverse text-ink-inverse" : "border-line-strong text-ink-soft hover:bg-surface-sunken hover:text-ink"
                 }`}
               >
@@ -293,7 +293,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
 
       <section aria-labelledby="results-title" className="flex min-w-0 flex-col gap-4 lg:col-span-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="results-title" className="title-3 text-ink" aria-live="polite">
+          <h2 id="results-title" className="heading-6 text-ink" aria-live="polite">
             {astrologers ? t.count(visible.length) : t.heading}
           </h2>
           {astrologers && (
@@ -312,7 +312,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
 
         {!astrologers ? (
           loadFailed ? (
-            <div role="alert" className="flex flex-col items-start gap-3 rounded-3xl border border-line bg-surface-card p-6">
+            <div role="alert" className="flex flex-col items-start gap-3 rounded-2xl border border-line bg-surface-card p-6">
               <p className="body-5 text-ink">{t.loadFailed}</p>
               <p className="caption-2 text-ink-soft">{t.checkConnection}</p>
               <button type="button" onClick={() => setReloadKey((k) => k + 1)} className={secondaryButton}>
@@ -323,12 +323,12 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
           ) : (
             <ul aria-busy="true" className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {Array.from({ length: 6 }, (_, i) => (
-                <li key={i} className="h-48 animate-pulse rounded-3xl bg-surface-sunken" />
+                <li key={i} className="h-48 animate-pulse rounded-2xl bg-surface-sunken" />
               ))}
             </ul>
           )
         ) : visible.length === 0 ? (
-          <div className="flex flex-col items-start gap-3 rounded-3xl border border-line bg-surface-card p-6">
+          <div className="flex flex-col items-start gap-3 rounded-2xl border border-line bg-surface-card p-6">
             <p className="body-5 text-ink">{query.favourites && favourites.size === 0 ? t.noFavourites : t.noMatch}</p>
             <p className="caption-2 text-ink-soft">{query.favourites && favourites.size === 0 ? t.noFavouritesHint : t.noMatchHint}</p>
             {filtersActive && (
@@ -376,15 +376,15 @@ function AstrologerCardView({
   const canChat = a.availability !== "offline" && !a.chatOff;
 
   return (
-    <article className="group relative flex w-full flex-col gap-4 rounded-3xl border border-line bg-surface-card p-4 transition hover:border-line-strong hover:shadow-md md:p-6">
+    <article className="group relative flex w-full flex-col gap-4 rounded-2xl border border-line bg-surface-card p-4 transition hover:border-brand hover:shadow-md md:p-5">
       <div className="flex items-start gap-4">
         <AstrologerAvatar name={a.name} photo={a.photo} size={64} availability={a.availability} />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <h3 className="title-3 flex items-center gap-1 text-ink">
+          <h3 className="heading-6 flex items-center gap-1 text-ink">
             <Link
               href={`/astrologers/${a.id}`}
               lang={contentLang(a.name)}
-              className="truncate rounded-sm capitalize after:absolute after:inset-0 after:rounded-3xl after:content-['']"
+              className="truncate rounded-sm capitalize after:absolute after:inset-0 after:rounded-2xl after:content-['']"
             >
               {a.name}
             </Link>
@@ -451,7 +451,7 @@ function AstrologerCardView({
           </p>
           <span
             aria-hidden
-            className={`button-sm rounded-full px-3 py-2 transition ${
+            className={`button-sm rounded-xl px-3 py-2 transition ${
               canChat ? "bg-brand text-brand-ink group-hover:bg-brand-hover" : "border border-line-strong text-ink-soft group-hover:bg-surface-sunken"
             }`}
           >

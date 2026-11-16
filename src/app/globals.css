@@ -13,29 +13,29 @@
 
 :root {
   /* Navy: brand primary */
-  --core-navy-50: #eef2fa;
-  --core-navy-100: #d9e2f3;
-  --core-navy-200: #b8c4dd;
-  --core-navy-500: #2a4a86;
-  --core-navy-600: #46557a;
-  --core-navy-650: #5f6a86;
-  --core-navy-700: #14275a;
-  --core-navy-800: #0f1e46;
-  --core-navy-900: #0a1530;
+  --core-navy-50: #f1f3f8;
+  --core-navy-100: #dde1ec;
+  --core-navy-200: #c9cdd9;
+  --core-navy-500: #2f4470;
+  --core-navy-600: #555d74;
+  --core-navy-650: #5f677d;
+  --core-navy-700: #2a3a5e;
+  --core-navy-800: #1d2d50;
+  --core-navy-900: #14213d;
 
   /* Gold: brand accent */
-  --core-gold-50: #fffbeb;
-  --core-gold-100: #fef3c7;
-  --core-gold-200: #fde68a;
-  --core-gold-300: #fcd34d;
-  --core-gold-400: #fbbf24;
-  --core-gold-700: #8a6510;
+  --core-gold-50: #fff0cc;
+  --core-gold-100: #ebdfc6;
+  --core-gold-200: #e3d2a6;
+  --core-gold-300: #ffbe33;
+  --core-gold-400: #ffae00;
+  --core-gold-700: #8a5a00;
 
   /* Neutrals and status */
-  --core-cream: #fdfbf5;
-  --core-white: #ffffff;
+  --core-cream: #fbf6ec;
+  --core-white: #fffdf8;
   --core-green-50: #f0fdf4;
-  --core-green-500: #22c55e;
+  --core-green-500: #2e9b4e;
   --core-green-700: #15803d;
   --core-amber-50: #fffbeb;
   --core-amber-500: #f59e0b;
@@ -48,7 +48,9 @@
 }
 
 @theme {
-  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-epilogue), var(--font-deva), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 1.25rem;
 
   /* B7: every transition decelerates on the base curve; hover color shifts take 300ms. */
   --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
@@ -205,37 +207,49 @@
 @utility heading-1 {
   font-size: var(--text-6xl);
   line-height: var(--text-6xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 @utility heading-2 {
   font-size: var(--text-5xl);
   line-height: var(--text-5xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 @utility heading-3 {
   font-size: var(--text-4xl);
   line-height: var(--text-4xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 @utility heading-4 {
   font-size: var(--text-3xl);
   line-height: var(--text-3xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 @utility heading-5 {
   font-size: var(--text-2xl);
   line-height: var(--text-2xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 @utility heading-6 {
   font-size: var(--text-xl);
   line-height: var(--text-xl--line-height);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
   text-wrap-style: balance;
 }
 

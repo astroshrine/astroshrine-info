@@ -45,7 +45,7 @@ export default async function NotFound() {
         <p className="body-3 mt-4 max-w-[680px] text-ink-soft">{t.body}</p>
         <Link
           href="/"
-          className="button-md mt-8 inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+          className="button-md mt-8 inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
         >
           <PiHouse className="h-5 w-5" aria-hidden />
           {t.home}
@@ -55,7 +55,7 @@ export default async function NotFound() {
             <li key={href}>
               <Link
                 href={href}
-                className="button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
+                className="button-sm inline-flex items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
               >
                 <Icon className="h-4 w-4" aria-hidden />
                 {label}

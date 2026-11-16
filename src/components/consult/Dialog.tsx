@@ -44,7 +44,7 @@ export default function Dialog({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="m-auto w-full max-w-md rounded-3xl border border-line bg-surface-card p-0 text-ink shadow-xl backdrop:bg-surface-inverse/60 backdrop:backdrop-blur-sm max-sm:max-w-[calc(100%-2rem)]"
+      className="m-auto w-full max-w-md rounded-2xl border border-line bg-surface-card p-0 text-ink shadow-xl backdrop:bg-surface-inverse/60 backdrop:backdrop-blur-sm max-sm:max-w-[calc(100%-2rem)]"
     >
       {open && (
         <div className="flex flex-col gap-4 p-6">
@@ -70,8 +70,8 @@ export default function Dialog({
 
 /** The two button looks used across dialogs and action cards. */
 export const primaryButton =
-  "button-md inline-flex items-center justify-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100";
+  "button-md inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100";
 export const secondaryButton =
-  "button-md inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100";
+  "button-md inline-flex items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100";
 export const quietButton =
-  "button-sm inline-flex items-center justify-center gap-2 rounded-full px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98 disabled:cursor-not-allowed disabled:opacity-60";
+  "button-sm inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98 disabled:cursor-not-allowed disabled:opacity-60";

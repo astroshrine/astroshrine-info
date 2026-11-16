@@ -91,15 +91,15 @@ const text = defineMessages({
   },
 });
 
-const card = "rounded-3xl border border-line bg-surface-card p-6";
+const card = "rounded-2xl border border-line bg-surface-card p-6";
 
 export function ProfileSkeleton() {
   const t = useT(text);
   return (
     <div aria-busy="true" aria-label={t.loading} className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 px-4 py-8 md:px-8 lg:grid-cols-3 lg:gap-8 lg:py-16">
-      <div className="h-56 animate-pulse rounded-3xl bg-surface-sunken lg:col-span-2" />
-      <div className="h-64 animate-pulse rounded-3xl bg-surface-sunken" />
-      <div className="h-40 animate-pulse rounded-3xl bg-surface-sunken lg:col-span-2" />
+      <div className="h-56 animate-pulse rounded-2xl bg-surface-sunken lg:col-span-2" />
+      <div className="h-64 animate-pulse rounded-2xl bg-surface-sunken" />
+      <div className="h-40 animate-pulse rounded-2xl bg-surface-sunken lg:col-span-2" />
     </div>
   );
 }
@@ -279,7 +279,7 @@ export default function AstrologerProfileView({ id, preview, full }: { id: strin
             </h2>
             <ul className="flex flex-wrap gap-2">
               {a.expertise.map((e) => (
-                <li key={e} lang={contentLang(e)} className="caption-4 rounded-full border border-line-strong px-3 py-1 text-ink-soft">
+                <li key={e} lang={contentLang(e)} className="caption-4 rounded-xl border border-line-strong px-3 py-1 text-ink-soft">
                   {e}
                 </li>
               ))}
@@ -320,7 +320,7 @@ function ProfileStats({ full, fresh }: { full: FullProfile; fresh: AstrologerPro
   return (
     <dl className="grid grid-cols-3 gap-3">
       {stats.map((s) => (
-        <div key={s.label} className="flex flex-col items-center gap-1 rounded-2xl bg-surface-sunken p-3 text-center">
+        <div key={s.label} className="flex flex-col items-center gap-1 rounded-xl bg-surface-sunken p-3 text-center">
           <dt className="caption-5 order-2 text-ink-soft">{s.label}</dt>
           <dd className="title-2 order-1 text-ink">{s.value}</dd>
         </div>

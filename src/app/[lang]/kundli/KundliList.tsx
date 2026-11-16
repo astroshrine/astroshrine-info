@@ -93,7 +93,7 @@ export default function KundliList() {
           <Skeleton className="h-16 w-full" />
         </div>
       ) : kundlis.entries.length === 0 ? (
-        <p className="body-6 mt-4 rounded-lg border border-line p-4 text-ink-soft">{t.empty}</p>
+        <p className="body-6 mt-4 rounded-xl border border-line p-4 text-ink-soft">{t.empty}</p>
       ) : (
         <ul aria-labelledby="kundli-list-title" className="mt-4 space-y-2">
           <AnimatePresence initial={false}>
@@ -107,7 +107,7 @@ export default function KundliList() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={base}
-                  className={`rounded-lg border p-3 transition ${active ? "border-brand bg-surface-sunken" : "border-line bg-surface-card"}`}
+                  className={`rounded-xl border p-3 transition ${active ? "border-brand bg-surface-sunken" : "border-line bg-surface-card"}`}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -154,7 +154,7 @@ export default function KundliList() {
                   </div>
 
                   {confirming === e.id && (
-                    <div role="alertdialog" aria-label={t.confirmLabel} className="mt-3 rounded-lg border border-line bg-danger-soft p-3">
+                    <div role="alertdialog" aria-label={t.confirmLabel} className="mt-3 rounded-xl border border-line bg-danger-soft p-3">
                       <p className="body-5 text-danger">{t.confirm(nameOf(e.profile))}</p>
                       <div className="mt-3 flex flex-wrap gap-2">
                         <button
@@ -164,7 +164,7 @@ export default function KundliList() {
                             kundlis.remove(e.id);
                             setConfirming(null);
                           }}
-                          className="button-sm inline-flex items-center gap-2 rounded-full bg-danger px-3 py-2 text-ink-inverse transition hover:opacity-90 active:scale-98"
+                          className="button-sm inline-flex items-center gap-2 rounded-xl bg-danger px-3 py-2 text-ink-inverse transition hover:opacity-90 active:scale-98"
                         >
                           <PiTrash className="h-4 w-4" aria-hidden /> {t.yesDelete}
                         </button>

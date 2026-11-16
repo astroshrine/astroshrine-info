@@ -80,7 +80,7 @@ export default async function PujaBookingSection() {
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <span className="caption-3 absolute left-4 top-4 rounded-full bg-surface-card/90 px-3 py-1 text-ink backdrop-blur">
+          <span className="caption-3 absolute left-4 top-4 rounded-xl bg-surface-card/90 px-3 py-1 text-ink backdrop-blur">
             {t.temple}
           </span>
         </div>
@@ -121,7 +121,7 @@ export default async function PujaBookingSection() {
             <a
               href={PUJA_BOOKING_URL}
               {...external}
-              className="button-md inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+              className="button-md inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
             >
               {t.book}
               <PiArrowUpRight className="h-5 w-5" aria-hidden />

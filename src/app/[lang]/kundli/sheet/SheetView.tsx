@@ -159,7 +159,7 @@ export default function SheetView() {
       ) : missing ? (
         <>
           <PageHeader eyebrow={t.eyebrow} title={t.missingTitle} />
-          <div className="rounded-3xl border border-line bg-surface-card p-6">
+          <div className="rounded-2xl border border-line bg-surface-card p-6">
             <p className="body-3 max-w-2xl text-ink-soft">{t.missingBody}</p>
             <Link href="/kundli?new=1" className={`${btnPrimary} mt-4`}>
               {t.addOwn}
@@ -205,7 +205,7 @@ function SheetBody({ s, now, t }: { s: Sheet; now: number; t: Text }) {
             [t.ayanamsha, `${s.ayanamsha.deg.toFixed(4)}°`],
             [t.lagnaMoon, `${rashiName(lagnaRow.rashi, locale)} · ${rashiName(moonRow.rashi, locale)}`],
           ].map(([k, v]) => (
-            <div key={k} className="rounded-lg bg-surface-sunken p-3">
+            <div key={k} className="rounded-xl bg-surface-sunken p-3">
               <dt className="caption-4 text-ink-soft">{k}</dt>
               <dd className="body-5 mt-1 break-words text-ink">{v}</dd>
             </div>
@@ -327,10 +327,10 @@ function DashaNodeRow({ p, depth, levels, now, t }: { p: DashaNode; depth: numbe
       <span className="caption-5 text-ink-muted">{t.period(day(p.start), day(p.end))}</span>
     </span>
   );
-  if (!p.sub?.length) return <div className={`flex rounded-lg px-3 py-2 ${running ? "bg-surface-sunken" : ""}`}>{label}</div>;
+  if (!p.sub?.length) return <div className={`flex rounded-xl px-3 py-2 ${running ? "bg-surface-sunken" : ""}`}>{label}</div>;
   return (
-    <details open={running} className={`rounded-lg ${running ? "bg-surface-sunken" : ""}`}>
-      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-lg px-3 py-2 transition hover:bg-surface-sunken">
+    <details open={running} className={`rounded-xl ${running ? "bg-surface-sunken" : ""}`}>
+      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-surface-sunken">
         {label}
       </summary>
       <div className="space-y-1 pb-2 pl-4">
@@ -385,8 +385,8 @@ function SavCard({ s, t }: { s: Sheet; t: Text }) {
       <ol className="grid grid-cols-6 gap-2 md:grid-cols-12 lg:grid-cols-6 xl:grid-cols-12">
         {s.sav.map((b, i) => (
           <li key={i} className="flex flex-col items-center gap-1">
-            <span className="flex h-20 w-full items-end overflow-hidden rounded-lg bg-surface-sunken" aria-hidden>
-              <span className="block w-full rounded-lg bg-brand" style={{ height: `${Math.round((b / max) * 100)}%` }} />
+            <span className="flex h-20 w-full items-end overflow-hidden rounded-xl bg-surface-sunken" aria-hidden>
+              <span className="block w-full rounded-xl bg-brand" style={{ height: `${Math.round((b / max) * 100)}%` }} />
             </span>
             <span className="caption-3 text-ink">{b}</span>
             <span className="caption-5 text-center text-ink-muted">{t.house(i + 1)}</span>

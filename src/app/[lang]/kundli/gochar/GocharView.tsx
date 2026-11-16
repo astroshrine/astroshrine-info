@@ -99,7 +99,7 @@ function GocharBody({ tr, now, t }: { tr: Transits; now: number; t: Text }) {
         {tr.saturn_cycles.length ? (
           <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {tr.saturn_cycles.map((c) => (
-              <li key={`${c.kind}${c.start}`} className="rounded-lg bg-surface-sunken p-3">
+              <li key={`${c.kind}${c.start}`} className="rounded-xl bg-surface-sunken p-3">
                 <p className="title-3 text-ink">{saturnName(c.kind, locale)}</p>
                 <p className="caption-2 mt-1 text-ink-soft">{t.period(day(c.start), day(c.end))}</p>
                 {c.phases.length > 1 && (
@@ -131,7 +131,7 @@ function GocharBody({ tr, now, t }: { tr: Transits; now: number; t: Text }) {
                   return (
                     <li
                       key={s.start}
-                      className={`rounded-lg border p-3 ${current ? "border-brand bg-surface-sunken" : "border-line"}`}
+                      className={`rounded-xl border p-3 ${current ? "border-brand bg-surface-sunken" : "border-line"}`}
                     >
                       <p className="flex flex-wrap items-baseline justify-between gap-2">
                         <span className="body-4 text-ink">{rashiName(s.rashi, locale)}</span>

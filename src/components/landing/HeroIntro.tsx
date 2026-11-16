@@ -21,18 +21,17 @@ type Props = {
 export default function HeroIntro({ eyebrow, lines, body, cta, className = "" }: Props) {
   return (
     <motion.div variants={heroStagger} initial="hidden" animate="show" className={className}>
-      <motion.p variants={fadeUp} className="caption-3 text-brand-strong">
+      <motion.p variants={fadeUp} className="font-display flex items-center gap-3 text-lg text-brand-strong before:h-px before:w-9 before:bg-brand after:h-px after:w-9 after:bg-brand">
         {eyebrow}
       </motion.p>
-      {/* heading-3 is the largest step whose line height (40px) sets Devanagari without clipped matras. */}
-      <h1 id="hero-title" className="heading-4 sm:heading-3 mt-1 max-w-[680px] py-2">
-        {lines.map((line) => (
-          <motion.span key={line} variants={fadeUp} className="block">
-            <span className="hero-gradient-text">{line}</span>
+      <h1 id="hero-title" className="font-display mt-5 max-w-[680px] text-[2.75rem] font-bold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+        {lines.map((line, i) => (
+          <motion.span key={line} variants={fadeUp} className={`block py-1 ${i === lines.length - 1 ? "text-brand-strong" : ""}`}>
+            {line}
           </motion.span>
         ))}
       </h1>
-      <motion.p variants={fadeUp} className="body-3 mt-4 max-w-[680px] text-ink-soft">
+      <motion.p variants={fadeUp} className="mt-6 max-w-[560px] text-lg leading-relaxed text-ink-soft">
         {body}
       </motion.p>
       <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">

@@ -42,7 +42,7 @@ const text = defineMessages({
 
 /** The language switch as a quiet pill, the same height as the nav links. */
 const languagePill =
-  "title-4 inline-flex items-center gap-1 rounded-full px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink motion-safe:active:scale-98";
+  "title-4 inline-flex items-center gap-1 rounded-xl px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink motion-safe:active:scale-98";
 
 /** The live header: knows the current page and owns the mobile menu. Render it inside <Suspense>. */
 export default function SiteHeader() {
@@ -98,21 +98,24 @@ function HeaderBar({
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-3 z-40 flex justify-center px-4">
+      <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-surface-page/95 backdrop-blur-md">
         <nav
           aria-label={t.mainNav}
-          className="pointer-events-auto flex w-full items-center justify-between gap-2 rounded-full border border-line bg-surface-card/80 p-2 shadow-sm backdrop-blur-xl lg:w-auto lg:justify-start"
+          className="mx-auto flex h-[72px] w-full max-w-6xl items-center justify-between gap-2 px-4 md:px-8 lg:justify-start lg:gap-8"
         >
           <Link
             href={signedIn ? APP_HOME_PATH : LANDING_PATH}
             onClick={() => onMenuChange(false)}
-            className="flex items-center gap-2 rounded-full pr-3 transition motion-safe:active:scale-98"
+            className="flex items-center gap-3 rounded-xl pr-3 transition motion-safe:active:scale-98"
           >
-            <BrandMark size={40} />
-            <span className="title-3 text-ink">AstroShrine</span>
+            <BrandMark size={44} />
+            <span className="leading-none">
+              <span className="font-display text-2xl font-bold tracking-tight text-ink">AstroShrine</span>
+              <span className="mt-1 hidden text-[11px] font-medium text-ink-soft xl:block">Ancient wisdom, modern guidance</span>
+            </span>
           </Link>
 
-          <ul className="hidden items-center gap-1 lg:flex">
+          <ul className="hidden flex-1 items-center gap-1 lg:flex">
             {links.map(({ href, key }) => {
               const active = isActivePath(pathname, href);
               return (
@@ -120,7 +123,7 @@ function HeaderBar({
                   <Link
                     href={href}
                     aria-current={active ? "page" : undefined}
-                    className={`title-4 block rounded-full px-3 py-2 transition motion-safe:active:scale-98 ${
+                    className={`title-4 block rounded-xl px-3 py-2.5 transition motion-safe:active:scale-98 ${
                       active ? "bg-surface-sunken text-ink" : "text-ink-soft hover:bg-surface-sunken hover:text-ink"
                     }`}
                   >
@@ -131,7 +134,7 @@ function HeaderBar({
             })}
           </ul>
 
-          <div className="hidden items-center gap-1 lg:flex lg:pl-2">
+          <div className="hidden items-center gap-3 lg:flex">
             <LanguageSwitch pathname={pathname} className={languagePill} />
             <AccountControl pathname={pathname} />
           </div>
@@ -166,7 +169,7 @@ function AccountControl({ pathname }: { pathname: string }) {
     return (
       <Link
         href="/login"
-        className="button-sm inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+        className="button-sm inline-flex h-11 items-center gap-2 rounded-xl bg-brand px-5 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
       >
         <PiSignIn className="h-4 w-4" aria-hidden />
         {t.login}

@@ -110,7 +110,7 @@ export default function ActiveKundli() {
   if (!active) {
     return (
       <div className="flex flex-col items-start gap-4 py-2">
-        <span className="grid h-12 w-12 place-items-center rounded-lg bg-surface-sunken text-brand-strong">
+        <span className="grid h-12 w-12 place-items-center rounded-xl bg-surface-sunken text-brand-strong">
           <PiPlanet className="h-6 w-6" aria-hidden />
         </span>
         <div>
@@ -147,7 +147,7 @@ export default function ActiveKundli() {
         </Link>
       </div>
       {flash && (
-        <p role="status" className="body-6 mt-4 flex items-start gap-2 rounded-lg bg-success-soft p-3 text-success">
+        <p role="status" className="body-6 mt-4 flex items-start gap-2 rounded-xl bg-success-soft p-3 text-success">
           <PiCheckCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
           {flash}
         </p>

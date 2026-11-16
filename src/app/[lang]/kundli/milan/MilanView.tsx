@@ -241,7 +241,7 @@ export default function MilanView() {
                   const k = withTime.find((x) => x.id === e.target.value);
                   if (k) set({ name: nameOf(k.profile), dob: k.profile.dob, tob: k.profile.tob, place: k.profile.place });
                 }}
-                className="button-sm rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken"
+                className="button-sm rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken"
                 aria-label={t.fillFromSavedLabel(title)}
               >
                 <option value="">{t.choose}</option>
@@ -359,7 +359,7 @@ function Report({ r, groom, bride }: { r: KundliMatchReport; groom: BirthProfile
             <p className="heading-3 text-ink">
               {r.totalScore} <span className="title-2 text-ink-soft">/ {KUNDLI_MAX_SCORE}</span>
             </p>
-            <p className={`caption-3 mt-2 inline-block rounded-full px-3 py-1 ${VERDICT_TONE[r.verdictKey]}`}>{t.verdict[r.verdictKey]}</p>
+            <p className={`caption-3 mt-2 inline-block rounded-xl px-3 py-1 ${VERDICT_TONE[r.verdictKey]}`}>{t.verdict[r.verdictKey]}</p>
           </div>
           <div className="md:col-span-2">
             <p className="body-5 text-ink">{t.couple(`${groom.name} (${day(groom.dob)})`, `${bride.name} (${day(bride.dob)})`)}</p>
@@ -401,7 +401,7 @@ function Report({ r, groom, bride }: { r: KundliMatchReport; groom: BirthProfile
         <Card title={t.doshas}>
           <ul className="space-y-3">
             {r.doshas.map((d, i) => (
-              <li key={i} className="rounded-lg border border-line p-3">
+              <li key={i} className="rounded-xl border border-line p-3">
                 <p className="flex flex-wrap items-center gap-2">
                   <span className="body-4 text-ink">{clean(d.name)}</span>
                   <span

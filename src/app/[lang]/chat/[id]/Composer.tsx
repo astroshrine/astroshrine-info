@@ -125,7 +125,7 @@ export default function Composer({
               send();
             }
           }}
-          className="body-6 max-h-40 min-h-10 min-w-0 flex-1 resize-none rounded-2xl border border-line-strong bg-surface-page px-3 py-2 text-ink [field-sizing:content] placeholder:text-ink-muted disabled:opacity-60"
+          className="body-6 max-h-40 min-h-10 min-w-0 flex-1 resize-none rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink focus:border-brand focus:ring-3 focus:ring-brand/25 focus:outline-none [field-sizing:content] placeholder:text-ink-muted disabled:opacity-60"
         />
         <button
           type="submit"

@@ -156,7 +156,7 @@ export default function LoginForm() {
         variants={fadeUp}
         initial="hidden"
         animate="show"
-        className="on-inverse hidden flex-col justify-between gap-12 rounded-3xl bg-surface-inverse p-12 text-ink-inverse lg:flex"
+        className="on-inverse hidden flex-col justify-between gap-12 rounded-2xl bg-surface-inverse p-12 text-ink-inverse lg:flex"
       >
         <div className="flex items-center gap-3">
           <BrandMark size={48} />
@@ -181,7 +181,7 @@ export default function LoginForm() {
         initial="hidden"
         animate="show"
         aria-labelledby="login-title"
-        className="flex flex-col justify-center rounded-3xl border border-line bg-surface-card p-6 md:p-12"
+        className="flex flex-col justify-center rounded-2xl border border-line bg-surface-card p-6 md:p-12"
       >
         <div className="flex items-center gap-3 lg:hidden">
           <BrandMark size={40} />
@@ -211,7 +211,7 @@ export default function LoginForm() {
               <label htmlFor="phone" className="title-4 text-ink">
                 {t.phoneLabel}
               </label>
-              <div className="flex items-center gap-2 rounded-xl border border-line-strong bg-surface-page px-3 transition focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus">
+              <div className="flex items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 transition focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus">
                 <span className="caption-1 shrink-0 whitespace-nowrap text-ink-soft">IN +91</span>
                 <input
                   id="phone"
@@ -257,7 +257,7 @@ export default function LoginForm() {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, OTP_LENGTH))}
                 placeholder="• • • • • •"
-                className="heading-6 w-full rounded-xl border border-line-strong bg-surface-page px-3 py-3 text-center tracking-widest text-ink placeholder:text-ink-muted"
+                className="heading-6 w-full rounded-xl border border-line-strong bg-surface-card px-3 py-3 text-center tracking-widest text-ink placeholder:text-ink-muted"
               />
               <button
                 type="button"
@@ -279,7 +279,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={busy}
-            className="button-md w-full rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98 disabled:opacity-60"
+            className="button-md w-full rounded-xl bg-surface-inverse px-4 py-3 text-ink-inverse transition hover:bg-surface-inverse-raised motion-safe:active:scale-98 disabled:opacity-60"
           >
             {busy ? t.wait : step === "phone" ? t.sendOtp : t.login}
           </button>

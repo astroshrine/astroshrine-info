@@ -99,7 +99,7 @@ const external = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 /** Text links: 36px tall on phones (comfortable to tap), tighter on wider screens. */
 const textLink = "caption-2 inline-flex items-center gap-1 rounded-sm py-2 text-ink-inverse-soft transition hover:text-ink-inverse md:py-1";
-const heading = "title-5 text-ink-inverse";
+const heading = "title-5 font-display text-ink-inverse";
 
 /**
  * Site footer, on the navy brand surface, in three bands:
@@ -112,7 +112,7 @@ export default function SiteFooter() {
   const site = useT(SITE_TEXT);
 
   return (
-    <footer className="on-inverse mt-16 bg-surface-inverse text-ink-inverse">
+    <footer className="on-inverse mt-16 border-t-4 border-brand bg-surface-inverse text-ink-inverse">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* 1. Sister sites */}
         <ul aria-label={t.sisterSites} className="grid grid-cols-1 gap-3 pt-12 md:grid-cols-3">
@@ -132,7 +132,7 @@ export default function SiteFooter() {
                 )}
                 <span className="min-w-0 flex-1">
                   <span className="caption-4 block text-brand-on-inverse">{t.sister[key].kicker}</span>
-                  <span className="title-3 block text-ink-inverse">{t.sister[key].title}</span>
+                  <span className="title-3 block font-display text-ink-inverse">{t.sister[key].title}</span>
                   <span className="caption-5 block text-ink-inverse-soft">{t.sister[key].detail}</span>
                 </span>
                 <PiArrowUpRight
@@ -150,7 +150,7 @@ export default function SiteFooter() {
           <div className="md:col-span-6 lg:col-span-5">
             <Link href="/" className="inline-flex items-center gap-3 rounded-full pr-3">
               <BrandMark size={40} />
-              <span className="title-2 text-ink-inverse">AstroShrine</span>
+              <span className="title-2 font-display text-ink-inverse">AstroShrine</span>
             </Link>
             <p className="caption-2 mt-4 max-w-sm text-ink-inverse-soft">{t.about}</p>
 
@@ -162,7 +162,7 @@ export default function SiteFooter() {
                     href={href}
                     {...external}
                     aria-label={t.social(label)}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-line-inverse text-ink-inverse-soft transition hover:border-brand-on-inverse hover:text-ink-inverse"
+                    className="grid h-10 w-10 place-items-center rounded-xl border border-line-inverse text-ink-inverse-soft transition hover:border-brand-on-inverse hover:text-ink-inverse"
                   >
                     <Icon className="h-5 w-5" aria-hidden />
                   </a>

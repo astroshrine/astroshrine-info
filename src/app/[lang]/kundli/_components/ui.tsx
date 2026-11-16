@@ -40,13 +40,13 @@ const text = defineMessages({
 // so shapes inside a card use 8px).
 
 export const btnPrimary =
-  "button-md inline-flex items-center justify-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:pointer-events-none disabled:opacity-60";
+  "button-md inline-flex items-center justify-center gap-2 rounded-xl bg-surface-inverse px-4 py-2 text-ink-inverse transition hover:bg-surface-inverse-raised active:scale-98 disabled:pointer-events-none disabled:opacity-60";
 export const btnSecondary =
-  "button-md inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:pointer-events-none disabled:opacity-60";
+  "button-md inline-flex items-center justify-center gap-2 rounded-xl border border-ink bg-transparent px-4 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:pointer-events-none disabled:opacity-60";
 export const btnSmall =
-  "button-sm inline-flex items-center justify-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:pointer-events-none disabled:opacity-60";
+  "button-sm inline-flex items-center justify-center gap-2 rounded-xl border border-ink bg-transparent px-4 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:pointer-events-none disabled:opacity-60";
 export const inputCls =
-  "body-3 w-full rounded-lg border border-line-strong bg-surface-page px-3 py-2 text-ink transition placeholder:text-ink-muted hover:border-brand disabled:opacity-60";
+  "body-3 w-full rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition placeholder:text-ink-muted hover:border-brand disabled:opacity-60";
 export const labelCls = "title-4 mb-2 block text-ink";
 
 /** A page section: a card that rises into view once (B7 scroll reveal). */
@@ -70,7 +70,7 @@ export function Card({
       whileInView="show"
       viewport={{ once: true, amount: 0.1 }}
       // A printed sheet must not depend on having scrolled every card into view.
-      className={`rounded-3xl border border-line bg-surface-card p-4 print:transform-none! print:opacity-100! ${className}`}
+      className={`rounded-2xl border border-line bg-surface-card p-5 shadow-sm print:transform-none! print:opacity-100! ${className}`}
     >
       {(title || action) && (
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
@@ -118,7 +118,7 @@ export function Notice({ tone = "info", children }: { tone?: "info" | "warning";
 export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () => void }) {
   const t = useT(text);
   return (
-    <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-line bg-danger-soft p-4">
+    <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-danger-soft p-4">
       <p className="body-5 flex min-w-0 items-start gap-2 text-danger">
         <PiWarningCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
         <span>{message}</span>
@@ -139,7 +139,7 @@ export function Skeleton({ className = "" }: { className?: string }) {
 /** A card shaped skeleton: a title bar and a few rows. */
 export function CardSkeleton({ rows = 4, chart = false }: { rows?: number; chart?: boolean }) {
   return (
-    <div aria-hidden className="rounded-3xl border border-line bg-surface-card p-4">
+    <div aria-hidden className="rounded-2xl border border-line bg-surface-card p-4">
       <Skeleton className="h-6 w-40" />
       {chart && <Skeleton className="mx-auto mt-4 aspect-square w-full max-w-sm" />}
       <div className="mt-4 space-y-3">
@@ -183,7 +183,7 @@ export function LoginLink({ className, children }: { className: string; children
 export function SignInPrompt({ what }: { what: string }) {
   const t = useT(text);
   return (
-    <div className="rounded-3xl border border-line bg-surface-card p-6 text-center">
+    <div className="rounded-2xl border border-line bg-surface-card p-6 text-center">
       <p className="title-2 text-ink">{t.signInTitle(what)}</p>
       <p className="body-6 mx-auto mt-2 max-w-md text-ink-soft">{t.signInBody}</p>
       <LoginLink className={`${btnPrimary} mt-4`}>
@@ -201,7 +201,7 @@ export function SignInPrompt({ what }: { what: string }) {
 export function NeedProfile({ what }: { what: string }) {
   const t = useT(text);
   return (
-    <div className="rounded-3xl border border-line bg-surface-card p-6 text-center">
+    <div className="rounded-2xl border border-line bg-surface-card p-6 text-center">
       {/* The page's only heading in this state (no profile, so no profile header). */}
       <h1 className="heading-6 text-ink">{t.needTitle(what)}</h1>
       <p className="body-6 mx-auto mt-2 max-w-md text-ink-soft">{t.needBody}</p>

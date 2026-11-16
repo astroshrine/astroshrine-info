@@ -111,7 +111,7 @@ export default function PlaceSearch({
           type="button"
           onClick={() => void search()}
           disabled={busy}
-          className="button-sm inline-flex shrink-0 items-center gap-2 rounded-lg bg-surface-inverse px-3 py-2 text-ink-inverse transition on-inverse hover:bg-surface-inverse-raised active:scale-98 disabled:opacity-60"
+          className="button-sm inline-flex shrink-0 items-center gap-2 rounded-xl bg-surface-inverse px-3 py-2 text-ink-inverse transition on-inverse hover:bg-surface-inverse-raised active:scale-98 disabled:opacity-60"
         >
           <PiMagnifyingGlass className="h-4 w-4" aria-hidden />
           {busy ? t.searching : t.search}

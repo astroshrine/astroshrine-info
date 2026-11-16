@@ -1255,7 +1255,7 @@ function RoomDialogs({
               type="button"
               onClick={onEnd}
               disabled={busy}
-              className="button-md inline-flex items-center justify-center gap-2 rounded-full bg-danger px-3 py-2 text-ink-inverse transition hover:opacity-90 active:scale-98 disabled:opacity-60"
+              className="button-md inline-flex items-center justify-center gap-2 rounded-xl bg-danger px-3 py-2 text-ink-inverse transition hover:opacity-90 active:scale-98 disabled:opacity-60"
             >
               {busy ? t.ending : t.endConfirm}
             </button>

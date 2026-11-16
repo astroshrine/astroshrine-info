@@ -302,13 +302,13 @@ export default function KundliForm({ target }: { target: KundliEntry | null }) {
       <PlaceSearch id="jv-place" label={t.place} value={form.place} onPick={(place) => setForm({ place })} />
 
       {isAccount ? (
-        <p className="body-6 flex items-start gap-2 rounded-lg bg-surface-sunken p-3 text-ink-soft">
+        <p className="body-6 flex items-start gap-2 rounded-xl bg-surface-sunken p-3 text-ink-soft">
           <PiUserCircle className="mt-0.5 h-4 w-4 shrink-0 text-brand-strong" aria-hidden />
           {t.accountNote}
         </p>
       ) : (
         signedIn && (
-          <label className="body-6 flex items-start gap-2 rounded-lg bg-surface-sunken p-3 text-ink-soft">
+          <label className="body-6 flex items-start gap-2 rounded-xl bg-surface-sunken p-3 text-ink-soft">
             <input
               type="checkbox"
               checked={form.toAccount && !form.timeUnknown}

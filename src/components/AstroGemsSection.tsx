@@ -97,7 +97,7 @@ export default async function AstroGemsSection() {
         <a
           href={ASTROGEMS_URL}
           {...external}
-          className="button-md inline-flex w-fit items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+          className="button-md inline-flex w-fit items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
         >
           {t.visitStore}
           <PiArrowUpRight className="h-5 w-5" aria-hidden />

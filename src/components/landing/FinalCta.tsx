@@ -96,7 +96,7 @@ export default function FinalCta({ title, body, cta, promises }: Props) {
             {body}
           </motion.p>
           <motion.div variants={fadeUp} className="mt-8">
-            <MotionCta href={cta.href}>{cta.label}</MotionCta>
+            <MotionCta href={cta.href} className="!bg-brand !text-brand-ink hover:!bg-brand-hover">{cta.label}</MotionCta>
           </motion.div>
         </div>
 

@@ -204,7 +204,7 @@ export default function MessageList({
           type="button"
           onClick={loadOlder}
           disabled={loadingOlder}
-          className="button-sm mx-auto rounded-full border border-line-strong bg-surface-card px-3 py-1 text-ink-soft transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
+          className="button-sm mx-auto rounded-xl border border-line-strong bg-surface-card px-3 py-1 text-ink-soft transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
         >
           {loadingOlder ? t.loadingOlder : t.older}
         </button>
@@ -219,14 +219,14 @@ export default function MessageList({
         return (
           <div key={m.key} className="flex flex-col gap-2">
             {showDay && (
-              <p className="caption-4 mx-auto rounded-full bg-surface-sunken px-3 py-1 text-ink-soft" role="separator">
+              <p className="caption-4 mx-auto rounded-xl bg-surface-sunken px-3 py-1 text-ink-soft" role="separator">
                 {day}
               </p>
             )}
             <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
               <div
                 className={`flex max-w-[85%] flex-col gap-1 rounded-2xl px-3 py-2 md:max-w-[70%] ${
-                  mine ? "bg-brand-soft text-ink" : "border border-line bg-surface-card text-ink"
+                  mine ? "rounded-br-md bg-brand-soft text-ink" : "rounded-bl-md border border-line bg-surface-card text-ink"
                 } ${m.local === "failed" ? "ring-1 ring-danger" : ""}`}
               >
                 <span className="sr-only">{mine ? t.you : <WithName text={t.sender(peerName)} name={peerName} />}</span>

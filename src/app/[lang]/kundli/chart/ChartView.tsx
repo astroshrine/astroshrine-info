@@ -210,7 +210,7 @@ function ChartBody({ chart, vargaKey, hash, t }: { chart: Chart; vargaKey: strin
                 [t.nakshatra, `${nakshatraName(moon.nakshatra, locale, moon.nakshatra_name)} ${moon.pada}`],
                 [t.mahadasha, lordName(chart.dasha.vimshottari.running[0]?.lord ?? "", locale)],
               ].map(([k, v]) => (
-                <div key={k} className="rounded-lg bg-surface-sunken p-3">
+                <div key={k} className="rounded-xl bg-surface-sunken p-3">
                   <dt className="caption-4 text-ink-soft">{k}</dt>
                   <dd className="title-3 mt-1 text-ink">{v}</dd>
                 </div>
@@ -404,7 +404,7 @@ function HitList({ title, hits, empty, dosha, t }: { title: string; hits: YogaHi
       ) : (
         <ul className="mt-2 space-y-2">
           {list.map(({ hit, active, reasons }) => (
-            <li key={hit.id} className="rounded-lg border border-line p-3">
+            <li key={hit.id} className="rounded-xl border border-line p-3">
               <p className="flex flex-wrap items-center gap-2">
                 {/* Hindi pages lead with the Hindi name and show the engine's English name under it. */}
                 <span className="body-4 text-ink">{locale === "hi" ? hit.name_hi : hit.name_en}</span>

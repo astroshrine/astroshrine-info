@@ -420,7 +420,7 @@ export default function RechargePanel({
           <button
             type="button"
             onClick={onRetryConfig}
-            className="button-sm mt-3 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
+            className="button-sm mt-3 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98"
           >
             {t.tryAgain}
           </button>
@@ -511,7 +511,7 @@ export default function RechargePanel({
                   placeholder={t.promoPlaceholder}
                   aria-describedby={promo ? "promo-message" : undefined}
                   aria-invalid={promo ? !promo.valid : undefined}
-                  className="body-5 w-full rounded-full border border-line-strong bg-surface-card px-4 py-2 pr-10 text-ink transition placeholder:text-ink-muted hover:border-brand disabled:opacity-60"
+                  className="body-5 w-full rounded-xl border border-line-strong bg-surface-card px-4 py-2 pr-10 text-ink transition placeholder:text-ink-muted hover:border-brand disabled:opacity-60"
                 />
                 {promoValid && (
                   <PiCheckCircle className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-success" aria-hidden />
@@ -520,7 +520,7 @@ export default function RechargePanel({
               <button
                 type="submit"
                 disabled={!promoCode.trim() || promoBusy || busy}
-                className="button-sm shrink-0 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
+                className="button-sm shrink-0 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken active:scale-98 disabled:opacity-60"
               >
                 {promoBusy ? t.checking : t.apply}
               </button>
@@ -562,7 +562,7 @@ export default function RechargePanel({
                 onClick={() => void pay()}
                 disabled={busy || checkout !== "ready" || !walletOpen}
                 aria-busy={busy}
-                className="button-md mt-6 flex w-full flex-wrap items-center justify-between gap-2 rounded-full bg-brand px-3 py-2 text-left text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:opacity-60"
+                className="button-md mt-6 flex w-full flex-wrap items-center justify-between gap-2 rounded-xl bg-brand px-3 py-2 text-left text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:opacity-60"
               >
                 <span className="inline-flex items-center gap-2">
                   <PiWallet className="h-5 w-5 shrink-0" aria-hidden />

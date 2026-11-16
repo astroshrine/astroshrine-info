@@ -40,7 +40,7 @@ export default async function ChatIndexPage() {
       <p className="body-6 max-w-sm text-ink-soft">{t.body}</p>
       <Link
         href="/astrologers"
-        className="button-md rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98"
+        className="button-md rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover active:scale-98"
       >
         {t.choose}
       </Link>

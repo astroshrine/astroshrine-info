@@ -64,10 +64,10 @@ export default function NorthIndianChart({
 
   return (
     <svg viewBox={`0 0 ${VB} ${VB}`} role="img" aria-label={`${label}. ${summary}`} className={`h-auto w-full ${className}`}>
-      <rect x={PAD} y={PAD} width={VB - 2 * PAD} height={VB - 2 * PAD} rx={8} className="fill-surface-sunken" />
-      <polygon points={pts(MT, D_TR, CTR, D_TL)} className="fill-brand-soft" opacity={0.55} />
-      <g className="stroke-brand-strong" strokeWidth={1.5} fill="none" strokeLinejoin="round">
-        <rect x={PAD} y={PAD} width={VB - 2 * PAD} height={VB - 2 * PAD} rx={8} />
+      <rect x={PAD} y={PAD} width={VB - 2 * PAD} height={VB - 2 * PAD} rx={16} className="fill-surface-inverse" />
+      <polygon points={pts(MT, D_TR, CTR, D_TL)} className="fill-brand" opacity={0.1} />
+      <g className="stroke-brand" strokeWidth={1.25} fill="none" strokeLinejoin="round">
+        <rect x={PAD} y={PAD} width={VB - 2 * PAD} height={VB - 2 * PAD} rx={16} />
         <line x1={TL[0]} y1={TL[1]} x2={BR[0]} y2={BR[1]} />
         <line x1={TR[0]} y1={TR[1]} x2={BL[0]} y2={BL[1]} />
         <polygon points={pts(MT, MR, MB, ML)} />
@@ -84,7 +84,7 @@ export default function NorthIndianChart({
 
         return (
           <g key={h.house}>
-            <text x={c.x} y={signY} textAnchor="middle" fontSize={13} fontWeight={500} className="fill-ink-muted">
+            <text x={c.x} y={signY} textAnchor="middle" fontSize={13} fontWeight={500} className="fill-ink-inverse-soft">
               {h.rashi}
             </text>
             {rows.map((row, r) =>
@@ -96,7 +96,7 @@ export default function NorthIndianChart({
                   textAnchor="middle"
                   fontSize={16}
                   fontWeight={600}
-                  className={p.graha === "Sun" || p.graha === "Mars" || p.graha === "Ketu" ? "fill-brand-strong" : "fill-ink"}
+                  className={p.graha === "Sun" || p.graha === "Mars" || p.graha === "Ketu" ? "fill-brand-on-inverse" : "fill-ink-inverse"}
                 >
                   {grahaAbbr(p.graha, locale)}
                   {p.retro && p.graha !== "Rahu" && p.graha !== "Ketu" ? "ᴿ" : ""}
@@ -108,7 +108,7 @@ export default function NorthIndianChart({
       })}
 
       {centre && (
-        <text x={200} y={182} textAnchor="middle" fontSize={12} fontWeight={500} className="fill-brand-strong">
+        <text x={200} y={182} textAnchor="middle" fontSize={12} fontWeight={500} className="fill-brand-on-inverse">
           {centre}
         </text>
       )}

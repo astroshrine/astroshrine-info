@@ -55,7 +55,7 @@ export default function AstrologerProof() {
         <button
           type="button"
           onClick={retry}
-          className="button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
+          className="button-sm inline-flex items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
         >
           <PiArrowClockwise className="h-4 w-4" aria-hidden />
           {t.tryAgain}
@@ -102,7 +102,7 @@ export default function AstrologerProof() {
 
       <Link
         href="/astrologers"
-        className="button-sm inline-flex w-fit items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
+        className="button-sm inline-flex w-fit items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
       >
         {t.seeAll}
         <PiArrowRight className="h-4 w-4" aria-hidden />

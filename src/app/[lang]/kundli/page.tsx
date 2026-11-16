@@ -105,7 +105,7 @@ export default async function KundliHubPage() {
                   href={href}
                   className="group flex h-full items-start gap-3 rounded-2xl border border-line bg-surface-card p-4 transition hover:border-line-strong hover:bg-surface-sunken active:scale-98"
                 >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-surface-sunken text-brand-strong transition group-hover:bg-surface-card">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-sunken text-brand-strong transition group-hover:bg-surface-card">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
                   <span className="min-w-0 flex-1">

@@ -13,7 +13,7 @@ import { fadeUp, stagger } from "@/lib/motion";
 const rupees = (n: number) => `₹ ${Math.floor(n).toLocaleString("en-IN")}`;
 const card = "rounded-3xl border border-line bg-surface-card p-6";
 const secondaryButton =
-  "button-sm inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
+  "button-sm inline-flex items-center gap-2 rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98";
 
 const text = defineMessages({
   hi: {
@@ -108,7 +108,7 @@ export default function ProfileView() {
           <p className="body-6 max-w-[680px] text-ink-soft">{t.signedOutBody}</p>
           <Link
             href="/login?next=/profile"
-            className="button-md inline-flex items-center gap-2 rounded-full bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+            className="button-md inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
           >
             <PiSignIn className="h-5 w-5" aria-hidden />
             {t.login}
@@ -132,7 +132,7 @@ export default function ProfileView() {
       <motion.section
         variants={fadeUp}
         aria-labelledby="profile-title"
-        className="on-inverse flex flex-col gap-6 rounded-3xl bg-surface-inverse p-6 text-ink-inverse md:p-8 lg:col-span-2"
+        className="on-inverse flex flex-col gap-6 rounded-3xl bg-surface-inverse p-6 text-ink-inverse shadow-lg ring-1 ring-brand/20 md:p-8 lg:col-span-2"
       >
         <span aria-hidden className="heading-5 grid h-16 w-16 place-items-center rounded-full bg-brand text-brand-ink">
           {name.charAt(0).toUpperCase()}
@@ -151,7 +151,7 @@ export default function ProfileView() {
         <button
           type="button"
           onClick={() => void signOut()}
-          className="button-sm mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:bg-line-inverse motion-safe:active:scale-98"
+          className="button-sm mt-auto inline-flex w-fit items-center gap-2 rounded-xl bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:bg-line-inverse motion-safe:active:scale-98"
         >
           <PiSignOut className="h-4 w-4" aria-hidden />
           {t.logout}

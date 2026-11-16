@@ -95,7 +95,7 @@ export default function HeroChart({ className = "" }: { className?: string }) {
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       style={{ rotateX, rotateY, transformPerspective: 900 }}
-      className={`relative rounded-3xl border border-line bg-surface-card p-6 ${className}`}
+      className={`relative rounded-t-[260px] rounded-b-[28px] bg-surface-inverse px-8 pb-8 pt-20 shadow-[0_40px_80px_rgba(20,33,61,0.28)] before:pointer-events-none before:absolute before:inset-3 before:rounded-t-[250px] before:rounded-b-[20px] before:border before:border-brand/40 ${className}`}
     >
       {STARS.map(({ top, left, delay }) => (
         <motion.span
@@ -112,10 +112,10 @@ export default function HeroChart({ className = "" }: { className?: string }) {
       <div className="mx-auto max-w-sm">
         <svg viewBox={`0 0 ${VB} ${VB}`} aria-hidden className="h-auto w-full">
           <motion.g variants={frame} style={OWN_CENTER}>
-            <rect x={P} y={P} width={VB - 2 * P} height={VB - 2 * P} rx={8} className="fill-surface-sunken" />
+            <rect x={P} y={P} width={VB - 2 * P} height={VB - 2 * P} rx={8} className="fill-white/5" />
           </motion.g>
-          <motion.polygon variants={lagna} points={LAGNA_POINTS} className="fill-brand-soft" />
-          <motion.g variants={frame} style={OWN_CENTER} className="stroke-brand-strong" strokeWidth={1.5} fill="none" strokeLinejoin="round">
+          <motion.polygon variants={lagna} points={LAGNA_POINTS} className="fill-brand/20" />
+          <motion.g variants={frame} style={OWN_CENTER} className="stroke-brand" strokeWidth={1.5} fill="none" strokeLinejoin="round">
             <rect x={P} y={P} width={VB - 2 * P} height={VB - 2 * P} rx={8} />
             <line x1={P} y1={P} x2={VB - P} y2={VB - P} />
             <line x1={VB - P} y1={P} x2={P} y2={VB - P} />
@@ -132,7 +132,7 @@ export default function HeroChart({ className = "" }: { className?: string }) {
                 textAnchor="middle"
                 fontSize={20}
                 fontWeight={600}
-                className={i === 0 ? "fill-brand-strong" : "fill-ink-muted"}
+                className={i === 0 ? "fill-brand" : "fill-ink-inverse-soft"}
               >
                 {i + 1}
               </motion.text>
@@ -147,13 +147,13 @@ export default function HeroChart({ className = "" }: { className?: string }) {
           ["9", t.planets],
           ["16", t.vargas],
         ].map(([value, label]) => (
-          <motion.li key={value} variants={fadeUp} className="rounded-xl bg-surface-sunken p-3">
-            <span className="title-3 block text-ink">{value}</span>
-            <span className="caption-5 block text-ink-soft">{label}</span>
+          <motion.li key={value} variants={fadeUp} className="rounded-xl border border-brand/25 bg-white/5 p-3">
+            <span className="title-3 block text-brand">{value}</span>
+            <span className="caption-5 block text-ink-inverse-soft">{label}</span>
           </motion.li>
         ))}
       </motion.ul>
-      <motion.figcaption variants={fadeUp} className="caption-5 mt-4 text-center text-ink-muted">
+      <motion.figcaption variants={fadeUp} className="caption-5 mt-4 text-center text-ink-inverse-soft">
         {t.caption}
       </motion.figcaption>
     </motion.figure>
