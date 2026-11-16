@@ -149,7 +149,7 @@ function Card({ a }: { a: Astrologer }) {
       <span className="relative block aspect-[1/1.05] overflow-hidden rounded-b-[14px] rounded-t-[160px] bg-surface-inverse">
         {ART}
         {a.photo ? (
-          <Image src={a.photo} alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover object-top" />
+          <Image src={a.photo} alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover object-[50%_41%]" />
         ) : (
           <span aria-hidden lang={lang} className="font-display absolute inset-0 grid place-items-center text-5xl font-semibold tracking-[-0.02em] text-brand-on-inverse">
             {a.name.trim().slice(0, 2).toUpperCase()}
