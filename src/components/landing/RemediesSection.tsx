@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PiArrowRight } from "react-icons/pi";
 import { Reveal, RevealItem } from "@/components/Reveal";
 import { defineMessages } from "@/i18n/messages";
@@ -11,39 +12,11 @@ const text = defineMessages({
   en: { eyebrow: "Puja and remedies", title: "Puja and remedies", lead: "Suggested by your astrologer, performed or sourced with care.", store: "Visit the store" },
 });
 
-const ART_STROKE = { fill: "none", stroke: "currentColor", strokeWidth: 1, strokeLinejoin: "round" } as const;
-
-const ART: Record<RemedyKey, React.ReactNode> = {
-  puja: (
-    <>
-      <path d="M12 3c-2 3-2 5 0 7 2-2 2-4 0-7z" className="fill-brand" />
-      <path d="M5 14h14l-2 4H7z" />
-      <path d="M9 21h6M12 10v4" />
-    </>
-  ),
-  gem: (
-    <>
-      <path d="M6 3h12l4 6-10 12L2 9z" className="fill-brand/50" />
-      <path d="M2 9h20M9 3l3 18 3-18" />
-    </>
-  ),
-  rudraksha: (
-    <>
-      <circle cx="12" cy="12" r="8" />
-      {[
-        [12, 4],
-        [20, 12],
-        [12, 20],
-        [4, 12],
-        [17.7, 6.3],
-        [17.7, 17.7],
-        [6.3, 17.7],
-        [6.3, 6.3],
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="1.6" className="fill-brand" />
-      ))}
-    </>
-  ),
+// Real photos already used elsewhere on the site: the puja card photo from Shri Mahakal Dham, and the AstroGems store products.
+const PHOTOS: Record<RemedyKey, string> = {
+  puja: "https://shrimahakaldham.com/website-assets/assets/images/category/puja-by-purpose.jpg",
+  gem: "https://astrogems.astroshrine.in/products/natural-pukhraj-5-25-ct-ceylon.jpg",
+  rudraksha: "https://astrogems.astroshrine.in/products/5-mukhi-rudraksha-mala-108-beads.jpg",
 };
 
 // Puja bookings go to Shri Mahakal Dham; gemstones and rudraksha to the AstroGems store.
@@ -67,10 +40,14 @@ export default async function RemediesSection() {
             const r = REMEDIES[key];
             return (
               <RevealItem as="li" key={key} hover className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-surface-card">
-                <div className="grid h-[200px] place-items-center bg-surface-sunken text-ink">
-                  <svg viewBox="0 0 24 24" className="h-[110px] w-[110px] transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105" aria-hidden {...ART_STROKE}>
-                    {ART[key]}
-                  </svg>
+                <div className="relative h-[200px] overflow-hidden bg-surface-sunken">
+                  <Image
+                    src={PHOTOS[key]}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-6">
                   <h3 className="font-display text-xl font-semibold leading-[1.3] tracking-[-0.01em] text-ink">{r.title[locale]}</h3>

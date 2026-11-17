@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { PiClock, PiInfo, PiPaperPlaneTilt, PiWarningCircle } from "react-icons/pi";
+import { useEffect, useRef, useState } from "react";
+import { PiCheckCircle, PiClock, PiInfo, PiTimer, PiPaperPlaneTilt, PiWarningCircle } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { formatClock, isPackOpen, MAX_TEXT, packEnded, type ChatMessage } from "@/lib/services/chat";
 import { Button, Card, Pill } from "../../_console/ui";
@@ -23,11 +23,18 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
   const t = useT(text);
   const locale = useLocale();
   const [draft, setDraft] = useState("");
+  const box = useRef<HTMLInputElement>(null);
   const { pack } = chat;
   const open = !!pack && isPackOpen(pack.status) && !pack.expired && !packEnded(pack);
   const waiting = pack?.status === "WAITING";
   const canSend = open && !waiting;
   const ended = !!pack && !open && !waiting;
+
+  // Cursor in the reply box when the chat opens and whenever sending becomes possible again (not on touch screens).
+  useEffect(() => {
+    if (!canSend) return;
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) box.current?.focus({ preventScroll: true });
+  }, [canSend]);
 
   const submit = () => {
     const body = draft.trim().slice(0, MAX_TEXT);
@@ -35,6 +42,7 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
     chat.send(body);
     chat.onTyping(false);
     setDraft("");
+    box.current?.focus({ preventScroll: true });
   };
 
   const time = (ts: number) => new Date(ts).toLocaleTimeString(locale === "hi" ? "hi-IN" : "en-IN", { hour: "numeric", minute: "2-digit" });
@@ -81,6 +89,43 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
         <PiInfo className="mt-0.5 h-[17px] w-[17px] shrink-0 text-brand-strong" />
         <span>{pack === null ? t.noPack : waiting ? t.waitingPack : t.rule}</span>
       </div>
+      {(chat.extendReq || chat.extendError || chat.extendDone) && (
+        <div role={chat.extendReq ? "alertdialog" : "status"} aria-label={t.extTitle} className="flex flex-wrap items-center gap-x-4 gap-y-3 border-b border-brand bg-[#FFF1CC] px-[18px] py-3">
+          {chat.extendReq ? (
+            <>
+              <PiTimer className="h-6 w-6 shrink-0 text-brand-strong" aria-hidden />
+              <div className="min-w-0 flex-[1_1_220px]">
+                <div className="text-[15px] font-bold">{t.extTitle}</div>
+                <div className="text-[13.5px] leading-normal text-ink-soft">{t.extBody(chat.extendReq.minutes, chat.extendReq.cost)}</div>
+                {chat.extendError && (
+                  <div role="alert" className="mt-1 flex items-center gap-1.5 text-[13.5px] font-bold text-danger">
+                    <PiWarningCircle className="h-4 w-4 shrink-0" aria-hidden />
+                    {chat.extendError === "noBalance" ? t.extNoBalance : t.extOther}
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" onClick={() => chat.answerExtend(true)} disabled={!!chat.extendBusy}>
+                  {chat.extendBusy === "accept" ? t.extWorking : t.extAccept}
+                </Button>
+                <Button size="sm" variant="line" onClick={() => chat.answerExtend(false)} disabled={!!chat.extendBusy}>
+                  {chat.extendBusy === "decline" ? t.extWorking : t.extDecline}
+                </Button>
+              </div>
+            </>
+          ) : chat.extendError ? (
+            <p className="m-0 flex items-center gap-2 text-[14px] font-bold text-danger">
+              <PiWarningCircle className="h-[18px] w-[18px] shrink-0" aria-hidden />
+              {chat.extendError === "expired" ? t.extExpired : chat.extendError === "answered" ? t.extAnswered : chat.extendError === "noBalance" ? t.extNoBalance : t.extOther}
+            </p>
+          ) : (
+            <p className="m-0 flex items-center gap-2 text-[14px] font-bold text-success">
+              <PiCheckCircle className="h-[18px] w-[18px] shrink-0" aria-hidden />
+              {chat.extendDone === "accepted" ? t.extAccepted : t.extDeclined}
+            </p>
+          )}
+        </div>
+      )}
       <div aria-live="polite" className="flex min-h-0 flex-1 flex-col-reverse overflow-y-auto bg-surface-page px-5">
         <div className="flex flex-col gap-3.5 pb-3 pt-[18px]">
           {chat.hasOlder && (
@@ -121,6 +166,7 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
           {t.msgLabel}
         </label>
         <input
+          ref={box}
           id="msg"
           value={draft}
           disabled={!canSend}

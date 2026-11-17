@@ -6,6 +6,7 @@ import {
   PiBell,
   PiBookOpenText,
   PiChatCircleDots,
+  PiFacebookLogo,
   PiFlowerLotus,
   PiGooglePlayLogo,
   PiInstagramLogo,
@@ -28,9 +29,10 @@ import { ASTROGEMS_URL, BLOG_URL, PLAY_STORE_URL, PRIVACY_URL, PUJA_BOOKING_URL,
 
 /**
  * AstroShrine's own social profiles, as listed in the footer of shrimahakaldham.com, each checked to load.
- * The Facebook share link from that list answers 400, so it is left out until a working profile URL is known.
+ * The Facebook URL is the one the team gave; confirm it points at the live page.
  */
 const SOCIAL_LINKS: { label: string; href: string; icon: IconType }[] = [
+  { label: "Facebook", href: "https://facebook.com/astroshrine", icon: PiFacebookLogo },
   { label: "Instagram", href: "https://instagram.com/astroshrine_", icon: PiInstagramLogo },
   { label: "YouTube", href: "https://youtube.com/@astroshrine", icon: PiYoutubeLogo },
   { label: "X", href: "https://x.com/astroshrine_", icon: PiXLogo },

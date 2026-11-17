@@ -17,6 +17,8 @@ import {
   type ScheduleSlot,
 } from "@/lib/services/astrologerSchedule";
 import { Accent, Button, Card, fieldClass, labelClass, Page, PageTitle, Pill } from "../_console/ui";
+import { istMs } from "@/lib/services/astrologerJoin";
+import JoinBooking from "../_console/JoinBooking";
 import { useAstrologer } from "../_console/useAstrologer";
 
 const text = defineMessages({
@@ -349,6 +351,15 @@ export default function ScheduleView() {
                       {b.duration_minutes ? ` (${t.mins(b.duration_minutes)})` : ""}
                     </span>
                   </div>
+                  <JoinBooking
+                    bookingId={b.id}
+                    userId={b.user_id}
+                    selfId={id}
+                    kind={b.channel_type === "call" ? "call" : "chat"}
+                    status={b.status}
+                    startsAt={istMs(b.booking_date, b.start_time)}
+                    endsAt={istMs(b.booking_date, b.end_time)}
+                  />
                   <Pill tone={b.status === "COMPLETED" ? "neutral" : b.status === "CONFIRMED" ? "green" : "amber"}>{t.statuses[b.status] ?? b.status}</Pill>
                 </li>
               );

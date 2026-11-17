@@ -6,6 +6,8 @@ import { INTL_LOCALE } from "@/i18n/config";
 import { defineMessages } from "@/i18n/messages";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { REMOVAL_MIN_DESCRIPTION, nextBooking, removalReasonText, type RemovalReason, type Waiting } from "@/lib/services/astrologerHome";
+import { canJoinNow } from "@/lib/services/astrologerJoin";
+import JoinBooking from "../_console/JoinBooking";
 import { useAstrologer } from "../_console/useAstrologer";
 import { Ornament, PageTitle } from "../_console/ui";
 import Icon, { type IconName } from "./icons";
@@ -351,7 +353,7 @@ function useNow(everyMs = 15_000) {
 export default function HomeView() {
   const t = useT(text);
   const locale = useLocale();
-  const { name } = useAstrologer();
+  const { id: selfId, name } = useAstrologer();
   const home = useHome();
   const now = useNow();
 
@@ -392,7 +394,12 @@ export default function HomeView() {
   const wd = home.workday.data;
   const today = home.today.data;
   const dateFmt = new Intl.DateTimeFormat(INTL_LOCALE[locale], { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" });
-  const next = nextBooking(home.bookings.data, now);
+  // A confirmed booking that can be joined now (it may have started a few minutes ago) comes before the next one.
+  const joinable =
+    home.bookings.data
+      .filter((b) => b.status === "CONFIRMED" && canJoinNow(b.status, b.startsAt, b.startsAt === null ? null : b.startsAt + (b.durationMinutes ?? 0) * 60_000, now))
+      .sort((a, b) => (a.startsAt ?? 0) - (b.startsAt ?? 0))[0] ?? null;
+  const next = joinable ?? nextBooking(home.bookings.data, now);
 
   return (
     <>
@@ -633,6 +640,20 @@ export default function HomeView() {
                 </div>
                 <div className="text-[15px] text-ink-soft">{t.nextWhat(kindLabel(next.kind), next.durationMinutes)}</div>
                 <Pill className="mt-3 bg-surface-sunken text-brand-strong">{dateFmt.format(next.startsAt ?? 0)}</Pill>
+                {joinable && (
+                  <div className="mt-3.5 flex justify-center">
+                    <JoinBooking
+                      bookingId={joinable.id}
+                      userId={joinable.userId}
+                      selfId={selfId}
+                      kind={joinable.kind}
+                      status={joinable.status}
+                      startsAt={joinable.startsAt}
+                      endsAt={joinable.startsAt === null ? null : joinable.startsAt + (joinable.durationMinutes ?? 0) * 60_000}
+                      size="md"
+                    />
+                  </div>
+                )}
               </>
             ) : home.bookings.failed && !home.bookings.data.length ? (
               <div className="mt-0.5 text-[15px] text-danger">{t.nextFailed}</div>

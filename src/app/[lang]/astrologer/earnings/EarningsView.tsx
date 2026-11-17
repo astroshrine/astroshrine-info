@@ -47,11 +47,15 @@ const text = defineMessages({
     payouts: "भुगतान AstroShrine टीम संभालती है। निकासी, बैंक या KYC के लिए सहायता से संपर्क करें।",
     payoutsLink: "सहायता खोलें",
     recent: "हाल के सत्र",
-    recentSub: "पिछले 30 दिन",
+    range: "अवधि चुनें",
+    last30: "पिछले 30 दिन",
+    channel: "प्रकार",
+    channels: { all: "सब", chat: "चैट", call: "कॉल" },
+    ordersFailed: "सत्र नहीं खुल सके।",
     head: { date: "दिनांक", type: "प्रकार", who: "ग्राहक", dur: "अवधि", amt: "राशि" },
     kinds: { chat: "चैट", call: "कॉल", livestream: "लाइव उपहार" } as Record<string, string>,
     customer: "ग्राहक",
-    noOrders: "पिछले 30 दिन में कोई सत्र नहीं।",
+    noOrders: "इस चयन में कोई सत्र नहीं।",
     more: "और दिखाएँ",
     loading: "कमाई लोड हो रही है…",
     retry: "फिर कोशिश करें",
@@ -82,11 +86,15 @@ const text = defineMessages({
     payouts: "Payouts are handled by the AstroShrine team. For withdrawals, bank details or KYC, contact support.",
     payoutsLink: "Open help",
     recent: "Recent sessions",
-    recentSub: "Last 30 days",
+    range: "Choose range",
+    last30: "Last 30 days",
+    channel: "Type",
+    channels: { all: "All", chat: "Chat", call: "Call" },
+    ordersFailed: "Could not load the sessions.",
     head: { date: "Date", type: "Type", who: "Customer", dur: "Duration", amt: "Amount" },
     kinds: { chat: "Chat", call: "Call", livestream: "Live gift" } as Record<string, string>,
     customer: "Customer",
-    noOrders: "No sessions in the last 30 days.",
+    noOrders: "No sessions for this selection.",
     more: "Show more",
     loading: "Loading your earnings…",
     retry: "Try again",
@@ -99,9 +107,32 @@ const TZ = "Asia/Kolkata";
 const DAY = 24 * 60 * 60 * 1000;
 const PAGE = 12;
 
+/** Start of an IST month (month is 0-11), ms. IST is UTC+5:30 with no daylight saving. */
+const istMonthStart = (y: number, m: number) => Date.UTC(y, m, 1) - 5.5 * 60 * 60 * 1000;
+/** The last 12 IST calendar months, newest first: value "yyyy-mm", with its [start, end) range. */
+function monthOptions(now: number) {
+  const ist = new Date(now + 5.5 * 60 * 60 * 1000);
+  let y = ist.getUTCFullYear();
+  let m = ist.getUTCMonth();
+  const out: { value: string; start: number; end: number }[] = [];
+  for (let i = 0; i < 12; i++) {
+    const ny = m === 11 ? y + 1 : y;
+    const nm = (m + 1) % 12;
+    out.push({ value: `${y}-${String(m + 1).padStart(2, "0")}`, start: istMonthStart(y, m), end: istMonthStart(ny, nm) - 1 });
+    if (m === 0) {
+      y -= 1;
+      m = 11;
+    } else m -= 1;
+  }
+  return out;
+}
+
+type Channel = "all" | "chat" | "call";
+type Orders = { key: string; rows: OrderRow[] | null };
+
 const hasDevanagari = (s: string) => /[ऀ-ॿ]/.test(s);
 
-type Data = { earnings: EarningsResponse; orders: OrderRow[] };
+type Data = { earnings: EarningsResponse };
 type State = { id: string; status: "ready"; data: Data } | { id: string; status: "error"; message: "failed" | "forbidden" };
 
 export default function EarningsView() {
@@ -114,13 +145,17 @@ export default function EarningsView() {
   const [attempt, setAttempt] = useState(0);
   const [period, setPeriod] = useState<Period>("day");
   const [shown, setShown] = useState(PAGE);
+  const [range, setRange] = useState("last30");
+  const [channel, setChannel] = useState<Channel>("all");
+  const [orders, setOrders] = useState<Orders | null>(null);
+  const [months] = useState(() => monthOptions(Date.now()));
+  const [ordersAttempt, setOrdersAttempt] = useState(0);
 
   useEffect(() => {
     if (status !== "ready" || !id || !session) return;
     const controller = new AbortController();
-    const now = Date.now();
-    Promise.all([getEarnings(id, controller.signal), getOrders(id, now - 30 * DAY, now, controller.signal)]).then(
-      ([earnings, orders]) => setState({ id, status: "ready", data: { earnings, orders } }),
+    getEarnings(id, controller.signal).then(
+      (earnings) => setState({ id, status: "ready", data: { earnings } }),
       (e: unknown) => {
         if (controller.signal.aborted) return;
         setState({ id, status: "error", message: e instanceof ApiError && e.status === 403 ? "forbidden" : "failed" });
@@ -129,6 +164,25 @@ export default function EarningsView() {
     return () => controller.abort();
   }, [id, status, session, attempt]);
 
+  // Order history follows the chosen range on its own, so the charts above are not reloaded.
+  const ready = status === "ready" && !!id && !!session;
+  const ordersKey = `${id}|${range}|${ordersAttempt}`;
+  useEffect(() => {
+    if (!ready || !id) return;
+    const controller = new AbortController();
+    const now = Date.now();
+    const m = range === "last30" ? null : months.find((o) => o.value === range);
+    const [start, end] = m ? [m.start, Math.min(m.end, now)] : [now - 30 * DAY, now];
+    getOrders(id, start, end, controller.signal).then(
+      (rows) => setOrders({ key: ordersKey, rows }),
+      () => !controller.signal.aborted && setOrders({ key: ordersKey, rows: null }),
+    );
+    return () => controller.abort();
+  }, [ready, id, range, ordersAttempt, ordersKey, months]);
+  const ordersNow = orders && orders.key === ordersKey ? orders : null;
+  const rowsAll = ordersNow?.rows ?? null;
+  const rows = useMemo(() => (rowsAll ? rowsAll.filter((r) => channel === "all" || r.orderType === channel) : null), [rowsAll, channel]);
+  
   const current = state && state.id === id ? state : null;
   const data = current?.status === "ready" ? current.data : null;
 
@@ -277,9 +331,55 @@ export default function EarningsView() {
                   {t.recent}
                 </h2>
               </div>
-              <span className="text-sm text-ink-soft">{t.recentSub}</span>
             </div>
-            {current.data.orders.length === 0 ? (
+            <div className="mt-4 flex flex-wrap items-end gap-4">
+              <label className="flex flex-col gap-1.5">
+                <span className="text-sm font-semibold text-ink-soft">{t.range}</span>
+                <select
+                  className="h-11 cursor-pointer rounded-xl border border-line-strong bg-surface-card px-3 text-[15px] font-semibold"
+                  value={range}
+                  onChange={(e) => {
+                    setRange(e.target.value);
+                    setShown(PAGE);
+                  }}
+                >
+                  <option value="last30">{t.last30}</option>
+                  {months.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {new Intl.DateTimeFormat(intl, { month: "long", year: "numeric", timeZone: "UTC" }).format(Date.parse(`${o.value}-15T00:00:00Z`))}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div role="group" aria-label={t.channel} className="grid grid-cols-3 gap-1 rounded-2xl bg-surface-sunken p-1">
+                {(["all", "chat", "call"] as const).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    aria-pressed={channel === c}
+                    onClick={() => {
+                      setChannel(c);
+                      setShown(PAGE);
+                    }}
+                    className={`h-9 min-w-16 cursor-pointer rounded-xl px-3 text-[14px] font-bold transition ${channel === c ? "bg-surface-inverse text-ink-inverse" : "text-ink hover:bg-surface-card"}`}
+                  >
+                    {t.channels[c]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {!ordersNow ? (
+              <p className="mt-5 text-ink-soft" role="status">
+                {t.loading}
+              </p>
+            ) : !rows ? (
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-4" role="alert">
+                <p className="text-danger">{t.ordersFailed}</p>
+                <Button variant="line" size="sm" onClick={() => setOrdersAttempt((n) => n + 1)}>
+                  {t.retry}
+                </Button>
+              </div>
+            ) : rows.length === 0 ? (
               <p className="mt-5 rounded-2xl bg-surface-sunken p-6 text-center text-ink-soft">{t.noOrders}</p>
             ) : (
               <>
@@ -295,7 +395,7 @@ export default function EarningsView() {
                       </tr>
                     </thead>
                     <tbody>
-                      {current.data.orders.slice(0, shown).map((r, i) => {
+                      {rows.slice(0, shown).map((r, i) => {
                         const name = r.customerName?.trim() || t.customer;
                         const mins = Math.round(r.timeSpent / 60_000);
                         return (
@@ -318,7 +418,7 @@ export default function EarningsView() {
                     </tbody>
                   </table>
                 </div>
-                {current.data.orders.length > shown && (
+                {rows.length > shown && (
                   <div className="mt-4 flex justify-center">
                     <Button variant="line" size="sm" onClick={() => setShown((n) => n + PAGE)}>
                       {t.more}

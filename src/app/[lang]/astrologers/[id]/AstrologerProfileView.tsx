@@ -28,6 +28,7 @@ import {
 
 /** The full profile streaming from the server: null = no such astrologer, undefined = not read there. */
 type FullProfile = Promise<ProfilePageData | null | undefined>;
+import ScheduleAppointmentButton from "../../bookings/_parts/ScheduleAppointmentButton";
 import StartChatPanel from "./StartChatPanel";
 
 const text = defineMessages({
@@ -265,6 +266,7 @@ export default function AstrologerProfileView({ id, preview, full }: { id: strin
       {/* The chat action: right column on desktop (sticky), straight after the header on phones. */}
       <motion.aside variants={fadeUp} className="lg:sticky lg:top-24 lg:col-start-3 lg:row-span-4 lg:row-start-2">
         <StartChatPanel astrologer={a} />
+        <ScheduleAppointmentButton astrologerId={a.id} />
       </motion.aside>
 
       <div className="flex flex-col gap-6 lg:col-span-2">

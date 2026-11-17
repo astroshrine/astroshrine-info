@@ -60,7 +60,7 @@ export default function ProfileHeader({
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <p className="caption-4 text-brand-strong">{eyebrow}</p>
-          <h1 className="heading-5 mt-1 break-words text-ink md:heading-4">{nameOf(profile)}</h1>
+          <h2 className="heading-5 mt-1 break-words text-ink md:heading-4">{nameOf(profile)}</h2>
           <p className="body-6 mt-1 text-ink-soft">
             {day(profile.dob)} · {profile.timeUnknown ? t.timeUnknown : profile.tob} · {profile.place.name}
           </p>

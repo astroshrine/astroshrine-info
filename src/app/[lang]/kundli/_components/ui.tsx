@@ -203,7 +203,7 @@ export function NeedProfile({ what }: { what: string }) {
   return (
     <div className="rounded-2xl border border-line bg-surface-card p-6 text-center">
       {/* The page's only heading in this state (no profile, so no profile header). */}
-      <h1 className="heading-6 text-ink">{t.needTitle(what)}</h1>
+      <h2 className="heading-6 text-ink">{t.needTitle(what)}</h2>
       <p className="body-6 mx-auto mt-2 max-w-md text-ink-soft">{t.needBody}</p>
       <Link href="/kundli?new=1" className={`${btnPrimary} mt-4`}>
         <PiPlus className="h-5 w-5" aria-hidden /> {t.addKundli}
@@ -216,7 +216,7 @@ export function PageHeader({ eyebrow, title, children }: { eyebrow: string; titl
   return (
     <motion.header variants={fadeUp} initial="hidden" animate="show" className="max-w-2xl">
       <p className="caption-4 text-brand-strong">{eyebrow}</p>
-      <h1 className="heading-5 mt-1 text-ink md:heading-4">{title}</h1>
+      <h2 className="heading-5 mt-1 text-ink md:heading-4">{title}</h2>
       {children && <div className="body-6 mt-2 text-ink-soft">{children}</div>}
     </motion.header>
   );

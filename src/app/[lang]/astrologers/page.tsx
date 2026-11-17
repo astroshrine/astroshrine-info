@@ -13,19 +13,11 @@ const text = defineMessages({
     title: "Astrologers · AstroShrine",
     description:
       "AstroShrine के ज्योतिषियों से chat करें: वैदिक, टैरो, अंक ज्योतिष और वास्तु। रेटिंग, अनुभव और प्रति मिनट कीमत देखकर चुनें; समय तभी शुरू होता है जब ज्योतिषी जवाब देते हैं।",
-    kicker: "Astrologers",
-    heading: "अपने सवाल के लिए सही ज्योतिषी चुनें",
-    intro:
-      "रेटिंग, अनुभव और प्रति मिनट कीमत देखकर चैट शुरू करें। समय तभी शुरू होता है जब ज्योतिषी पहला जवाब देते हैं, और 5 मिनट में जवाब न मिले तो पूरे पॉइंट्स वापस आते हैं।",
   },
   en: {
     title: "Astrologers · AstroShrine",
     description:
       "Chat with AstroShrine astrologers in Vedic astrology, Tarot, Numerology and Vastu. Choose by rating, experience and price per minute. The clock starts only when the astrologer replies.",
-    kicker: "Astrologers",
-    heading: "Choose the right astrologer for your question",
-    intro:
-      "Compare ratings, experience and the price per minute, then start a chat. The clock starts only when the astrologer sends the first reply, and if there is no reply within 5 minutes, all your points come back.",
   },
 });
 
@@ -45,9 +37,13 @@ async function Directory({ searchParams }: { searchParams: PageProps<"/[lang]/as
   const sp = await searchParams;
   const filter = one(sp.filter);
   const sort = one(sp.sort);
+  const lang = one(sp.language);
   const query: DirectoryQuery = {
     q: (one(sp.q) ?? "").slice(0, 60),
-    filter: isFilter(filter) ? filter : "all",
+    // Hindi and English are the language select now; links that carried them as the filter still work.
+    filter: isFilter(filter) && filter !== "Hindi" && filter !== "English" ? filter : "all",
+    language: lang === "Hindi" || lang === "English" ? lang : filter === "Hindi" || filter === "English" ? filter : "all",
+    mode: one(sp.mode) === "call" ? "call" : "chat",
     sort: isSort(sort) ? sort : "popularity",
     favourites: one(sp.fav) === "1",
   };
@@ -70,19 +66,10 @@ async function Directory({ searchParams }: { searchParams: PageProps<"/[lang]/as
   return <AstrologerDirectory initial={initial} initialQuery={query} />;
 }
 
-export default async function AstrologersPage({ searchParams }: PageProps<"/[lang]/astrologers">) {
-  const t = await getT(text);
+export default function AstrologersPage({ searchParams }: PageProps<"/[lang]/astrologers">) {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8 lg:py-16">
-      <header className="flex flex-col gap-3">
-        <p className="caption-3 uppercase tracking-wide text-brand-strong">{t.kicker}</p>
-        <h1 className="heading-4 lg:heading-3 max-w-[680px] text-ink">{t.heading}</h1>
-        <p className="body-3 max-w-[680px] text-ink-soft">{t.intro}</p>
-      </header>
-
-      <Suspense fallback={<DirectorySkeleton />}>
-        <Directory searchParams={searchParams} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<DirectorySkeleton />}>
+      <Directory searchParams={searchParams} />
+    </Suspense>
   );
 }

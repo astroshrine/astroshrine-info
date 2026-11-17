@@ -17,6 +17,8 @@ import type { NextRequest } from "next/server";
 const FORWARD_REQUEST_HEADERS = ["authorization", "content-type", "accept", "accept-language", "x-astro-context"];
 const FORWARD_RESPONSE_HEADERS = ["content-type", "cache-control", "date", "retry-after"];
 const TIMEOUT_MS = 30_000;
+/** Writes include the AI report generators (mansik, jeevan, face reading...), which take 60-120 s. */
+const WRITE_TIMEOUT_MS = 120_000;
 
 /** /v1/live/... (live rooms) and /v1/channel/livestream/... (broadcast channels). */
 function isLivestreamRoute(path: string[]) {
@@ -54,7 +56,7 @@ async function proxy(request: NextRequest, ctx: RouteContext<"/api/[...path]">) 
       body: hasBody ? await request.arrayBuffer() : undefined,
       cache: "no-store",
       redirect: "manual",
-      signal: AbortSignal.timeout(TIMEOUT_MS),
+      signal: AbortSignal.timeout(hasBody ? WRITE_TIMEOUT_MS : TIMEOUT_MS),
     });
   } catch (error) {
     const timedOut = error instanceof DOMException && error.name === "TimeoutError";

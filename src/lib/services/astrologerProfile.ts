@@ -126,6 +126,9 @@ export type WorkdaySettings = {
   restEnabled: boolean;
   restStart: string | null;
   restEnd: string | null;
+  /** Auto Boost: listed higher in the astrologer list. Missing on old backends. */
+  boostChat?: boolean;
+  boostCall?: boolean;
 };
 
 export type Workday = {
@@ -141,8 +144,8 @@ export const TARGET_MAX = 1440;
 
 export const getWorkday = (id: string, signal?: AbortSignal) => api<Workday>(`/v1/astrologer/${encodeURIComponent(id)}/workday`, { signal });
 
-/** PUT /v1/astrologer/:id/workday/settings. Times are HH:MM in IST; rest hours need a start and an end that differ. */
-export const saveWorkdaySettings = (id: string, body: { dailyTargetMinutes: number; restEnabled: boolean; restStart: string | null; restEnd: string | null }) =>
+/** PUT /v1/astrologer/:id/workday/settings. Times are HH:MM in IST; rest hours need a start and an end that differ. Send only the fields being changed (the backend merges), e.g. {boostChat}. */
+export const saveWorkdaySettings = (id: string, body: Partial<Pick<WorkdaySettings, "dailyTargetMinutes" | "restEnabled" | "restStart" | "restEnd" | "boostChat" | "boostCall">>) =>
   api<WorkdaySettings>(`/v1/astrologer/${encodeURIComponent(id)}/workday/settings`, { method: "PUT", body });
 
 // ─── Reviews ───────────────────────────────────────────────────────────────────

@@ -32,6 +32,7 @@ export type Appointment = {
   duration_minutes: number;
   channel_type: string;
   status: string;
+  user_id: string;
   user: { name: string | null } | null;
 };
 
@@ -86,6 +87,7 @@ export async function getAppointments(signal?: AbortSignal): Promise<Appointment
     duration_minutes: Number(b.duration_minutes) || 0,
     channel_type: b.channel_type || "chat",
     status: b.status || "",
+    user_id: String((b as { user_id?: string }).user_id ?? ""),
     user: b.user ? { name: b.user.name ?? null } : null,
   }));
 }

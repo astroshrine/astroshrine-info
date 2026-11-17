@@ -1,11 +1,15 @@
-import KundliNav from "./_components/KundliNav";
+import AppPromoBand from "@/components/AppPromoBand";
+import KundliChrome, { CONTENT_ID } from "./_components/KundliChrome";
 
-/** The Jyotish section: its own tool navigation above every page. */
+/** The Jyotish section: banner and tab bar above every page, the app band below. */
 export default function KundliLayout({ children }: LayoutProps<"/[lang]/kundli">) {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 md:px-8 md:pt-10">
-      <KundliNav />
-      <div className="mt-6 md:mt-8">{children}</div>
-    </div>
+    <>
+      <KundliChrome />
+      <div id={CONTENT_ID} className="mx-auto w-full max-w-6xl scroll-mt-24 px-4 pt-8 md:px-8 md:pt-10">
+        {children}
+      </div>
+      <AppPromoBand />
+    </>
   );
 }

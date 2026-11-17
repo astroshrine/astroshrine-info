@@ -59,6 +59,8 @@ export type AstrologerCard = {
   orders: number;
   /** Per-minute chat price as billed (offer applied). */
   chat: PriceView;
+  /** Per-minute call price as billed (shown in the directory's call view). */
+  call: PriceView;
   /** Whole % off the chat rate, 0 without an offer. */
   offerPercent: number;
   status: AstrologerStatus;
@@ -132,6 +134,7 @@ export function toAstrologerCard(raw: RawAstrologer, now = Date.now()): Astrolog
     reviews: Number(p.totalReviews) || 0,
     orders: Number(raw.stats?.orders ?? p.orders ?? raw.orders) || 0,
     chat,
+    call: priceOf(raw.pricingData?.call, DEFAULT_CHAT_RATE),
     offerPercent: percentOff(chat),
     status,
     availability: availabilityOf(status),

@@ -16,10 +16,6 @@ const text = defineMessages({
     description:
       "अपनी और परिवार की कुंडलियाँ सहेजें: लग्न और सभी 16 वर्ग चार्ट, ग्रह स्थिति, विंशोत्तरी दशा, गोचर, पंचांग, KP प्रश्न और कुंडली मिलान।",
     shareDescription: "अपनी और परिवार की कुंडलियाँ, सभी 16 वर्ग चार्ट, दशा, गोचर, पंचांग और गुण मिलान। उसी खाते से जो AstroShrine ऐप में है।",
-    eyebrow: "Kundli · Jyotish",
-    heading: "मुफ़्त जन्म कुंडली, वही खाता जो ऐप में है",
-    intro:
-      "अपनी और परिवार की कुंडलियाँ सहेजें, फिर किसी को भी चुनकर कुंडली, गोचर, पंचांग और KP प्रश्न देखें, उसी गणना इंजन से जो AstroShrine ऐप इस्तेमाल करता है।",
     tools: "कुंडली के टूल",
     toolText: {
       chart: "लग्न से षष्ट्यंश तक सभी 16 वर्ग चार्ट, ग्रह स्थिति, विंशोत्तरी और योगिनी दशा, योग और दोष",
@@ -36,10 +32,6 @@ const text = defineMessages({
       "Save kundlis for yourself and your family: the Ascendant and all 16 divisional charts, planet positions, Vimshottari dasha, transits, panchang, KP Prashna and Kundli matching.",
     shareDescription:
       "Kundlis for you and your family, all 16 divisional charts, dasha, transits, panchang and Guna Milan. With the same account as the AstroShrine app.",
-    eyebrow: "Kundli · Jyotish",
-    heading: "Free kundli, with the same account as the app",
-    intro:
-      "Save kundlis for yourself and your family, then pick any of them to see its kundli, transits, panchang and KP Prashna, calculated by the same engine the AstroShrine app uses.",
     tools: "Kundli tools",
     toolText: {
       chart: "All 16 divisional charts from D1 to D60, planet positions, Vimshottari and Yogini dasha, yogas and doshas",
@@ -72,12 +64,6 @@ export default async function KundliHubPage() {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
       <div className="space-y-6 lg:col-span-3">
-        <header className="max-w-2xl">
-          <p className="caption-4 text-brand-strong">{t.eyebrow}</p>
-          <h1 className="heading-4 hero-gradient-text mt-1 lg:heading-3">{t.heading}</h1>
-          <p className="body-3 mt-3 text-ink-soft">{t.intro}</p>
-        </header>
-
         <Card>
           <div id="janm-vivran" className="scroll-mt-24">
             <Suspense fallback={<PanelSkeleton />}>

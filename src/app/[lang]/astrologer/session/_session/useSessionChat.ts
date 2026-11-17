@@ -22,6 +22,7 @@ import {
   type ChatMessage,
   type PackState,
 } from "@/lib/services/chat";
+import { answerExtend, extendFailureOf, getPendingExtend, toExtendRequest, type ExtendFailure, type ExtendRequest } from "@/lib/services/astrologerExtend";
 import { globalChannel, isRealtimeOpen, sessionChannel } from "@/lib/services/realtime";
 import { useRealtimeChannel, useRealtimeOpen } from "@/lib/services/useRealtime";
 
@@ -69,6 +70,11 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
   const [endFailed, setEndFailed] = useState(false);
   const [sendFailures, setSendFailures] = useState<Record<string, SendError>>({});
   const realtimeOpen = useRealtimeOpen();
+  // The customer's request for more time (after theirs ran out), waiting for Accept or Decline.
+  const [extendReq, setExtendReq] = useState<ExtendRequest | null>(null);
+  const [extendBusy, setExtendBusy] = useState<"accept" | "decline" | null>(null);
+  const [extendError, setExtendError] = useState<ExtendFailure | null>(null);
+  const [extendDone, setExtendDone] = useState<"accepted" | "declined" | null>(null);
 
   const messagesRef = useRef(messages);
   const packRef = useRef(pack);
@@ -133,8 +139,21 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
     catchUpTimer.current = setTimeout(catchUp, 1500);
   };
 
+  /** A request for more time: from the realtime event, or read from the server. Only this customer's. */
+  const showExtend = (raw: unknown) => {
+    const d = obj(raw);
+    if (str(d.userId) && str(d.userId) !== clientId) return;
+    const r = toExtendRequest(d);
+    if (!r) return;
+    setExtendReq(r);
+    setExtendError(null);
+    setExtendDone(null);
+  };
+
   const applyClock = (d: Payload) => {
     if (typeof d.secondsAllowed !== "number") return;
+    // The clock restarted (accepted here or on another device): nothing is waiting any more.
+    if (d.reason === "extended" || d.reason === "revived") setExtendReq(null);
     const serverNow = num(d.serverNow);
     if (serverNow) setClockOffset(serverNow - Date.now());
     setPack((prev) => ({
@@ -189,6 +208,8 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
         return markEnded(d);
       case "ChatSessionEnded":
         return markEnded({ ...d, status: "COMPLETED" });
+      case "ChatExtendRequested":
+        return showExtend(d);
     }
   });
 
@@ -201,6 +222,8 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
       setMessages((prev) => prev.map((m) => (m.messageId === messageId && rank(status) > rank(m.status) ? { ...m, status } : m)));
     } else if (event === "ChatClockChanged") {
       if (str(d.bookingId) && str(d.bookingId) === packRef.current?.bookingId) applyClock(d);
+    } else if (event === "ChatExtendRequested") {
+      showExtend(d);
     } else if (event === "NewMessage") {
       if (str(d.sessionId) === chatId) scheduleCatchUp();
     }
@@ -224,6 +247,32 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
       clearInterval(h);
     };
   }, [running]);
+
+  // The request that is already waiting when the chat opens, and a re-read now and then while realtime is down.
+  useEffect(() => {
+    const controller = new AbortController();
+    const read = () =>
+      getPendingExtend(clientId, controller.signal).then(
+        (r) => r && setExtendReq((prev) => (prev?.bookingId === r.bookingId && prev.requestedAt === r.requestedAt ? prev : r)),
+        () => undefined,
+      );
+    void read();
+    const h = setInterval(() => {
+      if (!isRealtimeOpen()) void read();
+    }, PACK_POLL_MS);
+    return () => {
+      controller.abort();
+      clearInterval(h);
+    };
+  }, [clientId, reloadKey]);
+
+  // The request lapses on its own (about two minutes): the banner goes with it.
+  const extendExpires = extendReq?.expiresAt ?? 0;
+  useEffect(() => {
+    if (!extendExpires) return;
+    const h = setTimeout(() => setExtendReq(null), Math.max(extendExpires - Date.now(), 0));
+    return () => clearTimeout(h);
+  }, [extendExpires]);
 
   // A running or waiting pack is re-read now and then: realtime can be missed.
   const packId = pack?.bookingId || null;
@@ -365,6 +414,33 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
     }
   };
 
+  /** POST .../extend/accept (charges the customer's block and restarts the clock) or .../extend/decline. */
+  const answerExtendRequest = async (accept: boolean) => {
+    const req = extendReq;
+    if (!req || extendBusy) return;
+    setExtendBusy(accept ? "accept" : "decline");
+    setExtendError(null);
+    try {
+      const fields = await answerExtend(req.bookingId, accept);
+      setExtendReq(null);
+      setExtendDone(accept ? "accepted" : "declined");
+      if (fields) {
+        setPack((prev) => ({ ...(prev ?? { bookingId: req.bookingId }), ...fields, bookingId: req.bookingId, status: "IN_PROGRESS", expired: false }));
+        // The server's own read settles the clock (ChatClockChanged follows too).
+        getPackStatus(req.bookingId).then(
+          (fresh) => setPack((prev) => (prev && prev.bookingId === req.bookingId ? { ...prev, ...fresh, paused: !!fresh.paused } : prev)),
+          () => undefined,
+        );
+      }
+    } catch (error) {
+      const why = extendFailureOf(error);
+      if (why === "expired" || why === "answered") setExtendReq(null);
+      setExtendError(why);
+    } finally {
+      setExtendBusy(null);
+    }
+  };
+
   const secs = pack ? secondsLeft(pack, now + clockOffset) : 0;
   const elapsed = pack?.startedAt && pack.timerStarted ? Math.max(0, Math.floor((now + clockOffset - pack.startedAt) / 1000)) : null;
 
@@ -392,6 +468,11 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
     retry,
     onTyping,
     end,
+    extendReq,
+    extendBusy,
+    extendError,
+    extendDone,
+    answerExtend: answerExtendRequest,
   };
 }
 

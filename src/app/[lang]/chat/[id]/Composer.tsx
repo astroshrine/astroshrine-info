@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { PiImage, PiPaperPlaneRight } from "react-icons/pi";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
@@ -46,6 +46,14 @@ export default function Composer({
   const [draft, setDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const box = useRef<HTMLTextAreaElement>(null);
+
+  // Put the cursor in the box when the chat opens and whenever it becomes usable again, so typing never needs a click.
+  // Not on touch screens: focusing there would raise the keyboard over the conversation.
+  useEffect(() => {
+    if (disabled) return;
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) box.current?.focus({ preventScroll: true });
+  }, [disabled]);
   const inputId = useId();
   const errorId = useId();
 
@@ -54,6 +62,7 @@ export default function Composer({
     if (!value || disabled) return;
     onSendText(value);
     setDraft("");
+    box.current?.focus({ preventScroll: true });
     setError(null);
     onTyping(false);
   };
@@ -107,6 +116,7 @@ export default function Composer({
           {t.message}
         </label>
         <textarea
+          ref={box}
           id={inputId}
           value={draft}
           disabled={disabled}

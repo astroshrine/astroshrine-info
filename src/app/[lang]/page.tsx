@@ -93,13 +93,13 @@ export default async function LandingPage() {
       <RemediesSection />
 
       <div className="mx-auto w-full max-w-6xl px-4 md:px-8">
-        {/* Design order: letters, journal (blog), then the sister sites, why astrology + steps, FAQ. */}
+        {/* Design order: letters, the sister sites (puja, AstroGems), journal (blog), why astrology + steps, FAQ. */}
         <LettersSection />
+        <PujaBookingSection />
+        <AstroGemsSection />
         <Suspense fallback={<BlogSectionSkeleton />}>
           <BlogSection />
         </Suspense>
-        <PujaBookingSection />
-        <AstroGemsSection />
         <WhySteps />
         <FaqSection
           title={t.faqTitle}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { PiCamera, PiChatCircleText, PiClock, PiPhone, PiQuestion, PiSeal, PiStar, PiUser, PiPower, PiCaretRight } from "react-icons/pi";
+import { PiRocket, PiCamera, PiChatCircleText, PiClock, PiPhone, PiQuestion, PiSeal, PiStar, PiUser, PiPower, PiCaretRight } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import Link from "@/i18n/Link";
 import { INTL_LOCALE } from "@/i18n/config";
@@ -94,6 +94,10 @@ const text = defineMessages({
     errTarget: `दैनिक लक्ष्य ${TARGET_MIN} से ${TARGET_MAX} मिनट के बीच होना चाहिए।`,
     errRest: "विश्राम की शुरुआत और समाप्ति के अलग-अलग समय चुनें।",
     saveWork: "लक्ष्य सहेजें",
+    boostTitle: "ऑटो बूस्ट (मुफ़्त)",
+    boostSub: "मुफ़्त। चालू होने पर आप ज्योतिषी सूची में ऊपर दिखेंगे।",
+    boostChat: "चैट के लिए",
+    boostCall: "कॉल के लिए",
     onBreak: "अभी विश्राम पर",
     reviewsTitle: "हाल की समीक्षाएँ",
     noReviews: "अभी कोई समीक्षा नहीं।",
@@ -172,6 +176,10 @@ const text = defineMessages({
     errTarget: `The daily target must be between ${TARGET_MIN} and ${TARGET_MAX} minutes.`,
     errRest: "Pick a different start and end time for rest hours.",
     saveWork: "Save target",
+    boostTitle: "Auto Boost (free)",
+    boostSub: "Free. When on, you are shown higher in the astrologer list.",
+    boostChat: "For chat",
+    boostCall: "For call",
     onBreak: "On a break now",
     reviewsTitle: "Recent reviews",
     noReviews: "No reviews yet.",
@@ -413,6 +421,7 @@ export default function ProfileView() {
 
       <DetailsForm key={`d-${me.name}-${me.experience}-${me.aboutMe}`} me={me} onSaved={() => { reload(); void refresh(); }} t={t} />
       <RatesForm key={`r-${JSON.stringify(me.pricing)}`} me={me} onChanged={reload} when={when} t={t} />
+      {workday && <BoostCard id={me.id} settings={workday.settings} t={t} />}
       {workday && <WorkdayForm key={`w-${JSON.stringify(workday.settings)}`} id={me.id} workday={workday} onSaved={reload} t={t} />}
 
       <Card className="p-6 sm:p-7" aria-labelledby="pf-reviews">
@@ -762,6 +771,61 @@ function WorkdayForm({ id, workday, onSaved, t }: { id: string; workday: Workday
           {note && <Note kind={note.kind}>{note.text}</Note>}
         </div>
       </form>
+    </Card>
+  );
+}
+
+type BoostKey = "boostChat" | "boostCall";
+
+/** Auto Boost switches: each saves at once, shows the new value straight away and goes back if the save fails. */
+function BoostCard({ id, settings, t }: { id: string; settings: Workday["settings"]; t: T }) {
+  const [on, setOn] = useState<Record<BoostKey, boolean>>({ boostChat: !!settings.boostChat, boostCall: !!settings.boostCall });
+  const [saving, setSaving] = useState<BoostKey | null>(null);
+  const [error, setError] = useState("");
+
+  const toggle = async (key: BoostKey) => {
+    if (saving) return;
+    const value = !on[key];
+    setOn((o) => ({ ...o, [key]: value }));
+    setSaving(key);
+    setError("");
+    try {
+      await saveWorkdaySettings(id, { [key]: value });
+    } catch (err) {
+      setOn((o) => ({ ...o, [key]: !value }));
+      setError(messageOf(err, t.genericError));
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  return (
+    <Card className="p-6 sm:p-7" aria-labelledby="pf-boost">
+      <div className="flex flex-wrap items-center gap-3">
+        <IconBadge icon={PiRocket} size={42} />
+        <h2 id="pf-boost" className="font-display text-2xl font-bold">
+          {t.boostTitle}
+        </h2>
+      </div>
+      <p className="mt-2 text-[15px] text-ink-soft">{t.boostSub}</p>
+      <ul className="mt-4 divide-y divide-line">
+        {(["boostChat", "boostCall"] as const).map((key) => (
+          <li key={key}>
+            <label className="flex cursor-pointer items-center justify-between gap-4 py-3 font-semibold">
+              {t[key]}
+              <input
+                type="checkbox"
+                role="switch"
+                className="size-5 accent-[var(--color-brand)]"
+                checked={on[key]}
+                disabled={saving === key}
+                onChange={() => toggle(key)}
+              />
+            </label>
+          </li>
+        ))}
+      </ul>
+      {error && <Note kind="error">{error}</Note>}
     </Card>
   );
 }

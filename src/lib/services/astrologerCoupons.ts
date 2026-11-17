@@ -63,7 +63,7 @@ export async function createCoupon(input: NewCoupon): Promise<Coupon> {
   return toCoupon(res.data);
 }
 
-/** PATCH /v1/astrologer/coupons/:code: pause or resume. */
-export async function setCouponStatus(code: string, next: "active" | "paused"): Promise<void> {
+/** PATCH /v1/astrologer/coupons/:code: pause, resume or end (expired is final). */
+export async function setCouponStatus(code: string, next: "active" | "paused" | "expired"): Promise<void> {
   await api<unknown>(`/v1/astrologer/coupons/${encodeURIComponent(code)}`, { method: "PATCH", body: { status: next } });
 }

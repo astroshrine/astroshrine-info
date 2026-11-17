@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PiPlus, PiTicket } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import { INTL_LOCALE } from "@/i18n/config";
@@ -42,6 +42,11 @@ const text = defineMessages({
     sales: (v: string) => `बिक्री ₹${v}`,
     pause: "रोकें",
     resume: "फिर चालू करें",
+    end: "कूपन समाप्त करें",
+    endConfirm: (c: string) => `कूपन ${c} अभी समाप्त करें? इसे दोबारा चालू नहीं किया जा सकेगा।`,
+    endYes: "हाँ, समाप्त करें",
+    keep: "रहने दें",
+    ended: (c: string) => `कूपन ${c} समाप्त हो गया।`,
     formTitle: "नया कूपन",
     code: "कोड",
     codeHint: "4 से 16 अक्षर या अंक, बिना खाली जगह",
@@ -82,6 +87,11 @@ const text = defineMessages({
     sales: (v) => `Sales ₹${v}`,
     pause: "Pause",
     resume: "Resume",
+    end: "End coupon",
+    endConfirm: (c) => `End coupon ${c} now? It cannot be turned on again.`,
+    endYes: "Yes, end it",
+    keep: "Keep it",
+    ended: (c) => `Coupon ${c} has ended.`,
     formTitle: "New coupon",
     code: "Code",
     codeHint: "4 to 16 letters or digits, no spaces",
@@ -128,6 +138,8 @@ export default function CouponsView() {
   const [done, setDone] = useState("");
   const [busyCode, setBusyCode] = useState("");
   const [rowError, setRowError] = useState("");
+  const [ending, setEnding] = useState<Coupon | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     if (status !== "ready" || !id || !session) return;
@@ -158,8 +170,51 @@ export default function CouponsView() {
     }
   };
 
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (!d) return;
+    if (ending && !d.open) d.showModal();
+    if (!ending && d.open) d.close();
+  }, [ending]);
+
+  const endIt = async () => {
+    const c = ending;
+    if (!c) return;
+    setBusyCode(c.code);
+    setRowError("");
+    try {
+      await setCouponStatus(c.code, "expired");
+      setDone(t.ended(c.code));
+      setEnding(null);
+      reload();
+    } catch (e) {
+      setEnding(null);
+      setRowError(e instanceof ApiError && e.message ? e.message : t.genericError);
+    } finally {
+      setBusyCode("");
+    }
+  };
+
   return (
     <Page>
+      <dialog
+        ref={dialogRef}
+        onClose={() => setEnding(null)}
+        aria-labelledby="cp-end-q"
+        className="m-auto w-[min(92vw,26rem)] rounded-[20px] bg-surface-card p-6 text-ink backdrop:bg-black/40"
+      >
+        <p id="cp-end-q" className="font-semibold">
+          {ending && t.endConfirm(ending.code)}
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Button onClick={endIt} disabled={!!busyCode}>
+            {t.endYes}
+          </Button>
+          <Button variant="line" onClick={() => setEnding(null)} disabled={!!busyCode}>
+            {t.keep}
+          </Button>
+        </div>
+      </dialog>
       <PageTitle
         eyebrow={t.eyebrow}
         title={
@@ -257,9 +312,14 @@ export default function CouponsView() {
                   </p>
                 </div>
                 {(c.status === "active" || c.status === "paused") && (
-                  <Button variant="line" size="sm" disabled={busyCode === c.code} onClick={() => toggle(c)}>
-                    {c.status === "active" ? t.pause : t.resume}
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Button variant="line" size="sm" disabled={busyCode === c.code} onClick={() => toggle(c)}>
+                      {c.status === "active" ? t.pause : t.resume}
+                    </Button>
+                    <Button variant="line" size="sm" disabled={busyCode === c.code} onClick={() => { setDone(""); setEnding(c); }}>
+                      {t.end}
+                    </Button>
+                  </div>
                 )}
               </li>
             ))}
