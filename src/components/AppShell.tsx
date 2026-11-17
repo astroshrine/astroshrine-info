@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { MotionConfig } from "framer-motion";
 import SiteHeader, { SiteHeaderFallback } from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
@@ -22,6 +23,9 @@ const text = defineMessages({
  */
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const t = useT(text);
+  // The astrologer console (/astrologer) has its own header and footer.
+  const segment = useSelectedLayoutSegment();
+  if (segment === "astrologer") return children;
   return (
     // reducedMotion="user": people who prefer reduced motion get plain opacity changes, no movement.
     <MotionConfig reducedMotion="user">
