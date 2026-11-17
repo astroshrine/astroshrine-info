@@ -21,11 +21,8 @@ const text = defineMessages({
  * Cache Components, usePathname() suspends on routes whose params are only known at request time
  * (e.g. /astrologers/[id]). The fallback bar keeps the rest of the layout prerendered.
  */
-export default function AppShell({ children }: { children: React.ReactNode }) {
+function Frame({ children }: { children: React.ReactNode }) {
   const t = useT(text);
-  // The astrologer console (/astrologer) has its own header and footer.
-  const segment = useSelectedLayoutSegment();
-  if (segment === "astrologer") return children;
   return (
     // reducedMotion="user": people who prefer reduced motion get plain opacity changes, no movement.
     <MotionConfig reducedMotion="user">
@@ -49,5 +46,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <SiteFooter />
       </div>
     </MotionConfig>
+  );
+}
+
+/** The astrologer console (/astrologer) has its own header and footer, so it skips the customer frame. */
+function ShellSwitch({ children }: { children: React.ReactNode }) {
+  const segment = useSelectedLayoutSegment();
+  if (segment === "astrologer") return <>{children}</>;
+  return <Frame>{children}</Frame>;
+}
+
+export default function AppShell({ children }: { children: React.ReactNode }) {
+  // useSelectedLayoutSegment() suspends under Cache Components on routes with request-time params
+  // (e.g. the [...rest] catch-all), so it must sit inside <Suspense>. The fallback is the customer frame.
+  return (
+    <Suspense fallback={<Frame>{children}</Frame>}>
+      <ShellSwitch>{children}</ShellSwitch>
+    </Suspense>
   );
 }
