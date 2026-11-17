@@ -61,6 +61,7 @@ const text = defineMessages({
     declineFailed: "ग्राहक को हटाया नहीं जा सका। फिर कोशिश करें।",
     activeTitle: "चल रही चैट",
     openChat: "चैट खोलें",
+    goChats: "चैट पर जाएं",
     chatInProgress: "चैट चल रही है",
     emptyNone: "अभी कोई प्रतीक्षा में नहीं है",
     emptyNoneBody: "नया अनुरोध आते ही यहाँ दिखेगा।",
@@ -134,6 +135,7 @@ const text = defineMessages({
     declineFailed: "Could not remove this customer. Please try again.",
     activeTitle: "Chats in progress",
     openChat: "Open chat",
+    goChats: "Go to chats",
     chatInProgress: "Chat in progress",
     emptyNone: "No one is waiting",
     emptyNoneBody: "A new request will show up here as soon as it comes.",
@@ -462,6 +464,10 @@ export default function HomeView() {
                   {empty.cta}
                 </button>
               )}
+              <Link href="/astrologer/session" className="ah-tap mt-2 inline-flex h-[50px] items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
+                <Icon name="chat" size={18} />
+                {t.goChats}
+              </Link>
             </div>
           )}
         </section>
