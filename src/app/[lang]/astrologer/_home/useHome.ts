@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useAstrologer } from "../_console/useAstrologer";
+import { ApiError } from "@/lib/api";
 import { findSession } from "@/lib/services/chat";
 import { globalChannel } from "@/lib/services/realtime";
 import { useRealtimeChannel } from "@/lib/services/useRealtime";
@@ -11,14 +12,18 @@ import {
   getCallWaitlist,
   getChatQueue,
   getRating,
+  getRemovalsToday,
   getStatus,
   getToday,
   getWorkday,
+  REMOVAL_LIMIT_CODE,
   removeFromCallWaitlist,
+  removeQueuedChat,
   sendPresence,
   setDnd,
   type AstrologerPresence,
   type Booking,
+  type RemovalsToday,
   type Today,
   type Waiting,
   type Workday,
@@ -60,7 +65,6 @@ export function useHome() {
   const [pending, setPending] = useState(false);
   const [switchError, setSwitchError] = useState(false);
   const [autoOffline, setAutoOffline] = useState(false);
-  const [declineError, setDeclineError] = useState(false);
   const [arrivals, setArrivals] = useState<Waiting[]>([]);
   const [sessions, setSessions] = useState<Record<string, string | null>>({});
 
@@ -180,18 +184,47 @@ export function useHome() {
   }, [id, active, sessions]);
   const activeList: ActiveChat[] = active.map((b) => ({ booking: b, chatId: sessions[b.userId] ?? null }));
 
-  const decline = useCallback(
-    async (w: Waiting) => {
-      if (!id || w.kind !== "call") return;
-      setDeclineError(false);
+  // Removing a customer: ask for a reason first (`removing` is the open dialog), then send it.
+  const [removing, setRemoving] = useState<Waiting | null>(null);
+  const [removals, setRemovals] = useState<RemovalsToday | null>(null);
+  const [removeBusy, setRemoveBusy] = useState(false);
+  const [removeError, setRemoveError] = useState<"failed" | "limit" | null>(null);
+  const [removedName, setRemovedName] = useState<string | null>(null);
+
+  const askRemove = useCallback(
+    (w: Waiting) => {
+      if (!id) return;
+      setRemoving(w);
+      setRemoveError(null);
+      setRemovals(null);
+      void getRemovalsToday(id).then(setRemovals);
+    },
+    [id],
+  );
+  const cancelRemove = useCallback(() => {
+    if (!removeBusy) setRemoving(null);
+  }, [removeBusy]);
+  const confirmRemove = useCallback(
+    async (reason: string) => {
+      if (!id || !removing || removeBusy) return;
+      setRemoveBusy(true);
+      setRemoveError(null);
       try {
-        await removeFromCallWaitlist(id, w.userId);
+        if (removing.kind === "call") await removeFromCallWaitlist(id, removing.userId, reason);
+        else if (removing.bookingId) await removeQueuedChat(removing.bookingId, reason);
+        setRemovedName(removing.name);
+        setRemoving(null);
         await reloadWaiting();
-      } catch {
-        setDeclineError(true);
+      } catch (e) {
+        if (e instanceof ApiError && e.code === REMOVAL_LIMIT_CODE) {
+          setRemoveError("limit");
+          void getRemovalsToday(id).then(setRemovals);
+        } else setRemoveError("failed");
+      } finally {
+        setRemoveBusy(false);
       }
     },
-    [id, reloadWaiting],
+    [id, removing, removeBusy, reloadWaiting],
   );
 
   return {
@@ -210,9 +243,16 @@ export function useHome() {
     pending,
     switchError,
     autoOffline,
-    declineError,
     setMode,
-    decline,
+    removing,
+    removals,
+    removeBusy,
+    removeError,
+    removedName,
+    dismissRemoved: () => setRemovedName(null),
+    askRemove,
+    cancelRemove,
+    confirmRemove,
     retry: () => {
       void reloadStatus();
       void reloadWorkday();

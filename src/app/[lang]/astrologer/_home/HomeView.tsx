@@ -5,7 +5,7 @@ import Link from "@/i18n/Link";
 import { INTL_LOCALE } from "@/i18n/config";
 import { defineMessages } from "@/i18n/messages";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
-import { nextBooking, type Waiting } from "@/lib/services/astrologerHome";
+import { REMOVAL_MIN_DESCRIPTION, nextBooking, removalReasonText, type RemovalReason, type Waiting } from "@/lib/services/astrologerHome";
 import { useAstrologer } from "../_console/useAstrologer";
 import { Ornament, PageTitle } from "../_console/ui";
 import Icon, { type IconName } from "./icons";
@@ -55,10 +55,27 @@ const text = defineMessages({
     waitedMin: (n: number) => `${n} मिनट से`,
     waitedSec: (n: number) => `${n} सेकंड से`,
     waitedHr: (h: number, m: number) => `${h} घंटे ${m} मिनट से`,
-    decline: "मना करें",
+    decline: "हटाएँ",
+    removeTitle: (n: string) => `${n} को हटाएँ?`,
+    removeCallBody: "इन्हें आपकी प्रतीक्षा सूची से हटा दिया जाएगा और सूचित किया जाएगा। कोई शुल्क नहीं।",
+    removeChatBody: "इनकी चैट अभी शुरू नहीं हुई है। यह रद्द होगी, पूरा पैसा लौटाया जाएगा और इन्हें बताया जाएगा कि हटा दिया गया है।",
+    reasonAsk: "आप इन्हें क्यों हटा रहे हैं?",
+    reasonBehaviour: "अनुचित व्यवहार",
+    reasonOther: "अन्य कारण",
+    describeBehaviour: "बताइए क्या हुआ",
+    describeOther: "कारण लिखें",
+    reasonShown: "ग्राहक को यह कारण दिखेगा।",
+    reasonShort: "कम से कम 5 अक्षर लिखें।",
+    removalsLeft: (n: number, l: number) => `आज आप ${n} और को हटा सकते हैं (रोज़ की सीमा ${l})।`,
+    limitReached: "आज की सीमा पूरी हो गई। आधी रात के बाद फिर से हटा सकेंगे।",
+    keep: "रहने दें",
+    removeNow: "हटाएँ",
+    removing: "हटा रहे हैं…",
+    removedOk: (n: string) => `${n} को प्रतीक्षा सूची से हटा दिया गया।`,
+    close: "बंद करें",
     callInApp: "कॉल का उत्तर AstroShrine ऐप में दें।",
     chatAuto: "चैट अपने आप शुरू होती है, जब आप खाली होते हैं।",
-    declineFailed: "ग्राहक को हटाया नहीं जा सका। फिर कोशिश करें।",
+    declineFailed: "हटाया नहीं जा सका। फिर कोशिश करें।",
     activeTitle: "चल रही चैट",
     openChat: "चैट खोलें",
     goChats: "चैट पर जाएं",
@@ -129,10 +146,27 @@ const text = defineMessages({
     waitedMin: (n) => `${n} min`,
     waitedSec: (n) => `${n} sec`,
     waitedHr: (h, m) => `${h} hr ${m} min`,
-    decline: "Decline",
+    decline: "Remove",
+    removeTitle: (n) => `Remove ${n}?`,
+    removeCallBody: "They will be taken off your waitlist and told. Nothing is charged.",
+    removeChatBody: "Their chat has not started yet. It will be cancelled and fully refunded, and they will be told they were removed.",
+    reasonAsk: "Why are you removing them?",
+    reasonBehaviour: "Inappropriate behaviour",
+    reasonOther: "Other reason",
+    describeBehaviour: "Describe what happened",
+    describeOther: "Write the reason",
+    reasonShown: "The customer will see this reason.",
+    reasonShort: "Write at least 5 characters.",
+    removalsLeft: (n, l) => `You can remove ${n} more today (limit ${l} a day).`,
+    limitReached: "You have reached today's limit. You can remove again after midnight.",
+    keep: "Keep",
+    removeNow: "Remove",
+    removing: "Removing…",
+    removedOk: (n) => `${n} was removed from your waitlist.`,
+    close: "Close",
     callInApp: "Answer calls in the AstroShrine app.",
     chatAuto: "Chats start by themselves when you are free.",
-    declineFailed: "Could not remove this customer. Please try again.",
+    declineFailed: "Could not remove. Please try again.",
     activeTitle: "Chats in progress",
     openChat: "Open chat",
     goChats: "Go to chats",
@@ -219,6 +253,85 @@ function Notice({ children, action, tone = "error" }: { children: React.ReactNod
     >
       <span>{children}</span>
       {action}
+    </div>
+  );
+}
+
+type Home = ReturnType<typeof useHome>;
+type Strings = (typeof text)["en"];
+
+/** Asks why a waiting customer is being removed; the reason is kept for the admin panel and shown to the customer. */
+function RemoveDialog({ t, home, name }: { t: Strings; home: Home; name: string }) {
+  const w = home.removing!;
+  const [picked, setPicked] = useState<RemovalReason | null>(null);
+  const [text, setText] = useState("");
+  const left = home.removals?.left ?? null;
+  const limitHit = left === 0 || home.removeError === "limit";
+  const long = text.replace(/\s+/g, " ").trim().length >= REMOVAL_MIN_DESCRIPTION;
+  const ready = !limitHit && !home.removeBusy && picked !== null && long;
+  const { cancelRemove } = home;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && cancelRemove();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [cancelRemove]);
+  const opts: [RemovalReason, string][] = [
+    ["behaviour", t.reasonBehaviour],
+    ["other", t.reasonOther],
+  ];
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 sm:items-center" onClick={home.cancelRemove}>
+      <div role="dialog" aria-modal="true" aria-labelledby="rm-title" onClick={(e) => e.stopPropagation()} className="max-h-full w-full max-w-[480px] overflow-y-auto rounded-[22px] border border-line bg-surface-card p-6 shadow-xl">
+        <h2 id="rm-title" className="font-display text-2xl font-bold">
+          {t.removeTitle(name)}
+        </h2>
+        <p className="mt-2 text-[15px] text-ink-soft">{w.kind === "call" ? t.removeCallBody : t.removeChatBody}</p>
+        <fieldset className="mt-5">
+          <legend className="text-sm font-semibold">{t.reasonAsk}</legend>
+          <div className="mt-2 flex flex-col gap-2">
+            {opts.map(([key, label]) => (
+              <label key={key} className={`flex cursor-pointer items-center gap-3 rounded-[14px] border px-4 py-3 text-[15px] font-semibold ${picked === key ? "border-brand bg-surface-sunken" : "border-line-strong"}`}>
+                <input type="radio" name="reason" checked={picked === key} onChange={() => setPicked(key)} className="accent-[var(--color-brand-strong)]" />
+                {label}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        {picked && (
+          <div className="mt-3">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={3}
+              maxLength={300}
+              aria-label={picked === "behaviour" ? t.describeBehaviour : t.describeOther}
+              placeholder={picked === "behaviour" ? t.describeBehaviour : t.describeOther}
+              className="w-full rounded-[14px] border border-line-strong bg-surface-page px-3.5 py-3 text-base"
+            />
+            <p className="mt-1 text-[13px] text-ink-soft">{text.trim() && !long ? t.reasonShort : t.reasonShown}</p>
+          </div>
+        )}
+        {limitHit ? (
+          <div className="mt-4">
+            <Notice>{t.limitReached}</Notice>
+          </div>
+        ) : (
+          home.removals && left !== null && <p className="mt-3 text-[13px] text-ink-soft">{t.removalsLeft(left, home.removals.limit)}</p>
+        )}
+        {home.removeError === "failed" && (
+          <div className="mt-4">
+            <Notice>{t.declineFailed}</Notice>
+          </div>
+        )}
+        <div className="mt-6 flex justify-end gap-3">
+          <button type="button" onClick={home.cancelRemove} disabled={home.removeBusy} className="ah-tap h-12 rounded-[14px] border-[1.5px] border-ink px-5 text-[15px] font-bold disabled:opacity-60">
+            {t.keep}
+          </button>
+          <button type="button" disabled={!ready} onClick={() => picked && home.confirmRemove(removalReasonText(picked, text))} className="ah-tap h-12 rounded-[14px] bg-danger px-5 text-[15px] font-bold text-white disabled:opacity-50">
+            {home.removeBusy ? t.removing : t.removeNow}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -400,9 +513,11 @@ export default function HomeView() {
             </div>
             {home.waitingLoaded && <Pill className={showWaiting ? "bg-surface-inverse text-brand" : "bg-neutral-soft text-ink-soft"}>{t.nWaiting(n)}</Pill>}
           </div>
-          {home.declineError && (
+          {home.removedName !== null && (
             <div className="mt-4">
-              <Notice>{t.declineFailed}</Notice>
+              <Notice tone="info" action={<button type="button" onClick={home.dismissRemoved} className="ah-tap h-9 rounded-xl border border-line-strong px-3.5 text-sm font-bold">{t.close}</button>}>
+                {t.removedOk(home.removedName || t.customer)}
+              </Notice>
             </div>
           )}
           {home.waitingFailed && (
@@ -443,8 +558,8 @@ export default function HomeView() {
                       </div>
                       <p className="mt-2.5 text-sm text-ink-soft">{w.kind === "call" ? t.callInApp : t.chatAuto}</p>
                     </div>
-                    {w.kind === "call" && (
-                      <button type="button" onClick={() => home.decline(w)} className="ah-tap inline-flex h-12 flex-none items-center justify-center rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
+                    {(w.kind === "call" || w.bookingId) && (
+                      <button type="button" onClick={() => home.askRemove(w)} className="ah-tap inline-flex h-12 flex-none items-center justify-center rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
                         {t.decline}
                       </button>
                     )}
@@ -471,6 +586,7 @@ export default function HomeView() {
             </div>
           )}
         </section>
+        {home.removing && <RemoveDialog t={t} home={home} name={display(home.removing)} />}
 
         <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-7">
           <section aria-labelledby="td" className="ah-rise ah-card rounded-[22px] border border-line bg-surface-card p-5 sm:p-[26px]" style={{ animationDelay: ".18s" }}>

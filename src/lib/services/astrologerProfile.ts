@@ -156,3 +156,12 @@ export async function getReviews(id: string, signal?: AbortSignal): Promise<Revi
     .sort((a, b) => b.ts - a.ts)
     .slice(0, 10);
 }
+
+/** POST /v1/astrologer/:id/profile/review/reply/:userId/:ts {message}: a public reply under one review. */
+export function replyToReview(id: string, review: Review, message: string) {
+  const userId = review.key.slice(review.key.indexOf("#") + 1);
+  return api<unknown>(`/v1/astrologer/${encodeURIComponent(id)}/profile/review/reply/${encodeURIComponent(userId)}/${review.ts}`, {
+    method: "POST",
+    body: { message },
+  });
+}

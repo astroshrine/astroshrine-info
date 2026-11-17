@@ -21,6 +21,7 @@ import {
   getOwnAstrologer,
   getReviews,
   getWorkday,
+  replyToReview,
   nextPricingChange,
   saveProfile,
   savePricing,
@@ -97,6 +98,13 @@ const text = defineMessages({
     reviewsTitle: "हाल की समीक्षाएँ",
     noReviews: "अभी कोई समीक्षा नहीं।",
     reply: "आपका उत्तर",
+    replyBtn: "उत्तर दें",
+    replyLabel: "सार्वजनिक उत्तर",
+    replyHint: "आपका उत्तर प्रोफ़ाइल पर सबको दिखेगा।",
+    replySend: "उत्तर भेजें",
+    replySending: "भेज रहे हैं…",
+    replyCancel: "रद्द करें",
+    replyEmpty: "उत्तर लिखें।",
     account: "खाता",
     help: "उपयोग कैसे करें",
     helpSub: "सहायता और अक्सर पूछे जाने वाले प्रश्न",
@@ -168,6 +176,13 @@ const text = defineMessages({
     reviewsTitle: "Recent reviews",
     noReviews: "No reviews yet.",
     reply: "Your reply",
+    replyBtn: "Reply",
+    replyLabel: "Public reply",
+    replyHint: "Your reply is shown to everyone on your profile.",
+    replySend: "Send reply",
+    replySending: "Sending…",
+    replyCancel: "Cancel",
+    replyEmpty: "Write a reply.",
     account: "Account",
     help: "How to use",
     helpSub: "Help and common questions",
@@ -189,6 +204,94 @@ const Text = ({ children, className }: { children: string; className?: string })
 
 const list = (v: string) => [...new Set(v.split(/[,،，\n]/).map((s) => s.trim()).filter(Boolean))];
 const whole = (v: string) => (/^\d+$/.test(v.trim()) ? Number(v.trim()) : NaN);
+
+const REPLY_MAX = 500;
+
+/** One review with the astrologer's public reply: shown when there is one, otherwise a form to write it. */
+function ReviewItem({ review: r, id, t, intl }: { review: Review; id: string; t: T; intl: string }) {
+  const [reply, setReply] = useState(r.reply);
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = draft.trim();
+    if (!message) return setError(t.replyEmpty);
+    setBusy(true);
+    setError("");
+    try {
+      await replyToReview(id, r, message);
+      setReply(message);
+      setOpen(false);
+    } catch (err) {
+      setError(messageOf(err, t.genericError));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <li className="py-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="font-bold">
+          <Text>{r.reviewer}</Text>
+        </span>
+        <span className="text-brand-strong" role="img" aria-label={`${r.rating} / 5`}>
+          {"★".repeat(r.rating)}
+          <span className="text-line-strong">{"★".repeat(5 - r.rating)}</span>
+        </span>
+        <span className="text-sm text-ink-soft">{new Intl.DateTimeFormat(intl, { day: "numeric", month: "short", year: "numeric" }).format(r.ts)}</span>
+      </div>
+      {r.comment && (
+        <p className="mt-1 text-[15px]">
+          <Text>{r.comment}</Text>
+        </p>
+      )}
+      {reply ? (
+        <p className="mt-2 rounded-xl bg-surface-sunken p-3 text-[15px]">
+          <span className="font-semibold">{t.reply}: </span>
+          <Text>{reply}</Text>
+        </p>
+      ) : open ? (
+        <form onSubmit={send} noValidate className="mt-3 flex flex-col gap-2">
+          <label htmlFor={`rv-${r.key}`} className={labelClass}>
+            {t.replyLabel}
+          </label>
+          <textarea
+            id={`rv-${r.key}`}
+            className={`${fieldClass} h-24 py-3`}
+            value={draft}
+            maxLength={REPLY_MAX}
+            onChange={(e) => setDraft(e.target.value)}
+            aria-describedby={`rv-${r.key}-hint`}
+          />
+          <p id={`rv-${r.key}-hint`} className="text-sm text-ink-soft">
+            {t.replyHint}
+          </p>
+          {error && (
+            <p role="alert" className="text-sm text-danger">
+              {error}
+            </p>
+          )}
+          <div className="flex gap-3">
+            <Button type="submit" size="sm" disabled={busy}>
+              {busy ? t.replySending : t.replySend}
+            </Button>
+            <Button variant="line" size="sm" disabled={busy} onClick={() => setOpen(false)}>
+              {t.replyCancel}
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <Button variant="ghost" size="sm" className="mt-2 -ml-2" onClick={() => setOpen(true)}>
+          {t.replyBtn}
+        </Button>
+      )}
+    </li>
+  );
+}
 
 type Load = { id: string; status: "ready"; me: OwnAstrologer; workday: Workday | null; reviews: Review[] } | { id: string; status: "error" };
 
@@ -324,29 +427,7 @@ export default function ProfileView() {
         ) : (
           <ul className="mt-4 divide-y divide-line">
             {reviews.map((r) => (
-              <li key={r.key} className="py-4">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">
-                    <Text>{r.reviewer}</Text>
-                  </span>
-                  <span className="text-brand-strong" role="img" aria-label={`${r.rating} / 5`}>
-                    {"★".repeat(r.rating)}
-                    <span className="text-line-strong">{"★".repeat(5 - r.rating)}</span>
-                  </span>
-                  <span className="text-sm text-ink-soft">{new Intl.DateTimeFormat(intl, { day: "numeric", month: "short", year: "numeric" }).format(r.ts)}</span>
-                </div>
-                {r.comment && (
-                  <p className="mt-1 text-[15px]">
-                    <Text>{r.comment}</Text>
-                  </p>
-                )}
-                {r.reply && (
-                  <p className="mt-2 rounded-xl bg-surface-sunken p-3 text-[15px]">
-                    <span className="font-semibold">{t.reply}: </span>
-                    <Text>{r.reply}</Text>
-                  </p>
-                )}
-              </li>
+              <ReviewItem key={r.key} review={r} id={me.id} t={t} intl={intl} />
             ))}
           </ul>
         )}

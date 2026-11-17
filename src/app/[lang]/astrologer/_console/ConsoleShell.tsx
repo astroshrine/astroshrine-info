@@ -4,7 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { MotionConfig } from "framer-motion";
-import { PiCaretDown, PiHouse, PiPower, PiQuestion, PiShieldCheck, PiStar, PiUserCircle, PiWallet } from "react-icons/pi";
+import {
+  PiBell,
+  PiCalendarBlank,
+  PiCaretDown,
+  PiGraduationCap,
+  PiHeadset,
+  PiHouse,
+  PiLeaf,
+  PiNewspaper,
+  PiPower,
+  PiQuestion,
+  PiShieldCheck,
+  PiStar,
+  PiTag,
+  PiUserCircle,
+  PiUsersThree,
+  PiWallet,
+} from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import Link from "@/i18n/Link";
@@ -25,6 +42,16 @@ const text = defineMessages({
     earnings: "कमाई",
     profile: "प्रोफ़ाइल",
     help: "सहायता",
+    more: "और",
+    moreMenu: "और विकल्प",
+    schedule: "समय-सारणी",
+    clients: "ग्राहक",
+    remedies: "उपाय",
+    coupons: "कूपन",
+    articles: "लेख",
+    notifications: "सूचनाएँ",
+    supportPage: "सपोर्ट",
+    learn: "सीखें",
     online: "ऑनलाइन",
     offline: "ऑफ़लाइन",
     checking: "जाँच हो रही है…",
@@ -55,6 +82,16 @@ const text = defineMessages({
     earnings: "Earnings",
     profile: "Profile",
     help: "Help",
+    more: "More",
+    moreMenu: "More options",
+    schedule: "Schedule",
+    clients: "Clients",
+    remedies: "Remedies",
+    coupons: "Coupons",
+    articles: "Articles",
+    notifications: "Notifications",
+    supportPage: "Support",
+    learn: "Learn",
     online: "Online",
     offline: "Offline",
     checking: "Checking…",
@@ -107,10 +144,104 @@ function OnlinePill({ id }: { id: string }) {
 }
 
 /** Which nav link is current, from the first path segment under /astrologer (null is the console home). */
-function navKey(segment: string | null): "home" | "earnings" | "profile" | "help" | null {
+const MORE_KEYS = ["schedule", "clients", "remedies", "coupons", "articles", "notifications", "support", "learn"] as const;
+type MoreKey = (typeof MORE_KEYS)[number];
+
+function navKey(segment: string | null): "home" | "earnings" | "profile" | "help" | MoreKey | null {
   if (segment === null) return "home";
   if (segment === "earnings" || segment === "profile" || segment === "help") return segment;
-  return null;
+  return (MORE_KEYS as readonly string[]).includes(segment) ? (segment as MoreKey) : null;
+}
+
+/** "More": a menu button with the console's other pages. Arrow keys move, Escape closes and returns focus to the button. */
+function MoreMenu({ current }: { current: ReturnType<typeof navKey> }) {
+  const t = useT(text);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+  const items = [
+    { key: "schedule", label: t.schedule, icon: PiCalendarBlank },
+    { key: "clients", label: t.clients, icon: PiUsersThree },
+    { key: "remedies", label: t.remedies, icon: PiLeaf },
+    { key: "coupons", label: t.coupons, icon: PiTag },
+    { key: "articles", label: t.articles, icon: PiNewspaper },
+    { key: "notifications", label: t.notifications, icon: PiBell },
+    { key: "support", label: t.supportPage, icon: PiHeadset },
+    { key: "learn", label: t.learn, icon: PiGraduationCap },
+  ] as const;
+  const active = items.some((i) => i.key === current);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: PointerEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onFocus = (e: FocusEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("focusin", onFocus);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("focusin", onFocus);
+    };
+  }, [open]);
+
+  const entries = () => Array.from(ref.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []);
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape" && open) {
+      e.preventDefault();
+      setOpen(false);
+      button.current?.focus();
+      return;
+    }
+    const keys = ["ArrowDown", "ArrowUp", "Home", "End"];
+    if (!keys.includes(e.key)) return;
+    e.preventDefault();
+    if (!open) setOpen(true);
+    requestAnimationFrame(() => {
+      const list = entries();
+      if (!list.length) return;
+      const at = list.indexOf(document.activeElement as HTMLElement);
+      const next = e.key === "Home" ? 0 : e.key === "End" ? list.length - 1 : e.key === "ArrowDown" ? (at + 1) % list.length : (at <= 0 ? list.length : at) - 1;
+      list[next].focus();
+    });
+  };
+
+  return (
+    <div ref={ref} className="relative" onKeyDown={onKeyDown}>
+      <button
+        ref={button}
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label={t.moreMenu}
+        onClick={() => setOpen((o) => !o)}
+        className={`group relative inline-flex cursor-pointer items-center gap-2 py-3 ${active ? "font-bold" : ""}`}
+      >
+        {t.more}
+        <PiCaretDown className={`h-4 w-4 transition ${open ? "rotate-180" : ""}`} aria-hidden />
+        <span aria-hidden className={`absolute bottom-1 h-0.5 bg-brand transition-all duration-200 ${active ? "left-0 w-full" : "left-1/2 w-0 group-hover:left-0 group-hover:w-full"}`} />
+      </button>
+      {open && (
+        <div role="menu" aria-label={t.moreMenu} className="absolute left-0 top-12 z-30 w-[240px] max-w-[calc(100vw-40px)] rounded-[18px] border border-line bg-surface-card p-2 shadow-[0_24px_44px_-22px_rgba(20,33,61,0.5)]">
+          {items.map(({ key, label, icon: Icon }) => (
+            <Link
+              key={key}
+              role="menuitem"
+              href={`/astrologer/${key}`}
+              aria-current={current === key ? "page" : undefined}
+              onClick={() => setOpen(false)}
+              className={`flex h-11 items-center gap-2.5 rounded-xl px-3 text-[15px] font-semibold transition hover:bg-surface-sunken focus-visible:bg-surface-sunken ${current === key ? "bg-surface-sunken font-bold text-brand-strong" : ""}`}
+            >
+              <Icon className="h-5 w-5" aria-hidden />
+              {label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /** EN / हिं: two links to the same page in each language; the current one is filled. */
@@ -337,6 +468,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
                   </Link>
                 );
               })}
+              <MoreMenu current={current} />
             </nav>
           )}
           <span className={auth ? "flex-1" : "hidden"} />

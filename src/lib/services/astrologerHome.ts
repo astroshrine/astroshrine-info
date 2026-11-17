@@ -71,6 +71,8 @@ export type Waiting = {
   kind: WaitingKind;
   /** The customer's user id. */
   userId: string;
+  /** Chat queue only: the paid chat's booking id (what removing the customer ends). */
+  bookingId: string | null;
   name: string;
   photo: string | null;
   /** Epoch ms the customer started waiting, null when the backend did not say. */
@@ -102,6 +104,7 @@ export async function getChatQueue(signal?: AbortSignal): Promise<Waiting[]> {
       key: `chat-${i.bookingId}`,
       kind: "chat" as const,
       userId: i.userId ?? "",
+      bookingId: i.bookingId ?? null,
       name: i.user?.name?.trim() || "",
       photo: i.user?.avatar_url || null,
       since: typeof i.waitingSinceMs === "number" ? i.waitingSinceMs : typeof i.waitedMs === "number" ? now - i.waitedMs : null,
@@ -121,6 +124,7 @@ export async function getCallWaitlist(id: string, signal?: AbortSignal): Promise
       key: `call-${r.id}`,
       kind: "call" as const,
       userId: r.id!,
+      bookingId: null,
       name: r.name?.trim() || "",
       photo: null,
       since: typeof r.waitlistJoinTs === "number" ? r.waitlistJoinTs : null,
@@ -129,9 +133,41 @@ export async function getCallWaitlist(id: string, signal?: AbortSignal): Promise
     }));
 }
 
-/** DELETE /v1/channel/call/:id/waitlist/:userId: the astrologer removes a customer from their own waitlist. */
-export function removeFromCallWaitlist(astrologerId: string, userId: string) {
-  return api<unknown>(`/v1/channel/call/${enc(astrologerId)}/waitlist/${enc(userId)}`, { method: "DELETE" });
+/** DELETE /v1/channel/call/:id/waitlist/:userId {reason}: the astrologer removes a customer from their own waitlist. */
+export function removeFromCallWaitlist(astrologerId: string, userId: string, reason: string) {
+  return api<unknown>(`/v1/channel/call/${enc(astrologerId)}/waitlist/${enc(userId)}`, { method: "DELETE", body: { reason } });
+}
+
+/** POST /v1/booking/chat/:id/end: the astrologer takes a waiting chat off their line (the customer is refunded in full). */
+export function removeQueuedChat(bookingId: string, reason: string) {
+  return api<unknown>(`/v1/booking/chat/${enc(bookingId)}/end`, { method: "POST", body: { reason: "REMOVED_BY_ASTROLOGER", removalReason: reason } });
+}
+
+export type RemovalsToday = { used: number; limit: number; left: number | null };
+
+/** GET /v1/channel/call/:id/waitlist/removal-reasons: how many removals are left today. null when the backend does not say. */
+export async function getRemovalsToday(id: string, signal?: AbortSignal): Promise<RemovalsToday | null> {
+  try {
+    const r = await api<{ removalsToday?: { used?: number; limit?: number; left?: number | null } | null }>(`/v1/channel/call/${enc(id)}/waitlist/removal-reasons`, { signal });
+    const t = r?.removalsToday;
+    if (!t || !Number.isFinite(Number(t.limit))) return null;
+    return { used: Number(t.used) || 0, limit: Number(t.limit), left: typeof t.left === "number" ? t.left : null };
+  } catch {
+    return null;
+  }
+}
+
+/** The backend answers 429 with this code once the day's removals are used up. */
+export const REMOVAL_LIMIT_CODE = "REMOVAL_LIMIT_REACHED";
+
+/** The two reasons the astrologer app offers. Either way the astrologer describes what happened (5 characters at least). */
+export type RemovalReason = "behaviour" | "other";
+export const REMOVAL_MIN_DESCRIPTION = 5;
+
+/** What is sent: "Inappropriate behaviour: <text>" (English label, for the admin panel) or just the text. */
+export function removalReasonText(picked: RemovalReason, description: string): string {
+  const d = description.replace(/\s+/g, " ").trim();
+  return picked === "other" ? d : `Inappropriate behaviour: ${d}`;
 }
 
 // ─── Today ───────────────────────────────────────────────────────────────────────────────────────
