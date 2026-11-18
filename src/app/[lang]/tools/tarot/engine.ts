@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 // Ported from the AstroShrine app (tarotHtml.ts, @engine-start..@engine-end): pure maths and content tables.
-import { PHAL, PRAVRITTI, PHAL_CLS, BAL, BAL_ORDER, balShift, PRAMAAN, shastra, reason, MINOR_BLOCK, HEALTH_NOTE, HEALTH_KAAL_NULL, ym, ageOn } from "./phalEngine";
+import { PHAL, PRAVRITTI, PHAL_CLS, BAL, BAL_ORDER, balShift, PRAMAAN, shastra, reason, MINOR_BLOCK, HEALTH_NOTE, HEALTH_KAAL_NULL, ym, ageOn } from "../numerology/phalEngine";
 
 
 /* ---------- Deck ---------- */
