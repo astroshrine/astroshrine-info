@@ -1056,6 +1056,7 @@ export default function WelcomeView() {
                     </span>
                     <span aria-hidden="true" className="halo" style={{width:"360px",height:"360px",left:"50%",top:"50%",margin:"-180px 0 0 -180px"}}>
                     </span>
+                    <Image src="/pandit-app.webp" alt="" width={900} height={614} sizes="(min-width: 1100px) 560px, 90vw" />
                     <svg className="spk" width="22" height="22" viewBox="0 0 26 26" aria-hidden="true" style={{left:"6%",top:"16%"}}>
                       <path d="M13 1.5 15.4 10.6 24.5 13 15.4 15.4 13 24.5 10.6 15.4 1.5 13 10.6 10.6Z" fill="#FFAE00" />
                     </svg>
