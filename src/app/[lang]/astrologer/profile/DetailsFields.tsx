@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { PiCamera, PiCheck, PiPlus, PiUser } from "react-icons/pi";
+import { PiCheck, PiClock, PiPlus, PiUploadSimple, PiUser } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { ApiError } from "@/lib/api";
@@ -71,9 +71,12 @@ export function canonical(list: { value: string }[], v: string) {
 }
 
 /** What to show for a stored value in the current language. */
+/** Display only: "Vedic Astrology" reads "Vedic astrology"; all-caps words such as KP stay. */
+const sentence = (v: string) => v.replace(/\b([A-Z][a-z]+)\b/g, (w, _m, i) => (i === 0 ? w : w.toLowerCase()));
+
 export function labelOf(list: { value: string; hi: string }[], v: string, hi: boolean) {
   const hit = list.find((o) => same(o.value, v));
-  return hit ? (hi ? hit.hi : hit.value) : v;
+  return hit ? (hi ? hit.hi : sentence(hit.value)) : v;
 }
 
 export const fieldText = defineMessages({
@@ -219,7 +222,7 @@ export function PhotoField({ id, photo, name, onDone }: { id: string; photo: str
         <p className="mb-2.5 mt-0.5 text-[13.5px] text-ink-soft">{t.photoHelp}</p>
         <input ref={input} type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" id={`photo-${id}`} aria-label={t.photoTitle} onChange={(e) => void pick(e.target.files?.[0])} />
         <Button size="sm" disabled={busy} onClick={() => input.current?.click()}>
-          <PiCamera size={17} className="text-brand" aria-hidden="true" />
+          <PiUploadSimple size={17} className="text-brand" aria-hidden="true" />
           {busy ? t.uploading : photo ? t.change : t.upload}
         </Button>
         {note && (
@@ -246,17 +249,9 @@ export function ChipPicker({
 }) {
   const t = useT(fieldText);
   const hi = useLocale() === "hi";
-  const [extra, setExtra] = useState("");
   // Everything shown: the presets, then anything chosen that is not a preset (an older or typed entry).
   const custom = value.filter((v) => !choices.some((c) => same(c.value, v)));
   const toggle = (v: string) => onChange(value.some((x) => same(x, v)) ? value.filter((x) => !same(x, v)) : [...value, v]);
-  const add = () => {
-    const v = extra.trim();
-    if (!v) return;
-    if (!value.some((x) => same(x, v))) onChange([...value, canonical(choices, v)]);
-    setExtra("");
-  };
-
   const chip = (v: string, shown: string) => {
     const on = value.some((x) => same(x, v));
     return (
@@ -278,28 +273,10 @@ export function ChipPicker({
   return (
     <fieldset className="flex flex-col gap-2.5">
       <legend className={labelClass}>{label}</legend>
-      <p className="-mt-1 text-[13.5px] text-ink-soft">{t.pick}</p>
+      <p className="mt-0.5 text-[13.5px] text-ink-soft">{t.pick}</p>
       <div className="flex flex-wrap gap-2">
-        {choices.map((c) => chip(c.value, hi ? c.hi : c.value))}
+        {choices.map((c) => chip(c.value, labelOf(choices, c.value, hi)))}
         {custom.map((v) => chip(v, v))}
-      </div>
-      <div className="flex max-w-md gap-2">
-        <input
-          className={`${fieldClass} h-11`}
-          value={extra}
-          placeholder={t.other}
-          aria-label={`${label}: ${t.other}`}
-          onChange={(e) => setExtra(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              add();
-            }
-          }}
-        />
-        <Button variant="line" size="sm" onClick={add}>
-          {t.add}
-        </Button>
       </div>
     </fieldset>
   );
@@ -310,24 +287,23 @@ export function DetailsInputs({ draft, onChange }: { draft: DetailsDraft; onChan
   const t = useT(fieldText);
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid gap-5 sm:grid-cols-[1fr_200px]">
-        <label className="flex flex-col gap-1.5">
-          <span className={labelClass}>{t.name}</span>
-          <input className={fieldClass} value={draft.name} maxLength={NAME_MAX} autoComplete="name" onChange={(e) => onChange({ name: e.target.value })} />
-        </label>
-        <label className="flex flex-col gap-1.5">
-          <span className={labelClass}>{t.experience}</span>
-          <input className={fieldClass} value={draft.experience} inputMode="numeric" onChange={(e) => onChange({ experience: e.target.value })} />
-        </label>
-      </div>
+      <label className="flex flex-col gap-1.5">
+        <span className={labelClass}>{t.name}</span>
+        <input className={fieldClass} value={draft.name} maxLength={NAME_MAX} autoComplete="name" onChange={(e) => onChange({ name: e.target.value })} />
+      </label>
       <label className="flex flex-col gap-1.5">
         <span className={labelClass}>{t.bio}</span>
         <span className="text-[13.5px] text-ink-soft">{t.bioHelp}</span>
-        <textarea className={`${fieldClass} h-36 resize-y py-3`} value={draft.about} maxLength={BIO_MAX} onChange={(e) => onChange({ about: e.target.value })} />
+        <textarea className={`${fieldClass} h-28 resize-y py-3`} value={draft.about} maxLength={BIO_MAX} onChange={(e) => onChange({ about: e.target.value })} />
         <span className="self-end text-[13px] text-ink-soft">{t.count(draft.about.length)}</span>
       </label>
       <ChipPicker label={t.expertise} choices={EXPERTISE} value={draft.expertise} onChange={(expertise) => onChange({ expertise })} />
       <ChipPicker label={t.languages} choices={LANGUAGES} value={draft.languages} onChange={(languages) => onChange({ languages })} />
+      <label className="flex items-center gap-3 rounded-[14px] bg-neutral-soft px-4 py-3 text-[15px]">
+        <PiClock size={18} className="text-brand-strong" aria-hidden="true" />
+        <span className="font-bold">{t.experience}</span>
+        <input className={`${fieldClass} h-10 !w-24`} value={draft.experience} inputMode="numeric" onChange={(e) => onChange({ experience: e.target.value })} />
+      </label>
     </div>
   );
 }

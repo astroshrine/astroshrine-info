@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PiCheckCircle, PiClock, PiInfo, PiTimer, PiPaperPlaneTilt, PiWarningCircle } from "react-icons/pi";
+import { PiCheckCircle, PiClock, PiInfo, PiLightning, PiTimer, PiPaperPlaneTilt, PiWarningCircle } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { formatClock, isPackOpen, MAX_TEXT, packEnded, type ChatMessage } from "@/lib/services/chat";
 import { Button, Card, Pill } from "../../_console/ui";
+import { dt } from "./design";
 import { text } from "./messages";
 import type { SendError, SessionChat } from "./useSessionChat";
 
@@ -19,8 +20,19 @@ const initials = (name: string) =>
     .toUpperCase();
 
 /** The live chat with the customer: the pack's clock, the real thread and a reply box. */
-export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat; selfId: string; name: string; ppUrl?: string }) {
+/** The running clock as the design shows it: "02:50 of 5 min". Null when the chat has no clock to show. */
+export function clockParts(chat: SessionChat) {
+  const { pack } = chat;
+  if (!pack?.timeBased || !isPackOpen(pack.status) || pack.expired || packEnded(pack) || pack.status === "WAITING" || pack.paused) return null;
+  const elapsed = pack.timerStarted ? (chat.elapsed ?? 0) : 0;
+  const total = pack.timerStarted ? elapsed + chat.secondsLeft : pack.secondsAllowed || 0;
+  const pad = formatClock(elapsed).replace(/^(\d):/, "0$1:");
+  return { time: pad, minutes: Math.max(1, Math.round(total / 60)) };
+}
+
+export default function Chat({ chat, selfId, name, ppUrl, place, kundliShared }: { chat: SessionChat; selfId: string; name: string; ppUrl?: string; place: string; kundliShared: boolean }) {
   const t = useT(text);
+  const d = useT(dt);
   const locale = useLocale();
   const [draft, setDraft] = useState("");
   const box = useRef<HTMLInputElement>(null);
@@ -49,41 +61,41 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
   const errorText = (e?: SendError) =>
     e === "contact" ? t.errContact : e === "noPack" ? t.errNoPack : e === "timeOver" ? t.errTimeOver : e === "tooLarge" ? t.errTooLarge : t.errOther;
 
-  const clock =
-    pack?.timeBased && open && !waiting ? (
-      pack.paused ? (
-        t.clockPaused
-      ) : !pack.timerStarted ? (
-        t.clockWaits
-      ) : (
-        t.timeLeft(formatClock(chat.secondsLeft))
-      )
-    ) : null;
+  const parts = clockParts(chat);
+  const pausedNote = pack?.timeBased && open && !waiting && pack.paused ? t.clockPaused : null;
 
   return (
-    <Card aria-label={`${t.chatLabel}: ${name}`} className="flex h-[820px] flex-none flex-col overflow-hidden">
-      <header className="flex flex-wrap items-center gap-x-3.5 gap-y-3 border-b border-line px-5 py-4">
-        {ppUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={ppUrl} alt="" className="h-[46px] w-[46px] flex-none rounded-full object-cover" />
-        ) : (
-          <div aria-hidden className="flex h-[46px] w-[46px] flex-none items-center justify-center rounded-full bg-surface-sunken font-bold text-brand-strong">
-            {initials(name) || "?"}
+    <Card id="chatbox" aria-label={`${t.chatLabel}: ${name}`} className="flex max-h-[1100px] min-h-[860px] flex-[1_1_auto] flex-col overflow-hidden">
+      <header className="border-b border-line px-5 py-4">
+        <div className="flex items-center gap-3">
+          {ppUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={ppUrl} alt="" className="h-[46px] w-[46px] flex-none rounded-full object-cover" />
+          ) : (
+            <div aria-hidden className="flex h-[46px] w-[46px] flex-none items-center justify-center rounded-full bg-surface-sunken font-bold text-brand-strong">
+              {initials(name) || "?"}
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-[17px] font-bold">{d.chatWho((name || t.customer).split(/\s+/)[0], place)}</div>
+            <div className="text-[13.5px] text-ink-soft">{chat.peerTyping ? t.typing : t.customer}</div>
           </div>
-        )}
-        <div className="min-w-0 flex-[1_1_140px]">
-          <div className="truncate text-[17px] font-bold">{name || t.customer}</div>
-          <div className="text-sm text-ink-soft">{chat.peerTyping ? t.typing : t.customer}</div>
+          {parts && (
+            <div className="flex flex-none items-center gap-2 rounded-[14px] bg-surface-sunken px-3 py-2">
+              <PiClock className="h-[18px] w-[18px] shrink-0 text-brand-strong" aria-hidden />
+              <span className="font-display text-xl font-bold leading-none tabular-nums">{parts.time}</span>
+              <span className="whitespace-nowrap text-[12.5px] text-brand-strong">{d.of(parts.minutes)}</span>
+            </div>
+          )}
+          {pausedNote && <span className="flex-none rounded-[14px] bg-surface-sunken px-3 py-2 text-sm font-bold">{pausedNote}</span>}
+          {waiting && <Pill tone="amber">{t.stWaiting}</Pill>}
+          {ended && <Pill tone="neutral">{pack?.expired ? t.timeUp : t.sessionEnded}</Pill>}
         </div>
-        {clock && (
-          <div className="flex items-center gap-2 rounded-[14px] bg-surface-sunken px-3 py-2">
-            <PiClock className="h-[18px] w-[18px] shrink-0 text-brand-strong" />
-            <span className={`${pack?.timerStarted && !pack.paused ? "font-display text-xl tabular-nums" : "text-sm"} font-bold leading-none`}>{clock}</span>
+        {kundliShared && (
+          <div className="mt-2.5 flex items-center justify-between gap-2.5 text-[13.5px]">
+            <span className="text-ink-soft">{d.kundliShared}</span>
           </div>
         )}
-        {open && !waiting && chat.elapsed !== null && <span className="text-sm font-bold tabular-nums text-success">{t.elapsed(formatClock(chat.elapsed))}</span>}
-        {waiting && <Pill tone="amber">{t.stWaiting}</Pill>}
-        {ended && <Pill tone="neutral">{pack?.expired ? t.timeUp : t.sessionEnded}</Pill>}
       </header>
       <div role="note" className="flex items-start gap-2.5 border-b border-[#F2D58A] bg-[#FFF7E3] px-[18px] py-2.5 text-[13.5px] leading-normal">
         <PiInfo className="mt-0.5 h-[17px] w-[17px] shrink-0 text-brand-strong" />
@@ -161,7 +173,31 @@ export default function Chat({ chat, selfId, name, ppUrl }: { chat: SessionChat;
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2.5 border-t border-line bg-surface-card px-[18px] pb-4 pt-3.5">
+      <div role="group" aria-label={d.qrTitle} className="border-t border-line bg-surface-card px-4 pt-2.5">
+        <div className="flex items-center gap-1.5 text-[12.5px] font-bold text-brand-strong">
+          <PiLightning className="h-[13px] w-[13px]" aria-hidden />
+          {d.qrTitle} <span className="font-medium text-ink-soft">· {d.qrSub}</span>
+        </div>
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {d.qr.map((q, i) => (
+            <button
+              key={q}
+              type="button"
+              title={q}
+              disabled={!canSend}
+              onClick={() => {
+                setDraft(q);
+                chat.onTyping(true);
+                box.current?.focus({ preventScroll: true });
+              }}
+              className="h-[34px] cursor-pointer whitespace-nowrap rounded-full border border-[#F2D58A] bg-surface-sunken px-3 text-[13px] font-semibold text-ink transition hover:-translate-y-0.5 disabled:cursor-default disabled:opacity-60"
+            >
+              {d.qrShort[i]}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex items-center gap-2.5 bg-surface-card px-4 pb-4 pt-2.5">
         <label htmlFor="msg" className="sr-only">
           {t.msgLabel}
         </label>

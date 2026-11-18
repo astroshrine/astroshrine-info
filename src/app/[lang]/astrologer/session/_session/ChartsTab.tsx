@@ -1,51 +1,39 @@
 "use client";
 
-import { PiDiamond, PiStar, PiTrendUp } from "react-icons/pi";
-import { useT } from "@/i18n/LocaleProvider";
+import { PiDiamond, PiMoonStars, PiTrendUp } from "react-icons/pi";
+import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { sheetChartHouses, type Sheet } from "@/lib/jyotish";
-import NorthIndianChart from "../../../kundli/_components/NorthIndianChart";
 import { Card } from "../../_console/ui";
-import { text } from "./messages";
-import { Head, sectionClass } from "./parts";
+import DesignChart from "./DesignChart";
+import { dt } from "./design";
+import { houseCells, lagnaRow, savCells } from "./kundliData";
+import { Head } from "./parts";
 
-/** The charts the kundli sheet sends ready made, and the Sarvashtakavarga points. */
-export default function ChartsTab({ sheet }: { sheet: Sheet }) {
-  const t = useT(text);
-  const max = Math.max(...sheet.sav, 1);
+/** The charts the kundli sheet sends ready made (Moon chart, navamsha) and the Sarvashtakavarga bindus. */
+export default function ChartsTab({ sheet, name }: { sheet: Sheet; name: string }) {
+  const t = useT(dt);
+  const locale = useLocale();
+  const retro = () => ` (${t.retroMark})`;
   return (
     <div className="flex flex-col gap-6">
-      <Card className={sectionClass}>
-        <Head icon={PiStar}>{t.moonChart}</Head>
-        <div className="mx-auto mt-3.5 w-full max-w-[470px]">
-          <NorthIndianChart houses={sheetChartHouses(sheet.charts.chandra)} label={t.moonChart} lagnaLabel={t.moon} />
+      <Card className="px-6 py-[22px]">
+        <Head icon={PiMoonStars}>{t.moonTitle}</Head>
+        <div className="mt-3.5">
+          <DesignChart cells={houseCells(sheetChartHouses(sheet.charts.chandra), locale, retro, { rashi: lagnaRow(sheet).rashi, label: t.ascAb })} label={t.moonAlt(name)} />
         </div>
       </Card>
-      <Card className={sectionClass}>
-        <Head icon={PiDiamond}>{t.navamsha}</Head>
-        <div className="mx-auto mt-3.5 w-full max-w-[470px]">
-          <NorthIndianChart houses={sheetChartHouses(sheet.charts.navamsha)} label={t.navamsha} />
+      <Card className="px-6 py-[22px]">
+        <Head icon={PiDiamond}>{t.d9Title}</Head>
+        <div className="mt-3.5">
+          <DesignChart cells={houseCells(sheetChartHouses(sheet.charts.navamsha), locale, retro)} label={t.d9Alt(name)} />
         </div>
       </Card>
-      <Card className={sectionClass}>
-        <Head icon={PiDiamond}>{t.chalit}</Head>
-        <div className="mx-auto mt-3.5 w-full max-w-[470px]">
-          <NorthIndianChart houses={sheetChartHouses(sheet.charts.lagna_chalit)} label={t.chalit} />
+      <Card className="px-6 py-[22px]">
+        <Head icon={PiTrendUp}>{t.savTitle(sheet.sav_total)}</Head>
+        <div className="mt-3.5">
+          <DesignChart cells={savCells(sheet)} label={t.savAlt(name)} />
         </div>
-      </Card>
-      <Card className={sectionClass}>
-        <Head icon={PiTrendUp}>{t.savTitle}</Head>
-        <p className="m-0 mt-2 text-sm text-ink-soft">{t.savHint(sheet.sav_total)}</p>
-        <ol className="m-0 mt-3.5 grid list-none grid-cols-6 gap-2 p-0">
-          {sheet.sav.map((b, i) => (
-            <li key={i} className="flex flex-col items-center gap-1">
-              <span aria-hidden className="flex h-20 w-full items-end overflow-hidden rounded-xl bg-surface-sunken">
-                <span className="block w-full rounded-xl bg-brand" style={{ height: `${Math.round((b / max) * 100)}%` }} />
-              </span>
-              <span className="text-sm font-bold">{b}</span>
-              <span className="text-center text-xs text-ink-soft">{t.house(i + 1)}</span>
-            </li>
-          ))}
-        </ol>
+        <div className="mt-2.5 text-center text-[13.5px] font-semibold text-ink">{t.savNote}</div>
       </Card>
     </div>
   );

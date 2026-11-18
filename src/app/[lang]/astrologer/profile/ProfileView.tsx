@@ -58,8 +58,8 @@ const text = defineMessages({
     noRating: "अभी नहीं",
     reviewsCount: (n: number) => `${n} समीक्षाएँ`,
     sessions: "परामर्श",
-    years: (n: number) => `${n} वर्ष का अनुभव`,
-    publicCard: "सार्वजनिक प्रोफ़ाइल देखें",
+    years: (n: number) => `${n} वर्ष`,
+    publicCard: "अपना सार्वजनिक कार्ड देखें",
     aboutTitle: "आपके बारे में और विशेषज्ञता",
     edit: "प्रोफ़ाइल बदलें",
     saveProfile: "प्रोफ़ाइल सहेजें",
@@ -131,8 +131,8 @@ const text = defineMessages({
     noRating: "None yet",
     reviewsCount: (n) => `${n} reviews`,
     sessions: "Sessions",
-    years: (n) => `${n} years of experience`,
-    publicCard: "View public profile",
+    years: (n) => `${n} years`,
+    publicCard: "See your public card",
     aboutTitle: "About you and expertise",
     edit: "Edit profile",
     saveProfile: "Save profile",
@@ -371,7 +371,11 @@ export default function ProfileView() {
             <h2 className="mt-5 font-display text-2xl font-bold leading-tight">
               <Text>{me.name || "—"}</Text>
             </h2>
-            <p className="mt-1 text-[15px] text-ink-soft">{t.years(me.experience)}</p>
+            {me.expertise.length > 0 && (
+              <p className="mt-1.5 text-[15px] text-ink-soft">
+                <Text>{me.expertise.map((e) => labelOf(EXPERTISE_CHOICES, e, hi)).join(" · ")}</Text>
+              </p>
+            )}
             {me.languages.length > 0 && (
               <p className="mt-0.5 text-[14px] text-ink-soft">
                 {me.languages.map((l, i) => (
@@ -387,6 +391,7 @@ export default function ProfileView() {
                 <PiStar size={14} aria-hidden="true" />
                 {me.rating ? me.rating.toFixed(1) : t.noRating} · {t.reviewsCount(me.reviews)}
               </Pill>
+              {me.experience > 0 && <Pill tone="neutral">{t.years(me.experience)}</Pill>}
               <Pill tone="neutral">{t.sessionsCount(me.orders)}</Pill>
             </div>
             <div className="mt-5 flex flex-wrap justify-center gap-2.5">
@@ -400,31 +405,6 @@ export default function ProfileView() {
               </Button>
             </div>
           </Card>
-
-          <div className="rounded-[20px] border border-line bg-surface-page p-[18px]">
-            <p className="mb-3 text-[13px] font-semibold text-ink-soft">{t.cardTitle}</p>
-            <div className="flex items-center gap-3.5">
-              <Avatar photo={me.photo} name={me.name} size={56} />
-              <p className="min-w-0 text-[17px] font-bold">
-                <Text>{me.name || "—"}</Text>
-              </p>
-            </div>
-            {me.expertise.length > 0 && (
-              <p className="mt-3 text-[14.5px] font-semibold">
-                <Text>{me.expertise.map((e) => labelOf(EXPERTISE_CHOICES, e, hi)).join(" · ")}</Text>
-              </p>
-            )}
-            <div className="mt-3.5 grid grid-cols-2 gap-2.5">
-              <span className="inline-flex h-11 items-center justify-center gap-1.5 rounded-[14px] bg-surface-inverse px-2.5 text-[13.5px] font-bold text-ink-inverse">
-                <PiChatCircleText size={16} aria-hidden="true" />
-                {t.chat} · {t.perMin(priceOf(me.pricing.chat, DEFAULT_CHAT_RATE).price)}
-              </span>
-              <span className="inline-flex h-11 items-center justify-center gap-1.5 rounded-[14px] bg-brand px-2.5 text-[13.5px] font-bold text-brand-ink">
-                <PiPhone size={16} aria-hidden="true" />
-                {t.call} · {t.perMin(priceOf(me.pricing.call, DEFAULT_CALL_RATE).price)}
-              </span>
-            </div>
-          </div>
 
           <Card className="p-6" aria-labelledby="pf-account">
             <div className="flex items-center gap-3">

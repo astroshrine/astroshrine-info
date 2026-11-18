@@ -8,6 +8,7 @@ import {
   PiBell,
   PiCalendarBlank,
   PiCaretDown,
+  PiChatCircleDots,
   PiGraduationCap,
   PiHeadset,
   PiHouse,
@@ -30,7 +31,9 @@ import { defineMessages } from "@/i18n/messages";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { switchLocale } from "@/i18n/paths";
 import { Button } from "./ui";
+import { getCallWaitlist, getChatQueue } from "@/lib/services/astrologerHome";
 import { getOwnAstrologer } from "@/lib/services/astrologerProfile";
+import "./shell.css";
 import { ownNeedsSetup, profileNeedsSetup } from "./setup";
 import { useAstrologer, useOnlineStatus } from "./useAstrologer";
 
@@ -41,6 +44,18 @@ const text = defineMessages({
     strip: "ज्योतिषी कंसोल · केवल सत्यापित AstroShrine ज्योतिषियों के लिए",
     stripLink: "परामर्श चाहिए? AstroShrine पर जाएँ",
     home: "होम",
+    chats: "चैट",
+    waitingN: "प्रतीक्षा में",
+    welcomeTitle: "स्वागत है",
+    signInTitle: "साइन इन",
+    joinTitle: "AstroShrine से जुड़ें",
+    helpTitle: "सहायता",
+    earningsTitle: "कमाई",
+    profileTitle: "प्रोफ़ाइल",
+    chatTitle: "लाइव चैट",
+    setupTitle: "अपनी प्रोफ़ाइल बनाएँ",
+    homeTitle: "होम",
+    turnEyebrow: "AstroShrine · ज्योतिषियों के लिए",
     earnings: "कमाई",
     profile: "प्रोफ़ाइल",
     help: "सहायता",
@@ -81,6 +96,18 @@ const text = defineMessages({
     strip: "Astrologer console · for verified AstroShrine astrologers only",
     stripLink: "Looking for a consultation? Visit AstroShrine",
     home: "Home",
+    chats: "Chats",
+    waitingN: "waiting",
+    welcomeTitle: "Welcome",
+    signInTitle: "Sign in",
+    joinTitle: "Join AstroShrine",
+    helpTitle: "Help",
+    earningsTitle: "Earnings",
+    profileTitle: "Profile",
+    chatTitle: "Live chat",
+    setupTitle: "Set up your profile",
+    homeTitle: "Home",
+    turnEyebrow: "AstroShrine · For astrologers",
     earnings: "Earnings",
     profile: "Profile",
     help: "Help",
@@ -148,12 +175,62 @@ function OnlinePill({ id }: { id: string }) {
   );
 }
 
+/** How many customers are waiting (chat queue plus call waitlist), refreshed every 30 s. null until known. */
+function useWaitingCount(id: string, enabled: boolean): number | null {
+  const [state, setState] = useState<{ id: string; n: number } | null>(null);
+  useEffect(() => {
+    if (!enabled || !id) return;
+    let live = true;
+    const controller = new AbortController();
+    const load = () =>
+      Promise.allSettled([getChatQueue(controller.signal), getCallWaitlist(id, controller.signal)]).then((parts) => {
+        const ok = parts.filter((p) => p.status === "fulfilled");
+        if (live && ok.length) setState({ id, n: ok.reduce((sum, p) => sum + p.value.length, 0) });
+      });
+    void load();
+    const timer = setInterval(load, 30_000);
+    return () => {
+      live = false;
+      controller.abort();
+      clearInterval(timer);
+    };
+  }, [id, enabled]);
+  return state && state.id === id ? state.n : null;
+}
+
+/** The design's page turn: a sheet with the page name sweeps away when a console page opens. Decoration only. */
+function PageTurn({ title }: { title: string }) {
+  const t = useT(text);
+  return (
+    <div className="pg-turn" aria-hidden="true">
+      <div className="pg-sheet">
+        <div className="pg-mark">
+          <span className="pg-seal">
+            <i />
+            <i />
+            <Image src="/logo.png" alt="" width={64} height={64} className="block h-16 w-16 flex-none" />
+          </span>
+          <span className="pg-eye">{t.turnEyebrow}</span>
+          <b className="pg-name">{title}</b>
+        </div>
+      </div>
+      <div className="pg-curl">
+        <div className="pg-flap" />
+        <span className="pg-cast" />
+        <span className="pg-fold" />
+      </div>
+      <span className="pg-line" />
+    </div>
+  );
+}
+
 /** Which nav link is current, from the first path segment under /astrologer (null is the console home). */
 const MORE_KEYS = ["schedule", "clients", "remedies", "coupons", "articles", "notifications", "support", "learn"] as const;
 type MoreKey = (typeof MORE_KEYS)[number];
 
-function navKey(segment: string | null): "home" | "earnings" | "profile" | "help" | MoreKey | null {
+function navKey(segment: string | null): "home" | "chats" | "earnings" | "profile" | "help" | MoreKey | null {
   if (segment === null) return "home";
+  if (segment === "session") return "chats";
   if (segment === "earnings" || segment === "profile" || segment === "help") return segment;
   return (MORE_KEYS as readonly string[]).includes(segment) ? (segment as MoreKey) : null;
 }
@@ -417,6 +494,9 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
   // Public chrome (no navigation, Sign in / Join buttons) until we know this is an astrologer.
   const auth = !ready;
   const current = navKey(segment);
+  const waiting = useWaitingCount(astrologer.id, ready);
+  const turnTitle: Record<string, string> = { login: t.signInTitle, join: t.joinTitle, help: t.helpTitle, earnings: t.earningsTitle, profile: t.profileTitle, session: t.chatTitle, setup: t.setupTitle };
+  const pageTitle = segment === null ? (ready ? t.homeTitle : t.welcomeTitle) : turnTitle[segment];
 
   useEffect(() => {
     if (isPublic || !denied) return;
@@ -445,6 +525,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
 
   const navItems = [
     { key: "home", href: "/astrologer", label: t.home, icon: PiHouse },
+    { key: "chats", href: "/astrologer/session", label: t.chats, icon: PiChatCircleDots },
     { key: "earnings", href: "/astrologer/earnings", label: t.earnings, icon: PiWallet },
     { key: "profile", href: "/astrologer/profile", label: t.profile, icon: PiUserCircle },
     { key: "help", href: "/astrologer/help", label: t.help, icon: PiQuestion },
@@ -458,8 +539,9 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
       >
         {t.skip}
       </a>
+      {pageTitle && <PageTurn key={pathname} title={pageTitle} />}
       <div className="flex min-h-dvh flex-col bg-surface-page text-ink">
-        <div className="on-inverse bg-surface-inverse text-[13.5px] text-ink-inverse">
+        <div className="on-inverse cs-sheen text-[13.5px] text-ink-inverse">
           <div className="mx-auto flex max-w-[1360px] flex-wrap items-center justify-between gap-x-5 gap-y-1.5 px-5 py-2 sm:px-10">
             <span className="flex items-center gap-2 font-semibold">
               <PiStar className="h-[15px] w-[15px] shrink-0 text-brand" aria-hidden />
@@ -488,6 +570,12 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
                   >
                     <Icon className="h-[18px] w-[18px]" aria-hidden />
                     {label}
+                    {key === "chats" && !!waiting && (
+                      <span className="inline-flex h-[22px] min-w-[22px] items-center justify-center rounded-full bg-brand px-1.5 text-[13px] font-bold text-brand-ink motion-safe:animate-pulse" title={`${waiting} ${t.waitingN}`}>
+                        {waiting}
+                        <span className="sr-only"> {t.waitingN}</span>
+                      </span>
+                    )}
                     <span
                       aria-hidden
                       className={`absolute bottom-1 h-0.5 bg-brand transition-all duration-200 ${on ? "left-0 w-full" : "left-1/2 w-0 group-hover:left-0 group-hover:w-full"}`}
@@ -531,7 +619,8 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
           )}
         </main>
 
-        <footer className="border-t-[3px] border-dotted border-brand/80 bg-surface-card">
+        <footer className="border-t border-line bg-surface-card">
+          <div className="cs-orn" aria-hidden />
           <div className="mx-auto flex max-w-[1200px] flex-wrap items-start justify-between gap-x-10 gap-y-4 px-5 py-6 sm:px-10">
             <div className="flex items-center gap-3">
               <Image src="/logo.png" alt="" width={36} height={36} className="h-9 w-9 shrink-0" />
@@ -542,15 +631,13 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
               </div>
             </div>
             <nav aria-label={t.footerNav} className="flex flex-col gap-1.5 text-sm font-semibold text-ink-soft">
-              {!auth && (
-                <div className="flex flex-wrap gap-x-[22px] gap-y-1.5">
-                  {navItems.map(({ key, href, label }) => (
-                    <Link key={key} href={href} className="hover:text-ink">
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
+              <div className="flex flex-wrap gap-x-[22px] gap-y-1.5">
+                {navItems.map(({ key, href, label }) => (
+                  <Link key={key} href={href} className="hover:text-ink">
+                    {label}
+                  </Link>
+                ))}
+              </div>
               <div className="flex flex-wrap gap-x-[22px] gap-y-1.5 font-medium">
                 {[t.terms, t.privacy, t.support].map((label) => (
                   <a key={label} href={SITE_URL} target="_blank" rel="noopener" className="hover:text-ink">

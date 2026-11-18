@@ -242,9 +242,9 @@ function Body({
 
   return (
     <>
-      <div>
-        {title}
-        <Pill tone="navy" className="mt-3">
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+        <div className="min-w-0 flex-1 basis-[420px]">{title}</div>
+        <Pill tone="navy" className="mb-1">
           {t.once}
         </Pill>
       </div>

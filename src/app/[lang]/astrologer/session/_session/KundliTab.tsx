@@ -1,141 +1,96 @@
 "use client";
 
-import { PiClock, PiStar } from "react-icons/pi";
+import { PiCompass, PiMoonStars, PiSparkle, PiStar } from "react-icons/pi";
+import { PiClock } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
-import {
-  day,
-  dignityName,
-  grahaName,
-  lordName,
-  nakshatraName,
-  rashiName,
-  runningIndex,
-  sheetLagnaHouses,
-  type DashaNode,
-  type Sheet,
-} from "@/lib/jyotish";
-import NorthIndianChart from "../../../kundli/_components/NorthIndianChart";
-import { Card, Pill } from "../../_console/ui";
-import { text } from "./messages";
-import { Head, sectionClass } from "./parts";
+import { lordName, nakshatraName, rashiName, runningIndex, type Sheet } from "@/lib/jyotish";
+import { Card } from "../../_console/ui";
+import DesignChart from "./DesignChart";
+import { dt } from "./design";
+import { d1Cells, GRAHA_COLOR, houseOf, lagnaRow, rowOf } from "./kundliData";
+import { Head } from "./parts";
 
-/** The lagna chart, the planet table and the dasha timelines, all from the customer's kundli sheet. */
-export default function KundliTab({ sheet, now }: { sheet: Sheet; now: number }) {
-  const t = useT(text);
+const COLS = "grid grid-cols-[1.2fr_.35fr_1.1fr_.9fr_1.4fr_.5fr_.5fr] gap-2";
+
+/** The birth chart, the four facts under it and the planet table, from the customer's kundli sheet. */
+export default function KundliTab({ sheet, now, name }: { sheet: Sheet; now: number; name: string }) {
+  const t = useT(dt);
   const locale = useLocale();
+  const lagna = lagnaRow(sheet);
+  const moon = rowOf(sheet, "Moon");
+  const periods = sheet.dasha.vimshottari.periods;
+  const md = periods[runningIndex(periods, now)];
+  const ad = md?.sub?.find((p) => Date.parse(p.start) <= now && now < Date.parse(p.end));
+  const pd = ad?.sub?.find((p) => Date.parse(p.start) <= now && now < Date.parse(p.end));
+  const running = [md, ad, pd].filter(Boolean).map((p) => lordName(p!.lord, locale)).join(" – ");
+  const tiles = [
+    { icon: PiSparkle, label: t.tLagna, value: rashiName(lagna.rashi, locale) },
+    { icon: PiMoonStars, label: t.tMoon, value: moon ? rashiName(moon.rashi, locale) : "" },
+    { icon: PiStar, label: t.tNak, value: moon ? nakshatraName(moon.nakshatra, locale) : "" },
+    { icon: PiClock, label: t.tDasha, value: running },
+  ];
   return (
     <div className="flex flex-col gap-6">
-      <Card className={sectionClass}>
-        <Head icon={PiStar}>{t.chartTitle}</Head>
-        <div className="mx-auto mt-3.5 w-full max-w-[500px]">
-          <NorthIndianChart houses={sheetLagnaHouses(sheet)} label={t.chartAlt} />
+      <Card className="px-6 py-[22px]">
+        <div className="flex flex-col gap-3.5">
+          <DesignChart cells={d1Cells(sheet, locale, t.ascAb, t.retroMark)} label={t.chartAlt(name)} max={500} />
+          <div className="text-center text-[13px] font-semibold text-ink">{t.chartSub}</div>
+          <div className="grid grid-cols-2 gap-2.5">
+            {tiles.map((x) => (
+              <div key={x.label} className="flex min-w-0 items-center gap-2.5 rounded-[14px] border border-line bg-surface-page px-3 py-2.5">
+                <span className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-[10px] bg-surface-sunken text-brand-strong">
+                  <x.icon className="h-[17px] w-[17px]" aria-hidden />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold text-ink-soft">{x.label}</div>
+                  <div className="text-[15px] font-bold">{x.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
 
-      <Card className={sectionClass}>
-        <Head icon={PiStar} id="ptt">
-          {t.planetTitle}
+      <Card className="px-6 py-[22px]">
+        <Head icon={PiCompass} id="ptt">
+          {t.tableTitle}
         </Head>
-        <p className="m-0 mt-2 text-sm text-ink-soft">{t.planetHint}</p>
         <div className="mt-3 overflow-x-auto">
-          <table aria-labelledby="ptt" className="w-full min-w-[560px] text-left text-[15px]">
-            <thead>
-              <tr className="text-[12.5px] font-bold text-ink-soft">
-                {t.columns.map((h) => (
-                  <th key={h} scope="col" className="py-2 pr-3">
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {sheet.rows.map((r) => {
-                const tags = [
-                  r.dignity ? dignityName(r.dignity, locale) : null,
-                  r.retro && r.graha !== "Rahu" && r.graha !== "Ketu" && r.graha !== "Lagna" ? t.retro : null,
-                  r.combust ? t.combust : null,
-                ].filter(Boolean);
-                return (
-                  <tr key={r.graha} className="border-t border-line transition hover:bg-[#FFF7E3]">
-                    <th scope="row" className="py-[9px] pr-3 font-bold">
-                      {r.graha === "Lagna" ? t.lagna : grahaName(r.graha, locale)}
-                    </th>
-                    <td className="py-[9px] pr-3">
-                      {rashiName(r.rashi, locale)} <span className="text-[13px] tabular-nums text-ink-soft">{r.dms}</span>
-                    </td>
-                    <td className="py-[9px] pr-3">
-                      {nakshatraName(r.nakshatra, locale)} {r.pada}
-                    </td>
-                    <td className="py-[9px] pr-3">{grahaName(r.nak_lord, locale)}</td>
-                    <td className="py-[9px] pr-3">{tags.length ? tags.join(", ") : t.neutral}</td>
-                    <td className="py-[9px] pr-3 font-bold tabular-nums">
-                      {r.shadbala ? <span className={r.shadbala.ratio >= 1 ? "text-success" : "text-warning"}>{r.shadbala.ratio.toFixed(2)}</span> : <span className="font-normal text-ink-soft">{t.none}</span>}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div role="table" aria-labelledby="ptt" className="min-w-[560px] text-[15px]">
+            <div role="row" className={`${COLS} py-2 text-[12.5px] font-bold text-ink-soft`}>
+              <span role="columnheader">{t.hPlanet}</span>
+              <span role="columnheader" title={t.retro}>
+                {t.hR}
+              </span>
+              <span role="columnheader">{t.hDeg}</span>
+              <span role="columnheader">{t.hSign}</span>
+              <span role="columnheader">{t.hNak}</span>
+              <span role="columnheader">{t.hPada}</span>
+              <span role="columnheader">{t.hHouse}</span>
+            </div>
+            {sheet.rows.map((r) => (
+              <div key={r.graha} role="row" className={`${COLS} items-center border-t border-line py-[9px] transition hover:bg-[#FFF7E3]`}>
+                <span role="cell" className="flex items-center gap-2 font-bold">
+                  <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ background: GRAHA_COLOR[r.graha] }} />
+                  {r.graha === "Lagna" ? t.ascFull : lordName(r.graha, locale)}
+                </span>
+                <span role="cell" className="font-extrabold text-danger">
+                  {r.retro && r.graha !== "Lagna" ? t.retroMark : ""}
+                </span>
+                <span role="cell" className="tabular-nums">
+                  {r.dms}
+                </span>
+                <span role="cell">{rashiName(r.rashi, locale)}</span>
+                <span role="cell">{nakshatraName(r.nakshatra, locale)}</span>
+                <span role="cell">{r.pada}</span>
+                <span role="cell" className="font-bold">
+                  {houseOf(sheet, r)}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
-
-      <DashaCard title={t.dashaTitle} tree={sheet.dasha.vimshottari} depth={3} now={now} />
-      <DashaCard title={t.yoginiTitle} tree={sheet.dasha.yogini} depth={2} now={now} />
     </div>
-  );
-}
-
-function DashaCard({ title, tree, depth, now }: { title: string; tree: Sheet["dasha"]["vimshottari"]; depth: number; now: number }) {
-  const t = useT(text);
-  const locale = useLocale();
-  const idx = runningIndex(tree.periods, now);
-  return (
-    <Card className={sectionClass}>
-      <div className="flex flex-wrap items-center justify-between gap-2.5">
-        <Head icon={PiClock}>{title}</Head>
-        <Pill className="h-8 text-[13px]">{t.balance(lordName(tree.balance.lord, locale), tree.balance.years.toFixed(1))}</Pill>
-      </div>
-      {idx >= 0 && (
-        <div className="mt-4 flex items-center gap-2 text-[13px] font-semibold text-ink-soft">
-          <span className="inline-block h-[9px] w-[9px] shrink-0 rounded-full bg-online" />
-          {t.levels[0]}: <b className="text-ink">{lordName(tree.periods[idx].lord, locale)}</b>
-        </div>
-      )}
-      <div className="mt-3 flex flex-col gap-1">
-        {tree.periods.map((p) => (
-          <DashaRow key={p.start} p={p} level={0} depth={depth} now={now} />
-        ))}
-      </div>
-    </Card>
-  );
-}
-
-/** One period; it opens to the periods inside it, and starts open while it is running. */
-function DashaRow({ p, level, depth, now }: { p: DashaNode; level: number; depth: number; now: number }) {
-  const t = useT(text);
-  const locale = useLocale();
-  const running = Date.parse(p.start) <= now && now < Date.parse(p.end);
-  const label = (
-    <span className="flex flex-1 flex-wrap items-baseline justify-between gap-2">
-      <span className={level === 0 ? "font-bold" : "font-semibold"}>
-        {lordName(p.lord, locale)}
-        {p.graha ? <span className="ml-1 text-[13px] font-normal text-ink-soft">({grahaName(p.graha, locale)})</span> : null}
-        {running && <span className="ml-2 text-[13px] font-bold text-brand-strong">{t.running}</span>}
-      </span>
-      <span className="text-[13px] tabular-nums text-ink-soft">{t.period(day(p.start), day(p.end))}</span>
-    </span>
-  );
-  const children = level + 1 < depth ? p.sub : undefined;
-  if (!children?.length) return <div className={`flex rounded-xl px-3 py-2 ${running ? "bg-surface-sunken" : ""}`}>{label}</div>;
-  return (
-    <details open={running} className={`rounded-xl ${running ? "bg-surface-sunken" : ""}`}>
-      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-2 transition hover:bg-surface-sunken">{label}</summary>
-      <div className="flex flex-col gap-1 pb-2 pl-4">
-        <p className="m-0 px-3 text-[12.5px] font-bold text-ink-soft">{t.levels[level + 1]}</p>
-        {children.map((c) => (
-          <DashaRow key={c.start} p={c} level={level + 1} depth={depth} now={now} />
-        ))}
-      </div>
-    </details>
   );
 }

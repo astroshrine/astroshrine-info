@@ -1,88 +1,126 @@
 "use client";
 
-import { PiPlanet, PiSparkle } from "react-icons/pi";
+import { PiCalendarCheck, PiPlanet } from "react-icons/pi";
+import { INTL_LOCALE } from "@/i18n/config";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
-import { day, grahaName, rashiName, saturnName, type ChartHouse, type Sheet, type Transits } from "@/lib/jyotish";
-import NorthIndianChart from "../../../kundli/_components/NorthIndianChart";
-import { Card, Pill } from "../../_console/ui";
+import { day, grahaAbbr, lordName, nakshatraName, rashiName, type Sheet, type Transits } from "@/lib/jyotish";
+import { Card } from "../../_console/ui";
+import DesignChart, { type ChartCell } from "./DesignChart";
+import { dt } from "./design";
+import { dashaChanges, GRAHA_COLOR, lagnaRow, rowOf } from "./kundliData";
 import { text } from "./messages";
-import { Head, sectionClass } from "./parts";
+import { Head } from "./parts";
 import type { Request } from "../../../kundli/_components/useJyotish";
 
-/** Today's transits over the birth chart (from the sheet), and Sade Sati / Dhaiya for the next 36 months (POST /v1/jyotish/transits). */
-export default function TransitTab({ sheet, transits, now }: { sheet: Sheet; transits: Request<Transits>; now: number }) {
-  const t = useT(text);
+const COLS = "grid grid-cols-[1.1fr_.3fr_1fr_.9fr_1.6fr_.7fr_.7fr] gap-2";
+const NO_RETRO = new Set(["Rahu", "Ketu"]);
+
+/** Today's planets over the birth chart (from the sheet), and the changes in the next 12 months: dasha periods and sign changes. */
+export default function TransitTab({ sheet, transits, now, name }: { sheet: Sheet; transits: Request<Transits>; now: number; name: string }) {
+  const t = useT(dt);
+  const m = useT(text);
   const locale = useLocale();
   const g = sheet.gochar;
   const fromLagna = g ? g.planets.every((p) => p.house_from_lagna !== null) : true;
-  const baseRashi = (fromLagna ? sheet.rows.find((r) => r.graha === "Lagna") : sheet.rows.find((r) => r.graha === "Moon"))?.rashi ?? 1;
-  const houses: ChartHouse[] = g
-    ? Array.from({ length: 12 }, (_, i) => ({
-        house: i + 1,
-        rashi: ((baseRashi - 1 + i) % 12) + 1,
-        planets: g.planets.filter((p) => (fromLagna ? p.house_from_lagna : p.house_from_moon) === i + 1).map((p) => ({ graha: p.graha, retro: p.retro })),
-      }))
-    : [];
+  const base = (fromLagna ? lagnaRow(sheet) : rowOf(sheet, "Moon"))?.rashi ?? 1;
+  const cells: ChartCell[] = Array.from({ length: 12 }, (_, i) => ({
+    sign: ((base - 1 + i) % 12) + 1,
+    items: g
+      ? g.planets
+          .filter((p) => (fromLagna ? p.house_from_lagna : p.house_from_moon) === i + 1)
+          .map((p) => ({ ab: grahaAbbr(p.graha, locale) + (p.retro && !NO_RETRO.has(p.graha) ? ` (${t.retroMark})` : ""), deg: `${parseInt(p.dms, 10)}°` }))
+      : [],
+  }));
+  const fmt = (iso: string) => new Intl.DateTimeFormat(INTL_LOCALE[locale], { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(Date.parse(iso.slice(0, 10) + "T00:00:00Z"));
+
+  const to = new Date(now);
+  to.setMonth(to.getMonth() + 12);
+  type Ev = { at: string; kind: "dasha" | "transit"; text: string };
+  const events: Ev[] = [
+    ...dashaChanges(sheet, now).map((c) => ({
+      at: c.at,
+      kind: "dasha" as const,
+      text: t.evDasha(t.levels[c.lords.length - 1] ?? "", c.lords.map((l) => lordName(l, locale)).join(" – ")),
+    })),
+    ...(transits.data?.segments ?? [])
+      .filter((s) => Date.parse(s.start) > now && Date.parse(s.start) <= to.getTime())
+      .map((s) => ({ at: s.start, kind: "transit" as const, text: t.evTransit(lordName(s.planet, locale), rashiName(s.rashi, locale), t.ord[s.house_from_lagna - 1] ?? String(s.house_from_lagna)) })),
+  ].sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
 
   return (
     <div className="flex flex-col gap-6">
       {g && (
-        <Card className={sectionClass}>
-          <Head icon={PiPlanet}>{t.gocharTitle}</Head>
-          <p className="m-0 mt-2 text-sm text-ink-soft">{t.gocharHint(day(g.at), fromLagna)}</p>
-          <div className="mx-auto mt-3.5 w-full max-w-[420px]">
-            <NorthIndianChart houses={houses} label={t.gocharTitle} lagnaLabel={fromLagna ? undefined : t.moon} />
+        <Card className="px-6 py-[22px]">
+          <Head icon={PiPlanet} id="trt">
+            {t.trTitle(day(g.at))}
+          </Head>
+          <div className="mb-3.5 mt-1 text-[13.5px] text-ink-soft">{t.trSub(name)}</div>
+          <DesignChart cells={cells} label={t.trAlt(name)} />
+          <div className="mt-4 overflow-x-auto">
+            <div role="table" aria-labelledby="trt" className="min-w-[560px] text-[15px]">
+              <div role="row" className={`${COLS} rounded-[10px] bg-surface-inverse px-2.5 py-2.5 text-[12.5px] font-bold text-ink-inverse`}>
+                <span role="columnheader">{t.hPlanet}</span>
+                <span role="columnheader" title={t.retro}>
+                  {t.hR}
+                </span>
+                <span role="columnheader">{t.hDeg}</span>
+                <span role="columnheader">{t.hSign}</span>
+                <span role="columnheader">{t.hNak}</span>
+                <span role="columnheader">{t.hFromAsc}</span>
+                <span role="columnheader">{t.hFromMoon}</span>
+              </div>
+              {g.planets.map((p) => (
+                <div key={p.graha} role="row" className={`${COLS} items-center border-b border-line px-2.5 py-[9px] transition hover:bg-[#FFF7E3]`}>
+                  <span role="cell" className="flex items-center gap-2 font-bold">
+                    <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ background: GRAHA_COLOR[p.graha] }} />
+                    {lordName(p.graha, locale)}
+                  </span>
+                  <span role="cell" className="font-extrabold text-danger">
+                    {p.retro ? t.retroMark : ""}
+                  </span>
+                  <span role="cell" className="tabular-nums">
+                    {p.dms}
+                  </span>
+                  <span role="cell">{rashiName(p.rashi, locale)}</span>
+                  <span role="cell">
+                    {nakshatraName(p.nakshatra, locale)} {p.pada}
+                  </span>
+                  <span role="cell" className="font-bold">
+                    {p.house_from_lagna !== null ? t.ord[p.house_from_lagna - 1] : "—"}
+                  </span>
+                  <span role="cell">{t.ord[p.house_from_moon - 1]}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <ul className="m-0 mt-3.5 flex list-none flex-col p-0">
-            {g.planets.map((p) => (
-              <li key={p.graha} className="grid grid-cols-[110px_1fr] gap-2.5 border-t border-line py-[9px] text-[14.5px]">
-                <span className="font-semibold text-ink-soft">{grahaName(p.graha, locale)}</span>
-                <span className="font-semibold">{t.gocharRow(rashiName(p.rashi, locale), p.dms, p.retro && p.graha !== "Rahu" && p.graha !== "Ketu", p.house_from_lagna ?? p.house_from_moon)}</span>
-              </li>
-            ))}
-          </ul>
         </Card>
       )}
 
-      <Card className={sectionClass}>
-        <Head icon={PiSparkle}>{t.saturnTitle}</Head>
-        <p className="m-0 mt-2 text-sm text-ink-soft">{t.saturnHint}</p>
-        {transits.loading ? (
-          <div aria-busy="true" aria-label={t.loading} className="mt-3 h-20 animate-pulse rounded-2xl bg-surface-sunken" />
-        ) : transits.error ? (
-          <div role="alert" className="mt-3 flex flex-wrap items-center gap-3 rounded-[14px] bg-danger-soft px-4 py-3 text-sm text-danger">
-            {t.calcFailed}
+      <Card className="px-6 py-[22px]">
+        <Head icon={PiCalendarCheck} id="evt">
+          {t.evTitle}
+        </Head>
+        {transits.loading && <div aria-busy="true" aria-label={t.loadingTool} className="mt-3 h-16 animate-pulse rounded-2xl bg-surface-sunken" />}
+        {transits.error != null && (
+          <div role="alert" className="mt-3 flex flex-wrap items-center gap-3 text-sm text-danger">
+            {t.transitFailed}
             <button type="button" onClick={transits.retry} className="cursor-pointer font-bold underline">
-              {t.retry}
+              {m.retry}
             </button>
           </div>
-        ) : transits.data && transits.data.saturn_cycles.length === 0 ? (
-          <p className="m-0 mt-3 text-[15px]">{t.saturnNone}</p>
-        ) : (
-          <ul className="m-0 mt-3.5 flex list-none flex-col gap-2.5 p-0">
-            {transits.data?.saturn_cycles.map((c) => {
-              const current = Date.parse(c.start) <= now && now < Date.parse(c.end);
-              return (
-                <li key={c.kind + c.start} className={`rounded-2xl px-4 py-3.5 ${current ? "border-[1.5px] border-brand bg-surface-sunken" : "border border-line bg-surface-page"}`}>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <b className="text-base">{saturnName(c.kind, locale)}</b>
-                    {current && <Pill className="h-6 text-xs">{t.now}</Pill>}
-                  </div>
-                  <div className="text-sm text-ink-soft">{t.period(day(c.start), day(c.end))}</div>
-                  {c.phases.length > 1 && (
-                    <ul className="m-0 mt-2 list-none p-0 text-[13.5px] text-ink-soft">
-                      {c.phases.map((p) => (
-                        <li key={p.phase + p.start}>
-                          {saturnName(p.phase, locale)}: {t.period(day(p.start), day(p.end))}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
         )}
+        {!transits.loading && events.length === 0 && <p className="m-0 mt-3 text-[15px] text-ink-soft">{t.evNone}</p>}
+        <div className="mt-3 flex flex-col">
+          {events.map((e) => (
+            <div key={e.kind + e.at + e.text} className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-[10px] border-t border-line px-1.5 py-3 transition hover:bg-[#FFF7E3]">
+              <span className="min-w-[120px] font-extrabold tabular-nums">{fmt(e.at)}</span>
+              <span className={`inline-flex h-6 items-center rounded-full px-[9px] text-[11.5px] font-bold ${e.kind === "dasha" ? "bg-surface-inverse text-brand" : "bg-surface-sunken text-brand-strong"}`}>{e.kind === "dasha" ? t.dashaTag : t.transitTag}</span>
+              <span className="min-w-0 flex-[1_1_220px] text-[15px]">
+                {e.text} {e.kind === "transit" && <span className="text-[13px] text-ink-soft">({t.approx})</span>}
+              </span>
+            </div>
+          ))}
+        </div>
       </Card>
     </div>
   );

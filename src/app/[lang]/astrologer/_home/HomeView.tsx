@@ -227,7 +227,7 @@ function IconBadge({ name, size = 42, className = "" }: { name: IconName; size?:
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex flex-none items-center justify-center rounded-full bg-surface-inverse shadow-[0_0_0_4px_var(--color-surface-sunken)] ${className}`}
+      className={`ah-ico inline-flex flex-none items-center justify-center rounded-full bg-surface-inverse shadow-[0_0_0_4px_var(--color-surface-sunken)] ${className}`}
       style={{ width: size, height: size }}
     >
       <Icon name={name} size={Math.round(size * 0.48)} color="#FFAE00" />
@@ -332,10 +332,10 @@ function RemoveDialog({ t, home, name }: { t: Strings; home: Home; name: string 
           </div>
         )}
         <div className="mt-6 flex justify-end gap-3">
-          <button type="button" onClick={home.cancelRemove} disabled={home.removeBusy} className="ah-tap h-12 rounded-[14px] border-[1.5px] border-ink px-5 text-[15px] font-bold disabled:opacity-60">
+          <button type="button" onClick={home.cancelRemove} disabled={home.removeBusy} className="ah-tap ah-btn h-12 rounded-[14px] border-[1.5px] border-ink px-5 text-[15px] font-bold disabled:opacity-60">
             {t.keep}
           </button>
-          <button type="button" disabled={!ready} onClick={() => picked && home.confirmRemove(removalReasonText(picked, text))} className="ah-tap h-12 rounded-[14px] bg-danger px-5 text-[15px] font-bold text-white disabled:opacity-50">
+          <button type="button" disabled={!ready} onClick={() => picked && home.confirmRemove(removalReasonText(picked, text))} className="ah-tap ah-btn h-12 rounded-[14px] bg-danger px-5 text-[15px] font-bold text-white disabled:opacity-50">
             {home.removeBusy ? t.removing : t.removeNow}
           </button>
         </div>
@@ -354,6 +354,25 @@ function useNow(everyMs = 15_000) {
     return () => clearInterval(timer);
   }, [everyMs]);
   return now;
+}
+
+/** 0 to 1 over 1.3 s once `start` turns true (the design counts today's figures up when the page opens). */
+function useCountUp(start: boolean) {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (now: number) => {
+      const k = reduced ? 1 : Math.min(1, (now - t0) / 1300);
+      setP(k);
+      if (k < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [start]);
+  return 1 - Math.pow(1 - p, 3);
 }
 
 export default function HomeView() {
@@ -379,7 +398,13 @@ export default function HomeView() {
   const ringColor = known ? STATUS_COLOR[mode] : STATUS_COLOR.offline;
   const seg = (a: boolean) =>
     `ah-tap flex h-[52px] items-center justify-center gap-2 rounded-xl text-[15px] font-bold disabled:opacity-60 ${a ? "bg-surface-inverse text-ink-inverse" : "bg-transparent text-ink"}`;
-  const cycle = () => home.setMode(online ? "busy" : busy ? "offline" : "online");
+  // The burst of sparks replays on every press (design: alternates two identical animations).
+  const [burst, setBurst] = useState<"" | "A" | "B">("");
+  const choose = (m: Mode) => {
+    setBurst((b) => (b === "A" ? "B" : "A"));
+    home.setMode(m);
+  };
+  const cycle = () => choose(online ? "busy" : busy ? "offline" : "online");
 
   const kindLabel = (k: Waiting["kind"]) => (k === "call" ? t.call : t.chat);
   const display = (w: Waiting) => w.name || t.customer;
@@ -399,6 +424,8 @@ export default function HomeView() {
 
   const wd = home.workday.data;
   const today = home.today.data;
+  const ease = useCountUp(!!today);
+  const up = (v: number) => Math.round(v * ease);
   const dateFmt = new Intl.DateTimeFormat(INTL_LOCALE[locale], { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" });
   // A confirmed booking that can be joined now (it may have started a few minutes ago) comes before the next one.
   const joinable =
@@ -440,11 +467,11 @@ export default function HomeView() {
               </div>
             </div>
             <div className="flex flex-none flex-wrap gap-2.5">
-              <button type="button" onClick={() => home.dismissArrival(w.key)} className="ah-tap h-12 rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
+              <button type="button" onClick={() => home.dismissArrival(w.key)} className="ah-tap ah-btn h-12 rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
                 {t.dismiss}
               </button>
               {w.kind === "chat" && (
-                <Link href="/astrologer/session" className="ah-tap inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-5 text-[15px] font-bold text-ink-inverse">
+                <Link href="/astrologer/session" className="ah-tap ah-btn inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-5 text-[15px] font-bold text-ink-inverse">
                   <Icon name="chat" size={17} color="#FFAE00" />
                   {t.goChats}
                 </Link>
@@ -480,6 +507,11 @@ export default function HomeView() {
           >
             <Icon name="power" size={44} color={online ? "#FFAE00" : busy ? "#14213D" : "#8E93A6"} stroke={2.4} />
           </span>
+          <span aria-hidden="true" className={`ah-burst ${burst === "A" ? "ah-bA" : burst === "B" ? "ah-bB" : ""}`}>
+            {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+              <i key={a} style={{ "--a": `${a}deg` } as React.CSSProperties} />
+            ))}
+          </span>
         </button>
         <div className="min-w-0 flex-1 basis-[260px]">
           <div className="text-[13px] font-semibold text-ink-soft">{t.statusLabel}</div>
@@ -494,7 +526,7 @@ export default function HomeView() {
         <div className="flex min-w-0 flex-1 basis-[380px] flex-col gap-3">
           <div role="group" aria-label={t.statusLabel} className="grid grid-cols-3 gap-1 rounded-2xl bg-[#F4ECDB] p-1">
             {(["online", "busy", "offline"] as const).map((k) => (
-              <button key={k} type="button" disabled={!known || home.pending} aria-pressed={known && mode === k} onClick={() => home.setMode(k)} className={seg(known && mode === k)}>
+              <button key={k} type="button" disabled={!known || home.pending} aria-pressed={known && mode === k} onClick={() => choose(k)} className={seg(known && mode === k)}>
                 <span className="size-[9px] rounded-full" style={{ background: STATUS_COLOR[k] }} />
                 {k === "online" ? t.bOnline : k === "busy" ? t.bBusy : t.bOffline}
               </button>
@@ -531,7 +563,7 @@ export default function HomeView() {
                   </div>
                 </div>
                 {chatId && (
-                  <Link href={`/astrologer/session?chat=${encodeURIComponent(chatId)}`} className="ah-tap inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
+                  <Link href={`/astrologer/session?chat=${encodeURIComponent(chatId)}`} className="ah-tap ah-btn inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
                     <Icon name="chat" size={18} />
                     {t.openChat}
                   </Link>
@@ -600,9 +632,17 @@ export default function HomeView() {
                       <p className="mt-2.5 text-sm text-ink-soft">{w.kind === "call" ? t.callInApp : t.chatAuto}</p>
                     </div>
                     {(w.kind === "call" || w.bookingId) && (
-                      <button type="button" onClick={() => home.askRemove(w)} className="ah-tap inline-flex h-12 flex-none items-center justify-center rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
+                      <div className="flex flex-none gap-2.5">
+                      <button type="button" onClick={() => home.askRemove(w)} className="ah-tap ah-btn inline-flex h-12 flex-none items-center justify-center rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
                         {t.decline}
                       </button>
+                      {w.kind === "chat" && (
+                        <Link href="/astrologer/session" className="ah-tap ah-btn ah-lift inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
+                          <Icon name="check" size={17} color="#FFAE00" stroke={2.8} />
+                          {t.goChats}
+                        </Link>
+                      )}
+                      </div>
                     )}
                   </article>
                 );
@@ -616,11 +656,11 @@ export default function HomeView() {
               <div className="font-display text-xl font-bold">{empty.title}</div>
               <p className="m-0 max-w-[440px] text-[15px] text-ink-soft">{empty.body}</p>
               {empty.cta && (
-                <button type="button" disabled={home.pending} onClick={() => home.setMode("online")} className="ah-tap mt-2 inline-flex h-[50px] items-center justify-center rounded-[14px] bg-brand px-6 text-[15px] font-bold text-brand-ink disabled:opacity-60">
+                <button type="button" disabled={home.pending} onClick={() => choose("online")} className="ah-tap ah-btn mt-2 inline-flex h-[50px] items-center justify-center rounded-[14px] bg-brand px-6 text-[15px] font-bold text-brand-ink disabled:opacity-60">
                   {empty.cta}
                 </button>
               )}
-              <Link href="/astrologer/session" className="ah-tap mt-2 inline-flex h-[50px] items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
+              <Link href="/astrologer/session" className="ah-tap ah-btn mt-2 inline-flex h-[50px] items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-6 text-[15px] font-bold text-ink-inverse">
                 <Icon name="chat" size={18} />
                 {t.goChats}
               </Link>
@@ -648,7 +688,7 @@ export default function HomeView() {
                 {today.earned !== null && (
                   <>
                     <div className="text-[13px] font-semibold text-ink-soft">{t.earned}</div>
-                    <div className="font-display text-5xl leading-[1.05] font-bold tracking-[-.01em] tabular-nums">₹{today.earned.toLocaleString("en-IN")}</div>
+                    <div className="font-display text-5xl leading-[1.05] font-bold tracking-[-.01em] tabular-nums">₹{up(today.earned).toLocaleString("en-IN")}</div>
                     {today.vsYesterday ? (
                       <div className={`mt-1 mb-3.5 flex items-center gap-1.5 text-sm font-semibold ${today.vsYesterday > 0 ? "text-success" : "text-ink-soft"}`}>
                         <Icon name="trend" size={15} color="currentColor" stroke={2.4} />
@@ -659,13 +699,13 @@ export default function HomeView() {
                     )}
                   </>
                 )}
-                <TodayRow icon="people" label={t.consult} value={String(today.sessions)} />
-                <TodayRow icon="clock" label={t.minutes} value={String(today.minutes)} />
+                <TodayRow icon="people" label={t.consult} value={String(up(today.sessions))} />
+                <TodayRow icon="clock" label={t.minutes} value={String(up(today.minutes))} />
                 {wd && wd.targetMinutes > 0 && <TodayRow icon="power" label={t.online} value={t.onlineOf(wd.onlineMinutes, wd.targetMinutes)} />}
                 <TodayRow icon="star" label={t.rating} value={home.rating.data !== null ? `${home.rating.data.toFixed(1)} ★` : t.noRating} />
               </div>
             )}
-            <Link href="/astrologer/earnings" className="ah-tap mt-3 inline-flex h-[50px] w-full items-center justify-center rounded-[14px] border-[1.5px] border-ink text-[15px] font-bold">
+            <Link href="/astrologer/earnings" className="ah-tap ah-btn mt-3 inline-flex h-[50px] w-full items-center justify-center rounded-[14px] border-[1.5px] border-ink text-[15px] font-bold">
               {t.viewEarn}
             </Link>
           </section>
@@ -677,7 +717,7 @@ export default function HomeView() {
             <div id="nb" className="mt-3.5 text-[13px] font-semibold text-ink-soft">{t.nextTitle}</div>
             {next ? (
               <>
-                <div className="mt-0.5 font-display text-xl font-bold">
+                <div className="mt-0.5 font-display text-[21px] font-bold">
                   <Person name={next.name || t.customer} locale={locale} />
                 </div>
                 <div className="text-[15px] text-ink-soft">{t.nextWhat(kindLabel(next.kind), next.durationMinutes)}</div>
