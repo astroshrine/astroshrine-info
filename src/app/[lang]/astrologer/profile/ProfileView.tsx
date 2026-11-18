@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { PiRocket, PiCamera, PiChatCircleText, PiClock, PiPhone, PiQuestion, PiSeal, PiStar, PiUser, PiPower, PiCaretRight } from "react-icons/pi";
+import { useEffect, useState } from "react";
+import { PiRocket, PiChatCircleText, PiClock, PiEye, PiPencilSimple, PiPhone, PiQuestion, PiSeal, PiStar, PiUser, PiPower, PiCaretRight } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import Link from "@/i18n/Link";
 import { INTL_LOCALE } from "@/i18n/config";
@@ -12,8 +11,6 @@ import { ApiError } from "@/lib/api";
 import { DEFAULT_CHAT_RATE, priceOf } from "@/lib/endpoints";
 import type { Review } from "@/lib/services/astrologerModel";
 import {
-  NAME_MAX,
-  NAME_MIN,
   RATE_MAX,
   RATE_MIN,
   TARGET_MAX,
@@ -26,19 +23,34 @@ import {
   saveProfile,
   savePricing,
   saveWorkdaySettings,
-  uploadPhoto,
   type OwnAstrologer,
   type Workday,
 } from "@/lib/services/astrologerProfile";
-import { Accent, Button, Card, IconBadge, Page, PageTitle, Pill, StatTile, fieldClass, labelClass } from "../_console/ui";
+import { Accent, Button, Card, IconBadge, Page, PageTitle, Pill, fieldClass, labelClass } from "../_console/ui";
 import { useAstrologer } from "../_console/useAstrologer";
+import {
+  Avatar,
+  DetailsInputs,
+  EXPERTISE_CHOICES,
+  LANGUAGE_CHOICES,
+  Note,
+  PhotoField,
+  Text,
+  canonical,
+  checkDetails,
+  fieldText,
+  labelOf,
+  messageOf,
+  whole,
+  type DetailsDraft,
+} from "./DetailsFields";
 
 const text = defineMessages({
   hi: {
     eyebrow: "प्रोफ़ाइल और दरें",
     titleA: "आपकी ",
     titleB: "प्रोफ़ाइल",
-    sub: "ग्राहक आपको ऐसे देखते हैं। अपनी जानकारी, दरें और विश्राम-समय यहीं बदलें।",
+    sub: "ग्राहक आपको ऐसे देखते हैं। अपनी फ़ोटो, परिचय, विशेषज्ञता, दरें और विश्राम-समय यहीं बदलें।",
     loading: "प्रोफ़ाइल लोड हो रही है…",
     failed: "प्रोफ़ाइल नहीं खुल सकी।",
     retry: "फिर कोशिश करें",
@@ -48,28 +60,19 @@ const text = defineMessages({
     sessions: "परामर्श",
     years: (n: number) => `${n} वर्ष का अनुभव`,
     publicCard: "सार्वजनिक प्रोफ़ाइल देखें",
-    photo: "फ़ोटो बदलें",
-    photoUploading: "अपलोड हो रही है…",
-    photoSaved: "फ़ोटो बदल दी गई।",
-    photoType: "केवल JPG, PNG या WebP फ़ोटो चुनें।",
-    photoSize: "फ़ोटो 5 MB से छोटी होनी चाहिए।",
-    infoTitle: "आपकी जानकारी",
-    name: "नाम",
-    experience: "अनुभव (वर्ष)",
-    expertise: "विशेषज्ञता",
-    expertiseHint: "अल्पविराम से अलग करें, जैसे: वैदिक ज्योतिष, कुंडली, करियर",
-    languages: "भाषाएँ",
-    languagesHint: "अल्पविराम से अलग करें, जैसे: हिंदी, अंग्रेज़ी",
-    about: "आपके बारे में",
-    aboutHint: "ग्राहकों को अपना अनुभव और तरीका बताएँ।",
-    save: "जानकारी सहेजें",
+    aboutTitle: "आपके बारे में और विशेषज्ञता",
+    edit: "प्रोफ़ाइल बदलें",
+    saveProfile: "प्रोफ़ाइल सहेजें",
+    cancel: "रद्द करें",
+    editHint: "सहेजने के बाद बदलाव आपके सार्वजनिक कार्ड पर दिखेंगे।",
+    expL: "विशेषज्ञता",
+    langL: "भाषाएँ",
+    cardTitle: "ग्राहक क्या देखते हैं",
+    perMin: (n: number) => `₹${n}/मिनट`,
+    sessionsCount: (n: number) => `${n} परामर्श`,
+    noAbout: "अभी कुछ नहीं लिखा। ग्राहक आपको चुनने से पहले इसे पढ़ते हैं।",
     saving: "सहेज रहे हैं…",
     saved: "सहेजा गया ✓",
-    errName: `नाम ${NAME_MIN} से ${NAME_MAX} अक्षरों का होना चाहिए।`,
-    errExperience: "अनुभव 0 से 80 के बीच पूरी संख्या होनी चाहिए।",
-    errExpertise: "कम से कम एक विशेषज्ञता लिखें।",
-    errLanguages: "कम से कम एक भाषा लिखें।",
-    errAbout: "अपने बारे में कुछ लिखें।",
     ratesTitle: "आपकी दरें",
     ratesSub: "प्रति मिनट रुपये में। ग्राहक वही चुकाते हैं जो यहाँ दिखता है। दरें और ऑफ़र 24 घंटे में एक बार बदले जा सकते हैं।",
     chat: "चैट",
@@ -120,7 +123,7 @@ const text = defineMessages({
     eyebrow: "Profile and rates",
     titleA: "Your ",
     titleB: "profile",
-    sub: "This is how customers see you. Change your details, rates and rest hours here.",
+    sub: "This is how customers see you. Edit your photo, bio and expertise, and set your rates and rest hours.",
     loading: "Loading your profile…",
     failed: "Could not load your profile.",
     retry: "Try again",
@@ -130,28 +133,19 @@ const text = defineMessages({
     sessions: "Sessions",
     years: (n) => `${n} years of experience`,
     publicCard: "View public profile",
-    photo: "Change photo",
-    photoUploading: "Uploading…",
-    photoSaved: "Photo updated.",
-    photoType: "Choose a JPG, PNG or WebP photo.",
-    photoSize: "The photo must be smaller than 5 MB.",
-    infoTitle: "Your details",
-    name: "Name",
-    experience: "Experience (years)",
-    expertise: "Expertise",
-    expertiseHint: "Separate with commas, e.g. Vedic astrology, Kundli, Career",
-    languages: "Languages",
-    languagesHint: "Separate with commas, e.g. Hindi, English",
-    about: "About you",
-    aboutHint: "Tell customers about your experience and approach.",
-    save: "Save details",
+    aboutTitle: "About you and expertise",
+    edit: "Edit profile",
+    saveProfile: "Save profile",
+    cancel: "Cancel",
+    editHint: "Changes show on your public card after you save.",
+    expL: "Expertise",
+    langL: "Languages",
+    cardTitle: "What customers see",
+    perMin: (n) => `₹${n}/min`,
+    sessionsCount: (n) => `${n} sessions`,
+    noAbout: "Nothing written yet. Customers read this before they choose you.",
     saving: "Saving…",
     saved: "Saved ✓",
-    errName: `Name must be ${NAME_MIN} to ${NAME_MAX} characters.`,
-    errExperience: "Experience must be a whole number from 0 to 80.",
-    errExpertise: "Add at least one area of expertise.",
-    errLanguages: "Add at least one language.",
-    errAbout: "Write something about yourself.",
     ratesTitle: "Your rates",
     ratesSub: "Per minute, in rupees. Customers pay what you see here. You can change rates and offers once every 24 hours.",
     chat: "Chat",
@@ -202,16 +196,6 @@ const text = defineMessages({
 
 /** What the backend bills a call when no rate is stored (the app's DEFAULT_CALL_RATE). */
 const DEFAULT_CALL_RATE = 10;
-
-const hasDevanagari = (s: string) => /[ऀ-ॿ]/.test(s);
-const Text = ({ children, className }: { children: string; className?: string }) => (
-  <span lang={hasDevanagari(children) ? "hi" : undefined} className={className}>
-    {children}
-  </span>
-);
-
-const list = (v: string) => [...new Set(v.split(/[,،，\n]/).map((s) => s.trim()).filter(Boolean))];
-const whole = (v: string) => (/^\d+$/.test(v.trim()) ? Number(v.trim()) : NaN);
 
 const REPLY_MAX = 500;
 
@@ -311,6 +295,8 @@ export default function ProfileView() {
   const { session, signOut, refresh } = useAuth();
   const [load, setLoad] = useState<Load | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [editing, setEditing] = useState(false);
+  const hi = locale === "hi";
 
   useEffect(() => {
     if (status !== "ready" || !id || !session) return;
@@ -378,228 +364,141 @@ export default function ProfileView() {
     <Page>
       {header}
 
-      <Card className="flex flex-wrap items-center gap-6 p-6 sm:p-7">
-        <PhotoPicker me={me} onDone={reload} t={t} />
-        <div className="min-w-0 flex-1 basis-64">
-          <h2 className="font-display text-3xl font-bold leading-tight">
-            <Text>{me.name || "—"}</Text>
-          </h2>
-          <p className="mt-1 text-ink-soft">{t.years(me.experience)}</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {me.expertise.map((e) => (
-              <Pill key={e}>
-                <Text>{e}</Text>
+      <div className="flex flex-wrap items-start gap-7">
+        <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-6 lg:max-w-[360px]">
+          <Card className="flex flex-col items-center rounded-t-[160px] px-6 pb-7 pt-10 text-center" aria-label={t.cardTitle}>
+            <Avatar photo={me.photo} name={me.name} size={120} />
+            <h2 className="mt-5 font-display text-2xl font-bold leading-tight">
+              <Text>{me.name || "—"}</Text>
+            </h2>
+            <p className="mt-1 text-[15px] text-ink-soft">{t.years(me.experience)}</p>
+            {me.languages.length > 0 && (
+              <p className="mt-0.5 text-[14px] text-ink-soft">
+                {me.languages.map((l, i) => (
+                  <span key={l}>
+                    {i > 0 && ", "}
+                    <Text>{labelOf(LANGUAGE_CHOICES, l, hi)}</Text>
+                  </span>
+                ))}
+              </p>
+            )}
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
+              <Pill>
+                <PiStar size={14} aria-hidden="true" />
+                {me.rating ? me.rating.toFixed(1) : t.noRating} · {t.reviewsCount(me.reviews)}
               </Pill>
-            ))}
+              <Pill tone="neutral">{t.sessionsCount(me.orders)}</Pill>
+            </div>
+            <div className="mt-5 flex flex-wrap justify-center gap-2.5">
+              <Button size="sm" onClick={() => setEditing(true)}>
+                <PiPencilSimple size={17} className="text-brand" aria-hidden="true" />
+                {t.edit}
+              </Button>
+              <Button href={`/astrologers/${me.id}`} variant="line" size="sm">
+                <PiEye size={17} aria-hidden="true" />
+                {t.publicCard}
+              </Button>
+            </div>
+          </Card>
+
+          <div className="rounded-[20px] border border-line bg-surface-page p-[18px]">
+            <p className="mb-3 text-[13px] font-semibold text-ink-soft">{t.cardTitle}</p>
+            <div className="flex items-center gap-3.5">
+              <Avatar photo={me.photo} name={me.name} size={56} />
+              <p className="min-w-0 text-[17px] font-bold">
+                <Text>{me.name || "—"}</Text>
+              </p>
+            </div>
+            {me.expertise.length > 0 && (
+              <p className="mt-3 text-[14.5px] font-semibold">
+                <Text>{me.expertise.map((e) => labelOf(EXPERTISE_CHOICES, e, hi)).join(" · ")}</Text>
+              </p>
+            )}
+            <div className="mt-3.5 grid grid-cols-2 gap-2.5">
+              <span className="inline-flex h-11 items-center justify-center gap-1.5 rounded-[14px] bg-surface-inverse px-2.5 text-[13.5px] font-bold text-ink-inverse">
+                <PiChatCircleText size={16} aria-hidden="true" />
+                {t.chat} · {t.perMin(priceOf(me.pricing.chat, DEFAULT_CHAT_RATE).price)}
+              </span>
+              <span className="inline-flex h-11 items-center justify-center gap-1.5 rounded-[14px] bg-brand px-2.5 text-[13.5px] font-bold text-brand-ink">
+                <PiPhone size={16} aria-hidden="true" />
+                {t.call} · {t.perMin(priceOf(me.pricing.call, DEFAULT_CALL_RATE).price)}
+              </span>
+            </div>
           </div>
-          {me.languages.length > 0 && (
-            <p className="mt-3 text-[15px] text-ink-soft">
-              {me.languages.map((l, i) => (
-                <span key={l}>
-                  {i > 0 && ", "}
-                  <Text>{l}</Text>
-                </span>
-              ))}
-            </p>
-          )}
-          {me.aboutMe && (
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed">
-              <Text>{me.aboutMe}</Text>
-            </p>
-          )}
-          <Link href={`/astrologers/${me.id}`} className="mt-4 inline-flex items-center gap-1 text-[15px] font-bold text-brand-strong hover:underline">
-            {t.publicCard}
-            <PiCaretRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-      </Card>
 
-      <div className="flex flex-wrap gap-4">
-        <StatTile icon={PiStar} label={t.rating} value={me.rating ? me.rating.toFixed(1) : t.noRating} hint={t.reviewsCount(me.reviews)} />
-        <StatTile icon={PiUser} label={t.sessions} value={me.orders.toLocaleString(intl)} />
+          <Card className="p-6" aria-labelledby="pf-account">
+            <div className="flex items-center gap-3">
+              <IconBadge icon={PiUser} size={42} />
+              <h2 id="pf-account" className="font-display text-xl font-bold">
+                {t.account}
+              </h2>
+            </div>
+            <p className="mt-3 text-[14.5px] text-ink-soft">{t.payouts}</p>
+            <ul className="mt-3 divide-y divide-line">
+              <li>
+                <Link href="/astrologer/help" className="flex items-center gap-3 py-3.5 transition hover:translate-x-1">
+                  <IconBadge icon={PiQuestion} size={38} />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-bold">{t.help}</span>
+                    <span className="block text-[13.5px] text-ink-soft">{t.helpSub}</span>
+                  </span>
+                  <PiCaretRight size={16} className="text-ink-soft" aria-hidden="true" />
+                </Link>
+              </li>
+              <li>
+                <button type="button" onClick={() => void signOut()} className="flex w-full cursor-pointer items-center gap-3 py-3.5 text-left font-bold text-danger">
+                  <span aria-hidden="true" className="inline-flex size-[38px] shrink-0 items-center justify-center rounded-full bg-danger-soft">
+                    <PiPower size={18} />
+                  </span>
+                  {t.logout}
+                </button>
+              </li>
+            </ul>
+          </Card>
+        </div>
+
+        <div className="flex min-w-0 flex-[3_1_480px] flex-col gap-7">
+          <DetailsCard
+            key={`d-${me.name}-${me.experience}-${me.aboutMe}-${me.expertise.join()}-${me.languages.join()}`}
+            me={me}
+            editing={editing}
+            setEditing={setEditing}
+            hi={hi}
+            onPhoto={reload}
+            onSaved={() => {
+              reload();
+              void refresh();
+            }}
+            t={t}
+          />
+          <RatesForm key={`r-${JSON.stringify(me.pricing)}`} me={me} onChanged={reload} when={when} t={t} />
+          {workday && <BoostCard id={me.id} settings={workday.settings} t={t} />}
+          {workday && <WorkdayForm key={`w-${JSON.stringify(workday.settings)}`} id={me.id} workday={workday} onSaved={reload} t={t} />}
+
+          <Card className="p-6 sm:p-7" aria-labelledby="pf-reviews">
+            <div className="flex items-center gap-3">
+              <IconBadge icon={PiStar} size={42} />
+              <h2 id="pf-reviews" className="font-display text-2xl font-bold">
+                {t.reviewsTitle}
+              </h2>
+            </div>
+            {reviews.length === 0 ? (
+              <p className="mt-4 text-ink-soft">{t.noReviews}</p>
+            ) : (
+              <ul className="mt-4 divide-y divide-line">
+                {reviews.map((r) => (
+                  <ReviewItem key={r.key} review={r} id={me.id} t={t} intl={intl} />
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
       </div>
-
-      <DetailsForm key={`d-${me.name}-${me.experience}-${me.aboutMe}`} me={me} onSaved={() => { reload(); void refresh(); }} t={t} />
-      <RatesForm key={`r-${JSON.stringify(me.pricing)}`} me={me} onChanged={reload} when={when} t={t} />
-      {workday && <BoostCard id={me.id} settings={workday.settings} t={t} />}
-      {workday && <WorkdayForm key={`w-${JSON.stringify(workday.settings)}`} id={me.id} workday={workday} onSaved={reload} t={t} />}
-
-      <Card className="p-6 sm:p-7" aria-labelledby="pf-reviews">
-        <div className="flex items-center gap-3">
-          <IconBadge icon={PiStar} size={42} />
-          <h2 id="pf-reviews" className="font-display text-2xl font-bold">
-            {t.reviewsTitle}
-          </h2>
-        </div>
-        {reviews.length === 0 ? (
-          <p className="mt-4 text-ink-soft">{t.noReviews}</p>
-        ) : (
-          <ul className="mt-4 divide-y divide-line">
-            {reviews.map((r) => (
-              <ReviewItem key={r.key} review={r} id={me.id} t={t} intl={intl} />
-            ))}
-          </ul>
-        )}
-      </Card>
-
-      <Card className="p-6 sm:p-7" aria-labelledby="pf-account">
-        <h2 id="pf-account" className="font-display text-2xl font-bold">
-          {t.account}
-        </h2>
-        <p className="mt-2 text-[15px] text-ink-soft">{t.payouts}</p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Button href="/astrologer/help" variant="line" size="sm">
-            <PiQuestion size={18} aria-hidden="true" />
-            {t.help}
-          </Button>
-          <Button variant="red" size="sm" onClick={() => void signOut()}>
-            <PiPower size={18} aria-hidden="true" />
-            {t.logout}
-          </Button>
-        </div>
-      </Card>
     </Page>
   );
 }
 
 type T = (typeof text)["en"];
-
-function Note({ kind, children }: { kind: "ok" | "error"; children: React.ReactNode }) {
-  return (
-    <p role={kind === "error" ? "alert" : "status"} className={`text-[15px] font-semibold ${kind === "error" ? "text-danger" : "text-success"}`}>
-      {children}
-    </p>
-  );
-}
-
-function messageOf(e: unknown, fallback: string) {
-  return e instanceof ApiError || e instanceof Error ? e.message || fallback : fallback;
-}
-
-function PhotoPicker({ me, onDone, t }: { me: OwnAstrologer; onDone: () => void; t: T }) {
-  const input = useRef<HTMLInputElement>(null);
-  const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
-
-  const pick = async (file: File | undefined) => {
-    if (!file) return;
-    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return setNote({ kind: "error", text: t.photoType });
-    if (file.size > 5 * 1024 * 1024) return setNote({ kind: "error", text: t.photoSize });
-    setBusy(true);
-    setNote(null);
-    try {
-      await uploadPhoto(me.id, file);
-      setNote({ kind: "ok", text: t.photoSaved });
-      onDone();
-    } catch (e) {
-      setNote({ kind: "error", text: messageOf(e, t.genericError) });
-    } finally {
-      setBusy(false);
-      if (input.current) input.current.value = "";
-    }
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="relative size-32 overflow-hidden rounded-full border border-line bg-surface-sunken">
-        {me.photo ? (
-          <Image src={me.photo} alt="" fill sizes="128px" className="object-cover" unoptimized />
-        ) : (
-          <span className="flex size-full items-center justify-center text-brand-strong">
-            <PiUser size={48} aria-hidden="true" />
-          </span>
-        )}
-      </div>
-      <input ref={input} type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" id="pf-photo" onChange={(e) => void pick(e.target.files?.[0])} />
-      <Button variant="line" size="sm" disabled={busy} onClick={() => input.current?.click()}>
-        <PiCamera size={18} aria-hidden="true" />
-        {busy ? t.photoUploading : t.photo}
-      </Button>
-      {note && <Note kind={note.kind}>{note.text}</Note>}
-    </div>
-  );
-}
-
-function DetailsForm({ me, onSaved, t }: { me: OwnAstrologer; onSaved: () => void; t: T }) {
-  const [name, setName] = useState(me.name);
-  const [experience, setExperience] = useState(String(me.experience));
-  const [expertise, setExpertise] = useState(me.expertise.join(", "));
-  const [languages, setLanguages] = useState(me.languages.join(", "));
-  const [about, setAbout] = useState(me.aboutMe);
-  const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const n = name.trim().replace(/\s+/g, " ");
-    const exp = whole(experience);
-    const ex = list(expertise);
-    const la = list(languages);
-    const error =
-      n.length < NAME_MIN || n.length > NAME_MAX ? t.errName
-      : !(exp >= 0 && exp <= 80) ? t.errExperience
-      : ex.length === 0 ? t.errExpertise
-      : la.length === 0 ? t.errLanguages
-      : !about.trim() ? t.errAbout
-      : null;
-    if (error) return setNote({ kind: "error", text: error });
-    setBusy(true);
-    setNote(null);
-    try {
-      await saveProfile(me.id, { name: n, experience: exp, aboutMe: about.trim(), expertise: ex, languages: la });
-      setNote({ kind: "ok", text: t.saved });
-      onSaved();
-    } catch (err) {
-      setNote({ kind: "error", text: messageOf(err, t.genericError) });
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  return (
-    <Card as="section" className="p-6 sm:p-7" aria-labelledby="pf-details">
-      <form onSubmit={submit} noValidate className="flex flex-col gap-5">
-        <div className="flex items-center gap-3">
-          <IconBadge icon={PiUser} size={42} />
-          <h2 id="pf-details" className="font-display text-2xl font-bold">
-            {t.infoTitle}
-          </h2>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <label className="flex flex-col gap-1.5">
-            <span className={labelClass}>{t.name}</span>
-            <input className={fieldClass} value={name} maxLength={NAME_MAX} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className={labelClass}>{t.experience}</span>
-            <input className={fieldClass} value={experience} inputMode="numeric" onChange={(e) => setExperience(e.target.value)} />
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className={labelClass}>{t.expertise}</span>
-            <input className={fieldClass} value={expertise} onChange={(e) => setExpertise(e.target.value)} />
-            <span className="text-[13px] text-ink-soft">{t.expertiseHint}</span>
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className={labelClass}>{t.languages}</span>
-            <input className={fieldClass} value={languages} onChange={(e) => setLanguages(e.target.value)} />
-            <span className="text-[13px] text-ink-soft">{t.languagesHint}</span>
-          </label>
-        </div>
-        <label className="flex flex-col gap-1.5">
-          <span className={labelClass}>{t.about}</span>
-          <textarea className={`${fieldClass} h-36 resize-y py-3`} value={about} onChange={(e) => setAbout(e.target.value)} />
-          <span className="text-[13px] text-ink-soft">{t.aboutHint}</span>
-        </label>
-        <div className="flex flex-wrap items-center gap-4">
-          <Button type="submit" disabled={busy}>
-            {busy ? t.saving : t.save}
-          </Button>
-          {note && <Note kind={note.kind}>{note.text}</Note>}
-        </div>
-      </form>
-    </Card>
-  );
-}
 
 function RatesForm({ me, onChanged, when, t }: { me: OwnAstrologer; onChanged: () => void; when: (ms: number) => string; t: T }) {
   const chat = priceOf(me.pricing.chat, DEFAULT_CHAT_RATE);
@@ -826,6 +725,111 @@ function BoostCard({ id, settings, t }: { id: string; settings: Workday["setting
         ))}
       </ul>
       {error && <Note kind="error">{error}</Note>}
+    </Card>
+  );
+}
+
+function DetailsCard({
+  me,
+  editing,
+  setEditing,
+  hi,
+  onPhoto,
+  onSaved,
+  t,
+}: {
+  me: OwnAstrologer;
+  editing: boolean;
+  setEditing: (v: boolean) => void;
+  hi: boolean;
+  onPhoto: () => void;
+  onSaved: () => void;
+  t: T;
+}) {
+  const f = useT(fieldText);
+  const initial = (): DetailsDraft => ({
+    name: me.name,
+    experience: String(me.experience),
+    about: me.aboutMe,
+    expertise: me.expertise.map((v) => canonical(EXPERTISE_CHOICES, v)),
+    languages: me.languages.map((v) => canonical(LANGUAGE_CHOICES, v)),
+  });
+  const [draft, setDraft] = useState<DetailsDraft>(initial);
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const checked = checkDetails(draft, f);
+    if ("error" in checked) return setNote({ kind: "error", text: checked.error });
+    setBusy(true);
+    setNote(null);
+    try {
+      await saveProfile(me.id, checked.input);
+      setNote({ kind: "ok", text: t.saved });
+      setEditing(false);
+      onSaved();
+    } catch (err) {
+      setNote({ kind: "error", text: messageOf(err, t.genericError) });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card as="section" className="p-6 sm:p-7" aria-labelledby="pf-details">
+      <div className="flex flex-wrap items-center gap-3">
+        <IconBadge icon={PiUser} size={42} />
+        <h2 id="pf-details" className="font-display text-2xl font-bold">
+          {t.aboutTitle}
+        </h2>
+        {!editing && (
+          <Button variant="line" size="sm" className="ml-auto" onClick={() => setEditing(true)}>
+            <PiPencilSimple size={16} aria-hidden="true" />
+            {t.edit}
+          </Button>
+        )}
+        {!editing && note?.kind === "ok" && <Pill tone="green">{note.text}</Pill>}
+      </div>
+
+      {editing ? (
+        <form onSubmit={submit} noValidate className="mt-5 flex flex-col gap-6">
+          <PhotoField id={me.id} photo={me.photo} name={draft.name} onDone={onPhoto} />
+          <DetailsInputs draft={draft} onChange={(p) => setDraft((d) => ({ ...d, ...p }))} />
+          <div className="flex flex-wrap items-center gap-3">
+            <Button type="submit" disabled={busy}>
+              {busy ? t.saving : t.saveProfile}
+            </Button>
+            <Button
+              variant="line"
+              disabled={busy}
+              onClick={() => {
+                setDraft(initial());
+                setNote(null);
+                setEditing(false);
+              }}
+            >
+              {t.cancel}
+            </Button>
+            <span className="text-[13.5px] text-ink-soft">{t.editHint}</span>
+          </div>
+          {note?.kind === "error" && <Note kind="error">{note.text}</Note>}
+        </form>
+      ) : (
+        <div className="mt-4 flex flex-col gap-4">
+          <p className="max-w-3xl text-[15.5px] leading-relaxed">{me.aboutMe ? <Text>{me.aboutMe}</Text> : <span className="text-ink-soft">{t.noAbout}</span>}</p>
+          <dl className="grid gap-x-6 gap-y-2 text-[15px] sm:grid-cols-[auto_1fr]">
+            <dt className="font-bold text-brand-strong">{t.expL}</dt>
+            <dd>
+              <Text>{me.expertise.map((e) => labelOf(EXPERTISE_CHOICES, e, hi)).join(" · ") || "—"}</Text>
+            </dd>
+            <dt className="font-bold text-brand-strong">{t.langL}</dt>
+            <dd>
+              <Text>{me.languages.map((l) => labelOf(LANGUAGE_CHOICES, l, hi)).join(", ") || "—"}</Text>
+            </dd>
+          </dl>
+        </div>
+      )}
     </Card>
   );
 }

@@ -16,6 +16,7 @@ const PATHS = {
   pin: "M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z",
   mic: "M5 11a7 7 0 0 0 14 0M12 18v3",
   bolt: "M13 2 4 14h7l-1 8 9-12h-7z",
+  sun: "M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4",
   kundli: "M3 3l18 18M21 3 3 21M12 3l9 9-9 9-9-9z",
 } as const;
 
@@ -30,6 +31,7 @@ const EXTRA: Partial<Record<IconName, ReactNode>> = {
   calendar: <rect x="3" y="5" width="18" height="16" rx="2" />,
   pin: <circle cx="12" cy="10" r="2.5" />,
   mic: <rect x="9" y="3" width="6" height="11" rx="3" />,
+  sun: <circle cx="12" cy="12" r="4" />,
   kundli: <rect x="3" y="3" width="18" height="18" rx="1.5" />,
 };
 

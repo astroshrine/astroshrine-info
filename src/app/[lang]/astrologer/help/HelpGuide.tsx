@@ -3,7 +3,8 @@
 import { PiArrowRight, PiBroadcast, PiDiamond, PiPhone, PiTranslate, PiWallet } from "react-icons/pi";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
-import { Accent, Button, Card, IconBadge, Ornament, Page, PageTitle, Pill } from "../_console/ui";
+import Rails from "../_console/Rails";
+import { Accent, Button, Card, IconBadge, Ornament, Page, PageTitle, Pill, WithHindiLabel } from "../_console/ui";
 /** How long a chat request waits for the astrologer to accept it. */
 const ACCEPT_SECONDS = 30;
 
@@ -24,7 +25,7 @@ const text = defineMessages({
     s3t: "चैट के दौरान ग्राहक की कुंडली और आपके निजी नोट्स बातचीत के ठीक बगल में दिखते हैं।",
     s3l: "चैट खोलें",
     s4: "भुगतान पाएँ",
-    s4t: "आपकी कमाई लाइव दिखती है। हर सोमवार पैसा बैंक में आता है, या आप कभी भी निकाल सकते हैं।",
+    s4t: "आपकी कमाई लाइव दिखती है। कमाई पन्ने पर हर सत्र का विवरण देखें।",
     s4l: "कमाई देखें",
     langNote: "ऊपर दिए EN / हिं बटन से कभी भी अंग्रेज़ी और हिंदी के बीच बदलें।",
   },
@@ -44,24 +45,11 @@ const text = defineMessages({
     s3t: "During a chat, the customer’s kundli and your private notes stay right beside the conversation.",
     s3l: "Open chats",
     s4: "Get paid",
-    s4t: "Your earnings update live. Money reaches your bank every Monday, or you can withdraw at any time.",
+    s4t: "Your earnings update live. See every session on the earnings page.",
     s4l: "See earnings",
     langNote: "Switch between English and Hindi at any time with the EN / हिं button at the top.",
   },
 });
-
-/** The "EN / हिं" in the English note is Hindi text: mark it so the page stays English-only to readers. */
-function LangNote({ note }: { note: string }) {
-  const [before, after] = note.split("हिं");
-  if (after === undefined) return <>{note}</>;
-  return (
-    <>
-      {before}
-      <span lang="hi">हिं</span>
-      {after}
-    </>
-  );
-}
 
 export default function HelpGuide() {
   const t = useT(text);
@@ -72,7 +60,9 @@ export default function HelpGuide() {
     { icon: PiWallet, title: t.s4, body: t.s4t, link: t.s4l, href: "/astrologer/earnings" },
   ];
   return (
-    <Page>
+    <div className="relative flex flex-1 flex-col">
+    <Rails />
+    <Page className="relative z-[1]">
       <PageTitle
         eyebrow={t.eyebrow}
         title={
@@ -110,9 +100,10 @@ export default function HelpGuide() {
       <div className="flex items-center justify-center gap-3 py-1 text-[15.5px] text-ink-soft">
         <PiTranslate className="h-[22px] w-[22px] shrink-0 text-brand-strong" aria-hidden />
         <span>
-          <LangNote note={t.langNote} />
+          <WithHindiLabel text={t.langNote} />
         </span>
       </div>
     </Page>
+    </div>
   );
 }

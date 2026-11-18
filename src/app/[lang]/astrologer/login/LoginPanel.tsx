@@ -28,7 +28,7 @@ const text = defineMessages({
     noticeSub: "ग्राहक AstroShrine ऐप और वेबसाइट पर ज्योतिषियों से चैट या कॉल कर सकते हैं।",
     noticeLink: "astroshrine.in पर जाएँ",
     b1: "देश भर के जिज्ञासुओं से चैट और कॉल अनुरोध",
-    b2: "कमाई हर सोमवार आपके बैंक खाते में",
+    b2: "कमाई का पूरा हिसाब कंसोल में",
     b3: "कंसोल हिंदी या अंग्रेज़ी में चलाएँ",
     cardTitle: "ज्योतिषी साइन इन",
     mobile: "मोबाइल नंबर",
@@ -48,6 +48,8 @@ const text = defineMessages({
     errOtp: "6 अंकों का कोड दर्ज करें।",
     errVerify: "कोड सत्यापित नहीं हुआ। कोड जाँचकर फिर कोशिश करें।",
     notAstrologer: "यह नंबर ज्योतिषी खाते का नहीं है। ग्राहक AstroShrine ऐप या वेबसाइट पर साइन इन करें। ज्योतिषी बनने के लिए आवेदन करें, हमारी टीम स्वीकृति देगी।",
+    firstNote: "पहली बार साइन इन: प्रोफ़ाइल एक बार जाँचनी होगी।",
+    notRegistered: "अभी पंजीकृत नहीं हैं? पहले आवेदन फ़ॉर्म भरें।",
     terms: "साइन इन करके आप पवित्रता की शर्तों और गोपनीयता व्यवस्था से सहमत होते हैं।",
   },
   en: {
@@ -60,7 +62,7 @@ const text = defineMessages({
     noticeSub: "Customers can chat with or call astrologers on the AstroShrine app and website.",
     noticeLink: "Go to astroshrine.in",
     b1: "Chat and call requests from seekers across India",
-    b2: "Earnings paid to your bank every Monday",
+    b2: "Your earnings, clearly shown in the console",
     b3: "Use the console in Hindi or English",
     cardTitle: "Astrologer sign in",
     mobile: "Mobile number",
@@ -80,6 +82,8 @@ const text = defineMessages({
     errOtp: "Enter the 6-digit code.",
     errVerify: "The code could not be verified. Check it and try again.",
     notAstrologer: "This number is not an astrologer account. Customers sign in on the AstroShrine app or website. To become an astrologer, apply and our team will approve you.",
+    firstNote: "First sign-in: you will check your profile once.",
+    notRegistered: "Not registered yet? Fill the application first.",
     terms: "By signing in, you agree to the Terms of Sanctity and the Privacy Architecture.",
   },
 });
@@ -316,6 +320,7 @@ export default function LoginPanel() {
                   {busy ? t.wait : t.signInBtn}
                   <PiArrowRight className="h-[18px] w-[18px] text-brand" aria-hidden />
                 </Button>
+                <p className="-mt-1 text-[13px] font-semibold text-brand-strong">{t.firstNote}</p>
                 <button
                   type="button"
                   disabled={left > 0 || busy}
@@ -332,7 +337,9 @@ export default function LoginPanel() {
               {t.or}
               <span className="h-px flex-1 bg-line" />
             </div>
-            <div className="text-[15px] text-ink-soft">{t.newHere}</div>
+            <div className="text-[15px] text-ink-soft">
+              {t.newHere} {t.notRegistered}
+            </div>
             <Button href="/astrologer/join" variant="gold" className="h-[54px] w-full text-base">
               <PiStar className="h-[17px] w-[17px]" aria-hidden />
               {t.joinBtn}

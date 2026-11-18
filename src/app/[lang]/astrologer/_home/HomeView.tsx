@@ -49,6 +49,9 @@ const text = defineMessages({
     video: "वीडियो",
     customer: "ग्राहक",
     newRequest: (name: string, kind: string) => `${name} का नया ${kind} अनुरोध`,
+    newBadge: "नया अनुरोध",
+    vsMore: (n: string) => `कल से ₹${n} अधिक`,
+    vsLess: (n: string) => `कल से ₹${n} कम`,
     dismiss: "बंद करें",
     waitingTitle: "प्रतीक्षा में ग्राहक",
     nWaiting: (n: number) => `${n} प्रतीक्षा में`,
@@ -140,6 +143,9 @@ const text = defineMessages({
     video: "Video",
     customer: "Customer",
     newRequest: (name, kind) => `New ${kind} request from ${name}`,
+    newBadge: "New request",
+    vsMore: (n) => `₹${n} more than yesterday`,
+    vsLess: (n) => `₹${n} less than yesterday`,
     dismiss: "Dismiss",
     waitingTitle: "Waiting customers",
     nWaiting: (n) => `${n} waiting`,
@@ -238,7 +244,7 @@ function TodayRow({ icon, label, value }: { icon: IconName; label: string; value
     <div className="flex items-center justify-between gap-3 border-t border-line py-3">
       <span className="flex items-center gap-2.5 text-[15px] text-ink-soft">
         <span className="flex size-[34px] flex-none items-center justify-center rounded-[10px] bg-surface-sunken">
-          <Icon name={icon} size={18} color="var(--color-ink)" stroke={2} />
+          <Icon name={icon} size={17} color="var(--color-brand-strong)" stroke={2.2} />
         </span>
         {label}
       </span>
@@ -406,19 +412,47 @@ export default function HomeView() {
       <PageTitle eyebrow={t.eyebrow} title={name || t.fallbackName} sub={sub} />
       <Ornament />
 
-      {home.arrivals.map((w) => (
-        <Notice
-          key={w.key}
-          tone="info"
-          action={
-            <button type="button" onClick={() => home.dismissArrival(w.key)} className="ah-tap h-9 rounded-xl border border-ink px-3.5 text-sm font-bold">
-              {t.dismiss}
-            </button>
-          }
-        >
-          {t.newRequest(display(w), kindLabel(w.kind))}
-        </Notice>
-      ))}
+      {home.arrivals.map((w) => {
+        const wait = waited(w.since);
+        return (
+          <section key={w.key} role="status" aria-label={t.newRequest(display(w), kindLabel(w.kind))} className="ah-rise ah-card flex flex-wrap items-center gap-x-[18px] gap-y-3.5 rounded-[22px] border-[1.5px] border-brand bg-surface-sunken p-5 sm:px-[26px]">
+            <div className="relative flex size-[54px] flex-none items-center justify-center rounded-full bg-surface-inverse text-[17px] font-bold text-brand">
+              <span aria-hidden="true" className="ah-pulse absolute inset-0 rounded-full bg-[rgba(255,174,0,.35)]" />
+              <span className="relative"><Person name={initialsOf(w.name)} locale={locale} /></span>
+            </div>
+            <div className="min-w-0 flex-[1_1_260px]">
+              <div className="text-[13px] font-bold tracking-wide text-brand-strong uppercase">{t.newBadge}</div>
+              <div className="font-display text-xl font-bold">
+                <Person name={display(w)} locale={locale} />
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <Pill className={w.kind === "call" ? "bg-success-soft text-success" : "bg-[#E9EDF7] text-ink"}>
+                  <Icon name={w.kind === "call" ? "phone" : "chat"} size={14} />
+                  {kindLabel(w.kind)}
+                </Pill>
+                {(w.subType === "video" || w.subType === "audio") && <Pill className="bg-surface-card text-brand-strong">{w.subType === "video" ? t.video : t.audio}</Pill>}
+                {wait && (
+                  <Pill className="bg-surface-card text-ink-soft">
+                    <Icon name="clock" size={14} />
+                    {wait}
+                  </Pill>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-none flex-wrap gap-2.5">
+              <button type="button" onClick={() => home.dismissArrival(w.key)} className="ah-tap h-12 rounded-[14px] border-[1.5px] border-ink px-[18px] text-[15px] font-bold">
+                {t.dismiss}
+              </button>
+              {w.kind === "chat" && (
+                <Link href="/astrologer/session" className="ah-tap inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-surface-inverse px-5 text-[15px] font-bold text-ink-inverse">
+                  <Icon name="chat" size={17} color="#FFAE00" />
+                  {t.goChats}
+                </Link>
+              )}
+            </div>
+          </section>
+        );
+      })}
 
       {/* Status */}
       <section aria-label={t.statusLabel} className="ah-rise ah-card flex flex-wrap items-center gap-x-10 gap-y-6 rounded-[22px] border border-line bg-surface-card px-5 py-7 sm:px-8">
@@ -488,7 +522,7 @@ export default function HomeView() {
             {home.active.map(({ booking, chatId }) => (
               <div key={booking.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-line bg-surface-page p-4">
                 <div className="flex min-w-0 items-center gap-3.5">
-                  <div className="flex size-[46px] flex-none items-center justify-center rounded-full bg-surface-sunken font-bold text-brand-strong">{initialsOf(booking.name)}</div>
+                  <div className="flex size-[46px] flex-none items-center justify-center rounded-full bg-surface-sunken font-bold text-brand-strong"><Person name={initialsOf(booking.name)} locale={locale} /></div>
                   <div className="min-w-0">
                     <div className="text-[17px] font-bold">
                       <Person name={booking.name || t.customer} locale={locale} />
@@ -544,7 +578,7 @@ export default function HomeView() {
                 const wait = waited(w.since);
                 return (
                   <article key={w.key} className="ah-rise ah-rowh flex flex-wrap items-center gap-x-[18px] gap-y-3.5 rounded-[18px] border border-line bg-surface-page p-[18px]" style={{ animationDelay: `${Math.min(i, 5) * 0.08}s` }}>
-                    <div className="flex size-[54px] flex-none items-center justify-center rounded-full bg-surface-sunken text-[17px] font-bold text-brand-strong">{initialsOf(w.name)}</div>
+                    <div className="flex size-[54px] flex-none items-center justify-center rounded-full bg-surface-sunken text-[17px] font-bold text-brand-strong"><Person name={initialsOf(w.name)} locale={locale} /></div>
                     <div className="min-w-0 flex-[1_1_280px]">
                       <div className="text-[17px] font-bold">
                         <Person name={display(w)} locale={locale} />
@@ -598,7 +632,7 @@ export default function HomeView() {
         <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-7">
           <section aria-labelledby="td" className="ah-rise ah-card rounded-[22px] border border-line bg-surface-card p-5 sm:p-[26px]" style={{ animationDelay: ".18s" }}>
             <div className="flex items-center gap-3">
-              <IconBadge name="star" />
+              <IconBadge name="sun" />
               <h2 id="td" className="font-display text-2xl leading-tight font-bold">
                 {t.todayTitle}
               </h2>
@@ -614,7 +648,15 @@ export default function HomeView() {
                 {today.earned !== null && (
                   <>
                     <div className="text-[13px] font-semibold text-ink-soft">{t.earned}</div>
-                    <div className="mb-2 font-display text-5xl leading-[1.05] font-bold tracking-[-.01em] tabular-nums">₹{today.earned.toLocaleString("en-IN")}</div>
+                    <div className="font-display text-5xl leading-[1.05] font-bold tracking-[-.01em] tabular-nums">₹{today.earned.toLocaleString("en-IN")}</div>
+                    {today.vsYesterday ? (
+                      <div className={`mt-1 mb-3.5 flex items-center gap-1.5 text-sm font-semibold ${today.vsYesterday > 0 ? "text-success" : "text-ink-soft"}`}>
+                        <Icon name="trend" size={15} color="currentColor" stroke={2.4} />
+                        {today.vsYesterday > 0 ? t.vsMore(today.vsYesterday.toLocaleString("en-IN")) : t.vsLess(Math.abs(today.vsYesterday).toLocaleString("en-IN"))}
+                      </div>
+                    ) : (
+                      <div className="mb-2" />
+                    )}
                   </>
                 )}
                 <TodayRow icon="people" label={t.consult} value={String(today.sessions)} />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PiChatCircleText, PiClock, PiFileText, PiInfo, PiPhone, PiTrendUp, PiUsersThree } from "react-icons/pi";
+import { PiChatCircleText, PiClock, PiBank, PiFileText, PiInfo, PiPhone, PiTrendUp, PiUsersThree, PiWallet } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import { INTL_LOCALE } from "@/i18n/config";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
@@ -19,7 +19,7 @@ import {
   type OrderRow,
   type Period,
 } from "@/lib/services/astrologerEarnings";
-import { Accent, Button, Card, IconBadge, Page, PageTitle, Pill, StatTile } from "../_console/ui";
+import { Accent, Button, Card, IconBadge, Page, PageTitle, Pill } from "../_console/ui";
 import { useAstrologer } from "../_console/useAstrologer";
 
 const text = defineMessages({
@@ -31,6 +31,9 @@ const text = defineMessages({
     period: "अवधि",
     periods: { day: "7 दिन", week: "5 सप्ताह", month: "12 महीने" },
     total: "कुल कमाई",
+    balance: "चुनी अवधि की कमाई",
+    avgMinute: "प्रति मिनट औसत",
+    avgSession: "प्रति परामर्श औसत समय",
     sessions: "परामर्श",
     minutes: "कुल समय",
     min: (n: number) => `${n.toLocaleString("hi-IN")} मिनट`,
@@ -70,6 +73,9 @@ const text = defineMessages({
     period: "Period",
     periods: { day: "7 days", week: "5 weeks", month: "12 months" },
     total: "Total earned",
+    balance: "Earned in the chosen period",
+    avgMinute: "Average per minute",
+    avgSession: "Average per session",
     sessions: "Sessions",
     minutes: "Time spent",
     min: (n) => `${n.toLocaleString("en-IN")} min`,
@@ -200,7 +206,7 @@ export default function EarningsView() {
   const sessions = list.reduce((a, b) => a + bucketOrders(b), 0);
   const minutes = list.reduce((a, b) => a + bucketMinutes(b), 0);
   const total = list.reduce((a, b) => a + bucketAmount(b), 0);
-  const inr = (n: number) => new Intl.NumberFormat(intl, { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+  const inr = (n: number) => new Intl.NumberFormat(intl, { style: "currency", currency: "INR", maximumFractionDigits: n < 100 && n % 1 ? 2 : 0 }).format(n);
   const dateTime = (ts: number) => new Intl.DateTimeFormat(intl, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: TZ }).format(ts);
 
   return (
@@ -248,24 +254,66 @@ export default function EarningsView() {
             </Card>
           )}
 
-          <div className="flex flex-wrap items-stretch gap-5">
-            <div role="group" aria-label={t.period} className="grid w-full max-w-md grid-cols-3 gap-1 self-start rounded-2xl bg-surface-sunken p-1">
-              {(["day", "week", "month"] as const).map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  aria-pressed={period === p}
-                  onClick={() => setPeriod(p)}
-                  className={`h-11 cursor-pointer rounded-xl text-[15px] font-bold transition ${period === p ? "bg-surface-inverse text-ink-inverse" : "text-ink hover:bg-surface-card"}`}
-                >
-                  {t.periods[p]}
-                </button>
-              ))}
-            </div>
-            <div className="flex w-full flex-wrap gap-4">
-              <StatTile icon={PiTrendUp} label={t.total} value={hidden ? t.hiddenTile : inr(total)} tone="inverse" />
-              <StatTile icon={PiUsersThree} label={t.sessions} value={sessions.toLocaleString(intl)} />
-              <StatTile icon={PiClock} label={t.minutes} value={t.min(minutes)} />
+          <div className="flex flex-wrap items-stretch gap-7">
+            <section
+              aria-label={t.balance}
+              className="flex min-w-0 flex-[1_1_400px] flex-wrap items-center gap-x-6 gap-y-5 rounded-[22px] border border-brand-soft bg-surface-sunken px-7 py-7 sm:px-[30px]"
+            >
+              <div className="min-w-0 flex-[1_1_220px]">
+                <div className="text-[13px] font-semibold text-ink-soft">
+                  {t.balance} · {t.periods[period]}
+                </div>
+                <div className="mt-1.5 font-display text-[44px] font-bold leading-[1.05] tracking-[-0.01em] tabular-nums sm:text-[54px]">{hidden ? t.hiddenTile : inr(total)}</div>
+                <p className="mt-3 flex items-start gap-2 text-[15px] text-ink-soft">
+                  <PiBank size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
+                  <span>{t.payouts}</span>
+                </p>
+                <Button href="/astrologer/help" variant="navy" size="sm" className="mt-5">
+                  <PiInfo size={18} aria-hidden="true" />
+                  {t.payoutsLink}
+                </Button>
+              </div>
+              <div aria-hidden="true" className="relative size-[132px] flex-none max-sm:hidden">
+                <span className="absolute inset-0 rounded-full border-2 border-dashed border-brand motion-safe:animate-[spin_30s_linear_infinite]" />
+                <span className="absolute inset-[22px] flex items-center justify-center rounded-full bg-surface-inverse text-brand">
+                  <PiWallet size={44} />
+                </span>
+              </div>
+            </section>
+            <div className="flex min-w-0 flex-[2_1_520px] flex-col gap-[18px]">
+              <div role="group" aria-label={t.period} className="grid w-full max-w-[480px] grid-cols-3 gap-1 rounded-2xl bg-surface-sunken p-1">
+                {(["day", "week", "month"] as const).map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    aria-pressed={period === p}
+                    onClick={() => setPeriod(p)}
+                    className={`h-11 cursor-pointer rounded-xl text-[15px] font-bold transition ${period === p ? "bg-surface-inverse text-ink-inverse" : "text-ink hover:bg-surface-card"}`}
+                  >
+                    {t.periods[p]}
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-[18px]">
+                {(
+                  [
+                    { icon: PiUsersThree, label: t.sessions, value: sessions.toLocaleString(intl), hint: null },
+                    { icon: PiClock, label: t.minutes, value: t.min(minutes), hint: null },
+                    hidden
+                      ? { icon: PiTrendUp, label: t.avgSession, value: sessions > 0 ? t.min(Math.round(minutes / sessions)) : "—", hint: null }
+                      : { icon: PiTrendUp, label: t.avgMinute, value: minutes > 0 ? inr(total / minutes) : "—", hint: null },
+                  ] as const
+                ).map((c) => (
+                  <Card key={c.label} as="div" className="min-w-0 flex-[1_1_180px] p-[22px]">
+                    <div className="flex items-center gap-2.5">
+                      <IconBadge icon={c.icon} size={38} />
+                      <span className="text-[13px] font-semibold text-ink-soft">{c.label}</span>
+                    </div>
+                    <div className="mt-3 font-display text-[30px] font-bold leading-[1.15] tabular-nums">{c.value}</div>
+                    {c.hint && <div className="mt-0.5 text-sm font-semibold text-ink-soft">{c.hint}</div>}
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -427,13 +475,6 @@ export default function EarningsView() {
                 )}
               </>
             )}
-          </Card>
-
-          <Card className="flex flex-wrap items-center justify-between gap-4 p-6">
-            <p className="max-w-2xl text-[15px] text-ink-soft">{t.payouts}</p>
-            <Button href="/astrologer/help" variant="line" size="sm">
-              {t.payoutsLink}
-            </Button>
           </Card>
         </>
       )}

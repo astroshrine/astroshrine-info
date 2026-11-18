@@ -177,6 +177,8 @@ export type Today = {
   minutes: number;
   /** Rupees earned today; null when the backend hides earnings from astrologers (it sends 0 then). */
   earned: number | null;
+  /** Today's earnings minus yesterday's, in rupees. null when either day is missing or earnings are hidden. */
+  vsYesterday: number | null;
 };
 
 type Bucket = { chat?: number; call?: number };
@@ -192,7 +194,12 @@ export async function getToday(id: string, signal?: AbortSignal): Promise<Today>
   const daily = Array.isArray(e?.daily) ? e.daily : [];
   const today = daily.reduce<(typeof daily)[number] | null>((best, d) => (!best || (d.createTs ?? 0) > (best.createTs ?? 0) ? d : best), null);
   const earned = sum(today?.earnings);
+  // Yesterday is the bucket about a day before today's, and today's must be recent (an old newest bucket means no sales today yet).
+  const DAY = 86_400_000;
+  const fresh = today?.createTs !== undefined && Date.now() - today.createTs < DAY;
+  const prev = fresh ? daily.find((d) => d.createTs !== undefined && Math.abs(today!.createTs! - d.createTs - DAY) < 4 * 3_600_000) : undefined;
   return {
+    vsYesterday: earned > 0 && prev ? Math.round(earned - sum(prev.earnings)) : null,
     sessions: sum(today?.numberOfOrders),
     minutes: Math.round(sum(today?.channelTimeSpent) / 60_000),
     earned: earned > 0 ? Math.round(earned) : null,

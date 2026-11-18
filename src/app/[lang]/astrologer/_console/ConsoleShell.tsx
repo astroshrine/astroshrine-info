@@ -30,6 +30,8 @@ import { defineMessages } from "@/i18n/messages";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { switchLocale } from "@/i18n/paths";
 import { Button } from "./ui";
+import { getOwnAstrologer } from "@/lib/services/astrologerProfile";
+import { ownNeedsSetup, profileNeedsSetup } from "./setup";
 import { useAstrologer, useOnlineStatus } from "./useAstrologer";
 
 const text = defineMessages({
@@ -118,7 +120,10 @@ const text = defineMessages({
 const SITE_URL = "https://www.astroshrine.in";
 
 /** Open to everyone: no sign in needed (a signed-out visitor sees the header without navigation). */
-const PUBLIC_SEGMENTS = new Set(["login", "join", "help"]);
+const PUBLIC_SEGMENTS = new Set(["login", "join", "help", "welcome"]);
+
+/** Pages a signed-in astrologer can open before their profile details are filled in. */
+const SETUP_EXEMPT = new Set(["setup", "login", "join", "help", "welcome"]);
 
 const hasDevanagari = (s: string) => /[\u0900-\u097F]/.test(s);
 
@@ -378,7 +383,7 @@ function AccountMenu() {
             onClick={async () => {
               setOpen(false);
               await signOut();
-              router.replace("/astrologer/login");
+              router.replace("/astrologer");
             }}
           >
             <PiPower className="h-5 w-5" aria-hidden />
@@ -401,11 +406,14 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const { status } = useAuth();
   const astrologer = useAstrologer();
-  const isPublic = segment !== null && PUBLIC_SEGMENTS.has(segment);
+  // The console home (no segment) is the front page for visitors and Home for astrologers: it decides for itself.
+  const isPublic = segment === null || PUBLIC_SEGMENTS.has(segment);
   const ready = astrologer.status === "ready";
   // Signed out, or signed in as someone who is not an astrologer (the account row has loaded): to the login page.
   const denied = status === "signedOut" || (status === "signedIn" && astrologer.user !== null && !ready);
   const guarding = !isPublic && !ready;
+  const setupExempt = segment !== null && SETUP_EXEMPT.has(segment);
+  const checkedFor = useRef("");
   // Public chrome (no navigation, Sign in / Join buttons) until we know this is an astrologer.
   const auth = !ready;
   const current = navKey(segment);
@@ -415,6 +423,25 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
     const next = pathname + window.location.search;
     router.replace(`/astrologer/login?next=${encodeURIComponent(next)}`);
   }, [isPublic, denied, pathname, router]);
+
+  // First sign-in: an astrologer who has not filled in their profile details goes to /astrologer/setup once.
+  const { id, user } = astrologer;
+  useEffect(() => {
+    if (!ready || setupExempt || !user || checkedFor.current === id) return;
+    if (profileNeedsSetup(user)) {
+      router.replace("/astrologer/setup");
+      return;
+    }
+    const controller = new AbortController();
+    getOwnAstrologer(id, controller.signal).then(
+      (own) => {
+        if (ownNeedsSetup(own)) router.replace("/astrologer/setup");
+        else checkedFor.current = id;
+      },
+      () => {},
+    );
+    return () => controller.abort();
+  }, [ready, setupExempt, user, id, pathname, router]);
 
   const navItems = [
     { key: "home", href: "/astrologer", label: t.home, icon: PiHouse },
@@ -504,7 +531,7 @@ export default function ConsoleShell({ children }: { children: React.ReactNode }
           )}
         </main>
 
-        <footer className="border-t border-line bg-surface-card">
+        <footer className="border-t-[3px] border-dotted border-brand/80 bg-surface-card">
           <div className="mx-auto flex max-w-[1200px] flex-wrap items-start justify-between gap-x-10 gap-y-4 px-5 py-6 sm:px-10">
             <div className="flex items-center gap-3">
               <Image src="/logo.png" alt="" width={36} height={36} className="h-9 w-9 shrink-0" />

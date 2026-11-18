@@ -164,12 +164,12 @@ function RoomBody({ chatId, bookingId, selfId, clientId, clientName, ppUrl }: { 
         </Card>
       )}
       <Ornament />
-      <div className="flex flex-wrap items-start gap-7">
-        <aside aria-label={t.customer} className="flex min-w-0 flex-[1_1_400px] flex-col gap-6 p-0.5 lg:sticky lg:top-4 lg:max-h-[max(900px,calc(100vh-32px))] lg:overflow-y-auto">
+      <div className="grid grid-cols-1 items-start gap-6 min-[1101px]:grid-cols-[minmax(0,1fr)_430px]">
+        <aside aria-label={t.customer} className="order-first flex min-w-0 flex-col gap-6 p-0.5 min-[1101px]:sticky min-[1101px]:top-4 min-[1101px]:order-last min-[1101px]:max-h-[max(900px,calc(100vh-32px))] min-[1101px]:overflow-y-auto">
           <Chat chat={chat} selfId={selfId} name={name} ppUrl={ppUrl} />
           <Sidebar clientId={clientId} clientName={clientName} birth={birth} sheet={sheet} />
         </aside>
-        <div className="flex min-w-0 flex-[1.4_1_600px] flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-6">
           {sheet.loading ? (
             <div aria-busy="true" aria-label={t.loading} className="flex flex-col gap-6">
               <div className="h-32 animate-pulse rounded-[22px] bg-surface-sunken" />

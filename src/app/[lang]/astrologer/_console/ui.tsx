@@ -175,3 +175,28 @@ export const labelClass = "text-sm font-semibold text-ink";
 export function Page({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cx("mx-auto flex w-full max-w-[1200px] flex-1 flex-col gap-7 px-5 pb-14 pt-8 sm:px-10 sm:pt-10", className)}>{children}</div>;
 }
+
+/** Text that mentions the "EN / हिं" language button: the Hindi letters are marked lang="hi" so an English page stays English. */
+export function WithHindiLabel({ text }: { text: string }) {
+  const [before, after] = text.split("हिं");
+  if (after === undefined) return <>{text}</>;
+  return (
+    <>
+      {before}
+      <span lang="hi">हिं</span>
+      {after}
+    </>
+  );
+}
+
+/** A navy block with a soft gold glow, for heroes and closing calls to action. */
+export function NavyBand({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <section
+      className={cx("on-inverse relative overflow-hidden rounded-[28px] bg-surface-inverse text-ink-inverse", className)}
+      style={{ backgroundImage: "radial-gradient(60% 80% at 85% 20%, rgba(255,174,0,0.22), transparent 70%), radial-gradient(40% 60% at 5% 100%, rgba(255,174,0,0.1), transparent 70%)" }}
+    >
+      {children}
+    </section>
+  );
+}
