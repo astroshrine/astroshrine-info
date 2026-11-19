@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PiCheckCircle, PiClock, PiInfo, PiLightning, PiTimer, PiPaperPlaneTilt, PiWarningCircle } from "react-icons/pi";
+import VoiceNoteButton from "@/components/VoiceNoteButton";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { formatClock, isPackOpen, MAX_TEXT, packEnded, type ChatMessage } from "@/lib/services/chat";
 import { Button, Card, Pill } from "../../_console/ui";
@@ -35,6 +36,10 @@ export default function Chat({ chat, selfId, name, ppUrl, place, kundliShared }:
   const d = useT(dt);
   const locale = useLocale();
   const [draft, setDraft] = useState("");
+  // While a voice note is recording, its bar takes the reply row.
+  const [recording, setRecording] = useState(false);
+  const onRecordingChange = useCallback((on: boolean) => setRecording(on), []);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
   const box = useRef<HTMLInputElement>(null);
   const { pack } = chat;
   const open = !!pack && isPackOpen(pack.status) && !pack.expired && !packEnded(pack);
@@ -197,7 +202,19 @@ export default function Chat({ chat, selfId, name, ppUrl, place, kundliShared }:
           ))}
         </div>
       </div>
+      {voiceError && (
+        <p role="alert" className="bg-surface-card px-4 pt-2 text-sm font-semibold text-danger">
+          {voiceError}
+        </p>
+      )}
       <div className="flex items-center gap-2.5 bg-surface-card px-4 pb-4 pt-2.5">
+        <VoiceNoteButton
+          disabled={!canSend}
+          onRecorded={chat.sendVoice}
+          onActiveChange={onRecordingChange}
+          onError={setVoiceError}
+          buttonClassName="grid h-[52px] w-[52px] flex-none cursor-pointer place-items-center rounded-[14px] border border-line-strong bg-surface-page text-ink transition hover:bg-surface-sunken disabled:cursor-default disabled:opacity-60"
+        />
         <label htmlFor="msg" className="sr-only">
           {t.msgLabel}
         </label>
@@ -216,9 +233,10 @@ export default function Chat({ chat, selfId, name, ppUrl, place, kundliShared }:
           }}
           placeholder={t.placeholder}
           autoComplete="off"
-          className="h-[52px] min-w-0 flex-1 rounded-[14px] border border-line-strong bg-surface-page px-4 text-base text-ink disabled:opacity-60"
+          data-hidden={recording}
+          className="h-[52px] min-w-0 flex-1 rounded-[14px] data-[hidden=true]:hidden border border-line-strong bg-surface-page px-4 text-base text-ink disabled:opacity-60"
         />
-        <Button onClick={submit} disabled={!canSend || !draft.trim()} className="!h-[52px]">
+        <Button onClick={submit} disabled={!canSend || !draft.trim()} className={`!h-[52px] ${recording ? "!hidden" : ""}`}>
           <PiPaperPlaneTilt className="h-[17px] w-[17px] text-brand" />
           {t.send}
         </Button>
@@ -237,6 +255,8 @@ function Bubble({ m, mine, time, locale, error, onRetry }: { m: ChatMessage; min
       {m.type === "image" ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={m.message} alt={t.photo} className="max-h-72 max-w-full rounded-xl" />
+      ) : m.type === "audio" || m.type === "recording" ? (
+        <audio controls preload="none" src={m.message} className="w-64 max-w-full" aria-label={t.voiceNote} />
       ) : m.type === "text" ? (
         <span lang={lang} className="whitespace-pre-wrap break-words">
           {m.message}

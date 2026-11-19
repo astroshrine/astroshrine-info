@@ -16,6 +16,8 @@ import {
   packFields,
   secondsLeft,
   sendImage,
+  sendVoiceNote,
+  isVoiceFile,
   sendText,
   sendTyping,
   toMessage,
@@ -376,10 +378,16 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
     void deliver(local, () => sendImage(chatId, selfId, file, sentTs, newestServerTs()));
   };
 
+  const sendVoice = (file: File) => {
+    const sentTs = Date.now();
+    const local: ChatMessage = { key: `${selfId}#${sentTs}`, sentBy: selfId, sentTs, type: "audio", message: URL.createObjectURL(file), local: "sending", retry: { file } };
+    void deliver(local, () => sendVoiceNote(chatId, selfId, file, sentTs, newestServerTs()));
+  };
+
   const retry = (m: ChatMessage) => {
     setMessages((prev) => prev.filter((x) => x.key !== m.key));
     if (m.retry?.text) send(m.retry.text);
-    else if (m.retry?.file) sendPhoto(m.retry.file);
+    else if (m.retry?.file) (isVoiceFile(m.retry.file) ? sendVoice : sendPhoto)(m.retry.file);
   };
 
   const loadOlder = async () => {
@@ -465,6 +473,7 @@ export function useSessionChat({ chatId, clientId, selfId, bookingId }: { chatId
     },
     send,
     sendPhoto,
+    sendVoice,
     retry,
     onTyping,
     end,

@@ -36,6 +36,8 @@ import {
   rechargeHref,
   secondsLeft,
   sendImage,
+  sendVoiceNote,
+  isVoiceFile,
   sendText,
   sendTyping,
   statusOfError,
@@ -791,10 +793,25 @@ export default function ChatRoom({ astrologerId, bookingId }: { astrologerId: st
     void deliver(local, () => sendImage(chatId, selfId, file, sentTs, newestServerTs()));
   };
 
+  const onSendVoice = (file: File) => {
+    if (!chatId || !selfId) return;
+    const sentTs = Date.now();
+    const local: ChatMessage = {
+      key: `${selfId}#${sentTs}`,
+      sentBy: selfId,
+      sentTs,
+      type: "audio",
+      message: URL.createObjectURL(file),
+      local: "sending",
+      retry: { file },
+    };
+    void deliver(local, () => sendVoiceNote(chatId, selfId, file, sentTs, newestServerTs()));
+  };
+
   const onRetry = (m: ChatMessage) => {
     setMessages((prev) => prev.filter((x) => x.key !== m.key));
     if (m.retry?.text) onSendText(m.retry.text);
-    else if (m.retry?.file) onSendImage(m.retry.file);
+    else if (m.retry?.file) (isVoiceFile(m.retry.file) ? onSendVoice : onSendImage)(m.retry.file);
   };
 
   const loadOlder = async () => {
@@ -1072,6 +1089,7 @@ export default function ChatRoom({ astrologerId, bookingId }: { astrologerId: st
           placeholder={pack?.status === "WAITING" ? t.waitingPlaceholder : t.placeholder}
           onSendText={onSendText}
           onSendImage={onSendImage}
+          onSendVoice={onSendVoice}
           onTyping={onTyping}
         />
       ) : timeOver && !extendPendingUntil ? (

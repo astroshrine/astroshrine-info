@@ -492,16 +492,34 @@ async function postForm<T>(path: string, form: FormData): Promise<T> {
   return data as T;
 }
 
-/** Send a photo (jpg, png, webp; up to 8 MB). Same answer and refusals as sendText. */
-export async function sendImage(chatId: string, selfId: string, file: File, sentTs: number, lastReceived: number): Promise<ChatMessage[]> {
+async function sendFile(type: "image" | "audio", chatId: string, selfId: string, file: File, fallbackName: string, sentTs: number, lastReceived: number) {
   const form = new FormData();
-  form.append("messageType", "image");
+  form.append("messageType", type);
   form.append("sentTs", String(sentTs));
   form.append("sentBy", selfId);
   form.append("lastReceived", String(lastReceivedOf(lastReceived)));
-  form.append("message", file, file.name || "photo.jpg");
+  form.append("message", file, file.name || fallbackName);
   return toMessages(await postForm<unknown>(`/v1/chat/${encodeURIComponent(chatId)}/messages`, form));
 }
+
+/** Send a photo (jpg, png, webp; up to 8 MB). Same answer and refusals as sendText. */
+export async function sendImage(chatId: string, selfId: string, file: File, sentTs: number, lastReceived: number): Promise<ChatMessage[]> {
+  return sendFile("image", chatId, selfId, file, "photo.jpg", sentTs, lastReceived);
+}
+
+/** Longest voice note the web records. Kept short so the note stays small enough for the server's contact-details check. */
+export const MAX_VOICE_SECONDS = 180;
+
+/**
+ * Send a voice note (an audio/* file, recorded in the browser). Same answer and refusals as sendText: the server
+ * transcribes it first and refuses a note that speaks a phone number (403 ContactSharingNotAllowed).
+ */
+export async function sendVoiceNote(chatId: string, selfId: string, file: File, sentTs: number, lastReceived: number): Promise<ChatMessage[]> {
+  return sendFile("audio", chatId, selfId, file, "voice.m4a", sentTs, lastReceived);
+}
+
+/** A failed send's file goes back the way it came: voice notes as audio, everything else as a photo. */
+export const isVoiceFile = (file: File) => file.type.startsWith("audio/");
 
 /** Best effort: the peer's ticks turn blue. */
 export async function markSeen(chatId: string, messageIds: string[]) {

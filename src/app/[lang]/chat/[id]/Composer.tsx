@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { PiImage, PiPaperPlaneRight } from "react-icons/pi";
+import VoiceNoteButton from "@/components/VoiceNoteButton";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { MAX_IMAGE_BYTES, MAX_TEXT } from "@/lib/services/chat";
 
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const iconButton =
+  "h-10 w-10 shrink-0 place-items-center rounded-full text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98 disabled:opacity-50";
 
 const text = defineMessages({
   hi: {
@@ -26,25 +29,30 @@ const text = defineMessages({
 });
 
 /**
- * Text (Enter sends, Shift+Enter adds a line) and photos, with the backend's limits checked before sending:
- * 1024 characters a message, photos up to 8 MB.
+ * Text (Enter sends, Shift+Enter adds a line), photos and voice notes, with the backend's limits checked before
+ * sending: 1024 characters a message, photos up to 8 MB, voice notes up to MAX_VOICE_SECONDS.
  */
 export default function Composer({
   disabled,
   placeholder,
   onSendText,
   onSendImage,
+  onSendVoice,
   onTyping,
 }: {
   disabled: boolean;
   placeholder: string;
   onSendText: (text: string) => void;
   onSendImage: (file: File) => void;
+  onSendVoice: (file: File) => void;
   onTyping: (typing: boolean) => void;
 }) {
   const t = useT(text);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // While a voice note is recording, the recording bar takes the row.
+  const [recording, setRecording] = useState(false);
+  const onRecordingChange = useCallback((on: boolean) => setRecording(on), []);
   const fileInput = useRef<HTMLInputElement>(null);
   const box = useRef<HTMLTextAreaElement>(null);
 
@@ -108,10 +116,17 @@ export default function Composer({
           onClick={() => fileInput.current?.click()}
           disabled={disabled}
           aria-label={t.sendPhoto}
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink-soft transition hover:bg-surface-sunken hover:text-ink active:scale-98 disabled:opacity-50"
+          className={`${recording ? "hidden" : "grid"} ${iconButton}`}
         >
           <PiImage className="h-5 w-5" aria-hidden />
         </button>
+        <VoiceNoteButton
+          disabled={disabled}
+          onRecorded={onSendVoice}
+          onActiveChange={onRecordingChange}
+          onError={setError}
+          buttonClassName={`grid ${iconButton}`}
+        />
         <label htmlFor={inputId} className="sr-only">
           {t.message}
         </label>
@@ -135,13 +150,13 @@ export default function Composer({
               send();
             }
           }}
-          className="body-6 max-h-40 min-h-10 min-w-0 flex-1 resize-none rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink focus:border-brand focus:ring-3 focus:ring-brand/25 focus:outline-none [field-sizing:content] placeholder:text-ink-muted disabled:opacity-60"
+          className={`${recording ? "hidden" : ""} body-6 max-h-40 min-h-10 min-w-0 flex-1 resize-none rounded-xl border border-line-strong bg-surface-card px-3 py-2 text-ink focus:border-brand focus:ring-3 focus:ring-brand/25 focus:outline-none [field-sizing:content] placeholder:text-ink-muted disabled:opacity-60`}
         />
         <button
           type="submit"
           disabled={disabled || !draft.trim()}
           aria-label={t.send}
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:opacity-50"
+          className={`${recording ? "hidden" : "grid"} h-10 w-10 shrink-0 place-items-center rounded-full bg-brand text-brand-ink transition hover:bg-brand-hover active:scale-98 disabled:opacity-50`}
         >
           <PiPaperPlaneRight className="h-5 w-5" aria-hidden />
         </button>
