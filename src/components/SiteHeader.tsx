@@ -27,6 +27,7 @@ const text = defineMessages({
     profileWithBalance: (amount: string) => `प्रोफ़ाइल, wallet ${amount}`,
     walletBalance: (amount: string) => `Wallet, बैलेंस ${amount}`,
     walletLine: (amount: string) => `Wallet: ${amount}`,
+    wallet: "Wallet",
     openMenu: "मेनू खोलें",
     closeMenu: "मेनू बंद करें",
   },
@@ -40,6 +41,7 @@ const text = defineMessages({
     profileWithBalance: (amount) => `Profile, wallet ${amount}`,
     walletBalance: (amount) => `Wallet, balance ${amount}`,
     walletLine: (amount) => `Wallet: ${amount}`,
+    wallet: "Wallet",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },
@@ -47,7 +49,7 @@ const text = defineMessages({
 
 /** The language switch as a quiet pill, the same height as the nav links. */
 const languagePill =
-  "title-4 inline-flex items-center gap-1 rounded-xl px-3 py-2 text-ink-soft transition hover:bg-surface-sunken hover:text-ink motion-safe:active:scale-98";
+  "title-4 inline-flex items-center gap-1 rounded-xl bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:text-brand-on-inverse motion-safe:active:scale-98";
 
 /** The live header: knows the current page and owns the mobile menu. Render it inside <Suspense>. */
 export default function SiteHeader() {
@@ -83,7 +85,7 @@ export function SiteHeaderFallback() {
 }
 
 /**
- * B7 navigation: a compact translucent bar floating off the top edge (sized to its content on desktop),
+ * The app's navy header bar (its colours, wallet pill with the gold "+", gold current-page marks),
  * and below the lg breakpoint a full-height blurred panel whose links arrive one after another.
  */
 function HeaderBar({
@@ -103,7 +105,7 @@ function HeaderBar({
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-surface-page/95 backdrop-blur-md">
+      <header className="on-inverse fixed inset-x-0 top-0 z-40 bg-surface-inverse text-ink-inverse">
         <nav
           aria-label={t.mainNav}
           className="mx-auto flex h-[72px] w-full max-w-6xl items-center justify-between gap-2 px-4 md:px-8 lg:justify-start lg:gap-6 xl:gap-8"
@@ -115,8 +117,8 @@ function HeaderBar({
           >
             <BrandMark size={44} />
             <span className="leading-none">
-              <span className="font-display text-2xl font-bold tracking-tight text-ink">AstroShrine</span>
-              <span className="mt-1 hidden text-[11px] font-medium text-ink-soft sm:block">Ancient wisdom, modern guidance</span>
+              <span className="font-display text-2xl font-bold tracking-tight text-ink-inverse">AstroShrine</span>
+              <span className="mt-1 hidden text-[11px] font-medium text-ink-inverse-soft sm:block">Ancient wisdom, modern guidance</span>
             </span>
           </Link>
 
@@ -136,7 +138,7 @@ function HeaderBar({
                     href={href}
                     aria-current={active ? "page" : undefined}
                     className={`title-4 relative block rounded-xl px-3 py-2.5 transition motion-safe:active:scale-98 ${
-                      active ? "text-ink" : "text-ink-soft hover:text-ink"
+                      active ? "text-brand-on-inverse" : "text-ink-inverse-soft hover:text-ink-inverse"
                     }`}
                   >
                     {site.nav[key]}
@@ -147,19 +149,18 @@ function HeaderBar({
             })}
           </ul>
 
+          {/* Language, then the wallet (as in the app's top bar), then the account. */}
           <div className="hidden items-center gap-3 lg:flex">
             <LanguageSwitch pathname={pathname} className={languagePill} />
+            <WalletPill pathname={pathname} onNavigate={() => {}} />
             <AccountControl pathname={pathname} />
           </div>
 
-          {/* Phones and tablets: the wallet balance (or, for visitors, the language switch) beside the menu button. */}
+          {/* Phones and tablets: language and wallet beside the menu button. */}
           <div className="flex items-center gap-2 lg:hidden">
-            {status === "signedOut" ? (
-              // Below 360px the pill would push the menu button off the bar; the menu has the switch too.
-              <LanguageSwitch pathname={pathname} className={`${languagePill} max-[360px]:hidden`} />
-            ) : (
-              <MobileWalletPill pathname={pathname} onNavigate={() => onMenuChange(false)} />
-            )}
+            {/* On narrow phones the language pill would push the menu button off the bar; the menu has the switch too. */}
+            <LanguageSwitch pathname={pathname} className={`${languagePill} max-[430px]:hidden`} />
+            <WalletPill pathname={pathname} onNavigate={() => onMenuChange(false)} />
             <MenuToggle open={menuOpen} onToggle={() => onMenuChange(!menuOpen)} />
           </div>
         </nav>
@@ -175,7 +176,7 @@ function AccountControl({ pathname }: { pathname: string }) {
   const t = useT(text);
 
   if (status === "loading") {
-    return <span aria-hidden className="block h-10 w-24 animate-pulse rounded-full bg-surface-sunken" />;
+    return <span aria-hidden className="block h-10 w-24 animate-pulse rounded-full bg-surface-inverse-raised" />;
   }
 
   if (status === "signedOut") {
@@ -183,7 +184,7 @@ function AccountControl({ pathname }: { pathname: string }) {
       <div className="flex items-center gap-2">
         <Link
           href="/login"
-          className="button-sm inline-flex h-11 items-center rounded-xl border border-ink px-5 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
+          className="button-sm inline-flex h-11 items-center rounded-xl border border-ink-inverse-soft px-5 text-ink-inverse transition hover:bg-surface-inverse-raised motion-safe:active:scale-98"
         >
           {t.login}
         </Link>
@@ -203,10 +204,9 @@ function AccountControl({ pathname }: { pathname: string }) {
       href="/profile"
       aria-current={pathname === "/profile" ? "page" : undefined}
       aria-label={balance ? t.profileWithBalance(rupees(balance.points_balance)) : t.profile}
-      className="flex items-center gap-2 rounded-full bg-surface-sunken py-1 pl-3 pr-1 transition hover:bg-line motion-safe:active:scale-98"
+      className="flex items-center rounded-full transition motion-safe:active:scale-98"
     >
-      <span className="caption-3 text-ink">{balance ? rupees(balance.points_balance) : "Wallet"}</span>
-      <span className="caption-3 grid h-8 w-8 place-items-center rounded-full bg-surface-inverse text-ink-inverse">
+      <span className="caption-3 grid h-10 w-10 place-items-center rounded-full bg-brand text-base text-brand-ink ring-2 ring-brand-soft ring-offset-2 ring-offset-surface-inverse">
         {name.charAt(0).toUpperCase()}
       </span>
     </Link>
@@ -214,29 +214,33 @@ function AccountControl({ pathname }: { pathname: string }) {
 }
 
 /**
- * Below lg: the signed-in visitor's wallet balance as a small pill that opens the wallet. HeaderBar shows the
- * language switch in its place for visitors who are signed out.
+ * The app's wallet pill: the balance with a gold "+" that opens the wallet (where it is topped up). Visitors who
+ * have not signed in see "Wallet"; the wallet page asks them to log in.
  */
-function MobileWalletPill({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
+function WalletPill({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
   const { status, balance } = useAuth();
   const t = useT(text);
 
   // Same size as the pill, so nothing shifts when the balance arrives.
-  if (status === "loading" || !balance) {
-    return <span aria-hidden className="block h-8 w-20 animate-pulse rounded-full bg-surface-sunken" />;
+  if (status === "loading" || (status === "signedIn" && !balance)) {
+    return <span aria-hidden className="block h-9 w-24 animate-pulse rounded-full bg-surface-inverse-raised" />;
   }
 
-  const amount = rupees(balance.points_balance);
+  const amount = balance ? rupees(balance.points_balance) : t.wallet;
   return (
     <Link
       href="/wallet"
       onClick={onNavigate}
       aria-current={pathname.startsWith("/wallet") ? "page" : undefined}
-      aria-label={t.walletBalance(amount)}
-      className="caption-3 flex h-8 items-center gap-1 rounded-full bg-surface-sunken pl-2 pr-3 text-ink transition hover:bg-line motion-safe:active:scale-98"
+      aria-label={balance ? t.walletBalance(amount) : t.wallet}
+      className="caption-3 flex h-9 items-center gap-1.5 rounded-full bg-surface-sunken pl-2.5 pr-1 text-ink transition hover:bg-brand-soft motion-safe:active:scale-98"
     >
-      <PiWallet className="h-4 w-4 text-brand-strong" aria-hidden />
+      <PiWallet className="h-4 w-4 text-ink" aria-hidden />
       {amount}
+      {/* The app's gold "+": the wallet page is where the balance is topped up. */}
+      <span aria-hidden className="grid h-7 w-7 place-items-center rounded-full bg-brand text-base font-bold leading-none text-brand-ink">
+        +
+      </span>
     </Link>
   );
 }
@@ -251,18 +255,18 @@ function MenuToggle({ open, onToggle }: { open: boolean; onToggle: () => void })
       aria-expanded={open}
       aria-controls="mobile-menu"
       aria-label={open ? t.closeMenu : t.openMenu}
-      className="relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-surface-sunken motion-safe:active:scale-98 lg:hidden"
+      className="relative grid h-10 w-10 place-items-center rounded-xl bg-surface-inverse-raised transition hover:bg-line-inverse motion-safe:active:scale-98 lg:hidden"
     >
       <motion.span
         aria-hidden
-        className="absolute h-0.5 w-5 rounded-full bg-ink"
+        className="absolute h-0.5 w-5 rounded-full bg-ink-inverse"
         initial={false}
         animate={open ? { y: 0, rotate: 45 } : { y: -4, rotate: 0 }}
         transition={base}
       />
       <motion.span
         aria-hidden
-        className="absolute h-0.5 w-5 rounded-full bg-ink"
+        className="absolute h-0.5 w-5 rounded-full bg-ink-inverse"
         initial={false}
         animate={open ? { y: 0, rotate: -45 } : { y: 4, rotate: 0 }}
         transition={base}
@@ -470,7 +474,7 @@ function KundliDropdown({ pathname, active, label }: { pathname: string; active:
         aria-controls={panelId}
         onClick={() => setOpen((o) => !o)}
         className={`title-4 relative inline-flex items-center gap-1 rounded-xl px-3 py-2.5 transition motion-safe:active:scale-98 ${
-          active ? "text-ink" : "text-ink-soft hover:text-ink"
+          active ? "text-brand-on-inverse" : "text-ink-inverse-soft hover:text-ink-inverse"
         }`}
       >
         {label}

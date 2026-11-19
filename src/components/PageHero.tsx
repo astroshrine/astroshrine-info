@@ -31,11 +31,11 @@ export type PageHeroProps = {
 };
 
 const ctaClass =
-  "button-sm on-inverse mt-5 inline-flex h-12 items-center gap-2 rounded-xl bg-surface-inverse px-5 text-ink-inverse transition hover:bg-surface-inverse-raised motion-safe:active:scale-98";
+  "button-sm mt-5 hidden md:inline-flex h-12 items-center gap-2 rounded-xl bg-brand px-5 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98";
 
 /**
- * The rounded banner that opens an inner page, as in the design: breadcrumb, icon tile, Devanagari kicker, title,
- * short description, a navy call-to-action and a decorative illustration on the right.
+ * The navy banner that opens an inner page, like the Android app's screen headers: breadcrumb, gold icon tile,
+ * Devanagari kicker, title, short description, a gold call-to-action and a decorative illustration on the right.
  */
 export default function PageHero({
   breadcrumb,
@@ -48,11 +48,12 @@ export default function PageHero({
   breadcrumbLabel = "Breadcrumb",
 }: PageHeroProps) {
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 pt-5 md:px-8 md:pt-7">
-      <div className="relative overflow-hidden rounded-3xl border border-[#F4E2C3] bg-[linear-gradient(100deg,#FFFCF6_0%,#FFF5E6_45%,#FFE9CC_78%,#FFDDB3_100%)] px-5 py-7 shadow-[0_14px_34px_rgba(255,106,0,.07)] md:px-11 md:py-9 lg:min-h-[340px]">
+    <section className="mx-auto w-full max-w-6xl md:px-8 md:pt-7">
+      {/* On phones it continues the navy header bar, like the app's screen headers; from md up it is a card. */}
+      <div className="on-inverse relative overflow-hidden rounded-b-sheet bg-surface-inverse px-4 pt-2 pb-6 text-ink-inverse md:rounded-sheet md:px-11 md:py-9 md:shadow-card lg:min-h-[340px]">
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:block">
-          <span className="absolute -top-28 -right-14 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(255,174,0,.22),transparent_65%)]" />
-          <span className="absolute -bottom-36 right-44 h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle,rgba(255,106,0,.14),transparent_65%)]" />
+          <span className="absolute -top-28 -right-14 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgb(240_196_58/.22),transparent_65%)]" />
+          <span className="absolute -bottom-36 right-44 h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle,rgb(27_52_84/.9),transparent_65%)]" />
         </div>
         {illustration && (
           <div aria-hidden className="pointer-events-none absolute inset-y-0 right-8 hidden w-[44%] items-center justify-center lg:flex xl:right-12">
@@ -61,23 +62,23 @@ export default function PageHero({
         )}
 
         <div className="relative z-10 max-w-[520px]">
-          <nav aria-label={breadcrumbLabel}>
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-soft">
+          <nav aria-label={breadcrumbLabel} className="hidden md:block">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-inverse-soft">
               {breadcrumb.map((item, i) => {
                 const last = i === breadcrumb.length - 1;
                 return (
                   <li key={`${item.label}-${i}`} className="flex items-center gap-2">
                     {i > 0 && (
-                      <span aria-hidden className="text-ink-muted">
+                      <span aria-hidden className="text-ink-inverse-soft">
                         /
                       </span>
                     )}
                     {item.href && !last ? (
-                      <Link href={item.href} className="rounded-sm text-ink transition hover:text-brand-strong">
+                      <Link href={item.href} className="rounded-sm text-ink-inverse transition hover:text-brand-on-inverse">
                         {item.label}
                       </Link>
                     ) : (
-                      <span aria-current={last ? "page" : undefined} className={last ? "font-semibold text-brand-strong" : "text-ink"}>
+                      <span aria-current={last ? "page" : undefined} className={last ? "font-semibold text-brand-on-inverse" : "text-ink-inverse"}>
                         {item.label}
                       </span>
                     )}
@@ -87,21 +88,21 @@ export default function PageHero({
             </ol>
           </nav>
 
-          <div className="mt-5 flex items-center gap-4">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[18px] border border-[#F7DDBB] bg-white shadow-[0_6px_16px_rgba(255,106,0,.08)] md:h-16 md:w-16">
-              <Icon className="h-7 w-7 text-[#FF6A00] md:h-8 md:w-8" aria-hidden />
+          <div className="flex items-center gap-4 md:mt-5">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand md:h-16 md:w-16">
+              <Icon className="h-6 w-6 text-brand-ink md:h-8 md:w-8" aria-hidden />
             </span>
             <div className="min-w-0">
               {devaKicker && (
-                <p lang="hi" className="font-display text-[13px] font-medium text-[#C2410C]">
+                <p lang="hi" className="font-display text-[13px] font-medium text-brand-on-inverse">
                   {devaKicker}
                 </p>
               )}
-              <h1 className="font-display text-3xl leading-[1.1] font-bold tracking-tight text-ink md:text-[40px]">{title}</h1>
+              <h1 className="font-display text-3xl leading-[1.1] font-bold tracking-tight text-ink-inverse max-md:text-2xl md:text-[40px]">{title}</h1>
             </div>
           </div>
 
-          {description && <p className="mt-4 max-w-[470px] text-base text-[#4A5168]">{description}</p>}
+          {description && <p className="mt-3 max-w-[470px] text-sm text-ink-inverse-soft md:mt-4 md:text-base">{description}</p>}
 
           {cta &&
             (cta.href.startsWith("#") ? (

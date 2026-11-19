@@ -3,7 +3,18 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { PiArrowClockwise, PiCaretDown, PiHeart, PiHeartFill, PiMagnifyingGlass, PiSealCheck, PiStarFill, PiUsersThree } from "react-icons/pi";
+import {
+  PiArrowClockwise,
+  PiCaretDown,
+  PiChatCircleDotsFill,
+  PiHeart,
+  PiHeartFill,
+  PiMagnifyingGlass,
+  PiPhoneFill,
+  PiSealCheck,
+  PiStarFill,
+  PiUsersThree,
+} from "react-icons/pi";
 import AppPromoBand from "@/components/AppPromoBand";
 import PageHero from "@/components/PageHero";
 import { useAuth } from "@/components/AuthProvider";
@@ -82,6 +93,10 @@ const text = defineMessages({
     callIntro: "सीधे वेरिफ़ाइड ज्योतिषी से बात करें और अपने सवालों के जवाब पाएं।",
     viewAstrologers: "ज्योतिषी देखें",
     pill: { online: "उपलब्ध", busy: "व्यस्त", offline: "ऑफ़लाइन" } satisfies Record<Availability, string>,
+    startsAt: "शुरुआत",
+    expYears: (years: number) => `${years} साल अनुभव`,
+    chatCta: "Chat",
+    callCta: "Call",
   },
   en: {
     loading: "Loading astrologers",
@@ -132,6 +147,10 @@ const text = defineMessages({
     callIntro: "Speak directly to a verified astrologer and get your questions answered.",
     viewAstrologers: "View astrologers",
     pill: { online: "Available", busy: "Busy", offline: "Offline" },
+    startsAt: "Starts at",
+    expYears: (years) => `${years} yrs exp`,
+    chatCta: "Chat",
+    callCta: "Call",
   },
 });
 
@@ -183,9 +202,9 @@ export function DirectorySkeleton() {
   return (
     <div aria-busy="true" aria-label={t.loading}>
       <Hero mode="chat" />
-      <div className="mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 gap-6 px-4 md:grid-cols-2 md:px-8 lg:grid-cols-4">
+      <div className="mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 gap-6 px-4 md:grid-cols-[repeat(auto-fill,minmax(22rem,1fr))] md:px-8">
         {Array.from({ length: 4 }, (_, i) => (
-          <div key={i} className="h-[420px] animate-pulse rounded-t-[999px] rounded-b-3xl bg-surface-sunken" />
+          <div key={i} className="h-[200px] animate-pulse rounded-card bg-surface-sunken" />
         ))}
       </div>
     </div>
@@ -285,8 +304,8 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
     <>
       <Hero mode={query.mode} />
 
-      <nav aria-label={t.modes} className="mt-6 border-y border-line bg-surface-card">
-        <ul className="no-scrollbar mx-auto flex w-full max-w-6xl overflow-x-auto px-2 md:px-6">
+      <nav aria-label={t.modes} className="mt-5">
+        <ul className="no-scrollbar mx-auto flex w-full max-w-6xl gap-2 overflow-x-auto px-4 md:px-8">
           {(["chat", "call"] as const).map((m) => {
             const active = query.mode === m;
             return (
@@ -295,8 +314,8 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
                   type="button"
                   aria-current={active ? "page" : undefined}
                   onClick={() => update({ mode: m })}
-                  className={`flex h-14 items-center whitespace-nowrap border-b-[3px] px-4 text-[15px] transition md:px-5 ${
-                    active ? "border-brand font-semibold text-ink" : "border-transparent font-medium text-ink-soft hover:text-ink"
+                  className={`on-inverse flex h-11 items-center whitespace-nowrap rounded-full border px-5 text-[15px] font-bold transition active:scale-98 ${
+                    active ? "border-surface-inverse bg-surface-inverse text-ink-inverse" : "border-line-strong bg-surface-card text-ink hover:bg-surface-sunken"
                   }`}
                 >
                   {m === "chat" ? t.chatTab : t.callTab}
@@ -309,7 +328,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
 
       <div id="astrologers" className="mx-auto flex w-full max-w-6xl scroll-mt-24 flex-col gap-5 px-4 pt-8 md:px-8">
         <aside aria-label={t.filters} className="flex flex-col gap-3 md:flex-row md:items-center">
-          <div className="flex h-12 min-w-0 shrink-0 items-center md:flex-1 gap-2 rounded-xl border border-line-strong bg-surface-card px-3 focus-within:border-brand focus-within:ring-3 focus-within:ring-brand/25">
+          <div className="flex h-12 min-w-0 shrink-0 items-center md:flex-1 gap-2 rounded-input border border-line bg-surface-card px-3 shadow-card focus-within:border-brand focus-within:ring-3 focus-within:ring-brand/25">
             <PiMagnifyingGlass className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden />
             <label htmlFor={searchId} className="sr-only">
               {t.search}
@@ -351,7 +370,7 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
               type="button"
               aria-pressed={query.favourites}
               onClick={() => update({ favourites: !query.favourites })}
-              className={`button-sm inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl border px-3 transition active:scale-98 ${
+              className={`button-sm inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border px-4 transition active:scale-98 ${
                 query.favourites ? "border-ink bg-surface-inverse text-ink-inverse" : "border-line-strong bg-surface-card text-ink-soft hover:bg-surface-sunken hover:text-ink"
               }`}
             >
@@ -391,9 +410,9 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
                 </button>
               </div>
             ) : (
-              <ul aria-busy="true" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <ul aria-busy="true" className="grid grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fill,minmax(22rem,1fr))]">
                 {Array.from({ length: 4 }, (_, i) => (
-                  <li key={i} className="h-[420px] animate-pulse rounded-t-[999px] rounded-b-3xl bg-surface-sunken" />
+                  <li key={i} className="h-[200px] animate-pulse rounded-card bg-surface-sunken" />
                 ))}
               </ul>
             )
@@ -408,9 +427,9 @@ export default function AstrologerDirectory({ initial, initialQuery }: { initial
               )}
             </div>
           ) : (
-            <motion.ul variants={stagger} initial="hidden" animate="show" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <motion.ul variants={stagger} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fill,minmax(22rem,1fr))]">
               {visible.map((a) => (
-                <motion.li key={a.id} variants={fadeUp} className="flex justify-center">
+                <motion.li key={a.id} variants={fadeUp} className="flex">
                   <AstrologerCardView
                     astrologer={a}
                     mode={query.mode}
@@ -483,7 +502,6 @@ function AstrologerCardView({
   const next = a.availability === "offline" ? formatNextAvailable(a.nextAvailableAt, locale) : null;
   const price = mode === "call" ? a.call : a.chat;
   const isFree = mode === "chat" && (free || a.chat.price === 0);
-  const canChat = mode === "chat" && a.availability !== "offline" && !a.chatOff;
   const optimizable = !!a.photo && !!SUPABASE_PUBLIC && a.photo.startsWith(SUPABASE_PUBLIC);
   const pill = t.pill[a.availability];
   const initials = a.name
@@ -494,98 +512,115 @@ function AstrologerCardView({
     .join("");
 
   return (
-    <article className="group relative flex w-full max-w-[320px] flex-col rounded-t-[999px] rounded-b-3xl border border-line bg-surface-card p-3 pb-4 shadow-[0_8px_22px_rgba(20,33,61,.06)] transition md:max-w-none hover:-translate-y-1 hover:border-brand hover:shadow-[0_16px_32px_rgba(20,33,61,.12)]">
-      <div className="relative aspect-[4/4.4] w-full overflow-hidden rounded-t-[999px] rounded-b-2xl bg-[linear-gradient(170deg,#1D2D50_0%,#14213D_70%)]">
-        {a.photo ? (
-          <Image src={a.photo} alt="" fill sizes="(min-width: 1024px) 240px, 50vw" unoptimized={!optimizable} className="object-cover object-top" />
-        ) : (
-          <>
-            <span aria-hidden className="absolute inset-[14%] rounded-full border border-brand/30" />
-            <span aria-hidden className="absolute inset-[26%] rounded-full border border-dashed border-brand/25" />
-            <span aria-hidden lang={contentLang(a.name)} className="font-display absolute inset-0 grid place-items-center text-5xl font-bold text-brand">
-              {initials}
+    // The Android app's astrologer card: round photo in a gold ring with the status dot, name and verified seal,
+    // skills, languages, experience, rating and price on the left, the gold Chat and navy Call buttons on the right,
+    // and the offer in a gold band along the bottom. The whole card opens the profile (chat and call start there).
+    <article className="group relative flex w-full flex-col overflow-hidden rounded-card border border-line bg-surface-card shadow-card transition hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_10px_24px_rgb(12_35_64/0.10)]">
+      <div className="flex gap-4 p-4">
+        <div className="relative h-20 w-20 shrink-0">
+          <div className="relative h-full w-full overflow-hidden rounded-full bg-surface-sunken ring-[3px] ring-brand ring-offset-2 ring-offset-surface-card">
+            {a.photo ? (
+              <Image src={a.photo} alt="" fill sizes="80px" unoptimized={!optimizable} className="object-cover object-top" />
+            ) : (
+              <span aria-hidden lang={contentLang(a.name)} className="font-display absolute inset-0 grid place-items-center text-2xl font-bold text-ink">
+                {initials}
+              </span>
+            )}
+          </div>
+          <span aria-hidden className={`absolute right-0.5 bottom-0.5 h-4 w-4 rounded-full border-2 border-surface-card ${PILL[a.availability]}`} />
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-display flex min-w-0 items-center gap-1 text-base font-bold text-ink">
+              <Link
+                href={`/astrologers/${a.id}`}
+                lang={contentLang(a.name)}
+                className="truncate rounded-sm capitalize after:absolute after:inset-0 after:rounded-card after:content-['']"
+              >
+                {a.name}
+              </Link>
+              <PiSealCheck className="h-4 w-4 shrink-0 text-brand" aria-label={t.verified} />
+            </h3>
+            <span
+              className={`caption-4 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 font-bold ${
+                a.availability === "online"
+                  ? "bg-success-soft text-success"
+                  : a.availability === "busy"
+                    ? "bg-surface-sunken text-brand-strong"
+                    : "bg-neutral-soft text-neutral"
+              }`}
+            >
+              <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${PILL[a.availability]}`} />
+              {pill}
             </span>
-          </>
-        )}
-        <span className="caption-5 absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-surface-card px-2.5 py-1 font-medium whitespace-nowrap text-ink shadow-sm">
-          <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${PILL[a.availability]}`} />
-          {pill}
-        </span>
+          </div>
+          {a.expertise.length > 0 && (
+            <p lang={contentLang(a.expertise.join(" "))} className="caption-2 truncate text-ink-soft">
+              {a.expertise.slice(0, 3).join(", ")}
+            </p>
+          )}
+          {a.languages.length > 0 && <p className="caption-2 truncate text-ink-soft">{a.languages.join(", ")}</p>}
+          <div className="flex items-end justify-between gap-3">
+            <div className="flex min-w-0 flex-col gap-1">
+              {a.experience > 0 && <span className="caption-2 text-ink-soft">{t.expYears(a.experience)}</span>}
+              {a.rating !== null && (
+                <span className="caption-1 inline-flex items-center gap-1 font-bold text-ink">
+                  <PiStarFill className="h-3.5 w-3.5 text-brand" aria-hidden />
+                  {a.rating.toFixed(1)}
+                  <span className="sr-only">{t.outOfFive}</span>
+                </span>
+              )}
+              {a.chatOff && mode === "chat" ? (
+                <span className="caption-5 text-ink-muted">{t.chatOff}</span>
+              ) : next ? (
+                <span className="caption-5 text-ink-muted">{t.available(next)}</span>
+              ) : null}
+              {isFree ? (
+                <span className="font-display text-lg font-bold text-success">{t.free}</span>
+              ) : (
+                <span className="flex flex-col">
+                  <span className="caption-5 text-ink-muted">{t.startsAt}</span>
+                  <span className="font-display text-lg font-bold text-ink">
+                    {price.hasOffer && <s className="caption-5 mr-1 font-medium text-ink-muted">{rupees(price.rate)}</s>}
+                    {rupees(price.price)}
+                    <span className="caption-5 font-medium text-ink-muted">{t.perMin}</span>
+                  </span>
+                </span>
+              )}
+            </div>
+            {/* Visual only: the card's link (above) takes the click to the profile, where chat and call start. */}
+            <div aria-hidden className="flex w-24 shrink-0 flex-col gap-2">
+              <span className="button-sm flex h-10 items-center justify-center gap-1.5 rounded-input bg-brand text-brand-ink transition group-hover:bg-brand-hover">
+                <PiChatCircleDotsFill className="h-4 w-4" />
+                {t.chatCta}
+              </span>
+              <span className="button-sm flex h-10 items-center justify-center gap-1.5 rounded-input bg-surface-inverse text-ink-inverse transition group-hover:bg-surface-inverse-raised">
+                <PiPhoneFill className="h-4 w-4" />
+                {t.callCta}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
+
       {favourite !== null && (
         <button
           type="button"
           onClick={onToggleFavourite}
           aria-pressed={favourite}
           aria-label={favourite ? t.removeFavourite(a.name) : t.addFavourite(a.name)}
-          className="absolute top-[22%] right-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-surface-card/90 text-ink-soft shadow-sm transition hover:text-ink active:scale-98"
+          className="absolute top-2 left-2 z-10 grid h-8 w-8 place-items-center rounded-full bg-surface-card text-ink-soft shadow-card transition hover:text-ink active:scale-98"
         >
-          {favourite ? <PiHeartFill className="h-5 w-5 text-danger" aria-hidden /> : <PiHeart className="h-5 w-5" aria-hidden />}
+          {favourite ? <PiHeartFill className="h-4 w-4 text-danger" aria-hidden /> : <PiHeart className="h-4 w-4" aria-hidden />}
         </button>
       )}
 
-      <div className="flex flex-1 flex-col items-center gap-2 px-2 pt-4 text-center">
-        <h3 className="font-display flex max-w-full items-center justify-center gap-1 text-base font-semibold text-ink">
-          <Link
-            href={`/astrologers/${a.id}`}
-            lang={contentLang(a.name)}
-            className="truncate rounded-sm capitalize after:absolute after:inset-0 after:rounded-t-[999px] after:rounded-b-3xl after:content-['']"
-          >
-            {a.name}
-          </Link>
-          <PiSealCheck className="h-4 w-4 shrink-0 text-brand-strong" aria-label={t.verified} />
-        </h3>
-        {a.expertise.length > 0 && (
-          <p lang={contentLang(a.expertise.join(" "))} className="caption-2 max-w-full truncate text-ink-soft">
-            {a.expertise.slice(0, 3).join(" · ")}
-          </p>
-        )}
-        <p className="caption-4 flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-line pt-3 text-ink-soft">
-          {a.rating !== null && (
-            <span className="inline-flex items-center gap-1 font-medium text-ink">
-              <PiStarFill className="h-3.5 w-3.5 text-brand" aria-hidden />
-              <span>
-                {a.rating.toFixed(1)}
-                <span className="sr-only">{t.outOfFive}</span>
-              </span>
-            </span>
-          )}
-          {a.experience > 0 && <span>{t.experience(a.experience)}</span>}
-          {a.languages.length > 0 && <span>{a.languages.slice(0, 2).join(", ")}</span>}
+      {price.hasOffer && !isFree && (
+        <p className="caption-3 mt-auto bg-surface-sunken px-4 py-2 font-bold text-brand-strong">
+          {t.off(Math.round(((price.rate - price.price) / price.rate) * 100)).toUpperCase()}
         </p>
-        {a.chatOff && mode === "chat" ? (
-          <span className="caption-5 text-ink-muted">{t.chatOff}</span>
-        ) : next ? (
-          <span className="caption-5 text-ink-muted">{t.available(next)}</span>
-        ) : null}
-        <p className="mt-auto flex w-full flex-col items-center gap-0.5 border-t border-line pt-3">
-          {isFree ? (
-            <span className="font-display text-lg font-bold text-success">{t.free}</span>
-          ) : (
-            <>
-              {price.hasOffer && (
-                <span className="caption-5 text-ink-muted">
-                  <s>{rupees(price.rate)}</s> · {t.off(Math.round(((price.rate - price.price) / price.rate) * 100))}
-                </span>
-              )}
-              <span className="font-display text-lg font-bold text-ink">
-                {rupees(price.price)}
-                <span className="caption-5 font-medium text-ink-muted">{t.perMin}</span>
-              </span>
-            </>
-          )}
-        </p>
-        <span
-          aria-hidden
-          className={`button-sm on-inverse mt-1 grid h-11 w-full place-items-center rounded-xl transition ${
-            canChat
-              ? "bg-surface-inverse text-ink-inverse group-hover:bg-surface-inverse-raised"
-              : "border border-line-strong bg-surface-card text-ink group-hover:bg-surface-sunken"
-          }`}
-        >
-          {canChat ? t.chatNow : mode === "call" ? t.callNow : t.profile}
-        </span>
-      </div>
+      )}
     </article>
   );
 }

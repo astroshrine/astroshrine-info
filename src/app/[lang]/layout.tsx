@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Epilogue, Inter, Noto_Sans_Devanagari } from "next/font/google";
+import { Noto_Sans_Devanagari } from "next/font/google";
+import localFont from "next/font/local";
 import AppShell from "@/components/AppShell";
 import AuthProvider from "@/components/AuthProvider";
 import { LOCALES, OG_LOCALE, isLocale } from "@/i18n/config";
@@ -9,9 +10,17 @@ import { defineMessages } from "@/i18n/messages";
 import { getLocale } from "@/i18n/server";
 import "../globals.css";
 
-// Design system fonts: Inter for text, Epilogue for headings, Noto Sans Devanagari so Hindi keeps the same weight and feel.
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-const epilogue = Epilogue({ variable: "--font-epilogue", subsets: ["latin"], weight: ["500", "600", "700"] });
+// The Android app's font, LINE Seed JP (OFL, Latin subset in ../fonts), for text and headings; Noto Sans Devanagari
+// so Hindi keeps the same weight and feel. LINE Seed has three weights: 400 serves 400-500, 700 serves 600-700.
+const lineSeed = localFont({
+  variable: "--font-line-seed",
+  display: "swap",
+  src: [
+    { path: "../fonts/line-seed-Regular.woff2", weight: "400 500", style: "normal" },
+    { path: "../fonts/line-seed-Bold.woff2", weight: "600 700", style: "normal" },
+    { path: "../fonts/line-seed-ExtraBold.woff2", weight: "800 900", style: "normal" },
+  ],
+});
 const deva = Noto_Sans_Devanagari({ variable: "--font-deva", subsets: ["devanagari"], weight: ["400", "500", "600", "700"] });
 
 const text = defineMessages({
@@ -60,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#fbf6ec",
+  themeColor: "#0c2340",
   width: "device-width",
   initialScale: 1,
 };
@@ -72,7 +81,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   if (!isLocale(lang)) notFound();
 
   return (
-    <html lang={lang} className={`${inter.variable} ${epilogue.variable} ${deva.variable} h-full antialiased`}>
+    <html lang={lang} className={`${lineSeed.variable} ${deva.variable} h-full antialiased`}>
       <body className="min-h-full bg-surface-page font-sans text-ink">
         <LocaleProvider locale={lang}>
           <AuthProvider>

@@ -12,45 +12,62 @@
  */
 
 :root {
+  /* Same palette as the Android app (rnastroshrineapp src/styles/theme.ts): cream surfaces, gold accent, navy ink. */
+
   /* Navy: brand primary */
-  --core-navy-50: #f1f3f8;
-  --core-navy-100: #dde1ec;
-  --core-navy-200: #c9cdd9;
-  --core-navy-500: #2f4470;
-  --core-navy-600: #555d74;
-  --core-navy-650: #5f677d;
-  --core-navy-700: #2a3a5e;
-  --core-navy-800: #1d2d50;
-  --core-navy-900: #14213d;
+  --core-navy-50: #eef1f6;
+  --core-navy-100: #dfe4ec;
+  --core-navy-200: #bfc7d4;
+  --core-navy-500: #1b3454;
+  --core-navy-600: #4a5868;
+  --core-navy-650: #667485;
+  --core-navy-700: #26344c;
+  --core-navy-800: #1b3454;
+  --core-navy-900: #0c2340;
 
   /* Gold: brand accent */
-  --core-gold-50: #fff0cc;
-  --core-gold-100: #ebdfc6;
-  --core-gold-200: #e3d2a6;
-  --core-gold-300: #ffbe33;
-  --core-gold-400: #ffae00;
-  --core-gold-700: #8a5a00;
+  --core-gold-50: #fbf0ce;
+  --core-gold-100: #ede4d2;
+  --core-gold-200: #f7e3ae;
+  --core-gold-300: #f5d162;
+  --core-gold-400: #f0c43a;
+  --core-gold-700: #8f6b10;
 
   /* Neutrals and status */
-  --core-cream: #fbf6ec;
-  --core-white: #fffdf8;
-  --core-green-50: #f0fdf4;
-  --core-green-500: #2e9b4e;
-  --core-green-700: #15803d;
+  --core-cream: #fffdf8;
+  --core-white: #ffffff;
+  --core-green-50: #e3f4ea;
+  --core-green-500: #22c55e;
+  --core-green-700: #1b7a43;
   --core-amber-50: #fffbeb;
-  --core-amber-500: #f59e0b;
-  --core-amber-800: #92400e;
+  --core-amber-500: #f0c43a;
+  --core-amber-800: #b4531a;
   --core-red-50: #fef2f2;
-  --core-red-700: #b91c1c;
-  --core-stone-100: #f5f5f4;
-  --core-stone-400: #a8a29e;
-  --core-stone-500: #78716c;
+  --core-red-700: #c0392b;
+  --core-stone-100: #efeadf;
+  --core-stone-400: #98a2b0;
+  --core-stone-500: #667485;
+  --core-saffron: #c45c26;
+  --core-saffron-50: #f7e2d7;
 }
 
 @theme {
-  --font-sans: var(--font-inter), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-epilogue), var(--font-deva), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --radius-card: 1.25rem;
+  /* LINE Seed JP, the Android app's font (Latin subset); Devanagari falls back to Noto Sans Devanagari. */
+  --font-sans: var(--font-line-seed), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-line-seed), var(--font-deva), ui-sans-serif, system-ui, sans-serif;
+  /* App radii: cards 16, inputs 12, tiles 14, sheets 24. */
+  /*
+   * Full-width pages on laptops and desktops: every page frame (max-w-6xl) spans the whole screen, with the
+   * frame's own side padding. Narrow reading columns (max-w-5xl and below) keep their width.
+   */
+  --container-6xl: 100%;
+
+  --radius-card: 1rem;
+  --radius-input: 0.75rem;
+  --radius-tile: 0.875rem;
+  --radius-sheet: 1.5rem;
+  /* App card shadow: navy at 6%, 2px down, 8px blur. */
+  --shadow-card: 0 2px 8px rgb(12 35 64 / 0.06);
 
   /* B7: every transition decelerates on the base curve; hover color shifts take 300ms. */
   --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
@@ -110,6 +127,10 @@
   --color-neutral: var(--core-stone-500);
   --color-neutral-soft: var(--core-stone-100);
 
+  /* Live (saffron, as in the app) */
+  --color-live: var(--core-saffron);
+  --color-live-soft: var(--core-saffron-50);
+
   /* Availability dots (always next to a text label) */
   --color-online: var(--core-green-500);
   --color-busy: var(--core-amber-500);
@@ -163,6 +184,22 @@
 @media (width >= 64rem) {
   #page:has([data-fills-screen="wide"]) > footer {
     display: none;
+  }
+}
+
+/*
+ * The app's bottom tab bar (BottomTabBar, below lg): the page keeps room for it at the end, and screen-filling
+ * views (an open chat, which has its own message box at the bottom) hide it.
+ */
+@media (width < 64rem) {
+  body:has(#tabbar) #page {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+  }
+  body:has([data-fills-screen="always"]) #tabbar {
+    display: none;
+  }
+  body:has([data-fills-screen="always"]) #page {
+    padding-bottom: 0;
   }
 }
 

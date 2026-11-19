@@ -5,6 +5,7 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import { MotionConfig } from "framer-motion";
 import SiteHeader, { SiteHeaderFallback } from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import BottomTabBar from "@/components/BottomTabBar";
 import WalletPrefetch from "@/components/WalletPrefetch";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
@@ -45,6 +46,10 @@ function Frame({ children }: { children: React.ReactNode }) {
         </main>
         <SiteFooter />
       </div>
+      {/* The app's bottom tabs on phones and tablets. Reads the pathname, so it sits inside <Suspense> too. */}
+      <Suspense fallback={null}>
+        <BottomTabBar />
+      </Suspense>
     </MotionConfig>
   );
 }
