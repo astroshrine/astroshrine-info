@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { PiCheckCircle } from "react-icons/pi";
 import { getSupabase } from "@/lib/supabase";
-import { initUser } from "@/lib/endpoints";
+import { getUser, initUser } from "@/lib/endpoints";
+import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
+
+/** Where an astrologer's account lands after signing in. */
+const ASTROLOGER_HOME = "/astrologer";
 import { useAuth } from "@/components/AuthProvider";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/i18n/LocaleProvider";
@@ -82,7 +86,7 @@ const text = defineMessages({
 
 export default function LoginForm() {
   const router = useRouter();
-  const { status, refresh, blockedMessage } = useAuth();
+  const { status, user, refresh, blockedMessage } = useAuth();
   const t = useT(text);
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
@@ -92,9 +96,10 @@ export default function LoginForm() {
   const [resendIn, setResendIn] = useState(0);
 
   // Already signed in (or a session restored from this browser): nothing to do here.
+  // An astrologer's account goes to the astrologer console, not the customer pages.
   useEffect(() => {
-    if (status === "signedIn" && !busy) router.replace(nextPath());
-  }, [status, busy, router]);
+    if (status === "signedIn" && !busy) router.replace(user?.role === ASTROLOGER_ROLE ? ASTROLOGER_HOME : nextPath());
+  }, [status, user, busy, router]);
 
   useEffect(() => {
     if (resendIn <= 0) return;
@@ -142,8 +147,16 @@ export default function LoginForm() {
       } catch (e) {
         console.warn("[login] user init failed (non-fatal):", e);
       }
+      // Which side of the site this account belongs to: an astrologer signing in here (the customer
+      // login) used to land on the customer home and profile.
+      let role: string | null | undefined;
+      try {
+        role = (await getUser(data.user.id)).role;
+      } catch {
+        role = undefined; // unknown: the effect above sends them on once the account has loaded
+      }
       await refresh();
-      router.replace(nextPath());
+      router.replace(role === ASTROLOGER_ROLE ? ASTROLOGER_HOME : nextPath());
     } finally {
       setBusy(false);
     }

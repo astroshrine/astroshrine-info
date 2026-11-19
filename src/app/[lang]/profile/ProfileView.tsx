@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { PiArrowRight, PiMapPin, PiPhone, PiPlanet, PiSignIn, PiSignOut, PiUserCircle, PiWallet } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
@@ -7,6 +8,8 @@ import { INTL_LOCALE, type Locale } from "@/i18n/config";
 import Link from "@/i18n/Link";
 import { useLocale } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
+import { useRouter } from "@/i18n/navigation";
+import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
 import type { BackendUser } from "@/lib/endpoints";
 import { fadeUp, stagger } from "@/lib/motion";
 
@@ -76,8 +79,14 @@ export default function ProfileView() {
   const { status, session, user, balance, signOut } = useAuth();
   const locale = useLocale();
   const t = text[locale];
+  const router = useRouter();
+  // An astrologer's account has its own profile in the astrologer console, not this customer page.
+  const isAstrologer = status === "signedIn" && user?.role === ASTROLOGER_ROLE;
+  useEffect(() => {
+    if (isAstrologer) router.replace("/astrologer/profile");
+  }, [isAstrologer, router]);
 
-  if (status === "loading") {
+  if (status === "loading" || isAstrologer) {
     return (
       <div aria-busy="true" className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-4 px-4 py-8 md:px-8 lg:grid-cols-5 lg:py-16">
         <div className="h-48 animate-pulse rounded-3xl bg-surface-sunken lg:col-span-2" />
