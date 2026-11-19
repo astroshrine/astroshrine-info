@@ -13,10 +13,10 @@ import { useAuth } from "@/components/AuthProvider";
 import Link from "@/i18n/Link";
 import { FRONT_GUEST, setFrontCookie } from "@/lib/frontDoor";
 import BrandMark from "@/components/BrandMark";
-import { useT } from "@/i18n/LocaleProvider";
+import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { useRouter } from "@/i18n/navigation";
-import { stripLocale } from "@/i18n/paths";
+import { localizeHref, stripLocale } from "@/i18n/paths";
 import { fadeUp } from "@/lib/motion";
 import { APP_HOME_PATH, LANDING_PATH } from "@/lib/site";
 
@@ -108,6 +108,7 @@ export default function LoginForm() {
   const router = useRouter();
   const { status, user, refresh, blockedMessage } = useAuth();
   const t = useT(text);
+  const locale = useLocale();
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -345,7 +346,9 @@ export default function LoginForm() {
             type="button"
             onClick={() => {
               setFrontCookie(FRONT_GUEST);
-              router.push(LANDING_PATH);
+              // A full page load, not router.push: the client router remembers the proxy's earlier redirect of the home
+              // page to this login (production only) and would bring the visitor straight back here.
+              window.location.assign(localizeHref(locale, LANDING_PATH));
             }}
             className="caption-1 mx-auto mt-6 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-ink-soft underline-offset-4 transition hover:text-ink hover:underline"
           >
