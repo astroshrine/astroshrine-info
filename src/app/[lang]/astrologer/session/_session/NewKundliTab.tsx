@@ -3,14 +3,14 @@
 import { useState, type FormEvent } from "react";
 import { PiCheckCircle, PiFilePlus, PiSparkle } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
-import { ApiError } from "@/lib/api";
-import { generateChart, geocodePlace } from "@/lib/endpoints";
-import { GRAHAS, grahaAbbr, lordName, nakshatraName, rashiName, type Chart } from "@/lib/jyotish";
+import { generateChart } from "@/lib/endpoints";
+import { type BirthPlace, GRAHAS, grahaAbbr, lordName, nakshatraName, rashiName, type Chart } from "@/lib/jyotish";
 import { Button, Card } from "../../_console/ui";
 import DesignChart, { type ChartCell } from "./DesignChart";
 import { dt } from "./design";
 import { GRAHA_COLOR } from "./kundliData";
 import { Head } from "./parts";
+import PlaceSearch from "../../../kundli/_components/PlaceSearch";
 
 const field = "h-[50px] w-full rounded-[14px] border border-line-strong bg-surface-page px-3.5 text-base text-ink";
 const lbl = "text-sm font-semibold";
@@ -23,21 +23,20 @@ export default function NewKundliTab() {
   const [gender, setGender] = useState("female");
   const [dob, setDob] = useState("");
   const [tob, setTob] = useState("");
-  const [place, setPlace] = useState("");
-  const [state, setState] = useState<"idle" | "busy" | "need" | "place" | "failed">("idle");
+  const [place, setPlace] = useState<BirthPlace | null>(null);
+  const [state, setState] = useState<"idle" | "busy" | "need" | "failed">("idle");
   const [made, setMade] = useState<{ name: string; chart: Chart } | null>(null);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!dob || !tob || place.trim().length < 2) return setState("need");
+    if (!dob || !tob || !place) return setState("need");
     setState("busy");
     try {
-      const geo = await geocodePlace(place.trim());
-      const chart = await generateChart({ date: dob, time: tob, tz: geo.timezone, lat: geo.latitude, lon: geo.longitude });
+      const chart = await generateChart({ date: dob, time: tob, tz: place.tz, lat: place.lat, lon: place.lon });
       setMade({ name: name.trim(), chart });
       setState("idle");
-    } catch (error) {
-      setState(error instanceof ApiError && error.status === 404 ? "place" : "failed");
+    } catch {
+      setState("failed");
     }
   };
 
@@ -57,7 +56,7 @@ export default function NewKundliTab() {
         };
       })
     : [];
-  const message = state === "need" ? t.nkNeed : state === "place" ? t.nkPlace : state === "failed" ? t.nkFailed : "";
+  const message = state === "need" ? t.nkNeed : state === "failed" ? t.nkFailed : "";
 
   return (
     <div className="flex flex-col gap-6">
@@ -94,11 +93,9 @@ export default function NewKundliTab() {
             </label>
             <input id="nkti" type="time" value={tob} onChange={(e) => setTob(e.target.value)} className={field} />
           </div>
-          <div className="flex min-w-0 flex-col gap-1.5 sm:col-span-2">
-            <label htmlFor="nkp" className={lbl}>
-              {t.nkPob}
-            </label>
-            <input id="nkp" type="text" value={place} onChange={(e) => setPlace(e.target.value)} placeholder={t.nkPobPh} className={field} />
+          <div className="min-w-0 sm:col-span-2">
+            {/* The same place popup as the customer's birth forms. */}
+            <PlaceSearch id="nkp" label={t.nkPob} value={place} onPick={setPlace} />
           </div>
           <div className="flex flex-wrap items-center gap-3 sm:col-span-2">
             <Button type="submit" disabled={state === "busy"}>

@@ -7,6 +7,15 @@ import { defineConfig, devices } from "@playwright/test";
  */
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
+/**
+ * Every test browses as a visitor who chose "Continue without login" (src/lib/frontDoor.ts), so opening /hi or /en
+ * shows the home page; e2e/front.spec.ts clears it to test the login front door itself.
+ */
+const LOOKED_AROUND = {
+  cookies: [{ name: "AS_FRONT", value: "guest", domain: new URL(baseURL).hostname, path: "/", expires: -1, httpOnly: false, secure: false, sameSite: "Lax" as const }],
+  origins: [],
+};
+
 export default defineConfig({
   testDir: "e2e",
   timeout: 90_000,
@@ -19,6 +28,7 @@ export default defineConfig({
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL,
+    storageState: LOOKED_AROUND,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },

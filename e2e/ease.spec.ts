@@ -5,6 +5,7 @@ import { MockBackend, signIn } from "./support/backend";
 // from the menu, the Offers screen, the live rashifal and a stat box with real figures only.
 
 test("a new account fills in its details after login, then goes where it was heading", async ({ page }) => {
+  await page.route("**/api/places?*", (route) => route.fulfill({ json: [{ label: "Ujjain, Madhya Pradesh, India", name: "Ujjain", lat: 23.18, lon: 75.78, countryCode: "IN" }] }));
   const backend = new MockBackend();
   backend.user = { name: null, profile: { phoneNumber: "+919800000000" } };
   await signIn(page, backend);
@@ -21,8 +22,8 @@ test("a new account fills in its details after login, then goes where it was hea
   await page.getByText("Female", { exact: true }).click();
   await page.getByLabel("Date of birth").fill("1996-08-14");
   await page.getByLabel("Time of birth").fill("06:40");
-  await page.getByLabel("Place of birth").fill("Ujjain");
-  await page.getByRole("button", { name: "Search" }).click();
+  await page.getByRole("combobox", { name: "Place of birth" }).fill("Ujja");
+  await page.getByRole("option", { name: /Ujjain/ }).click();
   await expect(page.getByText("Ujjain, Madhya Pradesh, India ·")).toBeVisible();
   await page.getByRole("button", { name: "Continue" }).click();
 

@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, u
 import type { Session } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase";
 import { ACCOUNT_BLOCKED_CODES, ApiError } from "@/lib/api";
+import { FRONT_MEMBER, clearFrontCookie, setFrontCookie } from "@/lib/frontDoor";
 import { getUser, getWalletBalance, type BackendUser, type WalletBalance } from "@/lib/endpoints";
 
 type AuthState = {
@@ -69,11 +70,15 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoaded(true);
+      if (data.session) setFrontCookie(FRONT_MEMBER);
     });
     // Only state updates in here: Supabase warns against awaiting its own calls inside this callback.
-    const { data } = supabase.auth.onAuthStateChange((_event, next) => {
+    const { data } = supabase.auth.onAuthStateChange((event, next) => {
       setSession(next);
       setLoaded(true);
+      // The front door (src/proxy.ts): a signed-in browser opens on the home page; after logging out, on the login.
+      if (next) setFrontCookie(FRONT_MEMBER);
+      else if (event === "SIGNED_OUT") clearFrontCookie();
     });
     return () => data.subscription.unsubscribe();
   }, []);

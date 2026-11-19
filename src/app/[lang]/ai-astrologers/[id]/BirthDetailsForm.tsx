@@ -5,9 +5,9 @@ import { PiCalendarStar } from "react-icons/pi";
 import { primaryButton, quietButton } from "@/components/consult/Dialog";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
-import { ApiError } from "@/lib/api";
-import { geocodePlace } from "@/lib/endpoints";
+import type { BirthPlace } from "@/lib/jyotish";
 import { saveBirthChart } from "@/lib/services/aiAstrologers";
+import PlaceSearch from "../../kundli/_components/PlaceSearch";
 
 const text = defineMessages({
   hi: {
@@ -16,11 +16,9 @@ const text = defineMessages({
     date: "जन्म की तारीख",
     time: "जन्म का समय",
     place: "जन्म का शहर",
-    placeHint: "जैसे: जयपुर, राजस्थान",
     save: "सेव करें",
     saving: "सेव हो रहा है…",
     later: "अभी नहीं",
-    placeNotFound: "यह जगह नहीं मिली। शहर और राज्य का नाम लिखकर फिर से कोशिश करें।",
     failed: "जानकारी सेव नहीं हो सकी। कृपया फिर से कोशिश करें।",
   },
   en: {
@@ -29,11 +27,9 @@ const text = defineMessages({
     date: "Date of birth",
     time: "Time of birth",
     place: "Birth city",
-    placeHint: "For example: Jaipur, Rajasthan",
     save: "Save",
     saving: "Saving…",
     later: "Not now",
-    placeNotFound: "We could not find this place. Write the city and state and try again.",
     failed: "The details could not be saved. Please try again.",
   },
 });
@@ -44,31 +40,17 @@ export default function BirthDetailsForm({ onSaved, onSkip }: { onSaved: () => v
   const t = useT(text);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [place, setPlace] = useState("");
+  const [place, setPlace] = useState<BirthPlace | null>(null);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<"place" | "failed" | null>(null);
+  const [error, setError] = useState<"failed" | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (busy) return;
+    if (busy || !place) return;
     setBusy(true);
     setError(null);
     try {
-      let found;
-      try {
-        found = await geocodePlace(place.trim());
-      } catch (err) {
-        setError(err instanceof ApiError && err.status === 404 ? "place" : "failed");
-        return;
-      }
-      await saveBirthChart({
-        birthDate: date,
-        birthTime: time,
-        birthPlace: found.formattedAddress || place.trim(),
-        latitude: found.latitude,
-        longitude: found.longitude,
-        timezone: found.timezone,
-      });
+      await saveBirthChart({ birthDate: date, birthTime: time, birthPlace: place.name, latitude: place.lat, longitude: place.lon, timezone: place.tz });
       onSaved();
     } catch {
       setError("failed");
@@ -97,18 +79,18 @@ export default function BirthDetailsForm({ onSaved, onSkip }: { onSaved: () => v
           <span className="caption-2 text-ink-soft">{t.time}</span>
           <input type="time" required value={time} onChange={(e) => setTime(e.target.value)} className={input} />
         </label>
-        <label className="flex flex-col gap-1 sm:col-span-2">
-          <span className="caption-2 text-ink-soft">{t.place}</span>
-          <input type="text" required maxLength={120} value={place} placeholder={t.placeHint} onChange={(e) => setPlace(e.target.value)} className={input} />
-        </label>
+        <div className="sm:col-span-2">
+          {/* The same place popup as every other birth form on the site. */}
+          <PlaceSearch id="ai-birth-place" label={t.place} value={place} onPick={setPlace} />
+        </div>
       </div>
       {error && (
         <p role="alert" className="caption-2 text-danger">
-          {error === "place" ? t.placeNotFound : t.failed}
+          {t.failed}
         </p>
       )}
       <div className="flex flex-wrap gap-2">
-        <button type="submit" disabled={busy || !date || !time || !place.trim()} className={primaryButton}>
+        <button type="submit" disabled={busy || !date || !time || !place} className={primaryButton}>
           {busy ? t.saving : t.save}
         </button>
         <button type="button" onClick={onSkip} disabled={busy} className={quietButton}>

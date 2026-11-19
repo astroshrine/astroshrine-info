@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { PiCheckCircle } from "react-icons/pi";
+import { PiArrowRight, PiCheckCircle, PiSparkle, PiUser } from "react-icons/pi";
 import { getSupabase } from "@/lib/supabase";
 import { getUser, initUser, profileComplete, type BackendUser } from "@/lib/endpoints";
 import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
@@ -10,13 +10,15 @@ import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
 /** Where an astrologer's account lands after signing in. */
 const ASTROLOGER_HOME = "/astrologer";
 import { useAuth } from "@/components/AuthProvider";
+import Link from "@/i18n/Link";
+import { FRONT_GUEST, setFrontCookie } from "@/lib/frontDoor";
 import BrandMark from "@/components/BrandMark";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { useRouter } from "@/i18n/navigation";
 import { stripLocale } from "@/i18n/paths";
 import { fadeUp } from "@/lib/motion";
-import { APP_HOME_PATH } from "@/lib/site";
+import { APP_HOME_PATH, LANDING_PATH } from "@/lib/site";
 
 const OTP_LENGTH = 6;
 const RESEND_SECONDS = 30;
@@ -49,6 +51,10 @@ const text = defineMessages({
       "Astrologers से chat, वही account",
     ],
     oneAccount: "एक account, ऐप और वेबसाइट दोनों पर",
+    who: "आप कौन हैं?",
+    asUser: "उपयोगकर्ता",
+    asAstrologer: "ज्योतिषी",
+    guest: "बिना लॉगिन के आगे बढ़ें",
     otpOnly: "लॉगिन OTP से होता है। कोई password नहीं।",
     loginTitle: "लॉगिन करें",
     otpTitle: "OTP डालें",
@@ -74,6 +80,10 @@ const text = defineMessages({
       "Chat with astrologers on the same account",
     ],
     oneAccount: "One account for the app and the website",
+    who: "Who are you?",
+    asUser: "User",
+    asAstrologer: "Astrologer",
+    guest: "Continue without login",
     otpOnly: "You log in with an OTP. No password needed.",
     loginTitle: "Log in",
     otpTitle: "Enter the OTP",
@@ -210,7 +220,29 @@ export default function LoginForm() {
           <BrandMark size={40} />
           <span className="title-2 text-ink">AstroShrine</span>
         </div>
-        <h1 id="login-title" className="heading-5 mt-6 text-ink lg:mt-0">
+        {/* The front door, as in the app: customers log in here, astrologers on their own sign-in page. */}
+        {step === "phone" && (
+          <nav aria-label={t.who} className="mt-6 lg:mt-0">
+            <p className="caption-2 text-ink-soft">{t.who}</p>
+            <div className="mt-2 grid grid-cols-2 gap-1 rounded-2xl bg-surface-sunken p-1">
+              <span
+                aria-current="page"
+                className="title-4 flex h-12 items-center justify-center gap-2 rounded-xl bg-surface-inverse text-ink-inverse shadow-sm"
+              >
+                <PiUser className="h-5 w-5" aria-hidden />
+                {t.asUser}
+              </span>
+              <Link
+                href="/astrologer/login"
+                className="title-4 flex h-12 items-center justify-center gap-2 rounded-xl text-ink-soft transition hover:bg-surface-card hover:text-ink motion-safe:active:scale-98"
+              >
+                <PiSparkle className="h-5 w-5 text-brand-strong" aria-hidden />
+                {t.asAstrologer}
+              </Link>
+            </div>
+          </nav>
+        )}
+        <h1 id="login-title" className="heading-5 mt-6 text-ink">
           {step === "phone" ? t.loginTitle : t.otpTitle}
         </h1>
         <p className="body-6 mt-2 text-ink-soft">{step === "phone" ? t.loginIntro : t.otpIntro(fullPhone, OTP_LENGTH)}</p>
@@ -307,6 +339,20 @@ export default function LoginForm() {
             {busy ? t.wait : step === "phone" ? t.sendOtp : t.login}
           </button>
         </form>
+
+        {step === "phone" && (
+          <button
+            type="button"
+            onClick={() => {
+              setFrontCookie(FRONT_GUEST);
+              router.push(LANDING_PATH);
+            }}
+            className="caption-1 mx-auto mt-6 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-ink-soft underline-offset-4 transition hover:text-ink hover:underline"
+          >
+            {t.guest}
+            <PiArrowRight className="h-4 w-4" aria-hidden />
+          </button>
+        )}
       </motion.section>
     </div>
   );

@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PiCaretDown, PiMagnifyingGlass } from "react-icons/pi";
+import { PiCaretDown } from "react-icons/pi";
 import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { makeBi, hasDevanagari, type LagnaRows } from "@/lib/services/toolsBBi";
 import { CITIES } from "@/lib/services/toolsBEngines/cities";
 import type { PlaceForm } from "@/lib/services/toolsBMuhurat";
+import type { BirthPlace } from "@/lib/jyotish";
+import PlaceSearch from "../../kundli/_components/PlaceSearch";
 import { inputCls, labelCls } from "../../kundli/_components/ui";
 
 // Building blocks shared by the Muhurat and Yagyopavit tools, on the kundli pages' design tokens.
@@ -272,57 +274,81 @@ export function placeVal(p: PlaceForm, other: string, hi: boolean): Place | null
   return { name: hi ? c[1] : c[0], lat: c[2], lon: c[3], tz: c[4] };
 }
 
-const MAX_HITS = 8;
+/** Hours from UTC of an IANA zone today ("Asia/Kolkata" -> 5.5), the form these engines take. */
+function zoneHours(tz: string): number {
+  try {
+    const name = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "longOffset" }).formatToParts(new Date()).find((x) => x.type === "timeZoneName")?.value ?? "";
+    const m = /GMT([+-])(\d{1,2})(?::(\d{2}))?/.exec(name);
+    return m ? (m[1] === "-" ? -1 : 1) * (Number(m[2]) + Number(m[3] ?? 0) / 60) : 0;
+  } catch {
+    return 5.5;
+  }
+}
 
 /**
- * A birthplace or venue: the app's city list filtered as you type, or "Other place" with latitude, longitude and
- * the time zone as hours from UTC. City names follow the page's language, and typing in either script finds them.
+ * A birthplace or venue: the site's place popup (any town or village, as the app's place picker), or, for a place
+ * it can't find, latitude, longitude and the time zone as hours from UTC typed in by hand.
  */
 export function PlaceField({ id, label, value, onChange }: { id: string; label: string; value: PlaceForm; onChange: (p: PlaceForm) => void }) {
   const bi = useBi();
   const locale = useLocale();
+  const [manual, setManual] = useState(false);
   const set = (p: Partial<PlaceForm>) => onChange({ ...value, ...p });
-  const q = value.name.trim().toLowerCase();
-  const nameOf = (i: number) => CITIES[i][locale === "hi" ? 1 : 0];
-  const hits =
-    value.city == null && !value.custom && q
-      ? CITIES.flatMap((c, i) => (c[0].toLowerCase().includes(q) || c[1].toLowerCase().includes(q) ? [i] : [])).slice(0, MAX_HITS)
-      : [];
+
+  // What the popup shows as chosen: a city from the built-in list, or a place picked (or typed) with coordinates.
+  const picked: BirthPlace | null = (() => {
+    if (value.city != null) {
+      const c = CITIES[value.city];
+      return { name: c[locale === "hi" ? 1 : 0], lat: c[2], lon: c[3], tz: `UTC${c[4] >= 0 ? "+" : ""}${c[4]}` };
+    }
+    const lat = parseFloat(value.lat);
+    const lon = parseFloat(value.lon);
+    return value.custom && value.name.trim() && !isNaN(lat) && !isNaN(lon) ? { name: value.name, lat, lon, tz: `UTC${Number(value.tz) >= 0 ? "+" : ""}${value.tz}` } : null;
+  })();
+
   return (
     <div className="min-w-0 space-y-2">
-      <label htmlFor={id} className={labelCls}>
-        {label}
-      </label>
-      <div className="relative">
-        <PiMagnifyingGlass className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" aria-hidden />
-        <input
+      {manual ? (
+        <div>
+          <label htmlFor={id} className={labelCls}>
+            {label}
+          </label>
+          <input
+            id={id}
+            autoComplete="off"
+            maxLength={120}
+            value={value.name}
+            placeholder={bi("Place name", "स्थान का नाम")}
+            onChange={(e) => set({ name: e.target.value, city: null, custom: true })}
+            className={inputCls}
+          />
+        </div>
+      ) : (
+        <PlaceSearch
           id={id}
-          autoComplete="off"
-          maxLength={120}
-          value={value.custom ? value.name : value.city != null ? nameOf(value.city) : value.name}
-          placeholder={value.custom ? bi("Place name", "स्थान का नाम") : bi("Type the city", "शहर का नाम लिखें")}
-          onChange={(e) => set({ name: e.target.value, city: null })}
-          className={`${inputCls} pl-9`}
+          label={label}
+          value={picked}
+          onPick={(p) =>
+            onChange(
+              p
+                ? { city: null, custom: true, name: p.name, lat: String(p.lat), lon: String(p.lon), tz: String(zoneHours(p.tz)) }
+                : { city: null, custom: false, name: "", lat: "", lon: "", tz: "5.5" },
+            )
+          }
         />
-      </div>
-      {hits.length > 0 && (
-        <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface-card">
-          {hits.map((i) => (
-            <li key={i}>
-              <button type="button" className="body-5 w-full px-3 py-2 text-left text-ink hover:bg-surface-sunken" onClick={() => set({ city: i, name: CITIES[i][0] })}>
-                {nameOf(i)}
-              </button>
-            </li>
-          ))}
-        </ul>
       )}
-      {value.city == null && !value.custom && !!q && hits.length === 0 && (
-        <p className="caption-2 text-ink-soft">{bi("No city of that name in the list. Choose “Other place”.", "सूची में इस नाम का शहर नहीं। \"अन्य स्थान\" चुनें।")}</p>
-      )}
-      <button type="button" aria-pressed={value.custom} onClick={() => set({ custom: !value.custom, city: null })} className={toggleCls(value.custom)}>
-        {bi("Other place (enter latitude/longitude)", "अन्य स्थान (अक्षांश/रेखांश भरें)")}
+      <button
+        type="button"
+        aria-pressed={manual}
+        onClick={() => {
+          setManual(!manual);
+          onChange({ city: null, custom: !manual, name: "", lat: "", lon: "", tz: "5.5" });
+        }}
+        className={toggleCls(manual)}
+      >
+        {bi("Place not in the list? Enter latitude/longitude", "जगह सूची में नहीं? अक्षांश/रेखांश भरें")}
       </button>
-      {value.custom && (
+      {manual && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div>
             <label htmlFor={`${id}-lat`} className={labelCls}>

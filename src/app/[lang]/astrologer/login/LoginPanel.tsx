@@ -27,6 +27,8 @@ const text = defineMessages({
     notice: "यह साइन इन केवल ज्योतिषियों के लिए है।",
     noticeSub: "ग्राहक AstroShrine ऐप और वेबसाइट पर ज्योतिषियों से चैट या कॉल कर सकते हैं।",
     noticeLink: "astroshrine.in पर जाएँ",
+    customer: "ज्योतिषी नहीं हैं?",
+    customerLink: "उपयोगकर्ता लॉगिन",
     b1: "देश भर के जिज्ञासुओं से चैट और कॉल अनुरोध",
     b2: "कमाई का पूरा हिसाब कंसोल में",
     b3: "कंसोल हिंदी या अंग्रेज़ी में चलाएँ",
@@ -77,6 +79,8 @@ const text = defineMessages({
     notice: "This sign-in is only for astrologers.",
     noticeSub: "Customers can chat with or call astrologers on the AstroShrine app and website.",
     noticeLink: "Go to astroshrine.in",
+    customer: "Not an astrologer?",
+    customerLink: "User login",
     b1: "Chat and call requests from seekers across India",
     b2: "Your earnings, clearly shown in the console",
     b3: "Use the console in Hindi or English",
@@ -535,6 +539,12 @@ export default function LoginPanel() {
                   {t.joinBtn}
                 </A>
               </>)}
+              <div style={{fontSize:"15px",color:"#555D74"}}>
+                {t.customer}{" "}
+                <A href="/login" style={{fontWeight:"700",color:"#8A5A00",textDecoration:"underline",textUnderlineOffset:"3px"}}>
+                  {t.customerLink}
+                </A>
+              </div>
               <p style={{margin:"4px 0 0",fontSize:"13px",color:"#555D74"}}>
                 {t.terms}
               </p>
