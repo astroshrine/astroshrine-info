@@ -1,10 +1,10 @@
 import { PiCaretLeft, PiDotsThreeVertical, PiMicrophone, PiPhone, PiSmiley } from "react-icons/pi";
-import { SAMPLE_FOOTER_CHAT } from "@/components/landing/samples/letters";
+import { SAMPLE_FOOTER_CHAT } from "@/components/landing/samples/footerChat";
 
 /**
  * A picture of the app's chat on an Android phone, for the footer (decorative, hidden from assistive tech). The
  * screen colours are fixed on purpose: they depict the app's own screen, not the website's theme. Sample chat
- * text is in landing/samples/letters.ts.
+ * text is in landing/samples/footerChat.ts.
  */
 export default function FooterPhone() {
   const chat = SAMPLE_FOOTER_CHAT;

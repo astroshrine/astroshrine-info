@@ -119,6 +119,7 @@ function SignedInWallet({ initialConfig }: { initialConfig: WalletConfig | null 
           config={config}
           onRetryConfig={retryConfig}
           amount={amountParam}
+          promo={searchParams.get("promo")}
           onAmountChange={(inr) => setQueryParam("amount", String(inr), "replace")}
         />
         <Transactions

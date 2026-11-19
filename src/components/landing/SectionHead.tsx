@@ -18,7 +18,7 @@ export default function SectionHead({
   action?: { href: string; label: string; external?: boolean };
   /** On the navy rashifal band. */
   dark?: boolean;
-  /** Extra control at the right (the rashifal period tabs). */
+  /** Extra control at the right of the heading. */
   children?: React.ReactNode;
 }) {
   const ghost =

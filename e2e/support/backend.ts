@@ -135,6 +135,22 @@ export class MockBackend {
   /** Answers to GET /v1/wallet/recharge/:orderId/status, in order; the last one repeats. */
   orderStatus: Record<string, Reply[]> = {};
   messages = conversation(45);
+  /** The account's saved details. A complete profile by default; a test can clear it to act as a new account. */
+  user: { name: string | null; profile: Record<string, unknown> } = {
+    name: "Test User",
+    profile: {
+      phoneNumber: "+919800000000",
+      gender: "M",
+      dateTimeOfBirth: Date.UTC(1995, 2, 12, 1, 10),
+      placeOfBirth: { displayValue: "Ujjain, Madhya Pradesh, India", geolocation: { lat: 23.18, lng: 75.78 }, timezone: "Asia/Kolkata" },
+    },
+  };
+  /** Bodies sent to POST /v1/user-supabase/:id/profile/profile-data, in order. */
+  savedProfiles: unknown[] = [];
+  /** Answer to GET /v1/wallet/promo/active. */
+  promos: unknown[] = [];
+  /** Answer to GET /v1/horoscope/daily (any language). */
+  horoscope: Reply = [404, { error: "No horoscope for that date" }];
   /** Requests that had no fixture: a test can assert this stays empty. */
   unmocked: string[] = [];
   private chatExpiresAt = Date.now() + 70_000;
@@ -162,8 +178,19 @@ export class MockBackend {
     const p = u.pathname.replace(/^\/api/, "");
     const q = u.searchParams;
 
-    if (p === `/v1/user-supabase/${USER_ID}`)
-      return [200, { id: USER_ID, name: "Test User", role: "USER", points_balance: this.balance, profile: { phoneNumber: "+919800000000" } }];
+    if (p === `/v1/user-supabase/${USER_ID}` && method === "GET")
+      return [200, { id: USER_ID, name: this.user.name, role: "USER", points_balance: this.balance, profile: this.user.profile }];
+    if (p === `/v1/user-supabase/${USER_ID}`) return [200, { id: USER_ID }];
+    if (p === `/v1/user-supabase/${USER_ID}/profile/profile-data`) {
+      const sent = JSON.parse(body || "{}");
+      this.savedProfiles.push(sent);
+      this.user = { name: sent.name ?? this.user.name, profile: { ...this.user.profile, ...sent.profile } };
+      return [200, { id: USER_ID, name: this.user.name, role: "USER", profile: this.user.profile }];
+    }
+    if (p === "/v1/ai-astrology/chart") return [200, { ok: true }];
+    if (p === "/v1/ai-astrology/geocode") return [200, { latitude: 23.18, longitude: 75.78, timezone: "Asia/Kolkata", formattedAddress: "Ujjain, Madhya Pradesh, India" }];
+    if (p === "/v1/wallet/promo/active") return [200, { promos: this.promos }];
+    if (p === "/v1/horoscope/daily") return this.horoscope;
     if (p === "/v1/wallet/balance") return [200, { points_balance: this.balance, inr_balance: 0 }];
     if (p === "/v1/wallet/config") return [200, walletConfig];
     if (p === "/v1/wallet/transactions") {

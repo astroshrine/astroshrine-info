@@ -204,6 +204,45 @@ export function saveBirthDetails(userId: string, b: SavedBirth) {
   });
 }
 
+/** The app's gender values (GenderRadioButton): M or F. */
+export type Gender = "M" | "F";
+
+export type ProfileEdit = {
+  name: string;
+  email: string | null;
+  gender: Gender;
+  dateTimeOfBirth: number;
+  place: { name: string; lat: number; lon: number; tz: string };
+};
+
+/**
+ * Saves the profile form, as the app's EditProfileUI does: the display name plus email, gender and birth details,
+ * merged into users.profile (POST /v1/user-supabase/:id/profile/profile-data; the phone number and photo stay).
+ */
+export function saveProfile(userId: string, p: ProfileEdit) {
+  return api<BackendUser>(`/v1/user-supabase/${encodeURIComponent(userId)}/profile/profile-data`, {
+    method: "POST",
+    body: {
+      name: p.name,
+      profile: {
+        ...(p.email ? { email: p.email } : {}),
+        gender: p.gender,
+        dateTimeOfBirth: p.dateTimeOfBirth,
+        placeOfBirth: { displayValue: p.place.name, geolocation: { lat: p.place.lat, lng: p.place.lon }, timezone: p.place.tz },
+      },
+    },
+  });
+}
+
+/**
+ * Whether a customer account has what the app asks for at sign-up (name, birth date and time, birth place). The app
+ * sends anyone without them to its details form before home; the website does the same after login.
+ */
+export function profileComplete(user: BackendUser | null | undefined) {
+  const p = user?.profile;
+  return !!user?.name?.trim() && Number(p?.dateTimeOfBirth) > 0 && !!p?.placeOfBirth?.displayValue?.trim();
+}
+
 /**
  * Recomputes the stored birth chart the AI astrologer reads, as the app does right after saving birth details.
  * POST /v1/ai-astrology/chart (signed in, free).

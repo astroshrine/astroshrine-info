@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { PiArrowClockwise, PiArrowRight, PiArrowUpRight, PiChatCircleDots, PiGift, PiSignIn } from "react-icons/pi";
+import { PiArrowClockwise, PiArrowRight, PiArrowUpRight, PiChatCircleDots, PiGift, PiSignIn, PiUserCirclePlus } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import AstrologerCard, { AstrologerCardSkeleton } from "@/components/AstrologerCard";
+import { profileComplete } from "@/lib/endpoints";
 import { getConsultConfig } from "@/lib/services/chat";
 import { fadeUp, stagger } from "@/lib/motion";
 import Link from "@/i18n/Link";
@@ -38,6 +39,11 @@ const text = defineMessages({
       },
       cta: "फ्री चैट शुरू करें",
     },
+    details: {
+      title: "अपनी जन्म जानकारी भरें",
+      body: "Astrologer chat में आपकी कुंडली इसी से देखते हैं। एक बार भर दें, ऐप में भी दिखेगी।",
+      cta: "अभी भरें",
+    },
     services: "सेवाएं",
     open: "खोलें",
     newTab: "(नए टैब में खुलेगा)",
@@ -70,6 +76,11 @@ const text = defineMessages({
         body: "Chat with any astrologer. No points will be deducted.",
       },
       cta: "Start a free chat",
+    },
+    details: {
+      title: "Add your birth details",
+      body: "Astrologers read your kundli from them in chat. Fill them in once; the app shows them too.",
+      cta: "Add now",
     },
     services: "Services",
     open: "Open",
@@ -126,6 +137,7 @@ export default function HomeView() {
         )}
       </section>
 
+      {signedIn && user && !profileComplete(user) && <CompleteProfileCard />}
       {signedIn && <WelcomeGiftSection />}
       <ServicesSection />
       <AstrologersSection />
@@ -203,6 +215,39 @@ function WelcomeGiftSection() {
           {t.gift.cta}
         </Link>
       </div>
+    </motion.section>
+  );
+}
+
+// ─── Missing details ────────────────────────────────────────────────────────
+
+/** For an account signed in before the website asked for details at login: the same nudge to fill them in. */
+function CompleteProfileCard() {
+  const t = useT(text);
+  return (
+    <motion.section
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      aria-labelledby="details-title"
+      className="mb-8 flex flex-col gap-4 rounded-3xl border border-brand/40 bg-surface-card p-5 sm:flex-row sm:items-center md:p-6"
+    >
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand/15 text-brand-strong">
+        <PiUserCirclePlus className="h-6 w-6" aria-hidden />
+      </span>
+      <div className="min-w-0 flex-1">
+        <h2 id="details-title" className="title-3 text-ink">
+          {t.details.title}
+        </h2>
+        <p className="caption-2 mt-1 text-ink-soft">{t.details.body}</p>
+      </div>
+      <Link
+        href="/profile/edit?next=/home"
+        className="button-sm inline-flex w-fit shrink-0 items-center gap-2 rounded-xl bg-brand px-4 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+      >
+        {t.details.cta}
+        <PiArrowRight className="h-4 w-4" aria-hidden />
+      </Link>
     </motion.section>
   );
 }

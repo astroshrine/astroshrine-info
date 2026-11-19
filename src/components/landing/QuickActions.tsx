@@ -7,11 +7,12 @@ import Link from "@/i18n/Link";
 import { useT } from "@/i18n/LocaleProvider";
 import { HERO_SAMPLE } from "./samples/hero";
 
-// The website has no voice calls and no daily horoscope page yet: those two cards open the astrologer list and the Panchang.
+// Calls on the website are booked ahead (from an astrologer's profile), so the call card opens the astrologer list.
+// The daily horoscope card jumps to the landing page's live rashifal.
 const TARGETS: { href: string; icon: IconType }[] = [
   { href: "/astrologers", icon: PiChatCircleDots },
   { href: "/astrologers", icon: PiPhone },
-  { href: "/kundli/panchang", icon: PiMoon },
+  { href: "/#rashifal", icon: PiMoon },
   { href: "/kundli", icon: PiSquaresFour },
 ];
 

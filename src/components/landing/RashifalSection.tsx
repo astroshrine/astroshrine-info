@@ -7,17 +7,22 @@ import { useLocale, useT } from "@/i18n/LocaleProvider";
 import Link from "@/i18n/Link";
 import { defineMessages } from "@/i18n/messages";
 import { EASE_OUT } from "@/lib/motion";
-import { ELEMENTS, PERIODS, SIGNS, readingFor, type PeriodKey } from "./samples/rashifal";
+import { entryFor, istDate, useDailyHoroscope } from "@/lib/services/horoscope";
+import { ELEMENTS, SIGNS } from "./zodiac";
 import SectionHead from "./SectionHead";
 
 const text = defineMessages({
   hi: {
     eyebrow: "आज का राशिफल",
     title: "अपनी राशि चुनें",
-    lead: "अपनी राशि पर चक्र घुमाएँ और प्रेम, काम, सेहत और धन की झलक पाएँ।",
-    period: "अवधि",
-    periods: { today: "आज", tomorrow: "कल", week: "सप्ताह", month: "महीना" },
-    periodTitle: { today: "आज", tomorrow: "कल", week: "इस सप्ताह", month: "इस महीने" },
+    lead: "अपनी राशि पर चक्र घुमाएँ और आज के प्रेम, काम और सेहत का हाल पढ़ें।",
+    today: "आज",
+    mood: (m: string) => `मूड: ${m}`,
+    love: "प्रेम",
+    career: "करियर",
+    health: "सेहत",
+    loading: "आज का राशिफल आ रहा है…",
+    failed: "आज का राशिफल अभी नहीं खुल पाया। थोड़ी देर बाद फिर देखें।",
     wheel: "राशि चक्र",
     element: (e: string) => `${e} तत्व`,
     elementSign: (e: string) => `${e} राशि`,
@@ -31,10 +36,14 @@ const text = defineMessages({
   en: {
     eyebrow: "Today's rashifal",
     title: "Choose your rashi",
-    lead: "Turn the wheel to your sign for a quick look at love, work, health and money.",
-    period: "Period",
-    periods: { today: "Today", tomorrow: "Tomorrow", week: "Week", month: "Month" },
-    periodTitle: { today: "Today", tomorrow: "Tomorrow", week: "This week", month: "This month" },
+    lead: "Turn the wheel to your sign and read today's outlook for love, work and health.",
+    today: "Today",
+    mood: (m: string) => `Mood: ${m}`,
+    love: "Love",
+    career: "Career",
+    health: "Health",
+    loading: "Loading today's rashifal…",
+    failed: "Today's rashifal couldn't load. Please check again in a little while.",
     wheel: "Zodiac wheel",
     element: (e: string) => `${e} element`,
     elementSign: (e: string) => `${e} sign`,
@@ -75,7 +84,7 @@ export default function RashifalSection() {
   const locale = useLocale();
   const reduce = useReducedMotion();
   const [sel, setSel] = useState(0);
-  const [period, setPeriod] = useState<PeriodKey>("today");
+  const { data, failed } = useDailyHoroscope(locale);
   const [rot, setRot] = useState(0);
   const [touched, setTouched] = useState(false);
 
@@ -91,8 +100,8 @@ export default function RashifalSection() {
 
   const sign = SIGNS[sel];
   const el = ELEMENTS[sel % 4][locale];
-  const r = readingFor(locale, sel, period);
-  const swapKey = `${sel}-${period}`;
+  const r = entryFor(data, sign.name.en);
+  const swapKey = `${sel}-${data ? "data" : "wait"}`;
   const intl = locale === "hi" ? "hi-IN" : "en-IN";
   // The visitor's own date. Empty on the server and during hydration, so nothing differs between them.
   const today = useSyncExternalStore(
@@ -100,15 +109,13 @@ export default function RashifalSection() {
     () => new Date().toDateString(),
     () => "",
   );
-  const dateLabel = (() => {
-    if (period !== "today" && period !== "tomorrow") return t.periodTitle[period];
-    if (!today) return t.periodTitle[period];
-    const d = new Date(today);
-    if (period === "tomorrow") d.setDate(d.getDate() + 1);
-    return `${t.periodTitle[period]}, ${d.toLocaleDateString(intl, { day: "numeric", month: "long", year: "numeric" })}`;
-  })();
+  // The backend's date (IST) once the readings arrive, else today in IST as this browser counts it.
+  const day = data?.date ?? (today ? istDate() : "");
+  const dateLabel = day
+    ? `${t.today}, ${new Date(`${day}T12:00:00+05:30`).toLocaleDateString(intl, { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" })}`
+    : t.today;
 
-  // Content that changes with the sign or period fades up again; the first paint is plain.
+  // Content that changes with the sign (or arrives from the backend) fades up again; the first paint is plain.
   const swap = (delay = 0) =>
     ({
       initial: touched ? { opacity: 0, y: 8 } : false,
@@ -139,26 +146,7 @@ export default function RashifalSection() {
       />
 
       <div className="mx-auto w-full max-w-[1280px] px-4 md:px-12">
-        <SectionHead id="rashifal-title" eyebrow={t.eyebrow} title={t.title} lead={t.lead} dark>
-          <div role="group" aria-label={t.period} className="inline-flex gap-1 rounded-[14px] bg-white/[0.07] p-1">
-            {PERIODS.map((p) => (
-              <button
-                key={p}
-                type="button"
-                aria-pressed={p === period}
-                onClick={() => {
-                  setTouched(true);
-                  setPeriod(p);
-                }}
-                className={`h-11 rounded-[11px] px-3.5 text-[13px] font-semibold transition-colors sm:px-[18px] sm:text-[13px] ${
-                  p === period ? "bg-brand text-brand-ink" : "text-[#E7E2D4] hover:bg-white/10"
-                }`}
-              >
-                {t.periods[p]}
-              </button>
-            ))}
-          </div>
-        </SectionHead>
+        <SectionHead id="rashifal-title" eyebrow={t.eyebrow} title={t.title} lead={t.lead} dark />
 
         <Reveal className="mt-10 grid grid-cols-1 items-center gap-12 md:mt-12 lg:grid-cols-[520px_1fr] lg:gap-[72px]">
           {/* Wheel */}
@@ -290,42 +278,55 @@ export default function RashifalSection() {
                 {sign.dates[locale]}
               </span>
             </motion.div>
-            <motion.p key={`p${swapKey}`} {...swap(0.15)} className="mt-[18px] max-w-[600px] text-[17px] leading-[1.75] text-ink-inverse-soft">
-              {r.text}
-            </motion.p>
+            {r ? (
+              <>
+                <motion.p key={`p${swapKey}`} {...swap(0.15)} className="mt-[18px] max-w-[600px] text-[17px] leading-[1.75] text-ink-inverse-soft">
+                  {r.prediction}
+                </motion.p>
 
-            <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {r.areas.map((a, j) => (
-                <motion.div
-                  key={`${swapKey}-${a.label}`}
-                  initial={touched ? { opacity: 0, y: 8 } : false}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.55, ease: EASE_OUT, delay: j * 0.08 }}
-                  whileHover={{ y: -2 }}
-                  className="rounded-2xl border border-brand/[0.16] bg-white/[0.025] p-4 transition-colors hover:border-brand/45"
-                >
-                  <small className="text-[13px] text-[#9FA6BA]">{a.label}</small>
-                  <b className="mb-2.5 mt-0.5 block text-[17px] font-semibold">{a.word}</b>
-                  <div className="flex gap-1" role="img" aria-label={`${a.score}/5`}>
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <i key={n} className={`h-1 flex-1 rounded-sm ${n <= a.score ? "bg-brand" : "bg-white/10"}`} />
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                <div className="mt-7 grid grid-cols-1 gap-3 md:grid-cols-3">
+                  {(
+                    [
+                      [t.love, r.love],
+                      [t.career, r.career],
+                      [t.health, r.health],
+                    ] as const
+                  ).map(([label, body], j) => (
+                    <motion.div
+                      key={`${swapKey}-${label}`}
+                      initial={touched ? { opacity: 0, y: 8 } : false}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.55, ease: EASE_OUT, delay: j * 0.08 }}
+                      className="rounded-2xl border border-brand/[0.16] bg-white/[0.025] p-4 transition-colors hover:border-brand/45"
+                    >
+                      <b className="block text-[15px] font-semibold text-brand">{label}</b>
+                      <p className="mt-1.5 text-sm leading-[1.6] text-[#DCD8CE]">{body}</p>
+                    </motion.div>
+                  ))}
+                </div>
 
-            <p className="mt-6 flex flex-wrap gap-x-7 gap-y-1 text-sm text-[#9FA6BA]">
-              <span>
-                {t.number} <b className="font-semibold text-ink-inverse">{r.number}</b>
-              </span>
-              <span>
-                {t.colour} <b className="font-semibold text-ink-inverse">{r.colour}</b>
-              </span>
-              <span>
-                {t.time} <b className="font-semibold text-ink-inverse">{r.time}</b>
-              </span>
-            </p>
+                <p className="mt-6 flex flex-wrap gap-x-7 gap-y-1 text-sm text-[#9FA6BA]">
+                  <span>
+                    {t.number} <b className="font-semibold text-ink-inverse">{r.luckyNumber}</b>
+                  </span>
+                  <span>
+                    {t.colour} <b className="font-semibold text-ink-inverse">{r.luckyColor}</b>
+                  </span>
+                  <span>
+                    {t.time} <b className="font-semibold text-ink-inverse">{r.luckyTime}</b>
+                  </span>
+                  {r.mood && <span>{t.mood(r.mood)}</span>}
+                </p>
+              </>
+            ) : failed || data ? (
+              <p className="mt-[18px] max-w-[600px] text-[17px] leading-[1.75] text-ink-inverse-soft">{t.failed}</p>
+            ) : (
+              <div className="mt-[18px] max-w-[600px] space-y-2.5" role="status" aria-label={t.loading}>
+                {[100, 92, 70].map((w) => (
+                  <span key={w} className="block h-4 animate-pulse rounded bg-white/10" style={{ width: `${w}%` }} />
+                ))}
+              </div>
+            )}
 
             <div className="mt-[30px] flex flex-wrap gap-3">
               <Link

@@ -2,16 +2,17 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { PiArrowRight, PiMapPin, PiPhone, PiPlanet, PiSignIn, PiSignOut, PiUserCircle, PiWallet } from "react-icons/pi";
+import { PiArrowRight, PiCaretRight, PiMapPin, PiPencilSimple, PiPhone, PiPlanet, PiSignIn, PiSignOut, PiUserCircle, PiWallet } from "react-icons/pi";
 import { useAuth } from "@/components/AuthProvider";
 import { INTL_LOCALE, type Locale } from "@/i18n/config";
 import Link from "@/i18n/Link";
-import { useLocale } from "@/i18n/LocaleProvider";
+import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { useRouter } from "@/i18n/navigation";
 import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
 import type { BackendUser } from "@/lib/endpoints";
 import { fadeUp, stagger } from "@/lib/motion";
+import { SITE_TEXT, moreLinks } from "@/lib/site";
 
 const rupees = (n: number) => `₹ ${Math.floor(n).toLocaleString("en-IN")}`;
 const card = "rounded-3xl border border-line bg-surface-card p-6";
@@ -29,9 +30,10 @@ const text = defineMessages({
     sameWallet: "ऐप और वेबसाइट पर एक ही wallet",
     viewWallet: "Wallet देखें",
     birthDetails: "जन्म जानकारी",
-    birthNotSaved: "अभी सेव नहीं है। कुंडली बनाते समय “यह मेरी अपनी कुंडली है” चुनें।",
+    birthNotSaved: "अभी सेव नहीं है। Astrologer आपकी कुंडली इसी से देखते हैं।",
+    addBirth: "जन्म जानकारी भरें",
+    edit: "प्रोफ़ाइल बदलें",
     viewKundli: "कुंडली देखें",
-    makeKundli: "कुंडली बनाएं",
   },
   en: {
     signedOutTitle: "Log in to see your profile",
@@ -44,9 +46,10 @@ const text = defineMessages({
     sameWallet: "One wallet on the app and the website",
     viewWallet: "View wallet",
     birthDetails: "Birth details",
-    birthNotSaved: "Not saved yet. When you make a Kundli, choose the option that marks it as your own.",
+    birthNotSaved: "Not saved yet. Astrologers read your kundli from these details.",
+    addBirth: "Add birth details",
+    edit: "Edit profile",
     viewKundli: "View Kundli",
-    makeKundli: "Make a Kundli",
   },
 });
 
@@ -79,6 +82,7 @@ export default function ProfileView() {
   const { status, session, user, balance, signOut } = useAuth();
   const locale = useLocale();
   const t = text[locale];
+  const site = useT(SITE_TEXT);
   const router = useRouter();
   // An astrologer's account has its own profile in the astrologer console, not this customer page.
   const isAstrologer = status === "signedIn" && user?.role === ASTROLOGER_ROLE;
@@ -157,14 +161,23 @@ export default function ProfileView() {
             </p>
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => void signOut()}
-          className="button-sm mt-auto inline-flex w-fit items-center gap-2 rounded-xl bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:bg-line-inverse motion-safe:active:scale-98"
-        >
-          <PiSignOut className="h-4 w-4" aria-hidden />
-          {t.logout}
-        </button>
+        <div className="mt-auto flex flex-wrap gap-2">
+          <Link
+            href="/profile/edit"
+            className="button-sm inline-flex items-center gap-2 rounded-xl bg-brand px-3 py-2 text-brand-ink transition hover:bg-brand-hover motion-safe:active:scale-98"
+          >
+            <PiPencilSimple className="h-4 w-4" aria-hidden />
+            {t.edit}
+          </Link>
+          <button
+            type="button"
+            onClick={() => void signOut()}
+            className="button-sm inline-flex items-center gap-2 rounded-xl bg-surface-inverse-raised px-3 py-2 text-ink-inverse transition hover:bg-line-inverse motion-safe:active:scale-98"
+          >
+            <PiSignOut className="h-4 w-4" aria-hidden />
+            {t.logout}
+          </button>
+        </div>
       </motion.section>
 
       <div className="flex flex-col gap-4 lg:col-span-3">
@@ -215,11 +228,32 @@ export default function ProfileView() {
               )}
             </div>
           </div>
-          <Link href="/kundli" className={secondaryButton}>
-            {birth ? t.viewKundli : t.makeKundli}
+          <Link href={birth ? "/kundli" : "/profile/edit"} className={secondaryButton}>
+            {birth ? t.viewKundli : t.addBirth}
             <PiArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </motion.section>
+
+        {/* The app's other tabs and drawer entries (appointments, past sessions, AI astrologers, store, offers). */}
+        <motion.nav variants={fadeUp} aria-labelledby="more-title" className={card}>
+          <h2 id="more-title" className="caption-2 text-ink-soft">
+            {site.more.title}
+          </h2>
+          <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {moreLinks(true).map(({ href, key, icon: Icon }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="title-4 flex items-center gap-3 rounded-2xl border border-line px-4 py-3 text-ink transition hover:bg-surface-sunken motion-safe:active:scale-98"
+                >
+                  <Icon className="h-5 w-5 shrink-0 text-brand-strong" aria-hidden />
+                  <span className="flex-1">{site.more[key]}</span>
+                  <PiCaretRight className="h-4 w-4 text-ink-muted" aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.nav>
       </div>
     </motion.div>
   );

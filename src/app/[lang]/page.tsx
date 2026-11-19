@@ -11,9 +11,7 @@ import RemediesSection from "@/components/landing/RemediesSection";
 import FaqSection from "@/components/landing/FaqSection";
 import HeroChart from "@/components/landing/HeroChart";
 import HeroIntro from "@/components/landing/HeroIntro";
-import LettersSection from "@/components/landing/LettersSection";
 import QuickActions from "@/components/landing/QuickActions";
-import Ticker from "@/components/landing/Ticker";
 import WhySteps from "@/components/landing/WhySteps";
 import { LOCALES, OG_LOCALE } from "@/i18n/config";
 import { localizeHref } from "@/i18n/paths";
@@ -75,9 +73,6 @@ export default async function LandingPage() {
         </section>
       </div>
 
-      {/* 1b. Activity ticker */}
-      <Ticker />
-
       <div className="mx-auto w-full max-w-[1280px] px-4 md:px-12">
         {/* 1c. Quick actions */}
         <QuickActions />
@@ -93,8 +88,8 @@ export default async function LandingPage() {
       <RemediesSection />
 
       <div className="mx-auto w-full max-w-6xl px-4 md:px-8">
-        {/* Design order: letters, the sister sites (puja, AstroGems), journal (blog), why astrology + steps, FAQ. */}
-        <LettersSection />
+        {/* Design order: the sister sites (puja, AstroGems), journal (blog), why astrology + steps, FAQ.
+            The design's testimonial letters and activity ticker are left out until there are real ones to show. */}
         <PujaBookingSection />
         <AstroGemsSection />
         <Suspense fallback={<BlogSectionSkeleton />}>

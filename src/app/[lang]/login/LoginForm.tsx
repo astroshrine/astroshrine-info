@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { PiCheckCircle } from "react-icons/pi";
 import { getSupabase } from "@/lib/supabase";
-import { getUser, initUser } from "@/lib/endpoints";
+import { getUser, initUser, profileComplete, type BackendUser } from "@/lib/endpoints";
 import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
 
 /** Where an astrologer's account lands after signing in. */
@@ -29,6 +29,16 @@ const RESEND_SECONDS = 30;
 function nextPath() {
   const next = new URLSearchParams(window.location.search).get("next");
   return next && next.startsWith("/") && !next.startsWith("//") ? stripLocale(next) : APP_HOME_PATH;
+}
+
+/**
+ * Where an account goes after sign-in, as in the app: an astrologer to the console; a customer without a name and
+ * birth details to the details form first (then on to `next`); everyone else to `next`.
+ */
+function destinationFor(user: BackendUser | null | undefined) {
+  if (user?.role === ASTROLOGER_ROLE) return ASTROLOGER_HOME;
+  if (user && !profileComplete(user)) return `/profile/edit?welcome=1&next=${encodeURIComponent(nextPath())}`;
+  return nextPath();
 }
 
 const text = defineMessages({
@@ -98,7 +108,7 @@ export default function LoginForm() {
   // Already signed in (or a session restored from this browser): nothing to do here.
   // An astrologer's account goes to the astrologer console, not the customer pages.
   useEffect(() => {
-    if (status === "signedIn" && !busy) router.replace(user?.role === ASTROLOGER_ROLE ? ASTROLOGER_HOME : nextPath());
+    if (status === "signedIn" && !busy) router.replace(destinationFor(user));
   }, [status, user, busy, router]);
 
   useEffect(() => {
@@ -149,14 +159,14 @@ export default function LoginForm() {
       }
       // Which side of the site this account belongs to: an astrologer signing in here (the customer
       // login) used to land on the customer home and profile.
-      let role: string | null | undefined;
+      let account: BackendUser | undefined;
       try {
-        role = (await getUser(data.user.id)).role;
+        account = await getUser(data.user.id);
       } catch {
-        role = undefined; // unknown: the effect above sends them on once the account has loaded
+        account = undefined; // unknown: the effect above sends them on once the account has loaded
       }
       await refresh();
-      router.replace(role === ASTROLOGER_ROLE ? ASTROLOGER_HOME : nextPath());
+      router.replace(destinationFor(account));
     } finally {
       setBusy(false);
     }

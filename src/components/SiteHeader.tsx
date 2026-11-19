@@ -10,7 +10,7 @@ import Link from "@/i18n/Link";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { usePathname } from "@/i18n/navigation";
-import { APP_HOME_PATH, LANDING_PATH, SITE_TEXT, isActivePath, navLinks } from "@/lib/site";
+import { APP_HOME_PATH, LANDING_PATH, SITE_TEXT, isActivePath, moreLinks, navLinks } from "@/lib/site";
 import { base, menuLink, quick } from "@/lib/motion";
 import { KUNDLI_PAGES, KUNDLI_PAGE_TEXT } from "@/app/[lang]/kundli/_components/pages";
 
@@ -288,6 +288,8 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
     ),
     ...(signedIn ? [{ href: "/profile", label: t.profile, icon: PiUserCircle, sub: false }] : []),
   ];
+  // The app's other tabs and drawer entries, under a "More" heading after the main links.
+  const more = moreLinks(signedIn).map(({ href, key, icon }) => ({ href, label: site.more[key], icon }));
 
   return (
     <motion.div
@@ -314,6 +316,34 @@ function MobileMenu({ pathname, onClose }: { pathname: string; onClose: () => vo
                   }`}
                 >
                   <Icon className="h-5 w-5 shrink-0" aria-hidden />
+                  {label}
+                </Link>
+              </motion.li>
+            );
+          })}
+        </ul>
+        <motion.p
+          className="caption-3 mt-6 px-4 uppercase tracking-[0.08em] text-ink-soft"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={menuLink(items.length)}
+        >
+          {site.more.title}
+        </motion.p>
+        <ul aria-label={site.more.title} className="mt-2 grid grid-cols-2 gap-2">
+          {more.map(({ href, label, icon: Icon }, i) => {
+            const active = isActivePath(pathname, href);
+            return (
+              <motion.li key={href} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={menuLink(items.length + i)}>
+                <Link
+                  href={href}
+                  onClick={onClose}
+                  aria-current={active ? "page" : undefined}
+                  className={`title-4 flex h-full items-center gap-2.5 rounded-2xl border border-line px-3.5 py-3 transition motion-safe:active:scale-98 ${
+                    active ? "bg-surface-sunken text-ink" : "text-ink-soft hover:bg-surface-sunken hover:text-ink"
+                  }`}
+                >
+                  <Icon className="h-5 w-5 shrink-0 text-brand-strong" aria-hidden />
                   {label}
                 </Link>
               </motion.li>

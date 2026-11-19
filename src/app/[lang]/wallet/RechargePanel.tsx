@@ -162,6 +162,7 @@ export default function RechargePanel({
   config,
   onRetryConfig,
   amount,
+  promo: promoParam,
   onAmountChange,
 }: {
   className: string;
@@ -169,6 +170,8 @@ export default function RechargePanel({
   onRetryConfig: () => void;
   /** The pack in the URL (?amount=500); the first pack when absent or not on offer. */
   amount: number | null;
+  /** A promo code from the URL (?promo=CODE, the Offers page's "Use" button): filled in, the customer still applies it. */
+  promo: string | null;
   onAmountChange: (inr: number) => void;
 }) {
   const router = useRouter();
@@ -177,7 +180,7 @@ export default function RechargePanel({
   const [checkout, setCheckout] = useState<"loading" | "ready" | "error">(() =>
     isCheckoutLoaded() ? "ready" : "loading",
   );
-  const [promoCode, setPromoCode] = useState("");
+  const [promoCode, setPromoCode] = useState(() => (promoParam ?? "").toUpperCase().replace(/\s+/g, "").slice(0, 40));
   const [promo, setPromo] = useState<PromoValidation | null>(null);
   const [promoBusy, setPromoBusy] = useState(false);
   const [flow, setFlow] = useState<Flow>({ step: "idle" });
