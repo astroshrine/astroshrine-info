@@ -15,15 +15,14 @@
         "Vedic Astrology App": "वैदिक ज्योतिष ऐप",
         "Verified astrologers se chat aur call, free Kundli, daily rashifal, Mahakal Dham se puja booking aur certified gemstones — ek hi app mein, Hindi aur English dono mein.":
             "सत्यापित ज्योतिषियों से चैट और कॉल, मुफ़्त कुंडली, दैनिक राशिफल, महाकाल धाम से पूजा बुकिंग और प्रमाणित रत्न — एक ही ऐप में, हिंदी और अंग्रेज़ी दोनों में।",
-        "Chat · 75 pts / 5 min": "चैट · 75 पॉइंट / 5 मिनट",
-        "Call · 200 pts / 10 min": "कॉल · 200 पॉइंट / 10 मिनट",
+        "Chat · from ₹10/min": "चैट · ₹10/मिनट से",
+        "Call · from ₹10/min": "कॉल · ₹10/मिनट से",
         "Get it on": "डाउनलोड करें",
         "Coming soon on": "जल्द आ रहा है",
         "Chaliye, AstroShrine par baat karein!": "चलिए, एस्ट्रोश्राइन पर बात करें!",
         "Available right now": "अभी उपलब्ध",
-        "60+ Vedic Astrologers": "60+ वैदिक ज्योतिषी",
-        "Welcome bonus": "वेलकम बोनस",
-        "200 points free": "200 पॉइंट मुफ़्त",
+        "130+ Vedic Astrologers": "130+ वैदिक ज्योतिषी",
+        "Verified & live": "सत्यापित और लाइव",
         "AstroShrine App": "एस्ट्रोश्राइन ऐप",
 
         // web app
@@ -114,7 +113,7 @@
         "Live Astrologers": "लाइव ज्योतिषी",
         "Online, Busy, Scheduled — live status": "ऑनलाइन, व्यस्त, शेड्यूल्ड — लाइव स्टेटस",
         "Chat & Call": "चैट और कॉल",
-        "Fixed points, har astrologer same": "तय पॉइंट, हर ज्योतिषी के लिए एक समान",
+        "₹10/min se shuru": "₹10/मिनट से शुरू",
         "Free Kundli": "मुफ़्त कुंडली",
         "Chart, milan aur PDF report": "चार्ट, मिलान और PDF रिपोर्ट",
         "Puja Booking": "पूजा बुकिंग",
