@@ -40,7 +40,7 @@
         "One wallet": "एक वॉलेट",
         "App + Web, same points": "ऐप + वेब, वही पॉइंट",
         "Talk to a Vedic astrologer": "वैदिक ज्योतिषी से बात करें",
-        "Verified astrologers se chat ya call — ₹10/min se shuru. App aur web, dono par.": "सत्यापित ज्योतिषियों से चैट या कॉल — ₹10/मिनट से शुरू। ऐप और वेब, दोनों पर।",
+        "Verified jyotishiyon se chat ya call karein — sirf ₹10/min se. App aur website, dono par.": "सत्यापित ज्योतिषियों से चैट या कॉल करें — सिर्फ़ ₹10/मिनट से। ऐप और वेबसाइट, दोनों पर।",
         "Chat Now": "अभी चैट करें",
         "For users": "यूज़र्स के लिए",
         "Apna sawal Hindi mein poochein": "अपना सवाल हिंदी में पूछें",

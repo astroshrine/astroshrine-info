@@ -152,13 +152,11 @@ setInterval(tick, 1000);
     zone.addEventListener("mouseleave", () => { fan.style.removeProperty("--ry"); fan.style.removeProperty("--rx"); });
 })();
 
-// scroll popup: once per visit, when the visitor scrolls past the hero
+// scroll popup: opens once per page load, when the services section reaches the middle of the screen
 (() => {
     const pop = document.getElementById("scroll-pop");
-    if (!pop) return;
-    let seen = false;
-    try { seen = sessionStorage.getItem("as-scroll-pop") === "1"; } catch { /* storage blocked: just show it */ }
-    if (seen) return;
+    const spot = document.getElementById("services");
+    if (!pop || !spot) return;
     let back = null;
     const onKey = (e) => { if (e.key === "Escape") close(); };
     const close = () => {
@@ -173,14 +171,13 @@ setInterval(tick, 1000);
         requestAnimationFrame(() => requestAnimationFrame(() => pop.classList.add("open")));
         pop.querySelector(".sp-x").focus();
         document.addEventListener("keydown", onKey);
-        try { sessionStorage.setItem("as-scroll-pop", "1"); } catch { /* fine */ }
     };
     pop.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", close));
-    const hero = document.querySelector(".hs");
-    const onScroll = () => {
-        if (window.scrollY < (hero ? hero.offsetHeight * 0.7 : innerHeight)) return;
-        removeEventListener("scroll", onScroll);
+    // a zero-height band at mid-screen: fires when the section's top scrolls up to the middle
+    const watch = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        watch.disconnect();
         open();
-    };
-    addEventListener("scroll", onScroll, { passive: true });
+    }, { rootMargin: "-50% 0px -50% 0px" });
+    watch.observe(spot);
 })();
