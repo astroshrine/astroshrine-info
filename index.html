@@ -757,6 +757,29 @@
 
 </main>
 
+<!-- ============ SCROLL POPUP — opens once per page load when the services section reaches mid-screen (script.js) ============ -->
+<div class="sp" id="scroll-pop" hidden>
+    <div class="sp-backdrop" data-close></div>
+    <div class="sp-card" role="dialog" aria-modal="true" aria-labelledby="sp-title">
+        <button class="sp-x" type="button" data-close aria-label="Close"><i class="ph ph-x"></i></button>
+        <div class="sp-copy">
+            <div class="sp-brand"><span class="ej-logo"><img src="assets/logo.png" alt=""></span><b>AstroShrine</b></div>
+            <p class="sp-kick" id="sp-title">Talk to a Vedic astrologer</p>
+            <p class="sp-big" lang="hi">अभी पूछें</p>
+            <p class="sp-sub">Verified jyotishiyon se chat ya call karein — sirf &#8377;10/min se. App aur website, dono par.</p>
+            <div class="sp-ctas">
+                <a class="sp-btn" href="https://app.astroshrine.in/hi/login" target="_blank" rel="noopener" data-close>Chat Now <i class="ph ph-arrow-right"></i></a>
+                <a class="sp-btn sp-btn--ghost" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" data-close><i class="ph ph-google-play-logo"></i> Get the App</a>
+            </div>
+        </div>
+        <div class="sp-chat" aria-hidden="true">
+            <div class="sp-msg sp-msg--me"><p>Meri shaadi kab hogi?</p><time>11:24 AM</time><span class="sp-av sp-av--me"><i class="ph-fill ph-user"></i></span></div>
+            <div class="sp-msg"><span class="sp-av"><img src="assets/logo.png" alt=""></span><p>Aapki kundli ke saptam bhav par Guru ki drishti hai &mdash; agle saal vivah ke achhe yog hain.</p><time>11:25 AM</time></div>
+            <div class="sp-msg"><span class="sp-av"><img src="assets/logo.png" alt=""></span><p>Apni janm tithi bhejiye, kundli dekhkar poori jaankari milegi 🙏</p><time>11:25 AM</time></div>
+        </div>
+    </div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
     <div class="footer-grid">

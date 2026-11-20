@@ -151,3 +151,33 @@ setInterval(tick, 1000);
     });
     zone.addEventListener("mouseleave", () => { fan.style.removeProperty("--ry"); fan.style.removeProperty("--rx"); });
 })();
+
+// scroll popup: opens once per page load, when the services section reaches the middle of the screen
+(() => {
+    const pop = document.getElementById("scroll-pop");
+    const spot = document.getElementById("services");
+    if (!pop || !spot) return;
+    let back = null;
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    const close = () => {
+        pop.classList.remove("open");
+        document.removeEventListener("keydown", onKey);
+        setTimeout(() => { pop.hidden = true; }, 400);
+        if (back) back.focus();
+    };
+    const open = () => {
+        back = document.activeElement;
+        pop.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => pop.classList.add("open")));
+        pop.querySelector(".sp-x").focus();
+        document.addEventListener("keydown", onKey);
+    };
+    pop.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", close));
+    // a zero-height band at mid-screen: fires when the section's top scrolls up to the middle
+    const watch = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        watch.disconnect();
+        open();
+    }, { rootMargin: "-50% 0px -50% 0px" });
+    watch.observe(spot);
+})();
