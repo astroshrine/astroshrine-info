@@ -1,0 +1,472 @@
+{
+  "_comment": "Seed values are placeholders for review — not authoritative until marked verified in admin. DPJ-104 base rows (condition null) describe what the on-device engine (muhuratHtml.ts RULES.ANNAPRASHAN / RULES.MUNDAN) enforces; rows with a condition are applied on top of it for their tradition. Sanskrit fragments were transcribed from DPJ-104 at build time and are printed only after a reviewer marks the row verified. Rows added on 2026-09-29 (गृह्यसूत्र-स्मृति, मुहूर्त चिन्तामणि, धर्मसिन्धु-निर्णयसिन्धु) quote the texts as commonly cited, recalled rather than copied from a printed edition; each row's notes say what to check. Rows tagged धर्मसिन्धु (v3, 2026-10-15) were read from a printed edition (Dharmasindhu with Mihir Chandra's Hindi commentary, Khemraj Shrikrishnadas, 2018) and give its printed page; they too stay needs_review until an acharya checks them.",
+  "version": 3,
+  "rules": [
+    {
+      "rule_id": "ANNA-BASE-TITHI-VAAR-LAGNA",
+      "sanskar": "annaprashan", "category": "tithi", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "रिक्ता (4/9/14), नन्दा (1/6/11), अष्टमी व अमावस्या तिथि; शनि, मंगल, रवि वार; जन्मराशि व जन्म-लग्न से अष्टम लग्न; मीन, मेष, वृश्चिक लग्न वर्जित",
+      "text_en": "Rikta (4/9/14), Nanda (1/6/11), Ashtami and Amavasya tithis; Saturday, Tuesday, Sunday; a lagna 8th from the janma rashi or janma lagna; Pisces, Aries and Scorpio lagnas are avoided",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "51-52, 54", "sanskrit_text": "रिक्तानन्दाष्टदर्श … सौरिभौमार्कवारान् … जन्मर्क्षलग्नाष्टमगृहलवगं मीनमेषालिकं च हित्वा", "hindi_meaning": "मुहूर्त चिन्तामणि का वाक्य, DPJ-104 में उद्धृत"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.ANNAPRASHAN.tithi/vaar/lagna", "active": true
+    },
+    {
+      "rule_id": "ANNA-BASE-HOUSES",
+      "sanskar": "annaprashan", "category": "lagna", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "शुभ ग्रह केन्द्र, त्रिकोण व तृतीय (1/4/7/10/3/5/9) भाव में; दशम भाव रिक्त; चन्द्र लग्न से 1/6/8 में नहीं",
+      "text_en": "Benefics in the 1st/4th/7th/10th/3rd/5th/9th houses; the 10th house empty; the Moon not in the 1st, 6th or 8th from the muhurat lagna",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "53", "sanskrit_text": "केन्द्रत्रिकोणसहजेषु शुभैः खशुद्धे … लग्नाष्टषष्ठरहितं शशिनं", "hindi_meaning": "मुहूर्त चिन्तामणि का वाक्य, DPJ-104 में उद्धृत"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.ANNAPRASHAN.houses", "active": true
+    },
+    {
+      "rule_id": "ANNA-BASE-KSHINA-MOON",
+      "sanskar": "annaprashan", "category": "moon", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "क्षीण चन्द्र मुहूर्त-लग्न से 1/4/5/7/8/9/10/12 भाव में हो तो वर्जित",
+      "text_en": "A waning (kshina) Moon in the 1st/4th/5th/7th/8th/9th/10th/12th house from the muhurat lagna is avoided",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "53, 56", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.ANNAPRASHAN.houses.kshinaMoonNotIn", "active": true
+    },
+    {
+      "rule_id": "ANNA-BASE-PAKSHA-TIME",
+      "sanskar": "annaprashan", "category": "other", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "शुक्ल पक्ष श्रेष्ठ; संस्कार दोपहर से पूर्व (पूर्वाह्न) में",
+      "text_en": "The bright fortnight (shukla paksha) is preferred; the ritual is held before midday",
+      "source": {"granth": "मुहूर्त चिन्तामणि", "chapter": "संस्कार-प्रकरण", "verse": null, "page": null, "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: time 'forenoon', pakshaPref 'shukla'", "active": true
+    },
+    {
+      "rule_id": "ANNA-BASE-AGE",
+      "sanskar": "annaprashan", "category": "age", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "बालक का सम मास (6/8/10/12), बालिका का विषम मास (5/7/9/11)",
+      "text_en": "An even month of life for a boy (6/8/10/12), an odd month for a girl (5/7/9/11)",
+      "source": null,
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.ANNAPRASHAN.age; the engine only warns on age, family tradition prevails", "active": true
+    },
+    {
+      "rule_id": "ANNA-NARADA-DVADASHI",
+      "sanskar": "annaprashan", "category": "tithi", "condition": {"field": "tithi", "paksha": "any", "in": [12]}, "effect": "forbid", "weight": 0, "tradition_tag": "नारद-कश्यप",
+      "text_hi": "द्वादशी वर्जित (नारद व कश्यप मत); सामान्य शास्त्रीय आधार-सारणी में वर्जित नहीं",
+      "text_en": "Dvadashi avoided (Narada and Kashyapa); not avoided in the general shastriya base table",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "52", "sanskrit_text": null, "hindi_meaning": "नारद व कश्यप का मत, DPJ-104 में उद्धृत"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "from the engine's disputed list. 2026-09-29: dropped 'not avoided in Muhurta Chintamani' — MC's annaprashan verse bars हरिदिवस, see ANNA-MC-HARIDIVASA", "active": true
+    },
+    {
+      "rule_id": "ANNA-NARADA-MONTH9",
+      "sanskar": "annaprashan", "category": "age", "condition": {"field": "age_months", "gender": "any", "in": [9]}, "effect": "allow", "weight": 0, "tradition_tag": "नारद-कश्यप",
+      "text_hi": "नवम मास भी ग्राह्य (नारद)",
+      "text_en": "The 9th month is also acceptable (Narada)",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "26", "sanskrit_text": null, "hindi_meaning": "नारद का मत, DPJ-104 में उद्धृत"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "from the engine's disputed list", "active": true
+    },
+    {
+      "rule_id": "ANNA-BVR-AGE",
+      "sanskar": "annaprashan", "category": "age", "condition": {"field": "age_months", "gender": "M", "in": [6, 8, 9, 12], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "BVR",
+      "text_hi": "6, 8, 9 या 12वाँ मास (बी.वी. रमन)",
+      "text_en": "The 6th, 8th, 9th or 12th month (B.V. Raman)",
+      "source": {"granth": "B.V. Raman, Muhurtha (Electional Astrology)", "chapter": "8", "verse": null, "page": null, "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "the engine note gives 6/8/9/12 without a gender; seeded for boys only — reviewer to confirm", "active": true
+    },
+    {
+      "rule_id": "ANNA-GSS-SIXTH-MONTH",
+      "sanskar": "annaprashan", "category": "age", "condition": {"field": "age_months", "gender": "any", "in": [6], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "गृह्यसूत्र-स्मृति",
+      "text_hi": "अन्नप्राशन छठे मास में — बालक व बालिका दोनों (गृह्यसूत्र व स्मृति); कुल में अन्य मंगल-परंपरा हो तो वह भी मान्य",
+      "text_en": "Annaprashan in the 6th month, for boys and girls alike (Grihyasutras and Smritis); a different auspicious family custom is also accepted",
+      "source": {"granth": "मनुस्मृति", "chapter": "2", "verse": "34", "page": null, "sanskrit_text": "चतुर्थे मासि कर्तव्यं शिशोर्निष्क्रमणं गृहात्। षष्ठेऽन्नप्राशनं मासि यद्वेष्टं मङ्गलं कुले॥", "hindi_meaning": "चौथे मास में शिशु का घर से निष्क्रमण; छठे मास में अन्नप्राशन, अथवा कुल में जो मंगलकारी माना जाए"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29 as commonly cited, not copied from a printed edition: confirm wording and numbering before verifying. The same 6th month: याज्ञवल्क्य स्मृति 1.12 (षष्ठेऽन्नप्राशनं मासि), पारस्कर गृह्यसूत्र 1.19.1 and आश्वलायन गृह्यसूत्र 1.16.1 (षष्ठे मास्यन्नप्राशनम्). These texts make no boy/girl distinction (मनु 2.66, याज्ञवल्क्य 1.13: girls' rites at the same time, without mantras); the base (MC/DPJ-104) uses even months for boys and odd months for girls.", "active": true
+    },
+    {
+      "rule_id": "ANNA-MC-HARIDIVASA",
+      "sanskar": "annaprashan", "category": "tithi", "condition": {"field": "tithi", "paksha": "any", "in": [12]}, "effect": "forbid", "weight": 0, "tradition_tag": "मुहूर्त चिन्तामणि",
+      "text_hi": "द्वादशी (हरिदिवस) वर्जित — मुहूर्त चिन्तामणि; शेष नियम सामान्य शास्त्रीय आधार जैसे",
+      "text_en": "Dvadashi (Hari-divasa) avoided — Muhurta Chintamani; the other rules as in the general shastriya base",
+      "source": {"granth": "मुहूर्त चिन्तामणि", "chapter": "संस्कार-प्रकरण", "verse": null, "page": null, "sanskrit_text": "रिक्तानन्दाष्टदर्शं हरिदिवसमथो सौरिभौमार्कवारान् लग्नं जन्मर्क्षलग्नाष्टमगृहलवगं मीनमेषालिकं च। हित्वा षष्ठात्समे मास्यथ हि मृगदृशां पञ्चमादोजमासे …", "hindi_meaning": "रिक्ता, नन्दा, अष्टमी, अमावस्या व हरिदिवस तिथियाँ; शनि, मंगल, रवि वार; जन्मराशि या जन्म-लग्न से अष्टम लग्न व नवांश; मीन, मेष, वृश्चिक लग्न छोड़कर — बालक का छठे मास से सम मासों में, बालिका का पाँचवें मास से विषम मासों में"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29. The verse is recalled, not copied from an edition: confirm before verifying. The DPJ-104 pp.51-52 quotation of the same verse ('रिक्तानन्दाष्टदर्श … सौरिभौमार्कवारान् …') elides exactly the 7 syllables 'हरिदिवसमथो' that complete the sragdhara metre. Nanda (1/6/11) already covers ekadashi, so हरिदिवस is read as dvadashi — confirm with the acharya. The DPJ-104 p.54 table, which the engine base follows, keeps dvadashi as madhyam; the rest of the verse matches the base.", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-MONTH-TITHI-VAAR",
+      "sanskar": "mundan", "category": "tithi", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "सौर माघ, फाल्गुन, वैशाख, ज्येष्ठ, आषाढ़; शुक्ल पक्ष व कृष्ण पक्ष में पंचमी तक; तिथि 2, 3, 5, 7, 10, 11, 13; सोम, बुध, गुरु, शुक्र वार; 12 नक्षत्र (ज्येष्ठा सहित); वृष, मिथुन, कर्क, कन्या, तुला, धनु, मीन लग्न",
+      "text_en": "Solar Magha, Phalguna, Vaishakha, Jyeshtha, Ashadha; the bright fortnight, and the dark fortnight up to Panchami; tithis 2, 3, 5, 7, 10, 11, 13; Monday, Wednesday, Thursday, Friday; 12 nakshatras (Jyeshtha included); Taurus, Gemini, Cancer, Virgo, Libra, Sagittarius, Pisces lagnas",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "63-66", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.MUNDAN.tithi/vaar/nak/lagna/sunSign", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-JANMA-SANKRANTI",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "जन्म नक्षत्र में चूड़ाकर्म नहीं; हरिशयन (आषाढ़ शु.11 से कार्तिक शु.11), संक्रान्ति, मासान्त व मासादि त्याज्य",
+      "text_en": "No chudakarma on the child's birth nakshatra; Harishayana (Ashadha shukla 11 to Kartika shukla 11), sankranti and the days around it are avoided",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "64", "sanskrit_text": "शुभे कार्ये त्यजेत् सूर्यसंक्रमे च दिनत्रयम्", "hindi_meaning": "शुभ कार्य में सूर्य-संक्रमण के तीन दिन त्यागें"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: person.janmaNak 'reject', blocks.chaturmas/sankranti/sankrantiAdj", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-YUGADI-SIMHASTHA",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "युगादि तिथियाँ (वैशाख शु.3, कार्तिक शु.9) व सिंहस्थ गुरु त्याज्य",
+      "text_en": "The Yugadi tithis (Vaishakha shukla 3, Kartika shukla 9) and Jupiter in Leo (Simhastha) are avoided",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "65-66", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: tithi.monthVarjit, blocks.simhastha", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-KSHINA-MOON",
+      "sanskar": "mundan", "category": "moon", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "केन्द्र (1/4/7/10) में क्षीण चन्द्र न हो; अष्टम भाव रिक्त",
+      "text_en": "No waning Moon in a kendra (1/4/7/10); the 8th house empty",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "121", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: houses.kshinaMoonNotIn, mustEmpty", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-PREGNANCY-ELDEST",
+      "sanskar": "mundan", "category": "other", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "माता गर्भवती हों तो बालक के 5 वर्ष पूरे होने पर ही मुण्डन; ज्येष्ठ सन्तान का मुण्डन ज्येष्ठ मास में नहीं",
+      "text_en": "If the mother is expecting, the mundan waits until the child has completed 5 years; an eldest child's mundan is not done in the month of Jyeshtha",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "65", "sanskrit_text": "ज्येष्ठापत्यस्य न ज्येष्ठे", "hindi_meaning": "रामाचार्य का वाक्य, DPJ-104 में उद्धृत"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: mundanBlocks()", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-ASTA-ADHIK",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "गुरु/शुक्र अस्त व अधिकमास में मुण्डन वर्जित",
+      "text_en": "No mundan while Jupiter or Venus is combust, or in an adhika (intercalary) month",
+      "source": {"granth": "मुहूर्त चिन्तामणि", "chapter": "शुभाशुभ-प्रकरण", "verse": "72-73", "page": null, "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: blocks.asta/adhik", "active": true
+    },
+    {
+      "rule_id": "MUND-BASE-AGE",
+      "sanskar": "mundan", "category": "age", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "विषम वर्ष (1, 3, 5, 7) — बालक व बालिका दोनों; सम वर्ष निन्दित",
+      "text_en": "An odd year of life (1, 3, 5, 7) for boys and girls alike; even years are discouraged",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "26, 63", "sanskrit_text": "युग्मे वर्षे तु गर्हितम्", "hindi_meaning": "सम वर्ष में निन्दित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: RULES.MUNDAN.age (warning only — family tradition prevails)", "active": true
+    },
+    {
+      "rule_id": "MUND-BVR-MAKARA-LAGNA",
+      "sanskar": "mundan", "category": "lagna", "condition": {"field": "lagna", "in": [9]}, "effect": "allow", "weight": 0, "tradition_tag": "BVR",
+      "text_hi": "मकर लग्न ग्राह्य (बी.वी. रमन); DPJ-104 में वर्जित",
+      "text_en": "Capricorn lagna acceptable (B.V. Raman); avoided in DPJ-104",
+      "source": {"granth": "B.V. Raman, Muhurtha (Electional Astrology)", "chapter": "8", "verse": null, "page": null, "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "from the engine's disputed list", "active": true
+    },
+    {
+      "rule_id": "MUND-DPJ-VRISCHIKA-SUN",
+      "sanskar": "mundan", "category": "season", "condition": {"field": "sun_sign", "in": [7]}, "effect": "allow", "weight": 0, "tradition_tag": "DPJ-104 पृ.63/65 पाठ",
+      "text_hi": "सौर अग्रहण (सूर्य वृश्चिक) ग्राह्य — DPJ-104 पृ.63, 65-66; पृ.80 सारांश में नहीं, इसलिए इंजन में वर्जित",
+      "text_en": "Solar Agrahayana (Sun in Scorpio) acceptable — DPJ-104 pp.63, 65-66; missing from the p.80 summary, so the engine avoids it",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "63, 65-66", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "the book differs with itself", "active": true
+    },
+    {
+      "rule_id": "MUND-PARASHARA-VENUS-8",
+      "sanskar": "mundan", "category": "planet", "condition": null, "effect": "allow", "weight": 0, "tradition_tag": "पराशर",
+      "text_hi": "अष्टम भाव में शुक्र अशुभ नहीं (पराशर मत) — इंजन अष्टम रिक्त ही मानता है",
+      "text_en": "Venus in the 8th is not inauspicious (Parashara) — the engine still requires an empty 8th",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "121", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "informational — not evaluated", "active": true
+    },
+    {
+      "rule_id": "MUND-MANVADI",
+      "sanskar": "mundan", "category": "tithi", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "मन्वादि तिथियाँ — अमान्त या पूर्णिमान्त गणना अस्पष्ट, आचार्य-निर्णय तक लागू नहीं",
+      "text_en": "Manvadi tithis — whether they are counted Amanta or Purnimanta is unclear; not applied until an acharya decides",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "65, 77", "sanskrit_text": null, "hindi_meaning": null},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "informational — not applied", "active": true
+    },
+    {
+      "rule_id": "MUND-GSS-FIRST-THIRD-YEAR",
+      "sanskar": "mundan", "category": "age", "condition": {"field": "age_years", "gender": "any", "in": [1, 3], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "गृह्यसूत्र-स्मृति",
+      "text_hi": "चूड़ाकर्म प्रथम या तृतीय वर्ष में (मनुस्मृति); आश्वलायन गृह्यसूत्र तृतीय वर्ष कहता है, अथवा कुल-धर्म अनुसार",
+      "text_en": "Chudakarma in the 1st or 3rd year (Manusmriti); the Ashvalayana Grihyasutra says the 3rd year, or as the family's custom has it",
+      "source": {"granth": "मनुस्मृति", "chapter": "2", "verse": "35", "page": null, "sanskrit_text": "चूडाकर्म द्विजातीनां सर्वेषामेव धर्मतः। प्रथमेऽब्दे तृतीये वा कर्तव्यं श्रुतिचोदनात्॥", "hindi_meaning": "श्रुति के निर्देश से सभी द्विजातियों का चूड़ाकर्म धर्मानुसार प्रथम या तृतीय वर्ष में करना चाहिए"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29 as commonly cited, not copied from a printed edition: confirm before verifying. Also आश्वलायन गृह्यसूत्र 1.17 (तृतीये वर्षे चौलम्; यथाकुलधर्मं वा) and पारस्कर गृह्यसूत्र 2.1.1 (सांवत्सरिकस्य चूडाकरणम् — whether that means within or after the first year is a commentary question for the acharya). मनु 2.66 gives girls the same rites at the same time, without mantras, so the set applies to both.", "active": true
+    },
+    {
+      "rule_id": "MUND-MC-FROM-THIRD-YEAR",
+      "sanskar": "mundan", "category": "age", "condition": {"field": "age_years", "gender": "any", "in": [3, 5, 7], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "मुहूर्त चिन्तामणि",
+      "text_hi": "चूड़ाकर्म तीसरे वर्ष से विषम वर्षों (3, 5, 7) में, प्रथम वर्ष नहीं — मुहूर्त चिन्तामणि; मास, तिथि, वार व नक्षत्र सामान्य शास्त्रीय आधार जैसे",
+      "text_en": "Chudakarma from the 3rd year, in odd years (3, 5, 7), not the 1st year — Muhurta Chintamani; months, tithis, weekdays and nakshatras as in the general shastriya base",
+      "source": {"granth": "मुहूर्त चिन्तामणि", "chapter": "संस्कार-प्रकरण", "verse": null, "page": null, "sanskrit_text": "चूडा वर्षात्तृतीयात्प्रभवति विषमेऽष्टार्करिक्ताद्यषष्ठीपर्वोनाहे विचैत्रोदगयनसमये ज्ञेन्दुशुक्रेज्यकानाम्। वारे लग्नांशयोश्चास्वभनिधनतनौ नैधने शुद्धियुक्ते शाक्रोपेतैर्विमैत्रैर्मृदुचरलघुभैरायषट्त्रिस्थपापैः॥", "hindi_meaning": "चूड़ाकर्म तीसरे वर्ष से विषम वर्षों में; अष्टमी, द्वादशी, रिक्ता, प्रतिपदा, षष्ठी व पर्व तिथियाँ छोड़कर; चैत्र छोड़कर उत्तरायण में; बुध, सोम, शुक्र, गुरु वार; लग्न व नवांश जन्मराशि से अष्टम न हों, अष्टम भाव शुद्ध; ज्येष्ठा सहित व अनुराधा छोड़कर मृदु, चर व लघु नक्षत्र; पाप ग्रह 11, 6, 3 भाव में"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29. The verse is recalled (it scans as sragdhara), not copied from an edition: confirm before verifying. Its months (solar Makara, Kumbha, Mesha, Vrishabha, Mithuna), tithis (2, 3, 5, 7, 10, 11, 13), weekdays, 12 nakshatras and pure 8th house are exactly the engine base (DPJ-104 pp.63-66); this tradition differs only in dropping the 1st year.", "active": true
+    },
+    {
+      "rule_id": "COMMON-TARABALA",
+      "sanskar": "common", "category": "tarabala", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "तारा बल: जन्म नक्षत्र से दिन के नक्षत्र तक गिनकर 9 से शेष — विपत् (3), प्रत्यरि (5), वध (7) तारा वर्जित",
+      "text_en": "Tarabala: count from the janma nakshatra to the day's nakshatra, remainder by 9 — Vipat (3), Pratyari (5) and Vadha (7) are avoided",
+      "source": null,
+      "verification_status": "tradition_only", "reviewer": null, "reviewed_at": null, "notes": "engine: taraBala()", "active": true
+    },
+    {
+      "rule_id": "COMMON-CHANDRABALA",
+      "sanskar": "common", "category": "chandrabala", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "चन्द्र बल: गोचर चन्द्र जन्मराशि से 4, 8, 12वें भाव में नेष्ट; 2, 5, 9 मध्यम; 1, 3, 6, 7, 10, 11 शुभ",
+      "text_en": "Chandrabala: the transit Moon in the 4th, 8th or 12th from the natal Moon is unfavourable; 2nd, 5th, 9th middling; 1st, 3rd, 6th, 7th, 10th, 11th favourable",
+      "source": null,
+      "verification_status": "tradition_only", "reviewer": null, "reviewed_at": null, "notes": "engine: CHANDRA_BALA", "active": true
+    },
+    {
+      "rule_id": "COMMON-LAGNA-8-12",
+      "sanskar": "common", "category": "lagna", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "मुहूर्त-लग्न शिशु की जन्मराशि से अष्टम या द्वादश न हो",
+      "text_en": "The muhurat lagna is not the 8th or 12th from the child's janma rashi",
+      "source": {"granth": "DPJ-104 मुहूर्त विचार (उत्तराखण्ड मुक्त विश्वविद्यालय)", "chapter": null, "verse": null, "page": "120", "sanskrit_text": "त्रिषट्खायर्क्षक श्रेष्ठ निन्द्यं द्वादशमष्टमम्", "hindi_meaning": "जन्मराशि से 3, 6, 10, 11 श्रेष्ठ; 12 व 8 निन्दित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "engine: evaluateInstant lagna block", "active": true
+    },
+    {
+      "rule_id": "COMMON-KAAL",
+      "sanskar": "common", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "राहुकाल, यमगण्ड व गुलिक काल; विष्टि (भद्रा) करण; व्यतीपात व वैधृति योग; लग्न-सन्धि — पूर्णतः वर्जित",
+      "text_en": "Rahu Kaal, Yamaganda and Gulika; Vishti (Bhadra) karana; Vyatipata and Vaidhriti yogas; lagna sandhi — fully excluded",
+      "source": null,
+      "verification_status": "tradition_only", "reviewer": null, "reviewed_at": null, "notes": "engine: evaluateInstant hard cuts", "active": true
+    },
+    {
+      "rule_id": "COMMON-PANCHAK",
+      "sanskar": "common", "category": "exclusion", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "DPJ-104",
+      "text_hi": "पंचक (धनिष्ठा उत्तरार्ध से रेवती): मुण्डन में अंक-कटौती; जहाँ परम्परा पूर्ण निषेध माने वहाँ व्यवस्थापक-सेटिंग से वर्जित",
+      "text_en": "Panchak (second half of Dhanishtha to Revati): a score penalty for mundan; excluded outright when the admin setting says the tradition forbids it",
+      "source": null,
+      "verification_status": "tradition_only", "reviewer": null, "reviewed_at": null, "notes": "sanskar_config.toggles.panchak", "active": true
+    },
+    {
+      "rule_id": "COMMON-GANDMOOL",
+      "sanskar": "common", "category": "nakshatra", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "क्षेत्रीय",
+      "text_hi": "गण्डमूल नक्षत्र (अश्विनी, आश्लेषा, मघा, ज्येष्ठा, मूल, रेवती): कुछ परम्पराओं में संस्कार वर्जित — DPJ-104 मुण्डन में अश्विनी, ज्येष्ठा, रेवती को शुभ कहती है",
+      "text_en": "Gandmool nakshatras (Ashwini, Ashlesha, Magha, Jyeshtha, Mula, Revati): avoided for samskaras in some traditions — DPJ-104 counts Ashwini, Jyeshtha and Revati as good for mundan",
+      "source": null,
+      "verification_status": "tradition_only", "reviewer": null, "reviewed_at": null, "notes": "sanskar_config.toggles.gandmool (off by default)", "active": true
+    },
+    {
+      "rule_id": "COMMON-GSS-KULACHARA",
+      "sanskar": "common", "category": "other", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "गृह्यसूत्र-स्मृति",
+      "text_hi": "कुल-परंपरा (कुलाचार) में अन्नप्राशन या चूड़ाकर्म का जो मास या वर्ष चलता हो, वही मान्य — 'परिवार की परंपरा' विकल्प यही लागू करता है",
+      "text_en": "Where the family's custom (kulachara) sets the month or year for annaprashan or chudakarma, that is followed — the “family tradition” option applies it",
+      "source": {"granth": "याज्ञवल्क्य स्मृति", "chapter": "1 (आचाराध्याय)", "verse": "12", "page": null, "sanskrit_text": "अहन्येकादशे नाम चतुर्थे मासि निष्क्रमः। षष्ठेऽन्नप्राशनं मासि चूडा कार्या यथाकुलम्॥", "hindi_meaning": "ग्यारहवें दिन नामकरण, चौथे मास निष्क्रमण, छठे मास अन्नप्राशन; चूड़ाकर्म कुल की परंपरा अनुसार"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29 as commonly cited, not copied from a printed edition: confirm before verifying. The same principle: मनुस्मृति 2.34 (यद्वेष्टं मङ्गलं कुले), आश्वलायन गृह्यसूत्र 1.17 (यथाकुलधर्मं वा). Descriptive: the family-tradition input already overrides every age set.", "active": true
+    },
+    {
+      "rule_id": "COMMON-DHARMA-ASHAUCHA",
+      "sanskar": "common", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु-निर्णयसिन्धु",
+      "text_hi": "परिवार में जन्म या मृत्यु का अशौच (सूतक-पातक) चल रहा हो तो संस्कार उसकी समाप्ति तक टालें — यह तिथियों से नहीं दिखता, परिवार स्वयं देखें",
+      "text_en": "If the family is in ashaucha (sutak) after a birth or a death, postpone the samskara until it ends — dates alone can't show this, so the family must check",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — विवाहादि में रजोदोष-सूतक निर्णय", "verse": null, "page": "399", "sanskrit_text": null, "hindi_meaning": "सूतक हो तो उसके समाप्त होने पर दूसरे मुहूर्त में संस्कार करें; नान्दीश्राद्ध से आरम्भ हो चुका हो तो सूतक बाधक नहीं, पर केवल तब जब पास में दूसरा मुहूर्त न हो; चौल के लिए नान्दीश्राद्ध अधिक से अधिक तीन दिन पहले किया जा सकता है"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Added 2026-09-29 from memory. 2026-10-15: printed place found, Dharmasindhu p. 399 (once a rite has begun with the nandi-shraddha, sutak does not stop it only when no nearby muhurta exists; otherwise wait for it to end). The ashaucha period for each case is in the ashaucha section, not yet read.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-AGE-M",
+      "sanskar": "annaprashan", "category": "age", "condition": {"field": "age_months", "gender": "M", "in": [6, 8, 10, 12], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "बालक का अन्नप्राशन छठे, आठवें, दसवें या बारहवें मास में, अथवा वर्ष पूरा होने पर",
+      "text_en": "A boy's annaprashan in the 6th, 8th, 10th or 12th month of life, or when the first year is complete",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "बालक के लिए सम मास (6, 8, 10, 12) या वर्ष की पूर्ति"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. The Hindi (p. 315) can be read as the month completed rather than running; \"year complete\" has no atom (text only).", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-AGE-F",
+      "sanskar": "annaprashan", "category": "age", "condition": {"field": "age_months", "gender": "F", "in": [5, 7, 9], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "बालिका का अन्नप्राशन पाँचवें, सातवें या नौवें मास में",
+      "text_en": "A girl's annaprashan in the 5th, 7th or 9th month of life",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "बालिका के लिए विषम मास (5, 7, 9)"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-TITHI",
+      "sanskar": "annaprashan", "category": "tithi", "condition": {"field": "tithi", "paksha": "any", "in": [2, 3, 5, 7, 10, 13]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "द्वितीया, तृतीया, पंचमी, सप्तमी, दशमी व त्रयोदशी तिथि",
+      "text_en": "Dvitiya, tritiya, panchami, saptami, dashami and trayodashi",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "अन्नप्राशन के लिए शुभ तिथियाँ"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. A quoted verse with no source named; no paksha is stated.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-VAAR",
+      "sanskar": "annaprashan", "category": "vara", "condition": {"field": "vaar", "in": [3, 4, 5]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "बुध, गुरु व शुक्र वार शुभ",
+      "text_en": "Wednesday, Thursday and Friday are auspicious",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "अन्नप्राशन के शुभ वार"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. The Hindi (p. 315) leaves these three out, apparently a printing slip.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-VAAR-KVACHIT",
+      "sanskar": "annaprashan", "category": "vara", "condition": {"field": "vaar", "in": [0, 1]}, "effect": "avoid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "रवि व सोम वार केवल कुछ मतों में ग्राह्य — मध्यम",
+      "text_en": "Sunday and Monday only in some views — middling",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "रवि-सोम कहीं-कहीं ग्राह्य"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. \"kvachit\" (in some views): mapped to avoid (madhyam), not allow.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-NAK",
+      "sanskar": "annaprashan", "category": "nakshatra", "condition": {"field": "nakshatra", "in": [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "अश्विनी, रोहिणी, मृगशिरा, पुनर्वसु, पुष्य, तीनों उत्तरा, हस्त, चित्रा, स्वाती, अनुराधा, श्रवण, धनिष्ठा, शतभिषा व रेवती नक्षत्र",
+      "text_en": "Ashwini, Rohini, Mrigashira, Punarvasu, Pushya, the three Uttaras, Hasta, Chitra, Swati, Anuradha, Shravana, Dhanishtha, Shatabhisha and Revati",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "अन्नप्राशन के शुभ नक्षत्र"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-JANMA-NAK",
+      "sanskar": "annaprashan", "category": "nakshatra", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "कुछ आचार्य शिशु के जन्म-नक्षत्र में अन्नप्राशन अशुभ मानते हैं",
+      "text_en": "Some authorities hold the child's birth nakshatra inauspicious for annaprashan",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "जन्म-नक्षत्र कुछ मतों में वर्जित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Text only: no atom names the child's own nakshatra.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-BHADRA-YOGA",
+      "sanskar": "annaprashan", "category": "yoga", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "भद्रा (विष्टि करण) तथा वैधृति, व्यतीपात, गण्ड, अतिगण्ड, वज्र, शूल व परिघ योग वर्जित",
+      "text_en": "Bhadra (vishti karana) and the yogas Vaidhriti, Vyatipata, Ganda, Atiganda, Vajra, Shoola and Parigha are avoided",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "314", "sanskrit_text": null, "hindi_meaning": "भद्रा व सात अशुभ योग वर्जित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. COMMON-KAAL already bars vishti, vyatipata and vaidhriti; there is no yoga atom for the other five (text only). The Hindi (p. 315) leaves out Vajra.", "active": true
+    },
+    {
+      "rule_id": "DS-ANNA-MALAMASA-ASTA",
+      "sanskar": "annaprashan", "category": "exclusion", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "अन्नप्राशन तक के संस्कारों में मलमास व गुरु-शुक्र अस्त का दोष तभी छोड़ा जाता है जब दूसरा शुद्ध समय न मिले; छठा मास अस्त में पड़े तो आठवें मास में करें",
+      "text_en": "For the samskaras up to annaprashan, an adhik maas or a combust Jupiter or Venus is overlooked only when no clean time exists; if the 6th month falls in such a period, hold it in the 8th",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — अन्नप्राशनकाल", "verse": null, "page": "315", "sanskrit_text": null, "hindi_meaning": "मलमास-अस्त का अपवाद केवल अन्य शुद्ध काल न होने पर"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Text only.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-AGE",
+      "sanskar": "mundan", "category": "age", "condition": {"field": "age_years", "gender": "any", "in": [1, 2, 3, 5], "mode": "only"}, "effect": "allow", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "चूड़ाकर्म जन्म से (या गर्भ से) पहले, दूसरे, तीसरे या पाँचवें वर्ष में; अथवा कुल-परम्परा से उपनयन के साथ",
+      "text_en": "Chudakarma in the 1st, 2nd, 3rd or 5th year, counted from birth (or from conception); or with upanayana where the family custom is so",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "चौल के वर्ष: 1, 2, 3, 5 (जन्म या गर्भ से)"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Counted from birth here; the conception count and the with-upanayana option are text only.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-TITHI",
+      "sanskar": "mundan", "category": "tithi", "condition": {"field": "tithi", "paksha": "any", "in": [2, 3, 5, 7, 10, 11, 13]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "द्वितीया, तृतीया, पंचमी, सप्तमी, दशमी, एकादशी व त्रयोदशी तिथि",
+      "text_en": "Dvitiya, tritiya, panchami, saptami, dashami, ekadashi and trayodashi",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "चौल की शुभ तिथियाँ"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-KRISHNA-LAST",
+      "sanskar": "mundan", "category": "tithi", "condition": {"field": "tithi", "paksha": "krishna", "in": [13, 14, 15]}, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "शुक्ल पक्ष पूरा शुभ; कृष्ण पक्ष की अन्तिम तीन तिथियाँ (त्रयोदशी, चतुर्दशी, अमावस्या) छोड़ें",
+      "text_en": "All of shukla paksha is good; leave out the last three tithis of krishna paksha (trayodashi, chaturdashi, amavasya)",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "कृष्ण पक्ष के अन्तिम तीन दिन वर्जित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-VAAR",
+      "sanskar": "mundan", "category": "vara", "condition": {"field": "vaar", "in": [3, 4, 5]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "बुध, गुरु व शुक्र वार; सोमवार केवल शुक्ल पक्ष में",
+      "text_en": "Wednesday, Thursday and Friday; Monday only in shukla paksha",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "चौल के शुभ वार"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Monday-in-shukla needs two fields, so it is text only; the Hindi (p. 320) puts all four under shukla paksha. The weekdays by varna (garbled in the Sanskrit) are left out.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-NAK",
+      "sanskar": "mundan", "category": "nakshatra", "condition": {"field": "nakshatra", "in": [0, 4, 6, 7, 12, 13, 14, 17, 21, 22, 23, 26]}, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "अश्विनी, मृगशिरा, पुनर्वसु, पुष्य, हस्त, चित्रा, स्वाती, ज्येष्ठा, श्रवण, धनिष्ठा, शतभिषा व रेवती नक्षत्र",
+      "text_en": "Ashwini, Mrigashira, Punarvasu, Pushya, Hasta, Chitra, Swati, Jyeshtha, Shravana, Dhanishtha, Shatabhisha and Revati",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "चौल के शुभ नक्षत्र"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-NAK-FORBID",
+      "sanskar": "mundan", "category": "nakshatra", "condition": {"field": "nakshatra", "in": [2, 3, 9, 11, 16, 20, 25]}, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "कृत्तिका, रोहिणी, मघा, तीनों उत्तरा व अनुराधा नक्षत्र में मुण्डन वर्जित",
+      "text_en": "No mundan under Krittika, Rohini, Magha, the three Uttaras or Anuradha",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "इन नक्षत्रों में क्षौर वर्जित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. The book's reason (harm to the child) is kept out of the shown text.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-MONTHS",
+      "sanskar": "mundan", "category": "month", "condition": null, "effect": "prefer", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "चान्द्र माघ, फाल्गुन, वैशाख व ज्येष्ठ मास शुभ; शिशु के जन्म-मास और अधिकमास में नहीं, और ज्येष्ठ सन्तान का ज्येष्ठ मास में नहीं",
+      "text_en": "The lunar months Magha, Phalguna, Vaishakha and Jyeshtha; not in the child's birth month or an adhik maas, and not in Jyeshtha for the eldest child",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "चौल के मास"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Text only (no lunar-month atom). DPJ-104 counts these months as solar (MUND-BASE-MONTH-TITHI-VAAR); Dharmasindhu names lunar months.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-SIMHA",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "गुरु सिंह राशि में हो तो चूड़ाकर्म नहीं",
+      "text_en": "No chudakarma while Jupiter is in Simha",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "सिंहस्थ गुरु में चौल वर्जित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Agrees with MUND-BASE-YUGADI-SIMHASTHA. The Simhastha exceptions (Magha and the Simha navamsha, the Ganga-Godavari region, the Sun in Mesha) are in chapter 1, p. 10.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-PREGNANCY",
+      "sanskar": "mundan", "category": "other", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "माता का गर्भ पाँचवें मास से आगे हो तो पाँचवें वर्ष से पहले मुण्डन नहीं; पाँचवें वर्ष से, या उपनयन के साथ करने पर, दोष नहीं",
+      "text_en": "If the mother is past the 5th month of pregnancy, no mundan before the child's 5th year; from the 5th year, or together with upanayana, there is no fault",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "गर्भवती माता का नियम"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Hindi p. 320. Compare MUND-BASE-PREGNANCY-ELDEST.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-FAMILY",
+      "sanskar": "mundan", "category": "other", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "शिशु ज्वर में हो तो मुण्डन नहीं; माता रजस्वला हो तो उसकी शुद्धि के बाद करें",
+      "text_en": "No mundan while the child has fever; if the mother is in her monthly period, hold it after her purification",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "ज्वर व रजोदोष में चौल स्थगित"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. The book cites Manu for the second part.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-AFTER-MANGALA",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "तीन पीढ़ी के परिवार में उपनयन, विवाह आदि मंगलकार्य के छह मास के भीतर मुण्डन नहीं; आपात् में वर्ष बदलने पर हो सकता है",
+      "text_en": "No mundan within six months of an upanayana, vivah or other mangala rite in a three-generation family; in an emergency, it may be held once the year changes",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — मंगलकार्य के पीछे मुण्डन का निषेध", "verse": null, "page": "392", "sanskrit_text": null, "hindi_meaning": "मंगल के बाद छह मास मुण्डन नहीं"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Also p. 319. The author's own extension (p. 393): about a month after a minor mangala such as garbhadhana.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-PRETA",
+      "sanskar": "mundan", "category": "exclusion", "condition": null, "effect": "forbid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "चार पीढ़ी के भीतर किसी के प्रेत-कर्म (सपिण्डीकरण व मासिक श्राद्ध) पूरे होने तक मुण्डन आदि नान्दीश्राद्ध वाले संस्कार नहीं",
+      "text_en": "Within four generations, no mundan or other rite with a nandi-shraddha until a relative's preta rites (sapindikarana and the monthly shraddhas) are complete",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — प्रेतकर्म", "verse": null, "page": "397", "sanskrit_text": null, "hindi_meaning": "प्रेतकर्म पूरा होने तक अभ्युदय कर्म नहीं"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Also p. 319.", "active": true
+    },
+    {
+      "rule_id": "DS-MUND-SIBLINGS",
+      "sanskar": "mundan", "category": "other", "condition": null, "effect": "avoid", "weight": 0, "tradition_tag": "धर्मसिन्धु",
+      "text_hi": "एक माता की दो सन्तानों का एक ही संस्कार एक वर्ष में नहीं; जुड़वाँ और भिन्न माताओं की सन्तानों में दोष नहीं",
+      "text_en": "Two children of one mother do not take the same samskara in the same year; twins and children of different mothers are exempt",
+      "source": {"granth": "धर्मसिन्धु (काशीनाथ उपाध्याय), मिहिरचन्द्र भाषाटीका सहित — खेमराज श्रीकृष्णदास, बम्बई, 2018", "chapter": "तृतीय परिच्छेद पूर्वार्ध — चौल", "verse": null, "page": "319", "sanskrit_text": null, "hindi_meaning": "सहोदरों का एक वर्ष में एक संस्कार नहीं"},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null, "notes": "Read from the printed edition (PDF page = printed page + 20); check the page and the reading before verifying. Exceptions on p. 392 (Hindi).", "active": true
+    }
+  ],
+  "content": [
+    {
+      "content_id": "SANKALPA-TEMPLATE",
+      "sanskar": "common", "kind": "sankalpa_template", "lang": "hi", "version": 1,
+      "body": {
+        "geo": "जम्बूद्वीपे भरतखण्डे भारतवर्षे आर्यावर्तैकदेशे",
+        "text": "ॐ विष्णुर्विष्णुर्विष्णुः। श्रीमद्भगवतो महापुरुषस्य विष्णोराज्ञया प्रवर्तमानस्य अद्य श्रीब्रह्मणो द्वितीयपरार्धे श्रीश्वेतवाराहकल्पे वैवस्वतमन्वन्तरे अष्टाविंशतितमे कलियुगे कलिप्रथमचरणे {geo} {state} प्रदेशे {city} नगरे {samvatsara} नाम संवत्सरे विक्रम संवत् {vikram} शके {shaka} {ayana} {ritu} ऋतौ {masa} मासे {paksha} पक्षे {tithi} तिथौ {vaar} वासरे {nakshatra} नक्षत्रे {yoga} योगे {karana} करणे {gotra} गोत्रोत्पन्नः {father} अहं मम अस्य शिशोः {child} नाम्नः {sanskar} कर्म करिष्ये।"
+      },
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null
+    },
+    {
+      "content_id": "CHECKLIST-ANNAPRASHAN",
+      "sanskar": "annaprashan", "kind": "checklist", "lang": "hi", "version": 1,
+      "body": {"sections": [
+        {"title": "सामग्री", "items": ["चाँदी या स्वच्छ पात्र व चम्मच", "खीर (दूध-चावल) — स्थानीय परंपरा अनुसार", "घी, शहद (परंपरा अनुसार)", "रोली, अक्षत, पुष्प, दीपक, धूप", "कलश, जल, आम्रपल्लव", "नवीन वस्त्र शिशु हेतु"]},
+        {"title": "पूजन", "items": ["गणेश पूजन", "कलश स्थापन", "कुलदेवता / इष्टदेव पूजन — स्थानीय परंपरा अनुसार"]},
+        {"title": "संकल्प", "items": ["मुहूर्त-समय पर पिता/यजमान द्वारा संकल्प"]},
+        {"title": "मुख्य क्रम", "items": ["शिशु को माता की गोद में बिठाना", "प्रथम अन्न (खीर) पिता या परिवार के बड़े द्वारा — स्थानीय परंपरा अनुसार", "शिशु के सामने वस्तुएँ रखना (पुस्तक, कलम आदि) — स्थानीय परंपरा अनुसार", "आशीर्वाद व प्रसाद वितरण"]},
+        {"title": "परिवार की भूमिका", "items": ["पिता/यजमान: संकल्प", "माता: शिशु को गोद में लेना", "परिवार के बड़े: आशीर्वाद"]}
+      ]},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null
+    },
+    {
+      "content_id": "CHECKLIST-MUNDAN",
+      "sanskar": "mundan", "kind": "checklist", "lang": "hi", "version": 1,
+      "body": {"sections": [
+        {"title": "सामग्री", "items": ["रोली, अक्षत, पुष्प, दीपक, धूप", "कलश, जल, आम्रपल्लव", "नया, स्वच्छ उस्तरा/ब्लेड", "स्वच्छ कपड़ा व गुनगुना जल", "केश रखने हेतु आटे की लोई या स्वच्छ पात्र — स्थानीय परंपरा अनुसार", "नवीन वस्त्र शिशु हेतु"]},
+        {"title": "पूजन", "items": ["गणेश पूजन", "कलश स्थापन", "कुलदेवता / इष्टदेव पूजन — स्थानीय परंपरा अनुसार"]},
+        {"title": "संकल्प", "items": ["मुहूर्त-समय पर पिता/यजमान द्वारा संकल्प"]},
+        {"title": "मुख्य क्रम", "items": ["शिशु को माता या परिवार के सदस्य की गोद में बिठाना", "अनुभवी नाई द्वारा केश-मुण्डन", "शिखा रखना या न रखना — स्थानीय परंपरा अनुसार", "केशों का विसर्जन (नदी/तीर्थ) या संरक्षण — स्थानीय परंपरा अनुसार", "स्नान, नवीन वस्त्र, आशीर्वाद"]},
+        {"title": "परिवार की भूमिका", "items": ["पिता/यजमान: संकल्प", "माता/बुआ: शिशु को गोद में लेना — स्थानीय परंपरा अनुसार", "परिवार के बड़े: आशीर्वाद"]},
+        {"title": "स्वच्छता व सावधानी", "items": ["नया या कीटाणुरहित उस्तरा ही प्रयोग करें", "मुण्डन अनुभवी नाई से, शिशु के सिर पर कोमलता से", "मुण्डन के बाद सिर को स्वच्छ जल से धोएँ"]}
+      ]},
+      "verification_status": "needs_review", "reviewer": null, "reviewed_at": null
+    }
+  ],
+  "config": {
+    "enabled": true,
+    "price_points": 0,
+    "weights": {"panchang": 1, "nakshatra": 1, "tarabala": 1, "chandrabala": 1, "lagna": 1, "planetary": 1, "tradition": 1, "local": 1},
+    "toggles": {"panchak": "default", "gandmool": false}
+  }
+}

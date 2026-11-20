@@ -1,0 +1,72 @@
+"use client";
+
+import { Suspense } from "react";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { MotionConfig } from "framer-motion";
+import SiteHeader, { SiteHeaderFallback } from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import BottomTabBar from "@/components/BottomTabBar";
+import WalletPrefetch from "@/components/WalletPrefetch";
+import { useT } from "@/i18n/LocaleProvider";
+import { defineMessages } from "@/i18n/messages";
+
+const text = defineMessages({
+  hi: { skip: "सीधे सामग्री पर जाएं" },
+  en: { skip: "Skip to content" },
+});
+
+/**
+ * The page frame: skip link, floating header, main, footer.
+ *
+ * Only the header reads the pathname (for the current-page state), and it sits inside <Suspense>: with
+ * Cache Components, usePathname() suspends on routes whose params are only known at request time
+ * (e.g. /astrologers/[id]). The fallback bar keeps the rest of the layout prerendered.
+ */
+function Frame({ children }: { children: React.ReactNode }) {
+  const t = useT(text);
+  return (
+    // reducedMotion="user": people who prefer reduced motion get plain opacity changes, no movement.
+    <MotionConfig reducedMotion="user">
+      <a
+        href="#main"
+        className="on-inverse button-sm sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-surface-inverse focus:px-3 focus:py-2 focus:text-ink-inverse"
+      >
+        {t.skip}
+      </a>
+
+      <Suspense fallback={<SiteHeaderFallback />}>
+        <SiteHeader />
+      </Suspense>
+      <WalletPrefetch />
+
+      {/* SiteHeader makes this inert while the full-height mobile menu is open. */}
+      <div id="page" className="flex min-h-dvh flex-col">
+        <main id="main" tabIndex={-1} className="flex-1 pt-[72px] outline-none">
+          {children}
+        </main>
+        <SiteFooter />
+      </div>
+      {/* The app's bottom tabs on phones and tablets. Reads the pathname, so it sits inside <Suspense> too. */}
+      <Suspense fallback={null}>
+        <BottomTabBar />
+      </Suspense>
+    </MotionConfig>
+  );
+}
+
+/** The astrologer console (/astrologer) has its own header and footer, so it skips the customer frame. */
+function ShellSwitch({ children }: { children: React.ReactNode }) {
+  const segment = useSelectedLayoutSegment();
+  if (segment === "astrologer") return <>{children}</>;
+  return <Frame>{children}</Frame>;
+}
+
+export default function AppShell({ children }: { children: React.ReactNode }) {
+  // useSelectedLayoutSegment() suspends under Cache Components on routes with request-time params
+  // (e.g. the [...rest] catch-all), so it must sit inside <Suspense>. The fallback is the customer frame.
+  return (
+    <Suspense fallback={<Frame>{children}</Frame>}>
+      <ShellSwitch>{children}</ShellSwitch>
+    </Suspense>
+  );
+}
