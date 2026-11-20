@@ -2122,7 +2122,7 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
 .wa{position:relative;width:100%;aspect-ratio:1/.72;margin-top:34px;transform:rotateY(-9deg) rotateX(5deg);transform-style:preserve-3d}
 .wa::before{content:"";position:absolute;inset:4% 6% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(240,196,58,.2),rgba(240,196,58,0));animation:hsAura 6s ease-in-out infinite}
 .wa-win{position:absolute;margin:0;border-radius:14px;overflow:hidden;background:#0A1430;
-    outline:1.5px solid rgba(240,196,58,.5);box-shadow:-12px 14px 0 -3px #050A1A,0 50px 80px rgba(0,0,0,.55);animation:afFloat 8s ease-in-out infinite}
+    outline:1.5px solid rgba(240,196,58,.5);box-shadow:0 0 34px 4px rgba(240,196,58,.32),0 0 90px 10px rgba(240,196,58,.14);animation:afFloat 8s ease-in-out infinite}
 .wa-win img{display:block;width:100%;height:auto}
 .wa-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#0A1430;border-bottom:1px solid rgba(240,196,58,.25)}
 .wa-bar>i{width:9px;height:9px;border-radius:50%;background:#3A4766}
@@ -2132,7 +2132,7 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
 .wa-win--back{left:0;top:2%;width:66%;filter:brightness(.8)}
 .wa-win--front{left:20%;top:22%;width:72%;z-index:2;animation-delay:-3s}
 .wa-ph{position:absolute;margin:0;left:80%;top:36%;width:19%;z-index:3;border-radius:16%/8%;overflow:hidden;border:6px solid #0A1025;
-    outline:1.5px solid rgba(240,196,58,.55);box-shadow:-10px 12px 0 -3px #050A1A,0 40px 60px rgba(0,0,0,.55);animation:afFloat 7s ease-in-out infinite;animation-delay:-1.5s}
+    outline:1.5px solid rgba(240,196,58,.55);box-shadow:0 0 30px 5px rgba(240,196,58,.45),0 0 80px 12px rgba(240,196,58,.2);animation:afFloat 7s ease-in-out infinite;animation-delay:-1.5s}
 .wa-ph img{display:block;width:100%;height:auto}
 .wa .wa-ribbon{top:28%;right:3%;transform:none;z-index:6}
 .wa .wa-badge--free{top:-6%;left:46%;transform:none}
