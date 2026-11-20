@@ -20,6 +20,11 @@
       "source": "/download.html",
       "destination": "/home#download",
       "type": 301
+    },
+    {
+      "source": "/webapp/**",
+      "destination": "/",
+      "type": 302
     }
   ]
 }

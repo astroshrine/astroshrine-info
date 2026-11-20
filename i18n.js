@@ -26,6 +26,21 @@
         "200 points free": "200 पॉइंट मुफ़्त",
         "AstroShrine App": "एस्ट्रोश्राइन ऐप",
 
+        // web app
+        "Web App": "वेब ऐप",
+        "Web App · No download": "वेब ऐप · डाउनलोड की ज़रूरत नहीं",
+        "Laptop ya phone ke browser se seedha astrologer se chat aur call, free Kundli, rashifal aur puja booking — app wala hi number, wallet aur history.":
+            "लैपटॉप या फ़ोन के ब्राउज़र से सीधे ज्योतिषी से चैट और कॉल, मुफ़्त कुंडली, राशिफल और पूजा बुकिंग — ऐप वाला ही नंबर, वॉलेट और हिस्ट्री।",
+        "Works in any browser": "हर ब्राउज़र में चलता है",
+        "Same account as the app": "ऐप वाला ही अकाउंट",
+        "Open the web app": "वेब ऐप खोलें",
+        "Or get it on": "या डाउनलोड करें",
+        "AstroShrine Web": "एस्ट्रोश्राइन वेब",
+        "No download": "डाउनलोड की ज़रूरत नहीं",
+        "Open & start chatting": "खोलें और चैट शुरू करें",
+        "One wallet": "एक वॉलेट",
+        "App + Web, same points": "ऐप + वेब, वही पॉइंट",
+
         // temples
         "On the banks of the sacred Kharun river": "पवित्र खारुन नदी के तट पर",
         "Shree Amleshwar": "श्री अमलेश्वर",

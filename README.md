@@ -64,3 +64,7 @@ The support form is front-end only. Connect it to Formspree, Web3Forms, or a cus
 ### 5. Terms of Service City
 
 Replace `[Your City]` in `terms-of-service.html` with your actual jurisdiction city.
+
+## Web app
+
+`webapp/` holds the AstroShrine Next.js web app (imported from `astroshrine-webapp` with its history). It is a separate project: `cd webapp && npm install && npm run dev`, and it deploys with its own `webapp/railway.json` (set the Railway service root to `webapp`). The static site's `serve.json` redirects `/webapp/**` so its source is never served here.
