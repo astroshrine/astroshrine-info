@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
     ],
   },
   turbopack: {
+    // This app lives in webapp/ of a repo with its own root lockfile; keep the build rooted here.
+    root: import.meta.dirname,
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
