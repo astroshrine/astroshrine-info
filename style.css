@@ -2178,3 +2178,16 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
 .wa-path>i{color:#F0C43A;font-size:16px}
 @media (max-width:960px){.wa-paths{width:100%}}
 @media (max-width:620px){.wa-paths{grid-template-columns:1fr}}
+/* the two path cards keep moving: light sweep, icon pulse, arrow nudge (staggered) */
+.wa-path{position:relative;overflow:hidden}
+.wa-path::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(110deg,transparent 30%,rgba(240,196,58,.22) 50%,transparent 70%);transform:translateX(-100%);animation:waShine 4s ease-in-out infinite}
+.wa-path-ico{animation:waPulse 2.4s ease-out infinite}
+.wa-path>i{animation:waNudge 1.6s ease-in-out infinite}
+.wa-path+.wa-path::after{animation-delay:2s}
+.wa-path+.wa-path .wa-path-ico{animation-delay:1.2s}
+.wa-path+.wa-path>i{animation-delay:.8s}
+@keyframes waShine{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
+@keyframes waPulse{0%{box-shadow:0 0 0 0 rgba(240,180,41,.55)}70%,100%{box-shadow:0 0 0 12px rgba(240,180,41,0)}}
+@keyframes waNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){.wa-path::after,.wa-path-ico,.wa-path>i{animation:none}}
