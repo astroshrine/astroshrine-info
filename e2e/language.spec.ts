@@ -97,10 +97,14 @@ test("signing in returns to the page in the login page's language", async ({ pag
   await expect(page).toHaveURL(/\/en\/wallet$/);
 });
 
-test("the phone header fits a 320px screen", async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 640 });
-  await page.goto("/hi");
+test("the phone header fits every phone and tablet width, from 320px", async ({ page }) => {
   const nav = page.getByRole("navigation", { name: "मुख्य नेविगेशन" });
-  await expect(nav.getByRole("button", { name: "मेनू खोलें" })).toBeVisible();
-  expect(await nav.evaluate((element) => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(0);
+  for (const width of [320, 360, 393, 412, 480, 519, 520, 768, 1023]) {
+    await page.setViewportSize({ width, height: 700 });
+    await page.goto("/hi");
+    await expect(nav.getByRole("button", { name: "मेनू खोलें" })).toBeVisible();
+    // The language stays in the bar on phones (as its icon on narrow ones), named for screen readers.
+    await expect(page.getByRole("banner").getByRole("link", { name: "English" })).toBeVisible();
+    expect(await nav.evaluate((element) => element.scrollWidth - element.clientWidth), `${width}px`).toBeLessThanOrEqual(0);
+  }
 });

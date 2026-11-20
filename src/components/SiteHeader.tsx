@@ -116,7 +116,9 @@ function HeaderBar({
             className="flex items-center gap-3 rounded-xl pr-3 transition motion-safe:active:scale-98"
           >
             <BrandMark size={44} />
-            <span className="leading-none">
+            {/* Below 520px the bar has no room for the wordmark beside the language, wallet and menu: the sun mark alone
+                (the name stays for screen readers). */}
+            <span className="leading-none max-[519px]:sr-only">
               <span className="font-display text-2xl font-bold tracking-tight text-ink-inverse">AstroShrine</span>
               <span className="mt-1 hidden text-[11px] font-medium text-ink-inverse-soft sm:block">Ancient wisdom, modern guidance</span>
             </span>
@@ -158,8 +160,9 @@ function HeaderBar({
 
           {/* Phones and tablets: language and wallet beside the menu button. */}
           <div className="flex items-center gap-2 lg:hidden">
-            {/* On narrow phones the language pill would push the menu button off the bar; the menu has the switch too. */}
-            <LanguageSwitch pathname={pathname} className={`${languagePill} max-[430px]:hidden`} />
+            {/* Narrow phones: the language as its icon alone (its name stays for screen readers), so it fits beside the
+                wallet and the menu button down to 320px. */}
+            <LanguageSwitch pathname={pathname} className={`${languagePill} max-[519px]:px-2.5`} labelClassName="max-[519px]:sr-only" />
             <WalletPill pathname={pathname} onNavigate={() => onMenuChange(false)} />
             <MenuToggle open={menuOpen} onToggle={() => onMenuChange(!menuOpen)} />
           </div>

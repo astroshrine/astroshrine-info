@@ -198,7 +198,9 @@
   body:has([data-fills-screen="always"]) #tabbar {
     display: none;
   }
-  body:has([data-fills-screen="always"]) #page {
+  /* :has(#tabbar) too, so this outranks the rule above (an id in :has() counts): it lost, and the open chat
+     scrolled by the 6rem kept for a tab bar it hides. */
+  body:has(#tabbar):has([data-fills-screen="always"]) #page {
     padding-bottom: 0;
   }
 }

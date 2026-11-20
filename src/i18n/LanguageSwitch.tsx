@@ -9,7 +9,12 @@ import { localizeHref, switchLocale } from "./paths";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
-type Props = { className?: string; onSwitch?: () => void };
+type Props = {
+  className?: string;
+  onSwitch?: () => void;
+  /** Classes for the language name, e.g. to show only the icon on narrow phones (the name stays for screen readers). */
+  labelClassName?: string;
+};
 
 /**
  * Opens the current page in the other language. It is a real link to that page, so a new tab or a copied link
@@ -20,7 +25,7 @@ type Props = { className?: string; onSwitch?: () => void };
  * `pathname` is the current path, with or without its language. Without it (a prerendered fallback) the link
  * points to the other language's home page, and a click still opens the current page.
  */
-export default function LanguageSwitch({ className, onSwitch, pathname }: Props & { pathname?: string }) {
+export default function LanguageSwitch({ className, onSwitch, labelClassName, pathname }: Props & { pathname?: string }) {
   const locale = useLocale();
   const other: Locale = locale === "hi" ? "en" : "hi";
 
@@ -47,7 +52,7 @@ export default function LanguageSwitch({ className, onSwitch, pathname }: Props 
       className={className}
     >
       <PiTranslate className="h-4 w-4 shrink-0" aria-hidden />
-      {LOCALE_NAMES[other]}
+      <span className={labelClassName}>{LOCALE_NAMES[other]}</span>
     </a>
   );
 }
