@@ -184,7 +184,11 @@ export default function LoginForm() {
     }
     setBusy(true);
     setError(null);
-    const { error: err } = await getSupabase().auth.signInWithOtp({ phone: fullPhone });
+    const { error: err } = await getSupabase().auth.signInWithOtp({
+      phone: fullPhone,
+      // Read by the handle_new_user trigger into users.signup_platform; Supabase applies it only when the account is created.
+      options: { data: { signup_platform: "web" } },
+    });
     setBusy(false);
     if (err) {
       setError(err.message);
