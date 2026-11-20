@@ -151,3 +151,36 @@ setInterval(tick, 1000);
     });
     zone.addEventListener("mouseleave", () => { fan.style.removeProperty("--ry"); fan.style.removeProperty("--rx"); });
 })();
+
+// scroll popup: once per visit, when the visitor scrolls past the hero
+(() => {
+    const pop = document.getElementById("scroll-pop");
+    if (!pop) return;
+    let seen = false;
+    try { seen = sessionStorage.getItem("as-scroll-pop") === "1"; } catch { /* storage blocked: just show it */ }
+    if (seen) return;
+    let back = null;
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    const close = () => {
+        pop.classList.remove("open");
+        document.removeEventListener("keydown", onKey);
+        setTimeout(() => { pop.hidden = true; }, 400);
+        if (back) back.focus();
+    };
+    const open = () => {
+        back = document.activeElement;
+        pop.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => pop.classList.add("open")));
+        pop.querySelector(".sp-x").focus();
+        document.addEventListener("keydown", onKey);
+        try { sessionStorage.setItem("as-scroll-pop", "1"); } catch { /* fine */ }
+    };
+    pop.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", close));
+    const hero = document.querySelector(".hs");
+    const onScroll = () => {
+        if (window.scrollY < (hero ? hero.offsetHeight * 0.7 : innerHeight)) return;
+        removeEventListener("scroll", onScroll);
+        open();
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+})();
