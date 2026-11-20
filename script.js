@@ -21,6 +21,18 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
+// cards rise in one by one as they scroll into view (staggered across each row);
+// the class comes off after the reveal so each card's own hover transition works again
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll(".panchang-grid > *, .svc-card, .tour-tab, .puja, .quote, .steps-row > *").forEach(el => {
+        const i = [...el.parentElement.children].indexOf(el);
+        el.style.setProperty("--rc-d", `${(i % 4) * 90}ms`);
+        el.classList.add("reveal-card");
+        el.addEventListener("transitionend", (e) => { if (e.target === el && el.classList.contains("shown")) el.classList.remove("reveal-card", "shown"); });
+        io.observe(el);
+    });
+}
+
 // live celestial clock
 const clock = document.querySelector("#clock");
 const tick = () => clock.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
