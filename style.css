@@ -2132,7 +2132,7 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
 .wa-win--back{left:0;top:2%;width:66%;filter:brightness(.8)}
 .wa-win--front{left:20%;top:22%;width:72%;z-index:2;animation-delay:-3s}
 .wa-ph{position:absolute;margin:0;left:80%;top:36%;width:19%;z-index:3;border-radius:16%/8%;overflow:hidden;border:6px solid #0A1025;
-    outline:1.5px solid rgba(240,196,58,.55);box-shadow:-10px 12px 0 -3px #050A1A,0 40px 60px rgba(0,0,0,.55),0 0 30px 5px rgba(240,196,58,.45),0 0 80px 12px rgba(240,196,58,.2);animation:afFloat 7s ease-in-out infinite;animation-delay:-1.5s}
+    outline:1.5px solid rgba(240,196,58,.55);box-shadow:0 0 30px 5px rgba(240,196,58,.45),0 0 80px 12px rgba(240,196,58,.2);animation:afFloat 7s ease-in-out infinite;animation-delay:-1.5s}
 .wa-ph img{display:block;width:100%;height:auto}
 .wa .wa-ribbon{top:28%;right:3%;transform:none;z-index:6}
 .wa .wa-badge--free{top:-6%;left:46%;transform:none}
