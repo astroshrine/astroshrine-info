@@ -2136,7 +2136,7 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
 .wa-ph img{display:block;width:100%;height:auto}
 .wa .wa-ribbon{top:28%;right:3%;transform:none;z-index:6}
 .wa .wa-badge--free{top:-6%;left:46%;transform:none}
-.wa .wa-badge--sync{top:66%;bottom:auto;left:-4%;transform:none}
+.wa .wa-badge--sync{top:12%;bottom:auto;left:-6%;transform:none}
 @media (max-width:960px){
   .wa{width:100%;aspect-ratio:1/.8;margin-top:10px;transform:none}
   .wa-bar{padding:5px 8px;gap:4px}.wa-bar>i{width:6px;height:6px}.wa-bar span{font-size:8.5px;padding:2px 8px;margin-left:4px}
@@ -2165,3 +2165,16 @@ html.is-hi .af-ph figcaption,html.is-hi .gm figcaption b{font-family:'Tiro Devan
   .hs-slide[data-theme="temple"] .hs-bg{background-image:url('images/hero-temple-night.webp')!important;filter:blur(18px) brightness(.35);transform:scale(1.1)}
   .hs-slide[data-theme="wisdom"] .hs-bg{filter:brightness(.55)}
 }
+
+/* Web App slide: two paths under the buttons — users ask in Hindi, astrologers join */
+.wa-paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:max(100%,min(560px,38vw));margin-top:22px;position:relative;z-index:5}
+.wa-path{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;color:#fff;
+    background:rgba(9,24,48,.7);border:1px solid rgba(240,196,58,.35);transition:border-color .15s,transform .15s}
+.wa-path:hover{border-color:#F0C43A;transform:translateY(-2px)}
+.wa-path-ico{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#F0B429;color:#0C1A45;font-size:19px}
+.wa-path>span:nth-child(2){flex:1;min-width:0}
+.wa-path small{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F0C43A}
+.wa-path b{display:block;margin-top:2px;font-size:13.5px;line-height:1.25}
+.wa-path>i{color:#F0C43A;font-size:16px}
+@media (max-width:960px){.wa-paths{width:100%}}
+@media (max-width:620px){.wa-paths{grid-template-columns:1fr}}
