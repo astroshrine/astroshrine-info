@@ -39,6 +39,10 @@
         "Open & start chatting": "खोलें और चैट शुरू करें",
         "One wallet": "एक वॉलेट",
         "App + Web, same points": "ऐप + वेब, वही पॉइंट",
+        "For users": "यूज़र्स के लिए",
+        "Apna sawal Hindi mein poochein": "अपना सवाल हिंदी में पूछें",
+        "Astrologer hain?": "ज्योतिषी हैं?",
+        "AstroShrine se judein": "एस्ट्रोश्राइन से जुड़ें",
 
         // temples
         "On the banks of the sacred Kharun river": "पवित्र खारुन नदी के तट पर",
