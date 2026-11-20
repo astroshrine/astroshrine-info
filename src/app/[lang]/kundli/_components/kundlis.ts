@@ -4,7 +4,7 @@ import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
-import type { BackendUser } from "@/lib/endpoints";
+import { birthMs, type BackendUser } from "@/lib/endpoints";
 import { epochToWall, isValidTimeZone, profileReady, type BirthProfile } from "@/lib/jyotish";
 
 const text = defineMessages({
@@ -96,10 +96,10 @@ export function accountBirth(user: BackendUser | null): BirthProfile | null {
   const fallbackName = ACCOUNT_DEFAULT_NAME;
   const p = user?.profile;
   const place = p?.placeOfBirth;
-  const dob = Number(p?.dateTimeOfBirth);
+  const dob = birthMs(user);
   const lat = Number(place?.geoLocation ? place.geoLocation.lat : place?.geolocation?.lat);
   const lon = Number(place?.geoLocation ? place.geoLocation.long : place?.geolocation?.lng);
-  if (!(dob > 0) || !place?.displayValue || !(Math.abs(lat) <= 90) || !(Math.abs(lon) <= 180)) return null;
+  if (dob === null || !place?.displayValue || !(Math.abs(lat) <= 90) || !(Math.abs(lon) <= 180)) return null;
   const zone = place.timezone || place.geoLocation?.timezone || place.geolocation?.timezone || "Asia/Kolkata";
   const tz = isValidTimeZone(zone) ? zone : "Asia/Kolkata";
   const wall = epochToWall(dob, tz);

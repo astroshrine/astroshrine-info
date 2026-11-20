@@ -146,3 +146,21 @@ test("the landing page's stat box is left out when the astrologer list can't loa
   await expect(page.getByLabel("AstroShrine in numbers")).toHaveCount(0);
   await expect(page.getByText("1Cr+")).toHaveCount(0);
 });
+
+test("an account born before 1970 (a negative epoch) counts as having its birth details", async ({ page }) => {
+  const backend = new MockBackend();
+  // 05:30 IST on 2 Feb 1962: before 1970, so the stored epoch is negative.
+  backend.user.profile = { ...backend.user.profile, dateTimeOfBirth: Date.UTC(1962, 1, 2, 0, 0) };
+  await signIn(page, backend);
+
+  await page.goto("/en/home");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Add your birth details" })).toHaveCount(0);
+
+  await page.goto("/en/profile");
+  await expect(page.getByText("2 February 1962")).toBeVisible();
+
+  await page.goto("/en/profile/edit");
+  await expect(page.getByLabel("Date of birth")).toHaveValue("1962-02-02");
+  await expect(page.getByLabel("Time of birth")).toHaveValue("05:30");
+});

@@ -9,7 +9,7 @@ import { useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { useRouter } from "@/i18n/navigation";
 import { stripLocale } from "@/i18n/paths";
-import { refreshAiBirthChart, saveProfile, type BackendUser, type Gender } from "@/lib/endpoints";
+import { birthMs, refreshAiBirthChart, saveProfile, type BackendUser, type Gender } from "@/lib/endpoints";
 import { epochToWall, localToday, wallToEpoch, type BirthPlace } from "@/lib/jyotish";
 import { fadeUp } from "@/lib/motion";
 import { APP_HOME_PATH } from "@/lib/site";
@@ -112,8 +112,8 @@ function placeOf(user: BackendUser | null): BirthPlace | null {
 function formOf(user: BackendUser | null): Form {
   const [first = "", ...rest] = (user?.name ?? "").trim().split(/\s+/);
   const place = placeOf(user);
-  const ms = Number(user?.profile?.dateTimeOfBirth);
-  const wall = ms > 0 ? epochToWall(ms, place?.tz || "Asia/Kolkata") : null;
+  const ms = birthMs(user);
+  const wall = ms !== null ? epochToWall(ms, place?.tz || "Asia/Kolkata") : null;
   const g = user?.profile?.gender;
   return {
     firstName: first,

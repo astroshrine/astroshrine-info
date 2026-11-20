@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PiArrowLeft, PiArrowClockwise, PiHourglassMedium, PiPause, PiPlanet, PiPlus, PiStop, PiUsersThree, PiX } from "react-icons/pi";
 import { ApiError } from "@/lib/api";
+import { birthMs } from "@/lib/endpoints";
 import { useAuth } from "@/components/AuthProvider";
 import AstrologerAvatar from "@/components/consult/AstrologerAvatar";
 import Dialog, { primaryButton, quietButton, secondaryButton } from "@/components/consult/Dialog";
@@ -954,7 +955,7 @@ export default function ChatRoom({ astrologerId, bookingId }: { astrologerId: st
   const blockPoints = pack?.blockPoints ?? Math.ceil((pack?.ratePerMin ?? 0) * blockMinutes);
   const wallet = balance?.points_balance;
   const statusLine = peerTyping ? t.typing : astrologer ? labels.availability[astrologer.availability] : "";
-  const noBirth = !(Number(user?.profile?.dateTimeOfBirth) > 0);
+  const noBirth = birthMs(user) === null;
   const queueMins = pack?.queueWaitMs ? Math.max(1, Math.ceil(pack.queueWaitMs / 60_000)) : null;
 
   return (

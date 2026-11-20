@@ -10,7 +10,7 @@ import { useLocale, useT } from "@/i18n/LocaleProvider";
 import { defineMessages } from "@/i18n/messages";
 import { useRouter } from "@/i18n/navigation";
 import { ASTROLOGER_ROLE } from "../astrologer/_console/useAstrologer";
-import type { BackendUser } from "@/lib/endpoints";
+import { birthMs, type BackendUser } from "@/lib/endpoints";
 import { fadeUp, stagger } from "@/lib/motion";
 import { SITE_TEXT, moreLinks } from "@/lib/site";
 
@@ -56,9 +56,9 @@ const text = defineMessages({
 /** The account's saved birth details (users.profile), formatted in the birth place's time zone. */
 function birthOf(user: BackendUser | null, locale: Locale) {
   const p = user?.profile;
-  const ms = Number(p?.dateTimeOfBirth);
+  const ms = birthMs(user);
   const place = p?.placeOfBirth;
-  if (!(ms > 0) || !place?.displayValue) return null;
+  if (ms === null || !place?.displayValue) return null;
   const zone = place.timezone || place.geolocation?.timezone || place.geoLocation?.timezone || "Asia/Kolkata";
   const format = (timeZone: string) =>
     new Date(ms).toLocaleString(INTL_LOCALE[locale], {

@@ -235,12 +235,24 @@ export function saveProfile(userId: string, p: ProfileEdit) {
 }
 
 /**
+ * The saved birth moment in epoch ms, or null when none is saved. The backend writes 0 (or nothing) for "not set";
+ * any other finite value is a real date. Births before 1970 are NEGATIVE: checking `> 0` hid them (the home page kept
+ * asking an account born in the 1960s for details it already had).
+ */
+export function birthMs(user: BackendUser | null | undefined): number | null {
+  const raw = user?.profile?.dateTimeOfBirth;
+  if (raw === null || raw === undefined || (raw as unknown) === "") return null;
+  const ms = Number(raw);
+  return Number.isFinite(ms) && ms !== 0 ? ms : null;
+}
+
+/**
  * Whether a customer account has what the app asks for at sign-up (name, birth date and time, birth place). The app
  * sends anyone without them to its details form before home; the website does the same after login.
  */
 export function profileComplete(user: BackendUser | null | undefined) {
   const p = user?.profile;
-  return !!user?.name?.trim() && Number(p?.dateTimeOfBirth) > 0 && !!p?.placeOfBirth?.displayValue?.trim();
+  return !!user?.name?.trim() && birthMs(user) !== null && !!p?.placeOfBirth?.displayValue?.trim();
 }
 
 /**
