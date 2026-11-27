@@ -2336,3 +2336,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 /* Astrology slide: Google Play and App Store one under the other, the same size */
 .hs-slide:has(.af) .ej-stores{flex-direction:column;flex-wrap:nowrap;align-items:stretch;width:240px;max-width:100%}
 .hs-slide:has(.af) .ej-store{box-sizing:border-box;width:100%;justify-content:flex-start}
+
+/* Astrology slide: the illustration (with its buttons) a little higher */
+@media (min-width:961px){.hs-slide:has(.af) .ej-copy{margin-top:-70px}}
