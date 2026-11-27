@@ -2316,3 +2316,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* Every slide is as tall as the tallest one (they share one grid cell): stretch each slide's content box to that height so a shorter slide is centred in it, not left with a gap at the bottom */
 @media (min-width:961px){.hs .hs-slide>.hs-inner{height:100%;box-sizing:border-box}}
+
+/* Slide tabs stretch across the whole page width, the arrows at the right end */
+@media (min-width:961px){.hs-controls{max-width:none;padding:0 40px}.hs .hs-tabs{max-width:none;gap:24px}}
