@@ -1584,7 +1584,10 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
 .ej-tag--puja{left:79%;top:66%}.ej-tag--pdf{left:63%;top:77%}.ej-tag--gold{left:44%;top:88%}
 /* previous 4-phone fan inside the new layout */
 .hs-inner--ej .hs-visual{perspective:1600px;perspective-origin:40% 40%}
-.hs-inner--ej .af{width:100%;margin:40px 0 0;aspect-ratio:1/.7}
+/* Half its old size (Lipika, 27 Nov 2026), centred */
+.hs-inner--ej .af{width:50%;margin:0 auto;aspect-ratio:1/.7}
+/* The smaller mockups sit in the middle of the hero beside the copy, not at its top */
+@media (min-width:961px){.hs-inner--ej .hs-visual{align-self:center}}
 
 
 /* =====================================================================
@@ -1873,7 +1876,7 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
   .hs-slide[data-theme="astro"] .hs-inner--ej{flex:1 1 auto;display:flex;flex-direction:column;gap:0}
   .hs-slide[data-theme="astro"] .ej-art{margin:18px auto 0;width:min(360px,100%)}
   .hs-slide[data-theme="astro"] .hs-visual{display:block;align-self:stretch;width:100%;margin:auto 0;padding:14px 0 6px;opacity:1;transform:none;animation:none}
-  .hs-slide[data-theme="astro"] .af{width:108%;margin-left:-4%;aspect-ratio:1/.8}
+  .hs-slide[data-theme="astro"] .af{width:54%;margin:0 auto;aspect-ratio:1/.8}
   .hs-slide[data-theme="astro"] .af-ph figcaption{display:none}
   .hs-slide[data-theme="astro"] .af-ph .af-scr{border-width:4px}
   .hs-slide[data-theme="astro"] .af-badge{gap:7px;padding:6px 10px;border-radius:11px}
@@ -2132,7 +2135,8 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .ej-store--web span{font-size:24px}
 .ej-store--web small{font-size:11px}
 .ej-store--web i{width:28px;height:28px;font-size:28px}
-.wa{position:relative;width:100%;aspect-ratio:1/.72;margin-top:34px;transform:rotateY(-9deg) rotateX(5deg);transform-style:preserve-3d}
+/* Half its old size (Lipika, 27 Nov 2026), centred in the visual column */
+.wa{position:relative;width:50%;aspect-ratio:1/.72;margin:0 auto;transform:rotateY(-9deg) rotateX(5deg);transform-style:preserve-3d}
 .wa::before{content:"";position:absolute;inset:4% 6% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(240,196,58,.2),rgba(240,196,58,0));animation:hsAura 6s ease-in-out infinite}
 .wa-win{position:absolute;margin:0;border-radius:14px;overflow:hidden;background:#0A1430;
     outline:1.5px solid rgba(240,196,58,.5);box-shadow:0 0 34px 4px rgba(240,196,58,.32),0 0 90px 10px rgba(240,196,58,.14);animation:afFloat 8s ease-in-out infinite}
@@ -2151,7 +2155,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .wa .wa-badge--free{top:-6%;left:46%;transform:none}
 .wa .wa-badge--sync{top:12%;bottom:auto;left:-6%;transform:none}
 @media (max-width:960px){
-  .wa{width:100%;aspect-ratio:1/.8;margin-top:10px;transform:none}
+  .wa{width:50%;aspect-ratio:1/.8;margin:10px auto 0;transform:none}
   .wa-bar{padding:5px 8px;gap:4px}.wa-bar>i{width:6px;height:6px}.wa-bar span{font-size:8.5px;padding:2px 8px;margin-left:4px}
   .wa-win{border-radius:8px}
   .wa-ph{border-width:3px}
@@ -2254,3 +2258,61 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .sp-btn{flex:1;justify-content:center;padding:14px 18px;font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){.sp-card,.sp-backdrop,.sp-msg{transition:none}}
+
+/* Service strip right under the header (Lipika, 27 Nov 2026), not at the hero's foot: the slides move down to make room, the slide tabs move to the foot. Big screens only; phones keep it at the foot. */
+@media (min-width:961px){
+  .hs-stats{top:104px;bottom:auto}
+  .hs .hs-slide .hs-inner{padding-top:calc(104px + 8.5rem);padding-bottom:7rem}
+  .hs-controls{bottom:36px}
+}
+
+/* Service tiles: each gently zooms in and out with a glowing gold border, one after another (Lipika, 27 Nov 2026) */
+@keyframes hsTilePulse{
+  0%,100%{transform:scale(1);border-color:rgba(242,202,80,.14);box-shadow:0 0 0 rgba(242,202,80,0)}
+  50%{transform:scale(1.06);border-color:rgba(242,202,80,.85);box-shadow:0 0 22px 2px rgba(242,202,80,.38)}
+}
+@keyframes hsIconBlink{0%,100%{background:rgba(240,196,58,.12);color:var(--chandan)}50%{background:#F0C43A;color:#2a1f00}}
+.hs-stats.ab-strip>div{animation:hsTilePulse 3s ease-in-out infinite;will-change:transform}
+.hs-stats.ab-strip>div>span{animation:hsIconBlink 3s ease-in-out infinite}
+.hs-stats.ab-strip>div:nth-child(2),.hs-stats.ab-strip>div:nth-child(2)>span{animation-delay:.5s}
+.hs-stats.ab-strip>div:nth-child(3),.hs-stats.ab-strip>div:nth-child(3)>span{animation-delay:1s}
+.hs-stats.ab-strip>div:nth-child(4),.hs-stats.ab-strip>div:nth-child(4)>span{animation-delay:1.5s}
+.hs-stats.ab-strip>div:nth-child(5),.hs-stats.ab-strip>div:nth-child(5)>span{animation-delay:2s}
+.hs-stats.ab-strip>div:nth-child(6),.hs-stats.ab-strip>div:nth-child(6)>span{animation-delay:2.5s}
+.hs-stats.ab-strip>div:hover{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.hs-stats.ab-strip>div,.hs-stats.ab-strip>div>span{animation:none}}
+
+/* With the service strip under the header, the slides' photos start below it (smaller), so the strip never sits on a photo */
+@media (min-width:961px){
+  .hs-slide[data-theme="temple"] .hs-hiscene,.hs-slide[data-theme="wisdom"] .hs-hiscene{top:244px;bottom:84px}
+  .hs-slide[data-theme="gems"] .hs-bg,.hs-slide[data-theme="temple"] .hs-bg,.hs-slide[data-theme="wisdom"] .hs-bg{top:262px}
+  .hs-slide[data-theme="gems"] .gm-scene{top:244px;height:calc(100% - 244px - 260px)}
+}
+
+/* Above the photos (behind the header and the strip): the photo's own dark tones, not the blue of the hero base */
+@media (min-width:961px){
+  .hs-slide[data-theme="temple"]{background:linear-gradient(180deg,#0a0705 0%,#1a1008 100%)}
+  .hs-slide[data-theme="wisdom"]{background:linear-gradient(180deg,#120a06 0%,#2a160b 100%)}
+  .hs-slide[data-theme="gems"]{background:linear-gradient(180deg,#0b0812 0%,#1c1226 100%)}
+}
+
+/* The half-size phones keep a thin frame: half the border and half the dark side edge */
+.hs-slide[data-theme="astro"] .af-ph .af-scr{border-width:3px;
+    box-shadow:0 0 0 1px rgba(240,196,58,.55),-5px 5px 0 -1px #070A11,-6px 8px 18px rgba(0,0,0,.35),0 30px 50px rgba(0,0,0,.6)}
+
+/* The half-size web mockup keeps thin edges: thinner phone frame, finer gold lines and a softer glow */
+.wa .wa-ph{border-width:3px;outline-width:1px;box-shadow:0 0 16px 2px rgba(240,196,58,.4),0 0 40px 6px rgba(240,196,58,.16)}
+.wa .wa-win{outline-width:1px;border-radius:10px;box-shadow:0 0 18px 2px rgba(240,196,58,.28),0 0 46px 6px rgba(240,196,58,.12)}
+.wa .wa-bar{padding:6px 9px;gap:5px}.wa .wa-bar>i{width:7px;height:7px}.wa .wa-bar span{padding:3px 10px;font-size:10px}
+
+/* The AstroShrine sun logo in the header and the footer, as it is: no extra frame */
+.logo .logo-img{display:inline-grid;place-items:center;flex:none;width:38px;height:38px;border-radius:50%;box-shadow:0 0 14px rgba(255,140,0,.35)}
+.logo .logo-img img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.navbar .logo{gap:10px}
+@media (max-width:480px){.logo .logo-img{width:32px;height:32px}}
+
+/* The slide's text sits in the middle of the space between the strip and the slide tabs, level with the mockup */
+@media (min-width:961px){.hs-inner--ej{align-items:center}.hs-inner--ej .hs-copy{align-self:center}}
+
+/* Every slide is as tall as the tallest one (they share one grid cell): stretch each slide's content box to that height so a shorter slide is centred in it, not left with a gap at the bottom */
+@media (min-width:961px){.hs .hs-slide>.hs-inner{height:100%;box-sizing:border-box}}
