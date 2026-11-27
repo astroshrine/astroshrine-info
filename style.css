@@ -2258,3 +2258,10 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .sp-btn{flex:1;justify-content:center;padding:14px 18px;font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){.sp-card,.sp-backdrop,.sp-msg{transition:none}}
+
+/* Service strip right under the header (Lipika, 27 Nov 2026), not at the hero's foot: the slides move down to make room, the slide tabs move to the foot. Big screens only; phones keep it at the foot. */
+@media (min-width:961px){
+  .hs-stats{top:104px;bottom:auto}
+  .hs .hs-slide .hs-inner{padding-top:calc(104px + 8.5rem);padding-bottom:7rem}
+  .hs-controls{bottom:36px}
+}
