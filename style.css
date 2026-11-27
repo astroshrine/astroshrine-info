@@ -2313,3 +2313,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* The slide's text sits in the middle of the space between the strip and the slide tabs, level with the mockup */
 @media (min-width:961px){.hs-inner--ej{align-items:center}.hs-inner--ej .hs-copy{align-self:center}}
+
+/* Every slide is as tall as the tallest one (they share one grid cell): stretch each slide's content box to that height so a shorter slide is centred in it, not left with a gap at the bottom */
+@media (min-width:961px){.hs .hs-slide>.hs-inner{height:100%;box-sizing:border-box}}
