@@ -2281,3 +2281,10 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .hs-stats.ab-strip>div:nth-child(6),.hs-stats.ab-strip>div:nth-child(6)>span{animation-delay:2.5s}
 .hs-stats.ab-strip>div:hover{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.hs-stats.ab-strip>div,.hs-stats.ab-strip>div>span{animation:none}}
+
+/* With the service strip under the header, the slides' photos start below it (smaller), so the strip never sits on a photo */
+@media (min-width:961px){
+  .hs-slide[data-theme="temple"] .hs-hiscene,.hs-slide[data-theme="wisdom"] .hs-hiscene{top:244px;bottom:84px}
+  .hs-slide[data-theme="gems"] .hs-bg,.hs-slide[data-theme="temple"] .hs-bg,.hs-slide[data-theme="wisdom"] .hs-bg{top:262px}
+  .hs-slide[data-theme="gems"] .gm-scene{top:244px;height:calc(100% - 244px - 260px)}
+}
