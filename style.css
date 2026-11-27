@@ -2325,3 +2325,10 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .hs-slide:has(.wa) .ej-stores{margin-top:12px}
 .hs-slide:has(.wa) .ej-chip,.hs-slide:has(.wa) .ej-store{box-sizing:border-box;width:100%;height:60px;padding:0 18px;border-radius:12px;justify-content:flex-start}
 .hs-slide:has(.wa) .ej-chip{font-size:14px}
+
+/* Web App slide: the three buttons share the whole height between the strip and the slide tabs, evenly */
+@media (min-width:961px){
+  .hs-slide:has(.wa) .ej-copy{align-self:stretch;display:flex;flex-direction:column;padding-top:0}
+  .hs-slide:has(.wa) .ej-stores{flex:1;justify-content:space-evenly;margin:0;gap:0}
+  .hs-slide:has(.wa) .ej-store{height:84px;border-radius:16px}
+}
