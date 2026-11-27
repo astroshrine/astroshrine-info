@@ -1585,7 +1585,9 @@ a.ej-store:hover{transform:translateY(-1px);border-color:#F0B429}
 /* previous 4-phone fan inside the new layout */
 .hs-inner--ej .hs-visual{perspective:1600px;perspective-origin:40% 40%}
 /* Half its old size (Lipika, 27 Nov 2026), centred */
-.hs-inner--ej .af{width:50%;margin:40px auto 0;aspect-ratio:1/.7}
+.hs-inner--ej .af{width:50%;margin:0 auto;aspect-ratio:1/.7}
+/* The smaller mockups sit in the middle of the hero beside the copy, not at its top */
+@media (min-width:961px){.hs-inner--ej .hs-visual{align-self:center}}
 
 
 /* =====================================================================
@@ -2134,7 +2136,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .ej-store--web small{font-size:11px}
 .ej-store--web i{width:28px;height:28px;font-size:28px}
 /* Half its old size (Lipika, 27 Nov 2026), centred in the visual column */
-.wa{position:relative;width:50%;aspect-ratio:1/.72;margin:34px auto 0;transform:rotateY(-9deg) rotateX(5deg);transform-style:preserve-3d}
+.wa{position:relative;width:50%;aspect-ratio:1/.72;margin:0 auto;transform:rotateY(-9deg) rotateX(5deg);transform-style:preserve-3d}
 .wa::before{content:"";position:absolute;inset:4% 6% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(240,196,58,.2),rgba(240,196,58,0));animation:hsAura 6s ease-in-out infinite}
 .wa-win{position:absolute;margin:0;border-radius:14px;overflow:hidden;background:#0A1430;
     outline:1.5px solid rgba(240,196,58,.5);box-shadow:0 0 34px 4px rgba(240,196,58,.32),0 0 90px 10px rgba(240,196,58,.14);animation:afFloat 8s ease-in-out infinite}
