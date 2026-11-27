@@ -2295,3 +2295,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-slide[data-theme="wisdom"]{background:linear-gradient(180deg,#120a06 0%,#2a160b 100%)}
   .hs-slide[data-theme="gems"]{background:linear-gradient(180deg,#0b0812 0%,#1c1226 100%)}
 }
+
+/* The half-size phones keep a thin frame: half the border and half the dark side edge */
+.hs-slide[data-theme="astro"] .af-ph .af-scr{border-width:3px;
+    box-shadow:0 0 0 1px rgba(240,196,58,.55),-5px 5px 0 -1px #070A11,-6px 8px 18px rgba(0,0,0,.35),0 30px 50px rgba(0,0,0,.6)}
