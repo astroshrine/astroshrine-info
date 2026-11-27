@@ -2310,3 +2310,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .logo .logo-img img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
 .navbar .logo{gap:10px}
 @media (max-width:480px){.logo .logo-img{width:32px;height:32px}}
+
+/* The slide's text sits in the middle of the space between the strip and the slide tabs, level with the mockup */
+@media (min-width:961px){.hs-inner--ej{align-items:center}.hs-inner--ej .hs-copy{align-self:center}}
