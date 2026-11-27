@@ -2332,3 +2332,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-slide:has(.wa) .ej-stores{flex:1;justify-content:space-evenly;margin:0;gap:0}
   .hs-slide:has(.wa) .ej-store{height:84px;border-radius:16px}
 }
+
+/* Astrology slide: Google Play and App Store one under the other, the same size */
+.hs-slide:has(.af) .ej-stores{flex-direction:column;flex-wrap:nowrap;align-items:stretch;width:240px;max-width:100%}
+.hs-slide:has(.af) .ej-store{box-sizing:border-box;width:100%;justify-content:flex-start}
