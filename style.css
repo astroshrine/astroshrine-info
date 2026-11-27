@@ -2288,3 +2288,10 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-slide[data-theme="gems"] .hs-bg,.hs-slide[data-theme="temple"] .hs-bg,.hs-slide[data-theme="wisdom"] .hs-bg{top:262px}
   .hs-slide[data-theme="gems"] .gm-scene{top:244px;height:calc(100% - 244px - 260px)}
 }
+
+/* Above the photos (behind the header and the strip): the photo's own dark tones, not the blue of the hero base */
+@media (min-width:961px){
+  .hs-slide[data-theme="temple"]{background:linear-gradient(180deg,#0a0705 0%,#1a1008 100%)}
+  .hs-slide[data-theme="wisdom"]{background:linear-gradient(180deg,#120a06 0%,#2a160b 100%)}
+  .hs-slide[data-theme="gems"]{background:linear-gradient(180deg,#0b0812 0%,#1c1226 100%)}
+}
