@@ -1,0 +1,321 @@
+/* =====================================================================
+   Hero: three steps and the app buttons beside the web mockup,
+   "Available in our app" services strip underneath.
+   Self-contained: every rule lives under .hx, nothing from style.css's
+   old .hs hero applies here.
+   Laptop: two columns, whole hero fits one screen.
+   Tablet: one column, steps and buttons in rows of three.
+   Phone: one column, steps as a timeline, tiles two per row.
+   ===================================================================== */
+
+@property --hx-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+.hx{
+  --gold:#f2ca50;--gold-soft:#FFE7A3;--ink:#0C1A45;--panel:rgba(10,16,37,.62);
+  --line:rgba(242,202,80,.24);--ease:cubic-bezier(.22,1,.36,1);
+  position:relative;isolation:isolate;overflow:clip;
+  margin:0 calc(50% - 50vw) 48px;padding:120px 0 56px;color:#fff;
+  background:radial-gradient(80% 70% at 70% 30%,#1A2F66 0%,#12245A 40%,#0C1A45 100%);
+}
+
+/* ---------- sky decor ---------- */
+.hx-sky{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.hx-arcs{position:absolute;inset:0;width:100%;height:100%}
+.hx-glow{position:absolute;left:50%;bottom:-35%;width:120%;height:70%;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(closest-side,rgba(196,92,38,.3),rgba(196,92,38,0))}
+.hx .hs-embers{position:absolute;inset:0}
+
+.hx-wrap{width:min(1200px,calc(100% - 64px));margin-inline:auto}
+
+/* ---------- top: left column + mockup ---------- */
+.hx-main{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:56px;align-items:center}
+.hx-left{display:flex;flex-direction:column;gap:28px;min-width:0}
+
+/* steps */
+.hx-steps-title{display:block;margin-bottom:16px;font-size:12px;line-height:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  background:linear-gradient(90deg,#f2ca50,#fff6d0,#ffb95f,#f2ca50);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hxShine 4s ease-in-out infinite}
+.hx-steps ol{position:relative;counter-reset:st;display:grid;gap:12px;margin:0;padding:0;list-style:none}
+/* the line joining the three icons, with a light running down it */
+.hx-steps ol::before,.hx-steps ol::after{content:"";position:absolute;left:39px;top:32px;bottom:32px;width:2px;border-radius:2px;pointer-events:none}
+.hx-steps ol::before{background:rgba(242,202,80,.18)}
+.hx-steps ol::after{background:linear-gradient(to bottom,rgba(242,202,80,0),#f2ca50,rgba(242,202,80,0)) no-repeat;background-size:100% 40%;
+  animation:hxTrail 3.6s var(--ease) infinite}
+
+.hx-step{counter-increment:st;position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);grid-template-rows:auto auto;column-gap:16px;align-items:center;
+  min-height:64px;box-sizing:border-box;padding:8px 16px;border-radius:16px;background:var(--panel);border:1px solid var(--line);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:transform .5s var(--ease),border-color .3s var(--ease),background-color .3s var(--ease);
+  animation:hxStepOn 3.6s ease-in-out infinite}
+.hx-step:nth-child(2){animation-delay:1.2s}.hx-step:nth-child(3){animation-delay:2.4s}
+.hx-step::before{content:counter(st);position:absolute;z-index:2;top:2px;left:8px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+  font-size:11px;font-weight:800;line-height:1;background:var(--gold);color:#1a1200;box-shadow:0 0 0 3px rgba(12,26,69,.9)}
+.hx-step .step-ico{grid-row:1/3;position:relative;z-index:1;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+  background:#0c1a45;border:2px solid var(--gold);color:var(--gold);font-size:22px;animation:hxIcoOn 3.6s ease-in-out infinite;animation-delay:inherit}
+.hx-step b{align-self:end;font-size:16px;line-height:24px;font-weight:700;color:#fff}
+.hx-step small{align-self:start;font-size:14px;line-height:20px;color:rgba(255,253,248,.66)}
+.hx-step .tile-link{position:absolute;inset:0;z-index:3;border-radius:inherit}
+.hx-step .tile-link:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.hx-step:hover{transform:translateX(6px);border-color:var(--gold);background-color:rgba(242,202,80,.1);animation-play-state:paused}
+
+/* buttons */
+.hx-ctas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hx-cta{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;gap:12px;min-width:0;min-height:64px;box-sizing:border-box;padding:8px 16px;
+  border-radius:16px;background:#0A1430;border:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;
+  transition:transform .5s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease)}
+.hx-cta--gold{background:linear-gradient(180deg,var(--gold-soft),#F0C43A);border-color:#F0C43A;color:var(--ink);box-shadow:0 10px 28px rgba(240,196,58,.22)}
+.hx-cta--play{grid-column:1/-1;justify-content:center;border-color:rgba(242,202,80,.4)}
+.hx-cta>i,.hx-cta>svg{flex:none;width:24px;height:24px;font-size:24px;color:#F0C43A}
+.hx-cta--gold>i{color:var(--ink)}
+.hx-cta span{display:block;min-width:0;font-family:var(--font-h);font-size:20px;line-height:28px;font-weight:700;white-space:nowrap}
+.hx-cta small{display:block;font-family:var(--font-b);font-size:11px;line-height:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.72}
+/* a light sweeps across each button every few seconds */
+.hx-cta::after{content:"";position:absolute;z-index:-1;top:-20%;bottom:-20%;left:0;width:36%;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.65),rgba(255,255,255,0));
+  transform:translateX(-160%) skewX(-20deg);animation:hxSweep 5s var(--ease) infinite}
+.hx-cta--gold+.hx-cta--gold::after{animation-delay:.35s}
+.hx-cta--play::after{background:linear-gradient(90deg,rgba(242,202,80,0),rgba(242,202,80,.28),rgba(242,202,80,0));animation-delay:.7s}
+.hx-cta:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(240,196,58,.38)}
+.hx-cta--play:hover{border-color:var(--gold)}
+.hx-cta:active{transform:translateY(0) scale(.98)}
+.hx-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* ---------- mockup ---------- */
+.hx-visual{position:relative;width:min(100%,600px);margin-inline:auto}
+.hx-mock{position:relative;aspect-ratio:1/.74;perspective:1600px}
+.hx-stage{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(var(--ry,-8deg)) rotateX(var(--rx,4deg));transition:transform .8s var(--ease)}
+.hx-win{position:absolute;margin:0;border-radius:12px;overflow:hidden;background:#0A1430;
+  outline:1px solid rgba(240,196,58,.5);box-shadow:0 0 18px 2px rgba(240,196,58,.26),0 24px 48px rgba(0,0,0,.45)}
+.hx-win img,.hx-ph img{display:block;width:100%;height:auto}
+.hx-bar{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#0A1430;border-bottom:1px solid rgba(240,196,58,.25)}
+.hx-bar>i{flex:none;width:8px;height:8px;border-radius:50%;background:#3A4766}
+.hx-bar>i:first-child{background:#F0C43A}
+.hx-bar span{flex:1;min-width:0;display:flex;align-items:center;gap:6px;margin-left:8px;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.07);
+  font-size:11px;line-height:16px;color:rgba(255,255,255,.72);white-space:nowrap;overflow:hidden}
+.hx-bar span i{color:#4ADE80}
+.hx-win--back{left:0;top:6%;width:62%;filter:brightness(.78);transform:translateZ(-40px);animation:hxFloat 7s ease-in-out infinite}
+.hx-win--front{left:20%;top:27%;width:64%;z-index:2;transform:translateZ(30px);animation:hxFloat 7s ease-in-out -2.3s infinite}
+.hx-ph{position:absolute;z-index:3;margin:0;right:0;top:22%;width:20%;border-radius:16%/8%;overflow:hidden;border:4px solid #0A1025;
+  outline:1px solid rgba(240,196,58,.55);box-shadow:0 0 18px 2px rgba(240,196,58,.4),0 24px 48px rgba(0,0,0,.5);
+  transform:translateZ(70px);animation:hxFloat 6s ease-in-out -4s infinite}
+.hx-ribbon{position:absolute;z-index:6;top:15%;right:-2%;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;
+  background:linear-gradient(180deg,var(--gold-soft),#F0C43A);color:var(--ink);font-size:12px;line-height:16px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  box-shadow:0 0 22px rgba(240,196,58,.55);transform:translateZ(90px)}
+
+.hx-badges{display:contents}
+.hx-badge{position:absolute;z-index:7;display:flex;align-items:center;gap:12px;padding:8px 16px;border-radius:16px;
+  background:rgba(10,16,37,.84);border:1px solid rgba(240,196,58,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 12px 28px rgba(0,0,0,.35);animation:hxBob 5s ease-in-out infinite}
+.hx-badge small{display:block;font-size:11px;line-height:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#4ADE80}
+.hx-badge b{display:block;font-size:15px;line-height:20px;font-weight:700;color:#fff;white-space:nowrap}
+.hx-badge .dot{flex:none;width:12px;height:12px;border-radius:50%;background:#22C55E;animation:hxDot 1.6s ease-out infinite}
+.hx-badge--free{top:-2%;right:8%}
+.hx-badge--sync{bottom:0;left:0;animation-delay:-2.5s}
+.hx-badge--sync small{color:var(--gold)}
+.hx-coin{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-size:16px}
+
+/* ---------- services strip ---------- */
+.hx-services{position:relative;margin-top:36px;padding:32px 16px 16px;border-radius:24px;
+  background:rgba(14,12,9,.55);border:1px solid rgba(242,202,80,.18);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 24px 60px rgba(0,0,0,.35)}
+/* a gold light travels round the strip's edge */
+.hx-services::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:conic-gradient(from var(--hx-a),rgba(242,202,80,0) 0 62%,rgba(242,202,80,.95) 80%,rgba(242,202,80,0) 96%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:hxSpin 7s linear infinite}
+.hx-services-title{position:absolute;z-index:3;top:0;left:50%;transform:translate(-50%,-50%);margin:0;display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:999px;white-space:nowrap;font-size:12px;line-height:16px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid rgba(242,202,80,.6);box-shadow:0 0 18px rgba(242,202,80,.35);
+  color:transparent;background-image:linear-gradient(90deg,#f2ca50,#fff6d0,#ffb95f,#f2ca50),linear-gradient(#16120c,#16120c);
+  background-size:300% 100%,100% 100%;-webkit-background-clip:text,padding-box;background-clip:text,padding-box;animation:hxShine 3s ease-in-out infinite}
+.hx-services-title .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:hxDot 1.4s ease-out infinite}
+
+.hx-tiles{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+.hx-tile{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;box-sizing:border-box;
+  padding:16px 8px;border-radius:16px;text-align:center;background:rgba(255,255,255,.03);border:1px solid rgba(242,202,80,.16);
+  transition:transform .5s var(--ease),border-color .3s var(--ease),background-color .3s var(--ease)}
+/* cursor spotlight (position set by script.js) */
+.hx-tile::before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;opacity:0;transition:opacity .3s var(--ease);
+  background:radial-gradient(140px circle at var(--mx,50%) var(--my,0%),rgba(242,202,80,.2),rgba(242,202,80,0) 70%)}
+.hx-tiles:hover .hx-tile::before{opacity:1}
+.hx-tile>span{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-bottom:8px;border-radius:50%;
+  background:rgba(242,202,80,.14);border:1px solid rgba(242,202,80,.4);color:var(--gold);font-size:22px;
+  transition:background-color .3s var(--ease),color .3s var(--ease),transform .5s var(--ease);animation:hxWave 7s ease-in-out infinite}
+.hx-tile:nth-child(2)>span{animation-delay:1s}.hx-tile:nth-child(3)>span{animation-delay:2s}.hx-tile:nth-child(4)>span{animation-delay:3s}
+.hx-tile:nth-child(5)>span{animation-delay:4s}.hx-tile:nth-child(6)>span{animation-delay:5s}.hx-tile:nth-child(7)>span{animation-delay:6s}
+.hx-tile b{font-size:14px;line-height:20px;font-weight:700;color:#ece5df;text-wrap:balance}
+.hx-tile small{font-size:12px;line-height:16px;color:rgba(208,197,175,.82);text-wrap:balance}
+.hx-tile .tile-link{position:absolute;inset:0;z-index:2;border-radius:inherit}
+.hx-tile .tile-link:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.hx-tile:hover{transform:translateY(-4px);border-color:rgba(242,202,80,.75);background-color:rgba(242,202,80,.07)}
+.hx-tile:hover>span{background:var(--gold);color:#3c2f00;transform:scale(1.08) rotate(-6deg);animation-play-state:paused}
+.hx-tile:hover b{color:var(--gold)}
+.hx-tile:active{transform:translateY(-1px) scale(.98)}
+
+/* ---------- entrance: steps, mockup, buttons, strip rise in one after another ---------- */
+.hx [data-in]{animation:hxIn .8s var(--ease) both;animation-delay:calc(var(--i,0) * 120ms + 80ms)}
+.hx-visual[data-in]{animation-name:hxInVis;animation-duration:1s}
+
+/* ---------- keyframes ---------- */
+@keyframes hxIn{from{opacity:0;translate:0 32px}to{opacity:1;translate:0 0}}
+@keyframes hxInVis{from{opacity:0;translate:40px 0;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+@keyframes hxShine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes hxTrail{from{background-position:0 -70%}to{background-position:0 170%}}
+@keyframes hxStepOn{0%,40%,100%{border-color:rgba(242,202,80,.24);box-shadow:none}12%,28%{border-color:#f2ca50;box-shadow:0 0 22px rgba(242,202,80,.35)}}
+@keyframes hxIcoOn{0%,40%,100%{background-color:#0c1a45;color:#f2ca50}12%,28%{background-color:#f2ca50;color:#0c1a45}}
+@keyframes hxSweep{0%{transform:translateX(-160%) skewX(-20deg)}40%,100%{transform:translateX(320%) skewX(-20deg)}}
+@keyframes hxFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@keyframes hxBob{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes hxDot{0%{box-shadow:0 0 0 0 rgba(74,222,128,.7)}70%{box-shadow:0 0 0 8px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+@keyframes hxSpin{to{--hx-a:360deg}}
+@keyframes hxWave{0%,12%,100%{background-color:rgba(242,202,80,.14);color:#f2ca50;box-shadow:none}4%,8%{background-color:#f2ca50;color:#3c2f00;box-shadow:0 0 18px rgba(242,202,80,.55)}}
+
+/* ---------- smaller laptops ---------- */
+@media (max-width:1199px){
+  .hx-main{grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:40px}
+  .hx-tiles{display:flex;flex-wrap:wrap;justify-content:center}
+  .hx-tile{flex:0 0 calc((100% - 36px) / 4)}
+  .hx-badge b{font-size:14px}
+}
+
+/* ---------- tablets: one column ---------- */
+@media (max-width:1023px){
+  .hx{padding:112px 0 48px}
+  .hx-main{grid-template-columns:minmax(0,1fr);gap:32px}
+  /* one column: the mockup first, the app buttons right under it (both on the first screen), then the three steps */
+  .hx-left{display:contents}
+  .hx-visual{order:1}
+  .hx-ctas{order:2}
+  .hx-steps{order:3}
+  .hx-steps-title{text-align:center}
+  .hx-steps ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .hx-steps ol::before,.hx-steps ol::after{display:none}
+  .hx-step{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;justify-items:center;row-gap:4px;padding:20px 12px 16px;text-align:center}
+  .hx-step .step-ico{grid-row:auto;margin-bottom:8px}
+  .hx-step::before{left:50%;top:-10px;transform:translateX(-50%)}
+  .hx-step:hover{transform:translateY(-4px)}
+  .hx-ctas{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hx-cta--play{grid-column:auto;justify-content:flex-start}
+  .hx-visual{width:min(100%,560px)}
+  .hx-services{margin-top:40px}
+}
+
+/* ---------- phones ---------- */
+@media (max-width:639px){
+  /* mockup + badges + buttons start a short, even distance under the 78px header: 20–40px,
+     a little more on tall phones, never a big empty band. (Content height: mockup width × .68 + ≈240px.) */
+  .hx{--hx-top:calc((100vh - 78px - ((100vw - 32px) * .68 + 240px)) / 2);
+    padding:calc(78px + clamp(20px, var(--hx-top), 40px)) 0 40px;margin-bottom:32px}
+  @supports (height:100svh){.hx{--hx-top:calc((100svh - 78px - ((100vw - 32px) * .68 + 240px)) / 2)}}
+  .hx-wrap{width:calc(100% - 32px)}
+  .hx-main{gap:20px}
+  .hx-steps{margin-top:12px}
+  .hx-steps-title{font-size:11px;letter-spacing:.12em}
+  .hx-steps ol{grid-template-columns:minmax(0,1fr);gap:12px}
+  .hx-steps ol::before,.hx-steps ol::after{display:block}
+  .hx-step{grid-template-columns:48px minmax(0,1fr);grid-template-rows:auto auto;justify-items:start;row-gap:0;padding:8px 16px;text-align:left}
+  .hx-step .step-ico{grid-row:1/3;margin-bottom:0}
+  .hx-step::before{left:8px;top:2px;transform:none}
+  .hx-step:hover{transform:translateX(4px)}
+  .hx-ctas{grid-template-columns:1fr 1fr}
+  .hx-cta{gap:8px;padding:8px 12px}
+  .hx-cta span{font-size:18px;line-height:24px}
+  .hx-cta small{font-size:10px;letter-spacing:.08em}
+  .hx-cta--play{grid-column:1/-1;justify-content:center}
+  .hx-visual{width:100%}
+  .hx-mock{aspect-ratio:1/.68}
+  .hx-ribbon{font-size:10px;padding:4px 10px;right:0;top:12%}
+  .hx-bar{padding:4px 6px;gap:4px}.hx-bar>i{width:6px;height:6px}.hx-bar span{font-size:8px;line-height:12px;padding:1px 6px;margin-left:4px}
+  .hx-win{border-radius:8px}.hx-ph{border-width:3px}
+  /* the two badges sit under the mockup instead of over it */
+  .hx-badges{display:flex;gap:8px;margin-top:8px}
+  .hx-badge{position:relative;inset:auto;flex:1 1 0;min-width:0;padding:8px 10px;gap:8px;border-radius:12px;animation:none}
+  .hx-badge b{font-size:12px;line-height:16px;white-space:normal}
+  .hx-badge small{font-size:10px;line-height:14px;letter-spacing:.08em}
+  .hx-badge .dot{width:10px;height:10px}
+  .hx-coin{width:26px;height:26px;font-size:13px}
+  .hx-services{margin-top:32px;padding:28px 12px 12px;border-radius:20px}
+  .hx-services-title{font-size:11px;letter-spacing:.1em;padding:6px 12px}
+  .hx-tiles{gap:8px}
+  .hx-tile{flex:0 0 calc((100% - 8px) / 2);padding:12px 8px}
+  .hx-tile>span{width:40px;height:40px;font-size:20px;margin-bottom:4px}
+  .hx-tile b{font-size:14px}
+}
+
+/* ---------- background life: stars, nebula, shooting stars, zodiac wheel ----------
+   All decor, all faint. On a mouse/trackpad the sky drifts a few px against the pointer
+   (--sx/--sy, set by script.js, -0.5…0.5). */
+
+/* twinkling star field, two layers at different sizes and speeds */
+.hx-stars{position:absolute;inset:-24px;pointer-events:none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 23px 41px,rgba(255,255,255,.95) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 97px 133px,rgba(255,255,255,.85) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 151px 27px,rgba(255,255,255,.9) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 211px 189px,rgba(255,255,255,.8) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 63px 221px,rgba(255,255,255,.9) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 251px 91px,rgba(255,255,255,.75) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 131px 249px,rgba(255,255,255,.85) 40%,rgba(255,255,255,0)),
+    radial-gradient(1.5px 1.5px at 189px 113px,rgba(255,255,255,.7) 40%,rgba(255,255,255,0));
+  background-size:280px 280px;opacity:.55;
+  translate:calc(var(--sx,0) * -14px) calc(var(--sy,0) * -14px);transition:translate .9s var(--ease);
+  animation:hxTwinkle 4.5s ease-in-out infinite alternate}
+.hx-stars--gold{
+  background-image:
+    radial-gradient(2px 2px at 47px 307px,rgba(255,226,150,.95) 40%,rgba(255,226,150,0)),
+    radial-gradient(2px 2px at 173px 59px,rgba(255,226,150,.9) 40%,rgba(255,226,150,0)),
+    radial-gradient(2px 2px at 331px 181px,rgba(255,226,150,.85) 40%,rgba(255,226,150,0)),
+    radial-gradient(2px 2px at 263px 377px,rgba(255,226,150,.9) 40%,rgba(255,226,150,0)),
+    radial-gradient(2px 2px at 389px 23px,rgba(255,226,150,.8) 40%,rgba(255,226,150,0)),
+    radial-gradient(2px 2px at 109px 163px,rgba(255,226,150,.95) 40%,rgba(255,226,150,0));
+  background-size:420px 420px;opacity:.45;
+  translate:calc(var(--sx,0) * -26px) calc(var(--sy,0) * -26px);
+  animation-duration:6.5s;animation-delay:-3s}
+
+/* two soft colour clouds drifting slowly */
+.hx-nebula{position:absolute;left:-18%;top:-30%;width:min(900px,70vw);aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(132,96,255,.2),rgba(132,96,255,0));
+  animation:hxDrift 26s ease-in-out infinite alternate}
+.hx-nebula--gold{left:auto;right:-14%;top:28%;width:min(800px,62vw);
+  background:radial-gradient(closest-side,rgba(240,170,60,.14),rgba(240,170,60,0));
+  animation-duration:32s;animation-delay:-12s}
+
+/* shooting stars: a short gold streak every so often */
+.hx-shoot{position:absolute;width:150px;height:2px;border-radius:2px;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(255,246,208,0),rgba(255,246,208,.95));
+  transform:rotate(155deg) translateX(0);animation:hxShoot 11s cubic-bezier(.2,.6,.3,1) 2.5s infinite}
+.hx-shoot::after{content:"";position:absolute;right:-2px;top:50%;width:4px;height:4px;margin-top:-2px;border-radius:50%;background:#fff6d0;box-shadow:0 0 10px 3px rgba(255,226,150,.8)}
+.hx-shoot--1{left:82%;top:10%}
+.hx-shoot--2{left:58%;top:4%;width:110px;animation-duration:16s;animation-delay:8s}
+
+/* zodiac wheel behind the mockup: the ring turns one way, the inner star the other */
+.hx-visual{isolation:isolate}
+.hx-wheel{position:absolute;z-index:-1;left:50%;top:50%;width:128%;aspect-ratio:1;pointer-events:none;overflow:visible;
+  color:rgba(242,202,80,.3);
+  translate:calc(-50% + var(--sx,0) * 18px) calc(-50% + var(--sy,0) * 18px);transition:translate .9s var(--ease);
+  animation:hxRot 180s linear infinite}
+.hx-wheel g{stroke-width:.8}
+.hx-wheel-signs{font-family:'Segoe UI Symbol','Noto Sans Symbols 2','Noto Sans Symbols','Apple Symbols','DejaVu Sans',serif}
+.hx-wheel-in{transform-box:view-box;transform-origin:50% 50%;animation:hxRot 90s linear infinite reverse}
+
+@keyframes hxTwinkle{from{opacity:.25}to{opacity:.7}}
+@keyframes hxDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(8%,10%) scale(1.15)}}
+@keyframes hxShoot{0%{opacity:0;transform:rotate(155deg) translateX(0)}3%{opacity:1}11%{opacity:0;transform:rotate(155deg) translateX(720px)}100%{opacity:0;transform:rotate(155deg) translateX(720px)}}
+@keyframes hxRot{to{transform:rotate(360deg)}}
+
+@media (max-width:1023px){
+  .hx-wheel{width:120%}
+}
+@media (max-width:639px){
+  .hx-wheel{width:112%;color:rgba(242,202,80,.24)}
+  .hx-shoot{width:100px}
+  .hx-shoot--2{display:none}
+  .hx-nebula{width:110vw;left:-40%;top:-10%}
+  .hx-nebula--gold{width:100vw;right:-40%;top:45%}
+}
+
+/* ---------- reduced motion: everything static, shown at once ---------- */
+@media (prefers-reduced-motion:reduce){
+  .hx *,.hx *::before,.hx *::after{animation:none!important}
+  .hx-stage,.hx-step,.hx-cta,.hx-tile,.hx-tile>span{transition:none}
+}
