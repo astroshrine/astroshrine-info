@@ -2391,12 +2391,14 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .hs-stats.ab-strip>div:nth-child(7),.hs-stats.ab-strip>div:nth-child(7)>span{animation-delay:3s}
 @media (min-width:1201px){.hs-stats.ab-strip>div{animation-duration:3.5s}.hs-stats.ab-strip>div>span{animation-duration:3.5s}}
 
-/* Our Mobile App: a Google Play button to the right of the phone */
-.tour-stage{grid-template-columns:auto auto;column-gap:36px;justify-content:center}
-.tour-stage .tour-halo{grid-column:1}
-.tour-play{grid-column:2;grid-row:1;align-self:center;display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:14px;background:linear-gradient(180deg,#FFE7A3,#F0C43A);color:#0C1A45;border:1px solid #F0C43A;box-shadow:0 0 24px rgba(240,196,58,.35);transition:transform .15s}
-.tour-play:hover{transform:translateY(-2px)}
-.tour-play svg{width:26px;height:26px}
-.tour-play span{display:flex;flex-direction:column;line-height:1.1;font-size:20px;font-weight:800}
+/* Our Mobile App: Google Play right under the 4th tab, the same size, shining, blinking and gently zooming */
+@keyframes tourPlayPulse{0%,100%{transform:scale(1);box-shadow:0 0 12px rgba(240,196,58,.3)}50%{transform:scale(1.03);box-shadow:0 0 28px 4px rgba(240,196,58,.65)}}
+@keyframes tourPlayShine{0%{left:-40%}60%,100%{left:120%}}
+.tour-play{position:relative;overflow:hidden;box-sizing:border-box;width:100%;min-height:60px;margin-top:10px;display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:16px;
+  background:linear-gradient(180deg,#FFE7A3,#F0C43A);color:#0C1A45;border:1px solid #F0C43A;animation:tourPlayPulse 2s ease-in-out infinite}
+.tour-play::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:tourPlayShine 2.4s ease-in-out infinite}
+.tour-play:hover{animation-play-state:paused}
+.tour-play svg{width:22px;height:22px;flex:none}
+.tour-play span{display:flex;align-items:baseline;gap:8px;font-size:17px;font-weight:800;line-height:1.2}
 .tour-play small{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(12,26,69,.7)}
-@media (max-width:760px){.tour-stage{grid-template-columns:auto;row-gap:20px}.tour-play{grid-column:1;grid-row:2;justify-self:center}}
+@media (prefers-reduced-motion:reduce){.tour-play,.tour-play::after{animation:none}}
