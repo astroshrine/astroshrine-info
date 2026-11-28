@@ -2447,3 +2447,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-stats{top:196px}
   .hs .hs-slide>.hs-inner{padding-top:372px}
 }
+
+/* The three steps are links too */
+.hero-steps li{cursor:pointer}.hero-steps .tile-link{position:absolute;inset:0;z-index:3;border-radius:inherit}.hero-steps li:hover{border-color:#f2ca50}
+.hero-steps .tile-link:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
