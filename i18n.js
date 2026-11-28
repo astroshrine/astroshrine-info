@@ -42,7 +42,7 @@
             : `https://app.astroshrine.in/${code}/login?next=${encodeURIComponent(path)}`;
     };
     // real links (no pop-up), so a click always opens the page
-    document.querySelectorAll(".hs-stats a.tile-link[data-go]").forEach(a => a.setAttribute("href", appUrl(a.dataset.go)));
+    document.querySelectorAll(".hs-stats a.tile-link[data-go], .hero-steps a.tile-link[data-go]").forEach(a => a.setAttribute("href", appUrl(a.dataset.go)));
 
     const nodes = [];   // [textNode, englishText]
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {

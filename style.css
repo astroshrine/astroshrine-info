@@ -2385,3 +2385,69 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* Gemstones section: the category art shown whole on a warm backdrop */
 .pujas.gems .gem-img{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#2a1d14}
+
+/* Seven service tiles (Daily Horoscope added after Free Kundli) */
+@media (min-width:1201px){.hs-stats.ab-strip--7{max-width:1460px;grid-template-columns:repeat(7,1fr)}.hs-stats.ab-strip--7>div{padding:10px 12px}}
+.hs-stats.ab-strip>div:nth-child(7),.hs-stats.ab-strip>div:nth-child(7)>span{animation-delay:3s}
+@media (min-width:1201px){.hs-stats.ab-strip>div{animation-duration:3.5s}.hs-stats.ab-strip>div>span{animation-duration:3.5s}}
+
+/* Our Mobile App: Google Play right under the 4th tab, the same size, shining, blinking and gently zooming */
+@keyframes tourPlayPulse{0%,100%{transform:scale(1);box-shadow:0 0 12px rgba(240,196,58,.3)}50%{transform:scale(1.03);box-shadow:0 0 28px 4px rgba(240,196,58,.65)}}
+@keyframes tourPlayShine{0%{left:-40%}60%,100%{left:120%}}
+.tour-play{position:relative;overflow:hidden;box-sizing:border-box;width:100%;min-height:60px;margin-top:10px;display:flex;align-items:center;gap:16px;padding:16px 18px;border-radius:16px;
+  background:linear-gradient(180deg,#FFE7A3,#F0C43A);color:#0C1A45;border:1px solid #F0C43A;animation:tourPlayPulse 2s ease-in-out infinite}
+.tour-play::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:tourPlayShine 2.4s ease-in-out infinite}
+.tour-play:hover{animation-play-state:paused}
+.tour-play svg{width:22px;height:22px;flex:none}
+.tour-play span{display:flex;align-items:baseline;gap:8px;font-size:17px;font-weight:800;line-height:1.2}
+.tour-play small{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(12,26,69,.7)}
+@media (prefers-reduced-motion:reduce){.tour-play,.tour-play::after{animation:none}}
+
+/* Articles (Future For You): text and topics beside the magazine art */
+.art-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:3rem;align-items:center}
+.art-copy h2{font-size:clamp(26px,3vw,38px);color:var(--ink);margin:8px 0 12px}
+.art-copy>p{color:var(--ink-soft,#4a5568);line-height:1.7;max-width:560px}
+.art-topics{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 22px;padding:0;list-style:none}
+.art-topics li{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;background:#fff7e0;border:1px solid rgba(240,180,41,.45);font-size:14px;font-weight:700;color:#5a3d00}
+.art-topics i{color:#c98a00}
+.art-actions{display:flex;flex-wrap:wrap;gap:12px}
+.art-meta{display:flex;gap:18px;margin-top:16px;font-size:13px;color:#7a6a50}.art-meta span{display:inline-flex;align-items:center;gap:6px}
+.art-art{display:block;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(60,30,0,.25);transition:transform .3s}
+.art-art:hover{transform:translateY(-4px)}.art-art img{display:block;width:100%;height:auto}
+@media (max-width:900px){.art-wrap{grid-template-columns:1fr}}
+
+/* Three steps, compact, at the top of the hero's right column above the web mockup */
+.hs-slide:has(.wa) .hs-visual{display:flex;flex-direction:column;align-items:center;gap:22px}
+.hero-steps{width:min(620px,100%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero-steps-title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#f2ca50}
+.hero-steps ol{counter-reset:st;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;margin:0;padding:0;list-style:none}
+.hero-steps li{counter-increment:st;position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(10,16,37,.72);border:1px solid rgba(242,202,80,.28);backdrop-filter:blur(8px)}
+.hero-steps li::before{content:counter(st);position:absolute;top:-8px;left:-8px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;background:#f2ca50;color:#1a1200}
+.hero-steps li:not(:last-child)::after{content:'\2192';position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);z-index:2;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;background:#ffe29a;color:#7a3f00}
+.hero-steps .step-ico{grid-row:1/3;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#0c1a45;border:2px solid #f2ca50;color:#f2ca50;font-size:16px}
+.hero-steps b{font-size:13px;line-height:1.2;color:#fff}
+.hero-steps small{font-size:11px;color:rgba(255,253,248,.65)}
+@media (max-width:960px){.hero-steps{display:none}}
+
+/* Three steps light up one after another: the step zooms a little and glows, its icon fills gold, the arrow nudges on */
+@keyframes stepOn{0%,40%,100%{transform:scale(1);border-color:rgba(242,202,80,.28);box-shadow:none}12%,28%{transform:scale(1.07);border-color:#f2ca50;box-shadow:0 0 22px rgba(242,202,80,.5)}}
+@keyframes stepIco{0%,40%,100%{background:#0c1a45;color:#f2ca50}12%,28%{background:#f2ca50;color:#0c1a45}}
+@keyframes stepArrow{0%,100%{transform:translate(50%,-50%)}50%{transform:translate(calc(50% + 4px),-50%)}}
+.hero-steps li{animation:stepOn 3.6s ease-in-out infinite}
+.hero-steps li .step-ico{animation:stepIco 3.6s ease-in-out infinite}
+.hero-steps li:nth-child(2),.hero-steps li:nth-child(2) .step-ico{animation-delay:1.2s}
+.hero-steps li:nth-child(3),.hero-steps li:nth-child(3) .step-ico{animation-delay:2.4s}
+.hero-steps li:not(:last-child)::after{animation:stepArrow 1.2s ease-in-out infinite}
+.hero-steps-title{animation:navGemShine 3s ease-in-out infinite;background:linear-gradient(90deg,#f2ca50,#fff6d0,#ffb95f,#f2ca50);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:reduce){.hero-steps li,.hero-steps .step-ico,.hero-steps li::after,.hero-steps-title{animation:none}}
+
+/* The three steps sit at the very top, right under the header; the service strip and the slide move down for them */
+@media (min-width:961px){
+  .hs>.hero-steps{position:absolute;top:96px;left:0;right:0;margin:0 auto;z-index:3;width:min(760px,calc(100% - 40px))}
+  .hs-stats{top:196px}
+  .hs .hs-slide>.hs-inner{padding-top:372px}
+}
+
+/* The three steps are links too */
+.hero-steps li{cursor:pointer}.hero-steps .tile-link{position:absolute;inset:0;z-index:3;border-radius:inherit}.hero-steps li:hover{border-color:#f2ca50}
+.hero-steps .tile-link:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}

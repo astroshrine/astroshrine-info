@@ -62,7 +62,7 @@
  "With meaning": "అర్థంతో సహా",
  "Vedic Scriptures": "వేద శాస్త్రాలు",
  "Gita, Upanishad, Puran": "గీత, ఉపనిషత్తులు, పురాణాలు",
- "Festival Guides": "పండుగ గైడ్‌లు",
+ "Festival Guides": "పండుగ మార్గదర్శకాలు",
  "Vrat, tithi & vidhi": "వ్రతం, తిథి మరియు విధి",
  "Jyotish & Upay": "జ్యోతిషం మరియు పరిహారాలు",
  "Remedies that work": "ఫలితమిచ్చే పరిహారాలు",
@@ -148,7 +148,7 @@
  "Free": "ఉచితం",
  "Kundli Matching": "జాతక పొంతన",
  "Guna milan for marriage, in seconds": "వివాహం కోసం గుణ మిలనం, సెకన్లలో",
- "Daily Horoscope": "రోజువారీ రాశిఫలాలు",
+ "Daily Horoscope": "దిన రాశిఫలం",
  "What today holds for your rashi": "ఈ రోజు మీ రాశికి ఏమి ఉందో",
  "Shubh Muhurat": "శుభ ముహూర్తం",
  "Auspicious timings for every new beginning": "ప్రతి కొత్త ప్రారంభానికి శుభ సమయాలు",
@@ -248,5 +248,9 @@
  "Get it on Google Play": "Google Play లో పొందండి",
  "Kundali App": "జాతకం యాప్",
  "Compass App": "కంపాస్ యాప్",
- "Available in our app": "మా యాప్‌లో అందుబాటులో"
+ "Available in our app": "మా యాప్‌లో అందుబాటులో",
+ "Aaj ka rashifal, har rashi ka": "నేటి రాశిఫలం, ప్రతి రాశికి",
+ "Our Mobile App": "మా మొబైల్ యాప్",
+ "Timeless Wisdom, Beautifully Told": "శాశ్వత జ్ఞానం, అందంగా",
+ "Install our mobile app": "మా మొబైల్ యాప్‌ను ఇన్‌స్టాల్ చేయండి"
 }
