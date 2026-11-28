@@ -2360,3 +2360,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-slide:has(.wa) .ej-store{height:76px}
   .wa{margin-top:40px}
 }
+
+/* Signed in: the header button greets by name */
+.nav-cta a.nav-me{max-width:220px}.nav-cta a.nav-me span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
