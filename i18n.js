@@ -16,6 +16,34 @@
     const norm = s => s.replace(/\s+/g, " ").trim();
     const dicts = { en: {} };
 
+    // Signed in to the web app (app.astroshrine.in shares the first name in a .astroshrine.in cookie): the header
+    // greets the visitor by name and opens their web app home, instead of "Login / Sign up".
+    const signedName = (() => {
+        try { const m = document.cookie.match(/(?:^|;\s*)as_name=([^;]*)/); return m ? decodeURIComponent(m[1]).trim().slice(0, 30) : ""; }
+        catch (e) { return ""; }
+    })();
+    if (signedName) {
+        document.querySelectorAll('.nav-cta a.btn-gold[href*="/login"]').forEach(a => {
+            a.setAttribute("href", a.getAttribute("href").replace(/\/login$/, "/home"));
+            a.classList.add("nav-me");
+            a.textContent = "";
+            const icon = document.createElement("i"); icon.className = "ph-fill ph-user-circle"; icon.setAttribute("aria-hidden", "true");
+            const label = document.createElement("span"); label.setAttribute("data-no-i18n", ""); label.textContent = "Namaste, " + signedName;
+            a.append(icon, " ", label);
+        });
+    }
+
+    // The service tiles open their web app page: signed in, the page itself; otherwise the login page, which then
+    // goes on to that page (?next=). In the language chosen here.
+    const appUrl = (path) => {
+        const code = document.documentElement.lang || "en";
+        return signedName
+            ? `https://app.astroshrine.in/${code}${path}`
+            : `https://app.astroshrine.in/${code}/login?next=${encodeURIComponent(path)}`;
+    };
+    // real links (no pop-up), so a click always opens the page
+    document.querySelectorAll(".hs-stats a.tile-link[data-go]").forEach(a => a.setAttribute("href", appUrl(a.dataset.go)));
+
     const nodes = [];   // [textNode, englishText]
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
         acceptNode: n => (n.parentElement && !n.parentElement.closest(SKIP) && norm(n.nodeValue))

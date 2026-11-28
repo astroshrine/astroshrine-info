@@ -2360,3 +2360,28 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   .hs-slide:has(.wa) .ej-store{height:76px}
   .wa{margin-top:40px}
 }
+
+/* Signed in: the header button greets by name */
+.nav-cta a.nav-me{max-width:220px}.nav-cta a.nav-me span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* "Available in our app": a gold label on the strip's top edge, its text shimmering and its dot blinking */
+.hs-stats.ab-strip{position:absolute}
+.ab-strip-title{position:absolute;top:0;left:50%;transform:translate(-50%,-55%);z-index:4;margin:0;display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;white-space:nowrap;
+  font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:#16120c;border:1px solid rgba(242,202,80,.6);box-shadow:0 0 18px rgba(242,202,80,.35)}
+.ab-strip-title{color:transparent;background-image:linear-gradient(90deg,#f2ca50,#fff6d0,#ffb95f,#f2ca50),linear-gradient(#16120c,#16120c);background-size:300% 100%,100% 100%;background-clip:text,padding-box;-webkit-background-clip:text,padding-box;animation:navGemShine 2.6s ease-in-out infinite}
+.ab-strip-title .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 0 rgba(74,222,128,.7);animation:abDot 1.4s ease-out infinite}
+@keyframes abDot{0%{box-shadow:0 0 0 0 rgba(74,222,128,.7);opacity:1}70%{box-shadow:0 0 0 8px rgba(74,222,128,0);opacity:.6}100%{box-shadow:0 0 0 0 rgba(74,222,128,0);opacity:1}}
+@media (min-width:961px){.hs-stats{margin-top:8px}}
+@media (prefers-reduced-motion:reduce){.ab-strip-title,.ab-strip-title .dot{animation:none}}
+
+/* The service tiles are links into the web app */
+.hs-stats [data-go]{cursor:pointer}.hs-stats [data-go]:hover{border-color:rgba(242,202,80,.8)!important}.hs-stats [data-go]:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
+
+/* The whole tile is one link (a transparent link over it) */
+.hs-stats .tile-go{position:relative;cursor:pointer}
+.hs-stats .tile-link{position:absolute;inset:0;z-index:2;border-radius:inherit}
+.hs-stats .tile-go:hover{border-color:rgba(242,202,80,.8)!important}
+.hs-stats .tile-link:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
+
+/* Gemstones section: the category art shown whole on a warm backdrop */
+.pujas.gems .gem-img{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#2a1d14}
