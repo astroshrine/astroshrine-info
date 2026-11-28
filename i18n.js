@@ -33,6 +33,20 @@
         });
     }
 
+    // The service tiles open their web app page: signed in, the page itself; otherwise the login page, which then
+    // goes on to that page (?next=). In the language chosen here.
+    const appUrl = (path) => {
+        const code = document.documentElement.lang || "en";
+        return signedName
+            ? `https://app.astroshrine.in/${code}${path}`
+            : `https://app.astroshrine.in/${code}/login?next=${encodeURIComponent(path)}`;
+    };
+    document.querySelectorAll(".hs-stats [data-go]").forEach(tile => {
+        const open = () => window.open(appUrl(tile.dataset.go), "_blank", "noopener");
+        tile.addEventListener("click", open);
+        tile.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    });
+
     const nodes = [];   // [textNode, englishText]
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
         acceptNode: n => (n.parentElement && !n.parentElement.closest(SKIP) && norm(n.nodeValue))
