@@ -2348,3 +2348,7 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
   animation:navGemShine 3s ease-in-out infinite}
 .nav-links a.nav-gems i{color:#f2ca50;display:inline-block;animation:navGemPulse 1.8s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.nav-links a.nav-gems,.nav-links a.nav-gems i{animation:none}}
+
+/* One slide only (Web App): no slide tabs or arrows, and no space kept for them */
+.hs-controls{display:none!important}
+@media (min-width:961px){.hs .hs-slide>.hs-inner{padding-bottom:3rem}}
