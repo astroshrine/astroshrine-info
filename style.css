@@ -2390,3 +2390,13 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 @media (min-width:1201px){.hs-stats.ab-strip--7{max-width:1460px;grid-template-columns:repeat(7,1fr)}.hs-stats.ab-strip--7>div{padding:10px 12px}}
 .hs-stats.ab-strip>div:nth-child(7),.hs-stats.ab-strip>div:nth-child(7)>span{animation-delay:3s}
 @media (min-width:1201px){.hs-stats.ab-strip>div{animation-duration:3.5s}.hs-stats.ab-strip>div>span{animation-duration:3.5s}}
+
+/* Our Mobile App: a Google Play button to the right of the phone */
+.tour-stage{grid-template-columns:auto auto;column-gap:36px;justify-content:center}
+.tour-stage .tour-halo{grid-column:1}
+.tour-play{grid-column:2;grid-row:1;align-self:center;display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:14px;background:linear-gradient(180deg,#FFE7A3,#F0C43A);color:#0C1A45;border:1px solid #F0C43A;box-shadow:0 0 24px rgba(240,196,58,.35);transition:transform .15s}
+.tour-play:hover{transform:translateY(-2px)}
+.tour-play svg{width:26px;height:26px}
+.tour-play span{display:flex;flex-direction:column;line-height:1.1;font-size:20px;font-weight:800}
+.tour-play small{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(12,26,69,.7)}
+@media (max-width:760px){.tour-stage{grid-template-columns:auto;row-gap:20px}.tour-play{grid-column:1;grid-row:2;justify-self:center}}
