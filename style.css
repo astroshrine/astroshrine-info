@@ -2385,3 +2385,8 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* Gemstones section: the category art shown whole on a warm backdrop */
 .pujas.gems .gem-img{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#2a1d14}
+
+/* Seven service tiles (Daily Horoscope added after Free Kundli) */
+@media (min-width:1201px){.hs-stats.ab-strip--7{max-width:1460px;grid-template-columns:repeat(7,1fr)}.hs-stats.ab-strip--7>div{padding:10px 12px}}
+.hs-stats.ab-strip>div:nth-child(7),.hs-stats.ab-strip>div:nth-child(7)>span{animation-delay:3s}
+@media (min-width:1201px){.hs-stats.ab-strip>div{animation-duration:3.5s}.hs-stats.ab-strip>div>span{animation-duration:3.5s}}
