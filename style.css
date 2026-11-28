@@ -2339,3 +2339,24 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* Astrology slide: the illustration (with its buttons) a little higher */
 @media (min-width:961px){.hs-slide:has(.af) .ej-copy{margin-top:-70px}}
+
+/* Header: Gemstones beside Articles, a gold link with a shimmering, gently pulsing diamond */
+@keyframes navGemShine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes navGemPulse{0%,100%{transform:scale(1) rotate(0);filter:drop-shadow(0 0 0 rgba(242,202,80,0))}50%{transform:scale(1.25) rotate(12deg);filter:drop-shadow(0 0 6px rgba(242,202,80,.9))}}
+.nav-links a.nav-gems{display:inline-flex;align-items:center;gap:6px;font-weight:700;
+  background:linear-gradient(90deg,#f2ca50,#fff3c4,#ffb95f,#f2ca50);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:navGemShine 3s ease-in-out infinite}
+.nav-links a.nav-gems i{color:#f2ca50;display:inline-block;animation:navGemPulse 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.nav-links a.nav-gems,.nav-links a.nav-gems i{animation:none}}
+
+/* One slide only (Web App): no slide tabs or arrows, and no space kept for them */
+.hs-controls{display:none!important}
+@media (min-width:961px){.hs .hs-slide>.hs-inner{padding-bottom:3rem}}
+
+/* One slide: its own height (not the old tallest slide's), clear room under the service strip so nothing overlaps it, and the mockup's badges kept below the strip */
+@media (min-width:961px){
+  .hs .hs-slide>.hs-inner{height:auto;min-height:max(var(--hs-h),720px);padding-top:280px;padding-bottom:56px}
+  .hs-slide:has(.wa) .ej-stores{gap:18px}
+  .hs-slide:has(.wa) .ej-store{height:76px}
+  .wa{margin-top:40px}
+}
