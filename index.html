@@ -32,6 +32,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="hero.css">
 </head>
 
 <body>
@@ -61,97 +62,139 @@
 
 <main id="top">
 
-<!-- ============ HERO SLIDER ============ -->
-<section class="hs" id="hero" aria-roledescription="carousel" aria-label="AstroShrine highlights">
-    <div class="hs-stage">
-
-        <!-- 1 · Web App (lead slide) — same astro look; real screenshots of app.astroshrine.in -->
-        <article class="hs-slide is-active" data-theme="astro" aria-roledescription="slide" aria-label="1 of 1">
-            <div class="hs-bg hs-bg--astro"></div>
-            <svg class="hs-arcs" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<!-- ============ HERO ============ -->
+<section class="hx" id="hero" aria-label="AstroShrine highlights">
+    <div class="hx-sky" aria-hidden="true">
+        <svg class="hx-arcs" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                 <g fill="none" stroke="#F0C43A">
                     <circle cx="1040" cy="520" r="620" stroke-opacity=".10"/>
                     <circle cx="1040" cy="520" r="470" stroke-opacity=".07" stroke-dasharray="4 10"/>
                     <path d="M560 0 L1440 760 M860 0 L1180 900 M1440 180 L620 900" stroke-opacity=".05"/>
                 </g>
             </svg>
-            <div class="hs-inner hs-inner--ej">
-                <div class="hs-copy ej-copy">
-                    <div class="ej-stores">
-                        <a class="ej-store ej-store--web" href="https://app.astroshrine.in/hi" target="_blank" rel="noopener" aria-label="Open the AstroShrine web app for users">
-                            <i class="ph ph-user"></i>
-                            <span><small>For users</small>Web App</span>
-                        </a>
-                        <a class="ej-store ej-store--web" href="https://app.astroshrine.in/hi/astrologer" target="_blank" rel="noopener" aria-label="Open the AstroShrine web app for astrologers">
-                            <i class="ph ph-star-four"></i>
-                            <span><small>For astrologers</small>Web App</span>
-                        </a>
-                        <a class="ej-store" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get AstroShrine on Google Play">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5v17l14-8.5z"/></svg>
-                            <span><small>Or get it on</small>Google Play</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- desktop + phone browser windows -->
-                <div class="hs-visual">
-                    <div class="wa" aria-hidden="true">
-                        <figure class="wa-win wa-win--back">
-                            <div class="wa-bar"><i></i><i></i><i></i><span><i class="ph ph-lock-simple"></i> app.astroshrine.in/en/astrologers</span></div>
-                            <img src="images/webapp-desk-astro.webp" alt="">
-                        </figure>
-                        <figure class="wa-win wa-win--front">
-                            <div class="wa-bar"><i></i><i></i><i></i><span><i class="ph ph-lock-simple"></i> app.astroshrine.in</span></div>
-                            <img src="images/webapp-desk-home.webp" alt="">
-                        </figure>
-                        <figure class="wa-ph">
-                            <img src="images/webapp-mob-home.webp" alt="">
-                        </figure>
-                        <span class="af-ribbon wa-ribbon"><i class="ph-fill ph-globe-hemisphere-east"></i> AstroShrine Web</span>
-                        <div class="af-badge wa-badge--free"><i class="dot"></i><div><small>No download</small><b>Open &amp; start chatting</b></div></div>
-                        <div class="af-badge af-badge--bonus wa-badge--sync"><span class="af-coin"><i class="ph ph-wallet"></i></span><div><small>One wallet</small><b>App + Web, same points</b></div></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </div>
-
-    <!-- divine atmosphere: god-rays, mandala, Om, rising embers (decor only) -->
-    <div class="hs-divine" aria-hidden="true">
-        <div class="hs-rays"></div>
-        <svg class="hs-mandala" viewBox="0 0 600 600" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="300" cy="300" r="40"/><circle cx="300" cy="300" r="70"/><circle cx="300" cy="300" r="120"/><circle cx="300" cy="300" r="175"/><circle cx="300" cy="300" r="230"/><circle cx="300" cy="300" r="290"/><path d="M338.0,287.6 Q368.8,262.2 410.0,300.0 Q368.8,337.8 338.0,312.4"/><path d="M335.6,318.2 Q375.4,321.9 377.8,377.8 Q321.9,375.4 318.2,335.6"/><path d="M312.4,338.0 Q337.8,368.8 300.0,410.0 Q262.2,368.8 287.6,338.0"/><path d="M281.8,335.6 Q278.1,375.4 222.2,377.8 Q224.6,321.9 264.4,318.2"/><path d="M262.0,312.4 Q231.2,337.8 190.0,300.0 Q231.2,262.2 262.0,287.6"/><path d="M264.4,281.8 Q224.6,278.1 222.2,222.2 Q278.1,224.6 281.8,264.4"/><path d="M287.6,262.0 Q262.2,231.2 300.0,190.0 Q337.8,231.2 312.4,262.0"/><path d="M318.2,264.4 Q321.9,224.6 377.8,222.2 Q375.4,278.1 335.6,281.8"/><path d="M419.9,304.7 Q447.3,291.9 466.7,333.2 Q433.0,363.8 412.6,341.5"/><path d="M409.0,350.2 Q439.2,348.9 441.3,394.4 Q398.4,409.9 388.1,381.5"/><path d="M381.5,388.1 Q409.9,398.4 394.4,441.3 Q348.9,439.2 350.2,409.0"/><path d="M341.5,412.6 Q363.8,433.0 333.2,466.7 Q291.9,447.3 304.7,419.9"/><path d="M295.3,419.9 Q308.1,447.3 266.8,466.7 Q236.2,433.0 258.5,412.6"/><path d="M249.8,409.0 Q251.1,439.2 205.6,441.3 Q190.1,398.4 218.5,388.1"/><path d="M211.9,381.5 Q201.6,409.9 158.7,394.4 Q160.8,348.9 191.0,350.2"/><path d="M187.4,341.5 Q167.0,363.8 133.3,333.2 Q152.7,291.9 180.1,304.7"/><path d="M180.1,295.3 Q152.7,308.1 133.3,266.8 Q167.0,236.2 187.4,258.5"/><path d="M191.0,249.8 Q160.8,251.1 158.7,205.6 Q201.6,190.1 211.9,218.5"/><path d="M218.5,211.9 Q190.1,201.6 205.6,158.7 Q251.1,160.8 249.8,191.0"/><path d="M258.5,187.4 Q236.2,167.0 266.8,133.3 Q308.1,152.7 295.3,180.1"/><path d="M304.7,180.1 Q291.9,152.7 333.2,133.3 Q363.8,167.0 341.5,187.4"/><path d="M350.2,191.0 Q348.9,160.8 394.4,158.7 Q409.9,201.6 381.5,211.9"/><path d="M388.1,218.5 Q398.4,190.1 441.3,205.6 Q439.2,251.1 409.0,249.8"/><path d="M412.6,258.5 Q433.0,236.2 466.7,266.8 Q447.3,308.1 419.9,295.3"/><path d="M474.0,281.7 Q501.3,266.0 528.0,300.0 Q501.3,334.0 474.0,318.3"/><path d="M472.8,327.4 Q503.2,319.2 520.2,359.0 Q485.6,385.0 463.4,362.7"/><path d="M459.9,371.2 Q491.3,371.2 497.5,414.0 Q457.3,430.1 441.6,402.9"/><path d="M436.0,410.1 Q466.4,418.3 461.2,461.2 Q418.3,466.4 410.1,436.0"/><path d="M402.9,441.6 Q430.1,457.3 414.0,497.5 Q371.2,491.3 371.2,459.9"/><path d="M362.7,463.4 Q385.0,485.6 359.0,520.2 Q319.2,503.2 327.4,472.8"/><path d="M318.3,474.0 Q334.0,501.3 300.0,528.0 Q266.0,501.3 281.7,474.0"/><path d="M272.6,472.8 Q280.8,503.2 241.0,520.2 Q215.0,485.6 237.3,463.4"/><path d="M228.8,459.9 Q228.8,491.3 186.0,497.5 Q169.9,457.3 197.1,441.6"/><path d="M189.9,436.0 Q181.7,466.4 138.8,461.2 Q133.6,418.3 164.0,410.1"/><path d="M158.4,402.9 Q142.7,430.1 102.5,414.0 Q108.7,371.2 140.1,371.2"/><path d="M136.6,362.7 Q114.4,385.0 79.8,359.0 Q96.8,319.2 127.2,327.4"/><path d="M126.0,318.3 Q98.7,334.0 72.0,300.0 Q98.7,266.0 126.0,281.7"/><path d="M127.2,272.6 Q96.8,280.8 79.8,241.0 Q114.4,215.0 136.6,237.3"/><path d="M140.1,228.8 Q108.7,228.8 102.5,186.0 Q142.7,169.9 158.4,197.1"/><path d="M164.0,189.9 Q133.6,181.7 138.8,138.8 Q181.7,133.6 189.9,164.0"/><path d="M197.1,158.4 Q169.9,142.7 186.0,102.5 Q228.8,108.7 228.8,140.1"/><path d="M237.3,136.6 Q215.0,114.4 241.0,79.8 Q280.8,96.8 272.6,127.2"/><path d="M281.7,126.0 Q266.0,98.7 300.0,72.0 Q334.0,98.7 318.3,126.0"/><path d="M327.4,127.2 Q319.2,96.8 359.0,79.8 Q385.0,114.4 362.7,136.6"/><path d="M371.2,140.1 Q371.2,108.7 414.0,102.5 Q430.1,142.7 402.9,158.4"/><path d="M410.1,164.0 Q418.3,133.6 461.2,138.8 Q466.4,181.7 436.0,189.9"/><path d="M441.6,197.1 Q457.3,169.9 497.5,186.0 Q491.3,228.8 459.9,228.8"/><path d="M463.4,237.3 Q485.6,215.0 520.2,241.0 Q503.2,280.8 472.8,272.6"/><path d="M530.0,304.0 Q560.7,293.6 584.9,324.9 Q555.7,351.5 527.2,336.0"/><path d="M525.8,343.9 Q557.9,339.0 576.3,374.0 Q542.8,395.2 517.5,374.9"/><path d="M514.7,382.4 Q547.2,383.2 559.2,420.9 Q522.6,435.9 501.2,411.5"/><path d="M497.1,418.5 Q529.0,424.8 534.3,464.0 Q495.6,472.5 478.7,444.7"/><path d="M473.6,450.9 Q503.8,462.7 502.2,502.2 Q462.7,503.8 450.9,473.6"/><path d="M444.7,478.7 Q472.5,495.6 464.0,534.3 Q424.8,529.0 418.5,497.1"/><path d="M411.5,501.2 Q435.9,522.6 420.9,559.2 Q383.2,547.2 382.4,514.7"/><path d="M374.9,517.5 Q395.2,542.8 374.0,576.3 Q339.0,557.9 343.9,525.8"/><path d="M336.0,527.2 Q351.5,555.7 324.9,584.9 Q293.6,560.7 304.0,530.0"/><path d="M296.0,530.0 Q306.4,560.7 275.1,584.9 Q248.5,555.7 264.0,527.2"/><path d="M256.1,525.8 Q261.0,557.9 226.0,576.3 Q204.8,542.8 225.1,517.5"/><path d="M217.6,514.7 Q216.8,547.2 179.1,559.2 Q164.1,522.6 188.5,501.2"/><path d="M181.5,497.1 Q175.2,529.0 136.0,534.3 Q127.5,495.6 155.3,478.7"/><path d="M149.1,473.6 Q137.3,503.8 97.8,502.2 Q96.2,462.7 126.4,450.9"/><path d="M121.3,444.7 Q104.4,472.5 65.7,464.0 Q71.0,424.8 102.9,418.5"/><path d="M98.8,411.5 Q77.4,435.9 40.8,420.9 Q52.8,383.2 85.3,382.4"/><path d="M82.5,374.9 Q57.2,395.2 23.7,374.0 Q42.1,339.0 74.2,343.9"/><path d="M72.8,336.0 Q44.3,351.5 15.1,324.9 Q39.3,293.6 70.0,304.0"/><path d="M70.0,296.0 Q39.3,306.4 15.1,275.1 Q44.3,248.5 72.8,264.0"/><path d="M74.2,256.1 Q42.1,261.0 23.7,226.0 Q57.2,204.8 82.5,225.1"/><path d="M85.3,217.6 Q52.8,216.8 40.8,179.1 Q77.4,164.1 98.8,188.5"/><path d="M102.9,181.5 Q71.0,175.2 65.7,136.0 Q104.4,127.5 121.3,155.3"/><path d="M126.4,149.1 Q96.2,137.3 97.8,97.8 Q137.3,96.2 149.1,126.4"/><path d="M155.3,121.3 Q127.5,104.4 136.0,65.7 Q175.2,71.0 181.5,102.9"/><path d="M188.5,98.8 Q164.1,77.4 179.1,40.8 Q216.8,52.8 217.6,85.3"/><path d="M225.1,82.5 Q204.8,57.2 226.0,23.7 Q261.0,42.1 256.1,74.2"/><path d="M264.0,72.8 Q248.5,44.3 275.1,15.1 Q306.4,39.3 296.0,70.0"/><path d="M304.0,70.0 Q293.6,39.3 324.9,15.1 Q351.5,44.3 336.0,72.8"/><path d="M343.9,74.2 Q339.0,42.1 374.0,23.7 Q395.2,57.2 374.9,82.5"/><path d="M382.4,85.3 Q383.2,52.8 420.9,40.8 Q435.9,77.4 411.5,98.8"/><path d="M418.5,102.9 Q424.8,71.0 464.0,65.7 Q472.5,104.4 444.7,121.3"/><path d="M450.9,126.4 Q462.7,96.2 502.2,97.8 Q503.8,137.3 473.6,149.1"/><path d="M478.7,155.3 Q495.6,127.5 534.3,136.0 Q529.0,175.2 497.1,181.5"/><path d="M501.2,188.5 Q522.6,164.1 559.2,179.1 Q547.2,216.8 514.7,217.6"/><path d="M517.5,225.1 Q542.8,204.8 576.3,226.0 Q557.9,261.0 525.8,256.1"/><path d="M527.2,264.0 Q555.7,248.5 584.9,275.1 Q560.7,306.4 530.0,296.0"/></g><g fill="currentColor"><circle cx="598.0" cy="300.0" r="1.6"/><circle cx="595.5" cy="338.9" r="1.6"/><circle cx="587.8" cy="377.1" r="1.6"/><circle cx="575.3" cy="414.0" r="1.6"/><circle cx="558.1" cy="449.0" r="1.6"/><circle cx="536.4" cy="481.4" r="1.6"/><circle cx="510.7" cy="510.7" r="1.6"/><circle cx="481.4" cy="536.4" r="1.6"/><circle cx="449.0" cy="558.1" r="1.6"/><circle cx="414.0" cy="575.3" r="1.6"/><circle cx="377.1" cy="587.8" r="1.6"/><circle cx="338.9" cy="595.5" r="1.6"/><circle cx="300.0" cy="598.0" r="1.6"/><circle cx="261.1" cy="595.5" r="1.6"/><circle cx="222.9" cy="587.8" r="1.6"/><circle cx="186.0" cy="575.3" r="1.6"/><circle cx="151.0" cy="558.1" r="1.6"/><circle cx="118.6" cy="536.4" r="1.6"/><circle cx="89.3" cy="510.7" r="1.6"/><circle cx="63.6" cy="481.4" r="1.6"/><circle cx="41.9" cy="449.0" r="1.6"/><circle cx="24.7" cy="414.0" r="1.6"/><circle cx="12.2" cy="377.1" r="1.6"/><circle cx="4.5" cy="338.9" r="1.6"/><circle cx="2.0" cy="300.0" r="1.6"/><circle cx="4.5" cy="261.1" r="1.6"/><circle cx="12.2" cy="222.9" r="1.6"/><circle cx="24.7" cy="186.0" r="1.6"/><circle cx="41.9" cy="151.0" r="1.6"/><circle cx="63.6" cy="118.6" r="1.6"/><circle cx="89.3" cy="89.3" r="1.6"/><circle cx="118.6" cy="63.6" r="1.6"/><circle cx="151.0" cy="41.9" r="1.6"/><circle cx="186.0" cy="24.7" r="1.6"/><circle cx="222.9" cy="12.2" r="1.6"/><circle cx="261.1" cy="4.5" r="1.6"/><circle cx="300.0" cy="2.0" r="1.6"/><circle cx="338.9" cy="4.5" r="1.6"/><circle cx="377.1" cy="12.2" r="1.6"/><circle cx="414.0" cy="24.7" r="1.6"/><circle cx="449.0" cy="41.9" r="1.6"/><circle cx="481.4" cy="63.6" r="1.6"/><circle cx="510.7" cy="89.3" r="1.6"/><circle cx="536.4" cy="118.6" r="1.6"/><circle cx="558.1" cy="151.0" r="1.6"/><circle cx="575.3" cy="186.0" r="1.6"/><circle cx="587.8" cy="222.9" r="1.6"/><circle cx="595.5" cy="261.1" r="1.6"/><circle cx="415.0" cy="300.0" r="2"/><circle cx="406.2" cy="344.0" r="2"/><circle cx="381.3" cy="381.3" r="2"/><circle cx="344.0" cy="406.2" r="2"/><circle cx="300.0" cy="415.0" r="2"/><circle cx="256.0" cy="406.2" r="2"/><circle cx="218.7" cy="381.3" r="2"/><circle cx="193.8" cy="344.0" r="2"/><circle cx="185.0" cy="300.0" r="2"/><circle cx="193.8" cy="256.0" r="2"/><circle cx="218.7" cy="218.7" r="2"/><circle cx="256.0" cy="193.8" r="2"/><circle cx="300.0" cy="185.0" r="2"/><circle cx="344.0" cy="193.8" r="2"/><circle cx="381.3" cy="218.7" r="2"/><circle cx="406.2" cy="256.0" r="2"/></g></svg>
-        <span class="hs-om">&#x0950;</span>
+        <div class="hx-nebula"></div>
+        <div class="hx-nebula hx-nebula--gold"></div>
+        <div class="hx-stars"></div>
+        <div class="hx-stars hx-stars--gold"></div>
+        <span class="hx-shoot hx-shoot--1"></span>
+        <span class="hx-shoot hx-shoot--2"></span>
+        <div class="hx-glow"></div>
         <div class="hs-embers"></div>
     </div>
 
-    <!-- controls -->
-    <div class="hs-controls">
-        <div class="hs-tabs" role="tablist">
-            <button class="hs-tab is-active" role="tab" aria-selected="true" data-i="0"><span class="hs-bar"><i></i></span><b>Web App</b></button>
-        </div>
-        <div class="hs-arrows">
-            <button class="hs-arrow" data-dir="-1" aria-label="Previous slide"><i class="ph ph-caret-left"></i></button>
-            <button class="hs-arrow" data-dir="1" aria-label="Next slide"><i class="ph ph-caret-right"></i></button>
-        </div>
-    </div>
+    <div class="hx-wrap">
+        <div class="hx-main">
+            <div class="hx-left">
+                <div class="hx-steps" id="how" data-in style="--i:0">
+                    <span class="hx-steps-title">Start in a minute &middot; Three steps to clarity</span>
+                    <ol>
+                        <li class="hx-step"><a class="tile-link" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Install AstroShrine from Google Play"></a><span class="step-ico"><i class="ph ph-download-simple"></i></span><b>Install our mobile app</b><small>Free on Google Play</small></li>
+                        <li class="hx-step"><a class="tile-link" data-go="/profile/edit" href="https://app.astroshrine.in/en/login?next=/profile/edit" target="_blank" rel="noopener" aria-label="Add your birth details"></a><span class="step-ico"><i class="ph ph-calendar-plus"></i></span><b>Add your birth details</b><small>Kundli ready instantly</small></li>
+                        <li class="hx-step"><a class="tile-link" data-go="/home" href="https://app.astroshrine.in/en/login?next=/home" target="_blank" rel="noopener" aria-label="Ask, book, explore"></a><span class="step-ico"><i class="ph ph-hands-praying"></i></span><b>Ask, book, explore</b><small>Astrologer, AI or puja</small></li>
+                    </ol>
+                </div>
 
-    <div class="hero-steps" id="how">
-        <span class="hero-steps-title">Start in a minute &middot; Three steps to clarity</span>
-        <ol>
-            <li><a class="tile-link" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Install AstroShrine from Google Play"></a><span class="step-ico"><i class="ph ph-download-simple"></i></span><b>Install our mobile app</b><small>Free on Google Play</small></li>
-            <li><a class="tile-link" data-go="/profile/edit" href="https://app.astroshrine.in/en/login?next=/profile/edit" target="_blank" rel="noopener" aria-label="Add your birth details"></a><span class="step-ico"><i class="ph ph-calendar-plus"></i></span><b>Add your birth details</b><small>Kundli ready instantly</small></li>
-            <li><a class="tile-link" data-go="/home" href="https://app.astroshrine.in/en/login?next=/home" target="_blank" rel="noopener" aria-label="Ask, book, explore"></a><span class="step-ico"><i class="ph ph-hands-praying"></i></span><b>Ask, book, explore</b><small>Astrologer, AI or puja</small></li>
-        </ol>
-    </div>
-    <div class="hs-stats ab-strip ab-strip--6 ab-strip--7" id="services">
-        <div class="tile-go"><a class="tile-link" data-go="/ai-astrologers" href="https://app.astroshrine.in/en/login?next=/ai-astrologers" target="_blank" rel="noopener" aria-label="AI Astrologer"></a><span><i class="ph ph-sparkle"></i></span><b>AI Astrologer</b><small>Turant jawab, 24&times;7</small></div>
-        <div class="tile-go"><a class="tile-link" data-go="/astrologers" href="https://app.astroshrine.in/en/login?next=/astrologers" target="_blank" rel="noopener" aria-label="Chat & Call"></a><span><i class="ph ph-chat-circle"></i></span><b>Chat &amp; Call</b><small>&#8377;10/min se shuru</small></div>
-        <div class="tile-go"><a class="tile-link" data-go="/live" href="https://app.astroshrine.in/en/login?next=/live" target="_blank" rel="noopener" aria-label="Live Astrologers"></a><span><i class="ph ph-users"></i></span><b>Live Astrologers</b><small>Online, Busy, Scheduled &mdash; live status</small></div>
-        <div class="tile-go"><a class="tile-link" data-go="/kundli" href="https://app.astroshrine.in/en/login?next=/kundli" target="_blank" rel="noopener" aria-label="Free Kundli"></a><span><i class="ph ph-grid-nine"></i></span><b>Free Kundli</b><small>Chart, milan aur PDF report</small></div>
-        <div class="tile-go"><a class="tile-link" data-go="/#rashifal" href="https://app.astroshrine.in/en/login?next=/#rashifal" target="_blank" rel="noopener" aria-label="Daily Horoscope"></a><span><i class="ph ph-sun-horizon"></i></span><b>Daily Horoscope</b><small>Aaj ka rashifal, har rashi ka</small></div>
-        <div class="tile-go"><a class="tile-link" href="https://shrimahakaldham.com/front_controller" target="_blank" rel="noopener" aria-label="Puja Booking"></a><span><i class="ph ph-bank"></i></span><b>Puja Booking</b><small>Mahakal Dham, live video</small></div>
-        <div class="tile-go"><a class="tile-link" href="https://astrogems.astroshrine.in" target="_blank" rel="noopener" aria-label="Gemstone Store"></a><span><i class="ph ph-diamond"></i></span><b>Gemstone Store</b><small>Certified ratna, Rudraksha, mala</small></div>
-        <p class="ab-strip-title"><i class="dot" aria-hidden="true"></i>Available in our app</p>
+                <div class="hx-ctas" data-in style="--i:2">
+                    <a class="hx-cta hx-cta--gold" href="https://app.astroshrine.in/hi" target="_blank" rel="noopener" aria-label="Open the AstroShrine web app for users">
+                        <i class="ph ph-user"></i>
+                        <span><small>For users</small>Web App</span>
+                    </a>
+                    <a class="hx-cta hx-cta--gold" href="https://app.astroshrine.in/hi/astrologer" target="_blank" rel="noopener" aria-label="Open the AstroShrine web app for astrologers">
+                        <i class="ph ph-star-four"></i>
+                        <span><small>For astrologers</small>Web App</span>
+                    </a>
+                    <a class="hx-cta hx-cta--play" href="https://play.google.com/store/apps/details?id=com.astroshrine" target="_blank" rel="noopener noreferrer" aria-label="Get AstroShrine on Google Play">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 3.5v17l14-8.5z"/></svg>
+                        <span><small>Or get it on</small>Google Play</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- desktop + phone browser windows (decor; real screenshots of app.astroshrine.in) -->
+            <div class="hx-visual" aria-hidden="true" data-in style="--i:1">
+                <!-- slowly turning zodiac wheel behind the mockup (decor) -->
+                <svg class="hx-wheel" viewBox="0 0 400 400" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="hxWheelGlow"><stop offset="0" stop-color="#f2ca50" stop-opacity=".18"/><stop offset="1" stop-color="#f2ca50" stop-opacity="0"/></radialGradient>
+                    </defs>
+                    <circle cx="200" cy="200" r="160" fill="url(#hxWheelGlow)"/>
+                    <g fill="none" stroke="currentColor">
+                        <circle cx="200" cy="200" r="197"/>
+                        <circle cx="200" cy="200" r="186" stroke-width="8" stroke-dasharray="1 15.23" opacity=".7"/>
+                        <circle cx="200" cy="200" r="176"/>
+                        <circle cx="200" cy="200" r="138"/>
+                    </g>
+                    <g stroke="currentColor">
+                        <line x1="200" y1="24" x2="200" y2="62"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(30 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(60 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(90 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(120 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(150 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(180 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(210 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(240 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(270 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(300 200 200)"/>
+                        <line x1="200" y1="24" x2="200" y2="62" transform="rotate(330 200 200)"/>
+                    </g>
+                    <g class="hx-wheel-signs" fill="currentColor" font-size="22" text-anchor="middle">
+                        <text x="200" y="51" transform="rotate(15 200 200)">&#x2648;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(45 200 200)">&#x2649;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(75 200 200)">&#x264A;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(105 200 200)">&#x264B;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(135 200 200)">&#x264C;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(165 200 200)">&#x264D;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(195 200 200)">&#x264E;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(225 200 200)">&#x264F;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(255 200 200)">&#x2650;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(285 200 200)">&#x2651;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(315 200 200)">&#x2652;&#xFE0E;</text>
+                        <text x="200" y="51" transform="rotate(345 200 200)">&#x2653;&#xFE0E;</text>
+                    </g>
+                    <g class="hx-wheel-in" fill="none" stroke="currentColor">
+                        <circle cx="200" cy="200" r="112" stroke-dasharray="2 7"/>
+                        <circle cx="200" cy="200" r="72"/>
+                        <rect x="149" y="149" width="102" height="102"/>
+                        <rect x="149" y="149" width="102" height="102" transform="rotate(45 200 200)"/>
+                        <circle cx="200" cy="200" r="6" fill="currentColor"/>
+                    </g>
+                </svg>
+                <div class="hx-mock">
+                    <div class="hx-stage">
+                        <figure class="hx-win hx-win--back">
+                            <div class="hx-bar"><i></i><i></i><i></i><span><i class="ph ph-lock-simple"></i> app.astroshrine.in/en/astrologers</span></div>
+                            <img src="images/webapp-desk-astro.webp" alt="" width="1200" height="750">
+                        </figure>
+                        <figure class="hx-win hx-win--front">
+                            <div class="hx-bar"><i></i><i></i><i></i><span><i class="ph ph-lock-simple"></i> app.astroshrine.in</span></div>
+                            <img src="images/webapp-desk-home.webp" alt="" width="1200" height="750">
+                        </figure>
+                        <figure class="hx-ph">
+                            <img src="images/webapp-mob-home.webp" alt="" width="480" height="985">
+                        </figure>
+                        <span class="hx-ribbon"><i class="ph-fill ph-globe-hemisphere-east"></i> AstroShrine Web</span>
+                    </div>
+                </div>
+                <div class="hx-badges">
+                    <div class="hx-badge hx-badge--free"><i class="dot"></i><div><small>No download</small><b>Open &amp; start chatting</b></div></div>
+                    <div class="hx-badge hx-badge--sync"><span class="hx-coin"><i class="ph ph-wallet"></i></span><div><small>One wallet</small><b>App + Web, same points</b></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hx-services" id="services" data-in style="--i:3">
+            <p class="hx-services-title"><i class="dot" aria-hidden="true"></i>Available in our app</p>
+            <div class="hx-tiles">
+                <div class="hx-tile"><a class="tile-link" data-go="/ai-astrologers" href="https://app.astroshrine.in/en/login?next=/ai-astrologers" target="_blank" rel="noopener" aria-label="AI Astrologer"></a><span><i class="ph ph-sparkle"></i></span><b>AI Astrologer</b><small>Turant jawab, 24&times;7</small></div>
+                <div class="hx-tile"><a class="tile-link" data-go="/astrologers" href="https://app.astroshrine.in/en/login?next=/astrologers" target="_blank" rel="noopener" aria-label="Chat & Call"></a><span><i class="ph ph-chat-circle"></i></span><b>Chat &amp; Call</b><small>&#8377;10/min se shuru</small></div>
+                <div class="hx-tile"><a class="tile-link" data-go="/live" href="https://app.astroshrine.in/en/login?next=/live" target="_blank" rel="noopener" aria-label="Live Astrologers"></a><span><i class="ph ph-users"></i></span><b>Live Astrologers</b><small>Online, Busy, Scheduled &mdash; live status</small></div>
+                <div class="hx-tile"><a class="tile-link" data-go="/kundli" href="https://app.astroshrine.in/en/login?next=/kundli" target="_blank" rel="noopener" aria-label="Free Kundli"></a><span><i class="ph ph-grid-nine"></i></span><b>Free Kundli</b><small>Chart, milan aur PDF report</small></div>
+                <div class="hx-tile"><a class="tile-link" data-go="/#rashifal" href="https://app.astroshrine.in/en/login?next=/#rashifal" target="_blank" rel="noopener" aria-label="Daily Horoscope"></a><span><i class="ph ph-sun-horizon"></i></span><b>Daily Horoscope</b><small>Aaj ka rashifal, har rashi ka</small></div>
+                <div class="hx-tile"><a class="tile-link" href="https://shrimahakaldham.com/front_controller" target="_blank" rel="noopener" aria-label="Puja Booking"></a><span><i class="ph ph-bank"></i></span><b>Puja Booking</b><small>Mahakal Dham, live video</small></div>
+                <div class="hx-tile"><a class="tile-link" href="https://astrogems.astroshrine.in" target="_blank" rel="noopener" aria-label="Gemstone Store"></a><span><i class="ph ph-diamond"></i></span><b>Gemstone Store</b><small>Certified ratna, Rudraksha, mala</small></div>
+            </div>
+        </div>
     </div>
 </section>
 

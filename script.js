@@ -181,3 +181,35 @@ setInterval(tick, 1000);
     }, { rootMargin: "-50% 0px -50% 0px" });
     watch.observe(spot);
 })();
+
+// hero: the web mockup tilts gently toward the pointer, and a soft light follows the pointer over the service tiles
+// (mouse/trackpad only; one update per frame; nothing under reduced motion)
+(() => {
+    const hx = document.querySelector(".hx");
+    if (!hx || matchMedia("(prefers-reduced-motion: reduce)").matches || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const stage = hx.querySelector(".hx-stage");
+    const tiles = [...hx.querySelectorAll(".hx-tile")];
+    let raf = 0, ev = null;
+    const frame = () => {
+        raf = 0;
+        const r = hx.getBoundingClientRect();
+        const x = (ev.clientX - r.left) / r.width - 0.5, y = (ev.clientY - r.top) / r.height - 0.5;
+        // the starry background and the zodiac wheel drift a few px against the pointer (depth)
+        hx.style.setProperty("--sx", x.toFixed(3));
+        hx.style.setProperty("--sy", y.toFixed(3));
+        if (stage) {
+            stage.style.setProperty("--ry", (-8 + x * 12).toFixed(2) + "deg");
+            stage.style.setProperty("--rx", (4 - y * 8).toFixed(2) + "deg");
+        }
+        tiles.forEach(t => {
+            const b = t.getBoundingClientRect();
+            t.style.setProperty("--mx", (ev.clientX - b.left).toFixed(0) + "px");
+            t.style.setProperty("--my", (ev.clientY - b.top).toFixed(0) + "px");
+        });
+    };
+    hx.addEventListener("pointermove", e => { ev = e; if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+    hx.addEventListener("pointerleave", () => {
+        if (stage) { stage.style.removeProperty("--ry"); stage.style.removeProperty("--rx"); }
+        hx.style.removeProperty("--sx"); hx.style.removeProperty("--sy");
+    });
+})();
