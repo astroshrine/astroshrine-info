@@ -2440,3 +2440,10 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .hero-steps li:not(:last-child)::after{animation:stepArrow 1.2s ease-in-out infinite}
 .hero-steps-title{animation:navGemShine 3s ease-in-out infinite;background:linear-gradient(90deg,#f2ca50,#fff6d0,#ffb95f,#f2ca50);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:reduce){.hero-steps li,.hero-steps .step-ico,.hero-steps li::after,.hero-steps-title{animation:none}}
+
+/* The three steps sit at the very top, right under the header; the service strip and the slide move down for them */
+@media (min-width:961px){
+  .hs>.hero-steps{position:absolute;top:96px;left:0;right:0;margin:0 auto;z-index:3;width:min(760px,calc(100% - 40px))}
+  .hs-stats{top:196px}
+  .hs .hs-slide>.hs-inner{padding-top:372px}
+}
