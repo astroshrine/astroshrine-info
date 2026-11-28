@@ -2376,3 +2376,9 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 
 /* The service tiles are links into the web app */
 .hs-stats [data-go]{cursor:pointer}.hs-stats [data-go]:hover{border-color:rgba(242,202,80,.8)!important}.hs-stats [data-go]:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
+
+/* The whole tile is one link (a transparent link over it) */
+.hs-stats .tile-go{position:relative;cursor:pointer}
+.hs-stats .tile-link{position:absolute;inset:0;z-index:2;border-radius:inherit}
+.hs-stats .tile-go:hover{border-color:rgba(242,202,80,.8)!important}
+.hs-stats .tile-link:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}

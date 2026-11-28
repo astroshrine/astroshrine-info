@@ -41,11 +41,8 @@
             ? `https://app.astroshrine.in/${code}${path}`
             : `https://app.astroshrine.in/${code}/login?next=${encodeURIComponent(path)}`;
     };
-    document.querySelectorAll(".hs-stats [data-go]").forEach(tile => {
-        const open = () => window.open(appUrl(tile.dataset.go), "_blank", "noopener");
-        tile.addEventListener("click", open);
-        tile.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
-    });
+    // real links (no pop-up), so a click always opens the page
+    document.querySelectorAll(".hs-stats a.tile-link[data-go]").forEach(a => a.setAttribute("href", appUrl(a.dataset.go)));
 
     const nodes = [];   // [textNode, englishText]
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
