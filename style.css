@@ -2382,3 +2382,6 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 .hs-stats .tile-link{position:absolute;inset:0;z-index:2;border-radius:inherit}
 .hs-stats .tile-go:hover{border-color:rgba(242,202,80,.8)!important}
 .hs-stats .tile-link:focus-visible{outline:2px solid #f2ca50;outline-offset:2px}
+
+/* Gemstones section: the category art shown whole on a warm backdrop */
+.pujas.gems .gem-img{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#2a1d14}
