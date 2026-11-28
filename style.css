@@ -2352,3 +2352,11 @@ html.is-hi:not([lang="hi"]):not([lang="mr"]) body,html.is-hi:not([lang="hi"]):no
 /* One slide only (Web App): no slide tabs or arrows, and no space kept for them */
 .hs-controls{display:none!important}
 @media (min-width:961px){.hs .hs-slide>.hs-inner{padding-bottom:3rem}}
+
+/* One slide: its own height (not the old tallest slide's), clear room under the service strip so nothing overlaps it, and the mockup's badges kept below the strip */
+@media (min-width:961px){
+  .hs .hs-slide>.hs-inner{height:auto;min-height:max(var(--hs-h),720px);padding-top:280px;padding-bottom:56px}
+  .hs-slide:has(.wa) .ej-stores{gap:18px}
+  .hs-slide:has(.wa) .ej-store{height:76px}
+  .wa{margin-top:40px}
+}
